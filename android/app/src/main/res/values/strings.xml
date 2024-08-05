@@ -1,0 +1,7 @@
+<resources>
+  <string name="app_name">delivery-react-native-app</string>
+  <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
+  <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
+  <string name="expo_runtime_version">1.0.0</string>
+  <string name="server_client_id">61935828759-7clmb08v1hocrc1ae22518m6h57p8101.apps.googleusercontent.com</string>
+</resources>
