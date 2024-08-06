@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Delivery React Native App",
+    "slug": "delivery-react-native-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.lamnguyen1305.deliveryreactnativeapp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3f122c2a-835d-4d74-ba33-a353029aa008"
+      }
+    },
+    "plugins": [
+      "@react-native-google-signin/google-signin"
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/3f122c2a-835d-4d74-ba33-a353029aa008"
+    }
+  }
+}
