@@ -38,3 +38,4 @@ yarn-error.*
 /.idea/
 /package-lock.json
 /android/app/src/debug/
+/android/local.properties
