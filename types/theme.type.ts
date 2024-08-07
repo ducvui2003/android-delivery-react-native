@@ -19,4 +19,13 @@ export type ThemeType = {
     blackBottomSheet: SingleColor;
     blackPopUp: SingleColor;
     gradientBorder: GradientColor;
+    background_1: SingleColor;
+    background_2: SingleColor;
+    background_card: SingleColor;
+    background_input: SingleColor;
+    background_bottom_sheet: SingleColor;
+    border: SingleColor;
+    border_hover: SingleColor;
+    text_1: SingleColor;
+    text_2: SingleColor;
 }

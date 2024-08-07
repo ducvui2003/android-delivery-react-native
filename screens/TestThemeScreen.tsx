@@ -19,7 +19,7 @@ function TestThemeScreen() {
 
     return (
         <View style={[styles.container, {
-            backgroundColor: theme.primary.getColor("100"),
+            backgroundColor: theme.primary.getColor("400"),
         }]}>
             <Text>Chào mừng bạn đến với chức năng đổi theme</Text>
             <View
