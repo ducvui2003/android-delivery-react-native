@@ -9,9 +9,9 @@
 import React from 'react';
 import {SafeAreaView, Text} from "react-native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {LoginScreenStackParamList} from "../navigations/stack.type";
 import LoginFacebookFragment from "../fragments/LoginFacebookFragment";
 import LoginGoogleFragment from "../fragments/LoginGoogleFragment";
+import {LoginScreenStackParamList} from "../navigations/stackParamList/loginScreen.stack";
 
 const LoginScreenStack = createNativeStackNavigator<LoginScreenStackParamList>()
 

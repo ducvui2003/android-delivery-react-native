@@ -7,14 +7,13 @@
  **/
 
 import React from 'react';
-import {SafeAreaView, Text, View} from "react-native";
-import {createStackNavigator} from "@react-navigation/stack";
-import {MainScreenStackParamList} from "../../navigations/stack.type";
+import {SafeAreaView, Text} from "react-native";
 import LoginScreen from "../LoginScreen";
 import TestThemeScreen from "../TestThemeScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {useSelector} from "react-redux";
 import {RootState} from "../../configs/redux/store.config";
+import {MainScreenStackParamList} from "../../navigations/stackParamList/mainSrceen.stack";
 
 const MainScreenTab = createBottomTabNavigator<MainScreenStackParamList>();
 

@@ -1,15 +1,17 @@
 import React from "react";
 import {Provider, useSelector} from "react-redux";
 import store, {RootState} from "./configs/redux/store.config";
-import {RootStackParamList} from "./navigations/stack.type";
 import MainScreen from "./screens/rootScreens/MainScreen";
 import {NavigationContainer} from "@react-navigation/native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {Text} from "react-native";
 import AnotherScreeHasNotHeaderScreen from "./screens/rootScreens/AnotherScreeHasNotHeaderFooterScreen";
+import {RootStackParamList} from "./navigations/stackParamList/root.stack";
+import {createStackNavigator} from "@react-navigation/stack";
+import LoadingScreen from "./screens/rootScreens/LoadingScreen";
 
 
-const RootTab = createBottomTabNavigator<RootStackParamList>()
+const RootStack = createStackNavigator<RootStackParamList>()
 
 export default function App() {
     return (
@@ -24,31 +26,19 @@ function Root() {
 
     return (
         <NavigationContainer>
-            <RootTab.Navigator
+            <RootStack.Navigator
                 initialRouteName="MainScreen"
                 screenOptions={{
-                    tabBarStyle: {
-                        backgroundColor: theme.primary.getColor("500"),
-                    },
+                    headerShown: false,
                 }}
             >
-                <RootTab.Screen name={"MainScreen"}
-                                options={{
-                                    title: "Main",
-                                    tabBarIcon: ({focused, color, size}) => (
-                                        <Text>Icon Main</Text>
-                                    ),
-                                }}
-                                component={MainScreen}/>
-                <RootTab.Screen name={"AnotherScreeHasNotHeaderScreen"}
-                                options={{
-                                    title: "Another has not header",
-                                    tabBarIcon: ({focused, color, size}) => (
-                                        <Text>Icon Another</Text>
-                                    ),
-                                }}
-                                component={AnotherScreeHasNotHeaderScreen}/>
-            </RootTab.Navigator>
+                <RootStack.Screen name={"LoaddingScreen"}
+                                  component={LoadingScreen}/>
+                <RootStack.Screen name={"MainScreen"}
+                                  component={MainScreen}/>
+                <RootStack.Screen name={"AnotherScreeHasNotHeaderScreen"}
+                                  component={AnotherScreeHasNotHeaderScreen}/>
+            </RootStack.Navigator>
         </NavigationContainer>
     );
 }
