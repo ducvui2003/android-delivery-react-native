@@ -1,12 +1,12 @@
 import React from "react";
 import {Provider, useSelector} from "react-redux";
-import store, {RootState} from "./configs/redux/store.config";
-import {RootStackParamList} from "./navigations/stack.type";
-import MainScreen from "./screens/rootScreens/MainScreen";
+import store, {RootState} from "./src/configs/redux/store.config";
+import {RootStackParamList} from "./src/navigations/stack.type";
+import MainScreen from "./src/screens/rootScreens/MainScreen";
 import {NavigationContainer} from "@react-navigation/native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {Text} from "react-native";
-import AnotherScreeHasNotHeaderScreen from "./screens/rootScreens/AnotherScreeHasNotHeaderFooterScreen";
+import AnotherScreeHasNotHeaderScreen from "./src/screens/rootScreens/AnotherScreeHasNotHeaderFooterScreen";
 
 
 const RootTab = createBottomTabNavigator<RootStackParamList>()
