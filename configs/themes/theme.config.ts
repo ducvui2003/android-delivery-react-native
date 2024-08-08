@@ -9,9 +9,11 @@ import {NameTheme, ThemeType} from "../../types/theme.type";
 import lightTheme from "./LightTheme";
 import darkTheme from "./DarkTheme";
 
+
 const themes: Record<NameTheme, ThemeType> = {
     DarkTheme: darkTheme,
     LightTheme: lightTheme,
 }
 
 export default themes;
+
