@@ -5,12 +5,13 @@
  * Create at: 12:24 PM - 06/08/2024
  * User: lam-nguyen
  **/
+import {CodeColor} from "./CodeColor";
 
 type NameGroupColorItem = "50" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 
 type GroupColorItem = {
     name: NameGroupColorItem;
-    color: string;
+    codeColor: CodeColor;
 }
 
 class ColorFactory {
@@ -22,65 +23,52 @@ class ColorFactory {
         return GroupColor.create(color);
     }
 
-    public static createGradientColor(colors: string[]): GradientColor {
+    public static createGradientColor(...colors: string[]): GradientColor {
         return GradientColor.create(colors);
     }
 }
 
-abstract class AColor {
-    public abstract getColor(name?: NameGroupColorItem): string | string[];
-
-    public abstract setColor(name: NameGroupColorItem | undefined, color: string | string[]): void;
-}
-
-class GradientColor extends AColor {
-    private codeColors: string[];
+class GradientColor {
+    private codeColors: CodeColor[];
 
     private constructor(codeColors: string[]) {
-        super();
-        this.codeColors = codeColors;
+        this.codeColors = codeColors.map(color => CodeColor.create(color));
     }
 
     public static create(color: string[]): GradientColor {
         return new GradientColor(color);
     }
 
-    public getColor(name?: NameGroupColorItem) {
-        return this.codeColors;
-    };
+    public getColor(alpha?: number | number[]): string[] {
+        if (typeof alpha === "number")
+            return this.codeColors.map(color => color.getCodeColor(alpha));
 
-    public setColor(name: NameGroupColorItem | undefined, color: string[]): void {
-        this.codeColors = color;
+        return this.codeColors.map((color, index) => color.getCodeColor(alpha ? alpha[index] : undefined));
     };
 }
 
-class SingleColor extends AColor {
-    protected codeColor: string;
+class SingleColor {
+    private codeColor: CodeColor;
 
-    protected constructor(codeColors: string) {
-        super();
-        this.codeColor = codeColors;
+    private constructor(codeColor: string) {
+        this.codeColor = CodeColor.create(codeColor);
     }
 
     public static create(color: string): SingleColor {
         return new SingleColor(color);
     }
 
-    public getColor(name?: NameGroupColorItem) {
-        return this.codeColor;
-    };
-
-    public setColor(name: NameGroupColorItem | undefined, color: string): void {
-        this.codeColor = color;
+    public getColor(alpha?: number): string {
+        return this.codeColor.getCodeColor(alpha);
     };
 }
 
-class GroupColor extends SingleColor {
+class GroupColor {
+    private codeColor: CodeColor;
     private groupColor: GroupColorItem[];
 
     private constructor(codeColor: string) {
-        super(codeColor);
-        this.codeColor = codeColor;
+        this.codeColor = CodeColor.create(codeColor);
         this.groupColor = [] as GroupColorItem[];
     }
 
@@ -89,35 +77,23 @@ class GroupColor extends SingleColor {
     }
 
     addGroupColorItem(name: NameGroupColorItem, color: string): GroupColor {
-        this.groupColor.push({name, color});
+        const codeColor = CodeColor.create(color);
+        this.groupColor.push({name, codeColor});
         return this;
     }
 
-    public setGroupColorItem({name, color}: GroupColorItem) {
-        const item = this.groupColor.find(item => item.name == name);
-        if (item)
-            item.color = color;
-        else
-            this.groupColor.push({name, color});
+    public getColor(name?: NameGroupColorItem, alpha?: number): string {
+        if (!name)
+            return this.codeColor.getCodeColor(alpha);
+
+        const groupColorItem = this.groupColor.find(item => item.name == name);
+
+        if (groupColorItem)
+            return groupColorItem.codeColor.getCodeColor(alpha)
+
+
+        return this.codeColor.getCodeColor(alpha)
     }
-
-    public getColor(name?: NameGroupColorItem): string {
-        if (name) {
-            const item = this.groupColor.find(item => item.name == name);
-
-            if (item) return item.color;
-            else return this.codeColor;
-        }
-        return this.codeColor;
-    }
-
-    public setColor(name: NameGroupColorItem | undefined, codeColor: string) {
-        if (name)
-            this.setGroupColorItem({name, color: codeColor});
-        else
-            this.codeColor = codeColor;
-    }
-
 }
 
 export default ColorFactory
