@@ -6,28 +6,53 @@
  * User: lam-nguyen
  **/
 
-import React from 'react';
-import {SafeAreaView, Text} from "react-native";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {LoginScreenStackParamList} from "../navigations/stack.type";
+import React, { useEffect } from "react";
+import { SafeAreaView, Text } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { LoginScreenStackParamList } from "../navigations/stack.type";
 import LoginFacebookFragment from "../fragments/LoginFacebookFragment";
 import LoginGoogleFragment from "../fragments/LoginGoogleFragment";
+import apiInstance from "../services/api";
 
-const LoginScreenStack = createNativeStackNavigator<LoginScreenStackParamList>()
+const LoginScreenStack =
+  createNativeStackNavigator<LoginScreenStackParamList>();
 
 function LoginScreen() {
-    return (
-        <SafeAreaView style={{
-            flex: 1
-        }}>
-            <Text>Chào mừng bạn đến với chức năng đăng nhập!</Text>
-            <LoginScreenStack.Navigator screenOptions={{headerShown: false}} initialRouteName={"LoginGoogleFragment"}>
-                <LoginScreenStack.Screen name={"LoginFacebookFragment"} component={LoginFacebookFragment}/>
-                <LoginScreenStack.Screen name={"LoginGoogleFragment"} component={LoginGoogleFragment}/>
-            </LoginScreenStack.Navigator>
-        </SafeAreaView>
-    );
+  useEffect(() => {
+    apiInstance
+      .post("/auth/login", {
+        email: "ducvui2003@gmail.com",
+        password: "123456Duc@.",
+      })
+      .then((response) => {
+        console.log("response: ", response);
+      })
+      .catch((error) => {
+        console.log("error: ", error);
+      });
+  }, []);
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}
+    >
+      <Text>Chào mừng bạn đến với chức năng đăng nhập!</Text>
+      <LoginScreenStack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName={"LoginGoogleFragment"}
+      >
+        <LoginScreenStack.Screen
+          name={"LoginFacebookFragment"}
+          component={LoginFacebookFragment}
+        />
+        <LoginScreenStack.Screen
+          name={"LoginGoogleFragment"}
+          component={LoginGoogleFragment}
+        />
+      </LoginScreenStack.Navigator>
+    </SafeAreaView>
+  );
 }
-
 
 export default LoginScreen;
