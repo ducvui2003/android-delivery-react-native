@@ -9,7 +9,8 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
-import {LoginScreenStackParamList} from "../navigations/stack.type";
+import FacebookAuth from "../components/auth/FacebookAuth";
+import {LoginScreenStackParamList} from "../navigations/stackParamList/loginScreen.stack";
 
 
 function LoginGoogleFragment() {
@@ -17,7 +18,7 @@ function LoginGoogleFragment() {
 
     return (
         <View style={styles.container}>
-            <Text>Đăng nhập bằng Facebook</Text>
+            {/*<FacebookAuth/>*/}
 
             <TouchableOpacity
                 onPress={() => {

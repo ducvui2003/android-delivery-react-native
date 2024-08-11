@@ -12,7 +12,7 @@ import {
     isErrorWithCode,
     statusCodes, User,
 } from '@react-native-google-signin/google-signin';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Text, View} from "react-native";
 
 const GoogleAuth = () => {
@@ -30,6 +30,13 @@ const GoogleAuth = () => {
         // profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
     });
 
+    const hasPreviousSignIn = async () => {
+        const hasPreviousSignIn = GoogleSignin.hasPreviousSignIn();
+        if (hasPreviousSignIn) {
+            const userInfo: User = await GoogleSignin.signIn();
+            setUser(userInfo);
+        }
+    };
 
     const signIn = async () => {
         try {
@@ -56,6 +63,10 @@ const GoogleAuth = () => {
             }
         }
     };
+
+    useEffect(() => {
+        hasPreviousSignIn().then();
+    }, []);
 
     if (user)
         return (
