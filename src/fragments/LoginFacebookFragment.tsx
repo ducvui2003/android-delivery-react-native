@@ -17,8 +17,6 @@ function LoginGoogleFragment() {
 
     return (
         <View style={styles.container}>
-            <Text>Đăng nhập bằng Facebook</Text>
-
             <TouchableOpacity
                 onPress={() => {
                     navigation.navigate("LoginGoogleFragment");
