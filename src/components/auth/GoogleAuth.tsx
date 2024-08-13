@@ -6,96 +6,40 @@
  * User: kimin
  **/
 
-import {
-    GoogleSignin,
-    GoogleSigninButton,
-    isErrorWithCode,
-    statusCodes,
-    User,
-} from '@react-native-google-signin/google-signin';
-import React, {useState} from "react";
-import {Button, Text, View} from "react-native";
-import axiosInstance, {ApiResponse} from "../../configs/axios/axios.config";
-import {AxiosError} from "axios";
+import React from "react";
+import {Platform, Text} from "react-native";
+import {WebGoogleSignInButton} from "./WebGoogleSignInButton";
+import {AndroidGoogleSignInButton} from "./AndroidGoogleSignInButton";
+
+export type GoogleAuthProps = {
+    loginSuccess?: (email: string) => void; //để tạm
+    errorLogin?: () => void;
+    loginFail?: () => void;
+    logoutSuccess?: () => void;
+    email: string | undefined; //để tạm
+};
 
 const GoogleAuth = () => {
-    const [user, setUser] = useState<User | null>(null);
-    GoogleSignin.configure({
-        scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
-        webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID, // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
-        offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-        // hostedDomain: '', // specifies a hosted domain restriction
-        // forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
-        // accountName: '', // [Android] specifies an account name on the device that should be used
-        // iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
-        // googleServicePlistPath: '', // [iOS] if you renamed your GoogleService-Info file, new name here, e.g. GoogleService-Info-Staging
-        // openIdRealm: '', // [iOS] The OpenID2 realm of the home web server. This allows Google to include the user's OpenID Identifier in the OpenID Connect ID token.
-        // profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
-    });
+    const [email, setEmail] = React.useState<string | undefined>();
 
-    const signIn = async () => {
-        try {
-            await GoogleSignin.hasPlayServices();
-            const userInfo: User = await GoogleSignin.signIn();
-            await getDataFormServer(userInfo.serverAuthCode ? userInfo.serverAuthCode : "");
-        } catch (error) {
-            switchCaseError(error)
-        }
-    };
-
-    const switchCaseError = (error: any) => {
-        if (isErrorWithCode(error)) {
-            switch (error.code) {
-                case statusCodes.SIGN_IN_CANCELLED:
-                    break;
-                case statusCodes.IN_PROGRESS:
-                    break;
-                case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-                    break;
-                default:
-            }
-            return;
-        }
+    const loginSuccess = (email: string) => {
+        setEmail(email);
     }
 
-    const getDataFormServer = async (authCode: string) => {
-        axiosInstance.post<ApiResponse<string>>
-        ("/auth/google",
-            {
-                authCode: authCode
-            }
-        )
-            .then(result => {
-                console.log(result)
-            }).catch((error: AxiosError) => {
-            console.error(error.code)
-        });
+    const logoutSuccess = () => {
+        setEmail(undefined);
     }
 
-    if (user)
-        return (
-            <View>
-                <Text style={{
-                    fontWeight: "bold",
-                    fontSize: 20,
-                }}>Xin chào {user.user.name} !</Text>
-                <Button title={"Sign out"} onPress={async () => {
-                    await GoogleSignin.signOut();
-                    setUser(null);
-                }}/>
-            </View>
-        );
+    const renderComponent: Record<typeof Platform.OS, React.JSX.Element> = {
+        ios: <Text>Sign in with Google</Text>,
+        web: <WebGoogleSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess}/>,
+        android: < AndroidGoogleSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess}/>,
+        macos: <Text>Sign in with Google</Text>,
+        windows: <Text>Sign in with Google</Text>,
+    }
 
 
-    return (
-        <GoogleSigninButton
-            size={GoogleSigninButton.Size.Wide}
-            color={GoogleSigninButton.Color.Dark}
-            onPress={async () => {
-                await signIn();
-            }}
-        />
-    );
+    return renderComponent[Platform.OS];
 }
 
 export default GoogleAuth;

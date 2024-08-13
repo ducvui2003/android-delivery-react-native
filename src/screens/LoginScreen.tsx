@@ -7,7 +7,7 @@
  **/
 
 import React, { useEffect } from "react";
-import { SafeAreaView, Text } from "react-native";
+import {Platform, SafeAreaView, Text} from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LoginScreenStackParamList } from "../navigations/stack.type";
 import LoginFacebookFragment from "../fragments/LoginFacebookFragment";
@@ -18,20 +18,6 @@ const LoginScreenStack =
   createNativeStackNavigator<LoginScreenStackParamList>();
 
 function LoginScreen() {
-  useEffect(() => {
-    axiosInstance
-      .post("/auth/login", {
-        email: "ducvui2003@gmail.com",
-        password: "123456Duc@.",
-      })
-      .then((response) => {
-        console.log("response: ", response);
-      })
-      .catch((error) => {
-        console.log("error: ", error.toString());
-      });
-  }, []);
-
   return (
     <SafeAreaView
       style={{

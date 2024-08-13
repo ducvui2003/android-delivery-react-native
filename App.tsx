@@ -5,18 +5,30 @@ import {RootStackParamList} from "./src/navigations/stack.type";
 import MainScreen from "./src/screens/rootScreens/MainScreen";
 import {NavigationContainer} from "@react-navigation/native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {Text} from "react-native";
+import {Platform, Text} from "react-native";
 import AnotherScreeHasNotHeaderScreen from "./src/screens/rootScreens/AnotherScreeHasNotHeaderFooterScreen";
+import {GoogleOAuthProvider} from "@react-oauth/google";
 
 
 const RootTab = createBottomTabNavigator<RootStackParamList>()
 
+const provider =
+    <Provider store={store}>
+        <Root/>
+    </Provider>
+
+const readerRoot: Record<typeof Platform.OS, React.JSX.Element> = {
+    web: <GoogleOAuthProvider clientId={process.env.EXPO_PUBLIC_WEB_CLIENT_ID as string}>
+        {provider}
+    </GoogleOAuthProvider>,
+    ios: provider,
+    macos: provider,
+    android: provider,
+    windows: provider,
+}
+
 export default function App() {
-    return (
-        <Provider store={store}>
-            <Root/>
-        </Provider>
-    );
+    return readerRoot[Platform.OS];
 }
 
 function Root() {

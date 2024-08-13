@@ -10,8 +10,7 @@ import {getToken, setItem} from "../../services/secureStore.service";
 
 const axiosInstance: AxiosInstance =
     axios.create({
-        baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END_WIFI_KTX,
-        timeout: 1000,
+        baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END_WIFI_LAM_NGUYEN,
         headers: {
             "Access-Control-Allow-Origin": "*",
         },
@@ -20,8 +19,8 @@ const axiosInstance: AxiosInstance =
 
 interface ApiResponse<T> {
     statusCode: number;
-    error: string;
-    message: object;
+    error?: string;
+    message: string;
     data: T;
 }
 
