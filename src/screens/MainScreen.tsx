@@ -8,12 +8,12 @@
 
 import React from 'react';
 import {SafeAreaView, Text} from "react-native";
-import LoginScreen from "../LoginScreen";
-import TestThemeScreen from "../TestThemeScreen";
+import LoginScreen from "./mainSubScreens/LoginScreen";
+import TestThemeScreen from "./mainSubScreens/TestThemeScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {useSelector} from "react-redux";
-import {RootState} from "../../configs/redux/store.config";
-import {MainScreenStackParamList} from "../../navigations/stackParamList/mainSrceen.stack";
+import {RootState} from "../configs/redux/store.config";
+import {MainScreenStackParamList} from "../navigations/stack.type";
 
 const MainScreenTab = createBottomTabNavigator<MainScreenStackParamList>();
 
@@ -35,7 +35,7 @@ function MainScreen() {
                 <MainScreenTab.Screen name="LoginScreen"
                                       options={{
                                           title: "Login",
-                                          tabBarIcon: ({focused, color, size}) => (
+                                          tabBarIcon: () => (
                                               <Text>Icon Login</Text>
                                           ),
                                       }}
@@ -43,7 +43,7 @@ function MainScreen() {
                 <MainScreenTab.Screen name="TestThemeScreen"
                                       options={{
                                           title: "Login",
-                                          tabBarIcon: ({focused, color, size}) => (
+                                          tabBarIcon: () => (
                                               <Text>Icon Test Theme</Text>
                                           ),
                                       }}
