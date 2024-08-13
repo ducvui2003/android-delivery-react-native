@@ -12,14 +12,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LoginScreenStackParamList } from "../navigations/stack.type";
 import LoginFacebookFragment from "../fragments/LoginFacebookFragment";
 import LoginGoogleFragment from "../fragments/LoginGoogleFragment";
-import apiInstance from "../services/api";
+import axiosInstance, {ApiResponse} from "../configs/axios/axios.config";
 
 const LoginScreenStack =
   createNativeStackNavigator<LoginScreenStackParamList>();
 
 function LoginScreen() {
   useEffect(() => {
-    apiInstance
+    axiosInstance
       .post("/auth/login", {
         email: "ducvui2003@gmail.com",
         password: "123456Duc@.",
@@ -28,9 +28,10 @@ function LoginScreen() {
         console.log("response: ", response);
       })
       .catch((error) => {
-        console.log("error: ", error);
+        console.log("error: ", error.toString());
       });
   }, []);
+
   return (
     <SafeAreaView
       style={{

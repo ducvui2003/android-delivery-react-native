@@ -10,17 +10,20 @@ import {
     GoogleSignin,
     GoogleSigninButton,
     isErrorWithCode,
-    statusCodes, User,
+    statusCodes,
+    User,
 } from '@react-native-google-signin/google-signin';
 import React, {useState} from "react";
 import {Button, Text, View} from "react-native";
+import axiosInstance, {ApiResponse} from "../../configs/axios/axios.config";
+import {AxiosError} from "axios";
 
 const GoogleAuth = () => {
     const [user, setUser] = useState<User | null>(null);
     GoogleSignin.configure({
         scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
-        // webClientId: '<FROM DEVELOPER CONSOLE>', // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
-        // offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+        webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID, // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
+        offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
         // hostedDomain: '', // specifies a hosted domain restriction
         // forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
         // accountName: '', // [Android] specifies an account name on the device that should be used
@@ -30,32 +33,44 @@ const GoogleAuth = () => {
         // profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
     });
 
-
     const signIn = async () => {
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo: User = await GoogleSignin.signIn();
-            setUser(userInfo);
+            await getDataFormServer(userInfo.serverAuthCode ? userInfo.serverAuthCode : "");
         } catch (error) {
-            if (isErrorWithCode(error)) {
-                switch (error.code) {
-                    case statusCodes.SIGN_IN_CANCELLED:
-                        // user cancelled the login flow
-                        break;
-                    case statusCodes.IN_PROGRESS:
-                        // operation (eg. sign in) already in progress
-                        break;
-                    case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-                        // play services not available or outdated
-                        break;
-                    default:
-                    // some other error happened
-                }
-            } else {
-                // an error that's not related to google sign in occurred
-            }
+            switchCaseError(error)
         }
     };
+
+    const switchCaseError = (error: any) => {
+        if (isErrorWithCode(error)) {
+            switch (error.code) {
+                case statusCodes.SIGN_IN_CANCELLED:
+                    break;
+                case statusCodes.IN_PROGRESS:
+                    break;
+                case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+                    break;
+                default:
+            }
+            return;
+        }
+    }
+
+    const getDataFormServer = async (authCode: string) => {
+        axiosInstance.post<ApiResponse<string>>
+        ("/auth/google",
+            {
+                authCode: authCode
+            }
+        )
+            .then(result => {
+                console.log(result)
+            }).catch((error: AxiosError) => {
+            console.error(error.code)
+        });
+    }
 
     if (user)
         return (
@@ -84,5 +99,3 @@ const GoogleAuth = () => {
 }
 
 export default GoogleAuth;
-
-
