@@ -6,10 +6,8 @@
  * User: lam-nguyen
  **/
 
-import React, {useEffect} from 'react';
 // import {AccessToken, LoginManager, LoginResult, Profile} from "react-native-fbsdk-next";
-import {Text, TouchableOpacity, View} from "react-native";
-import {Image} from "@rneui/themed";
+import {Text, TouchableOpacity} from "react-native";
 import {white} from "../../configs/colors/color-template.config";
 import {RootState} from "../../configs/redux/store.config";
 import {useSelector} from "react-redux";

@@ -11,9 +11,8 @@ import {SafeAreaView, Text, View} from "react-native";
 import {useSelector} from "react-redux";
 import {RootState} from "../../configs/redux/store.config";
 import {Image, LinearProgress} from "@rneui/themed";
-import {white} from "../../configs/colors/color-template.config";
 import Animated, {
-    Easing,
+    Easing, SharedValue,
     useAnimatedStyle,
     useSharedValue,
     withDelay,
@@ -23,28 +22,68 @@ import Animated, {
     withTiming
 } from "react-native-reanimated";
 import textStyle from "../../configs/styles/textStyle.config";
+import {white} from "../../configs/colors/color-template.config";
 
-const brand = require("../../assets/brand/brand_3.png");
+const brand = require("../../../assets/brand/brand_3.png");
 
 const duration = 2000;
 
 function LoadingScreen() {
     const theme = useSelector((state: RootState) => state.themeState.theme);
     const sizeLogo = 180;
+    const sizeTextNameApp = 40;
+    const sizeTextVersion = 18;
+    const sizeTextFooter = 22;
+    const sizeTextNameAppAnim = useSharedValue(0);
+    const sizeTextVersionAnim = useSharedValue(0);
     const sizeLogoAnim = useSharedValue(0);
-    const offset = useSharedValue<number>(0);
+    const sizeTextFooterAnim = useSharedValue(0);
+    const transformAnim = useSharedValue(0);
 
-    const animatedStyles = useAnimatedStyle(() => ({
-        transform: [{translateY: offset.value}],
+    const animatedTransform = useAnimatedStyle(() => ({
+        transform: [{translateY: transformAnim.value}],
     }));
+
+    const animatedSizeLogo = useAnimatedStyle(() => ({
+        width: sizeLogoAnim.value,
+        height: sizeLogoAnim.value,
+    }));
+
+    const transformFontSize = (anim: SharedValue<number>) => {
+        return useAnimatedStyle(() => ({
+            fontSize: anim.value,
+        }));
+    }
 
     useEffect(() => {
         sizeLogoAnim.value = withTiming(sizeLogo, {
-            duration: 2000
+            duration
         });
 
-        offset.value = withDelay(
-            2000,
+        sizeTextNameAppAnim.value = withDelay(
+            duration * 2,
+            withTiming(sizeTextNameApp, {
+                duration
+            })
+        );
+
+        sizeTextVersionAnim.value = withDelay(
+            duration * 2,
+            withTiming(sizeTextVersion, {
+                duration
+            })
+        );
+
+        sizeTextFooterAnim.value = withDelay(
+            duration,
+            withTiming(sizeTextFooter, {
+                duration
+            })
+        );
+
+
+        transformAnim.value = withDelay(
+            duration * 3,
             withRepeat(
                 withSequence(
                     withTiming(
@@ -68,7 +107,7 @@ function LoadingScreen() {
             backgroundColor: theme.primary.getColor("500")
         }}>
             <View style={{
-                flex: 13,
+                flex: 15,
             }}>
                 <View style={{
                     flex: 3,
@@ -77,11 +116,8 @@ function LoadingScreen() {
                 }}>
                     <Animated.View
                         style={[
-                            {
-                                width: sizeLogoAnim,
-                                height: sizeLogoAnim,
-                            },
-                            animatedStyles
+                            animatedSizeLogo,
+                            animatedTransform
                         ]}
                     >
                         <Image source={brand} style={{
@@ -89,28 +125,60 @@ function LoadingScreen() {
                             height: "100%"
                         }}/>
                     </Animated.View>
+                    <Animated.Text style={[
+                        transformFontSize(sizeTextNameAppAnim),
+                        {
+                            color: white.getColor(),
+                            width: "100%",
+                            height: "auto",
+                            textAlign: "center",
+                            fontWeight: "semibold"
+                        }
+                    ]}>
+                        SPEEDY CHOW
+                    </Animated.Text>
+                    <Animated.Text style={[
+                        transformFontSize(sizeTextVersionAnim),
+                        {
+                            color: white.getColor(),
+                            width: "100%",
+                            height: "auto",
+                            textAlign: "center",
+                            fontWeight: "semibold",
+                        }
+                    ]}>
+                        Version 2.1.0
+                    </Animated.Text>
                 </View>
                 <View style={{
                     flex: 1,
-                    backgroundColor: theme.neutral.getColor("600"),
                     alignItems: "center",
+                    justifyContent: "flex-end"
                 }}>
-                    <Text
+                    <Animated.Text
                         style={[
-                            textStyle["22_semibold"],
+                            transformFontSize(sizeTextFooterAnim),
                             {
-                                color: white.getColor()
+                                color: white.getColor(),
+                                fontWeight: "semibold",
+                                height: "auto",
+                                width: "100%",
+                                textAlign: "center"
                             }
                         ]}
-                    >As fast as lightning,</Text>
-                    <Text
+                    >As fast as lightning,</Animated.Text>
+                    <Animated.Text
                         style={[
-                            textStyle["22_semibold"],
+                            transformFontSize(sizeTextFooterAnim),
                             {
-                                color: white.getColor()
+                                color: white.getColor(),
+                                fontWeight: "semibold",
+                                height: "auto",
+                                width: "100%",
+                                textAlign: "center"
                             }
                         ]}
-                    >as delicious as thunder!</Text>
+                    >as delicious as thunder!</Animated.Text>
                 </View>
             </View>
             <View style={{

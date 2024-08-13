@@ -13,7 +13,7 @@ import TestThemeScreen from "../TestThemeScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {useSelector} from "react-redux";
 import {RootState} from "../../configs/redux/store.config";
-import {MainScreenStackParamList} from "../../navigations/stackParamList/mainSrceen.stack";
+import {MainScreenStackParamList} from "../../navigations/stack.type";
 
 const MainScreenTab = createBottomTabNavigator<MainScreenStackParamList>();
 

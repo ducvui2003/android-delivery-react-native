@@ -1,20 +1,14 @@
-import React, {useEffect} from "react";
-import {Provider, useSelector} from "react-redux";
-import store, {RootState} from "./src/configs/redux/store.config";
-import {RootStackParamList} from "./src/navigations/stack.type";
-import MainScreen from "./src/screens/rootScreens/MainScreen";
-import store, {RootState} from "./configs/redux/store.config";
-import MainScreen from "./screens/rootScreens/MainScreen";
+import {Provider} from "react-redux";
 import {NavigationContainer} from "@react-navigation/native";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {Text} from "react-native";
-import AnotherScreeHasNotHeaderScreen from "./src/screens/rootScreens/AnotherScreeHasNotHeaderFooterScreen";
-import AnotherScreeHasNotHeaderScreen from "./screens/rootScreens/AnotherScreeHasNotHeaderFooterScreen";
-// import {Settings} from "react-native-fbsdk-next";
-import {RootStackParamList} from "./navigations/stackParamList/root.stack";
+import {createStackNavigator} from "@react-navigation/stack";
+import store from "./src/configs/redux/store.config";
+import MainScreen from "./src/screens/rootScreens/MainScreen";
+import LoadingScreen from "./src/screens/rootScreens/LoadingScreen";
+import AnotherScreeHasNotHeaderFooterScreen from "./src/screens/rootScreens/AnotherScreeHasNotHeaderFooterScreen";
+import {RootStackParamList} from "./src/navigations/stack.type";
 
 
-const RootTab = createBottomTabNavigator<RootStackParamList>()
+const RootStack = createStackNavigator<RootStackParamList>()
 
 export default function App() {
     return (
@@ -25,35 +19,18 @@ export default function App() {
 }
 
 function Root() {
-    const theme = useSelector((state: RootState) => state.themeState.theme);
-
     return (
         <NavigationContainer>
-            <RootTab.Navigator
-                initialRouteName="MainScreen"
-                screenOptions={{
-                    tabBarStyle: {
-                        backgroundColor: theme.primary.getColor("500"),
-                    },
-                }}
-            >
-                <RootTab.Screen name={"MainScreen"}
-                                options={{
-                                    title: "Main",
-                                    tabBarIcon: () => (
-                                        <Text>Icon Main</Text>
-                                    ),
-                                }}
-                                component={MainScreen}/>
-                <RootTab.Screen name={"AnotherScreeHasNotHeaderScreen"}
-                                options={{
-                                    title: "Another has not header",
-                                    tabBarIcon: () => (
-                                        <Text>Icon Another</Text>
-                                    ),
-                                }}
-                                component={AnotherScreeHasNotHeaderScreen}/>
-            </RootTab.Navigator>
+            <RootStack.Navigator initialRouteName="LoadingScreen" screenOptions={{
+                headerShown: false,
+            }}>
+                <RootStack.Screen name={"MainScreen"}
+                                  component={MainScreen}/>
+                <RootStack.Screen name={"LoadingScreen"}
+                                  component={LoadingScreen}/>
+                <RootStack.Screen name={"AnotherScreeHasNotHeaderScreen"}
+                                  component={AnotherScreeHasNotHeaderFooterScreen}/>
+            </RootStack.Navigator>
         </NavigationContainer>
     );
 }
