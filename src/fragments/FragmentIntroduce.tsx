@@ -5,7 +5,7 @@
  * Create at: 8:37 PM - 14/08/2024
  *  User: lam-nguyen
  **/
-import {FragmentIntroduceType} from "../types/fragmentIntroduceType";
+import {FragmentIntroduceType} from "../types/fragmentIntroduce.type";
 import React, {LegacyRef, MutableRefObject, RefAttributes, useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../configs/redux/store.config";

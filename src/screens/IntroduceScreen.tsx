@@ -28,7 +28,7 @@ import {RootState} from "../configs/redux/store.config";
 import {white} from "../configs/colors/color-template.config";
 import textStyle from "../configs/styles/textStyle.config";
 import PagerView from "react-native-pager-view";
-import {FragmentIntroduceType} from "../types/fragmentIntroduceType";
+import {FragmentIntroduceType} from "../types/fragmentIntroduce.type";
 import FragmentIntroduceItem from "../fragments/FragmentIntroduceItem";
 import Carousel from "../components/carousel/Carousel";
 import {useNavigation} from "@react-navigation/native";
