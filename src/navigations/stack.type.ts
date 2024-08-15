@@ -2,7 +2,9 @@ import {NavigatorScreenParams} from "@react-navigation/native";
 
 export type RootStackParamList = {
     MainScreen: NavigatorScreenParams<MainScreenStackParamList>;
-    AnotherScreeHasNotHeaderScreen: undefined;
+    LoadingScreen: undefined;
+    WelcomeScreen: undefined;
+    IntroduceScreen: undefined;
 };
 
 export type MainScreenStackParamList = {

@@ -8,10 +8,10 @@
 
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {ThemeType} from "../types/theme.type";
+import {ThemeType} from "../../types/theme.type";
 import {useSelector, useDispatch} from "react-redux";
-import {RootState} from "../configs/redux/store.config";
-import {setTheme} from "../hooks/redux/theme.slice";
+import {RootState} from "../../configs/redux/store.config";
+import {setTheme} from "../../hooks/redux/theme.slice";
 
 function TestThemeScreen() {
     const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
