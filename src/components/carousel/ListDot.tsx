@@ -27,10 +27,10 @@ function ListDot<T>({data, sizeDotDefault, dotSizes, dotStatuses, colorDot, colo
                         width: dotSizes[index]
                     },
                     {
-                        backgroundColor: colorDot ?? theme.primary.getColor("50")
+                        backgroundColor: colorDot ?? theme.primary.getColor("100")
                     },
                     dotStatuses[index] && {
-                        backgroundColor: colorDotActive ?? theme.primary.getColor("500")
+                        backgroundColor: colorDotActive ?? theme.primary.getColor("400")
                     },
                 ]} key={index.toString()}/>
             );

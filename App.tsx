@@ -1,4 +1,4 @@
-import {Provider} from "react-redux";
+import {Provider, useDispatch} from "react-redux";
 import {createStackNavigator} from "@react-navigation/stack";
 import {RootStackParamList} from "./src/navigations/stack.type";
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
@@ -7,10 +7,13 @@ import {NavigationContainer} from "@react-navigation/native";
 import MainScreen from "./src/screens/MainScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import {WelcomeScreen} from "./src/screens/WelcomeScreen";
-const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
-import {Platform} from "react-native";
+import {Platform, useColorScheme} from "react-native";
 import {GoogleOAuthProvider} from "@react-oauth/google";
-import React from "react";
+import React, {useEffect} from "react";
+import {setTheme} from "./src/hooks/redux/theme.slice";
+import {useTheme} from "@rneui/themed";
+
+const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
 const RootStack = createStackNavigator<RootStackParamList>()
 
@@ -32,16 +35,21 @@ const readerRoot: Record<typeof Platform.OS, React.JSX.Element> = {
 export default function App() {
     return (
         <SafeAreaProvider>
-            <Provider store={store}>
-                <SafeAreaView style={{flex: 1}}>
-                    {readerRoot[Platform.OS]}
-                </SafeAreaView>
-            </Provider>
+            <SafeAreaView style={{flex: 1}}>
+                {readerRoot[Platform.OS]}
+            </SafeAreaView>
         </SafeAreaProvider>
     );
 }
 
 function Root() {
+   const dispatch = useDispatch();
+    const colorScheme = useColorScheme();
+
+    useEffect(() => {
+        dispatch(setTheme("dark"))
+    }, []);
+
     return (
         <NavigationContainer>
             <RootStack.Navigator initialRouteName="LoadingScreen" screenOptions={{

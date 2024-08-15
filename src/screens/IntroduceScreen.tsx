@@ -62,10 +62,10 @@ function IntroduceScreen() {
     }> = {
         "Skip": {
             text: {
-                color: theme.neutral.getColor('900')
+                color: theme.text_3.getColor()
             },
             button: {
-                borderColor: white.getColor(),
+                borderColor: theme.background.getColor(),
             }
         },
         "Login / Register": {
@@ -101,7 +101,7 @@ function IntroduceScreen() {
     }, [currentPageViewPager]);
 
     return (
-        <SafeAreaView style={[style.container]}>
+        <SafeAreaView style={[style.container, {backgroundColor: theme.background.getColor()}]}>
             <Carousel<FragmentIntroduceType>
                 data={data}
                 viewPagerRef={viewPagerRef}
@@ -132,7 +132,6 @@ function IntroduceScreen() {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: white.getColor(),
         paddingVertical: 25
     },
     viewBottom: {

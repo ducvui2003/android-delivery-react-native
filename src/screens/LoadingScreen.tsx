@@ -23,7 +23,7 @@ import Animated, {
     withTiming
 } from "react-native-reanimated";
 import {white} from "../configs/colors/color-template.config";
-import brand from "../../assets/brand/brand_3.png";
+import brand from "../../assets/images/brand/brand_3.png";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../navigations/stack.type";
