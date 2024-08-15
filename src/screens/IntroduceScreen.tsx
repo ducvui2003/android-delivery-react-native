@@ -6,14 +6,14 @@
  * User: lam-nguyen
  **/
 
-import React, {LegacyRef, useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
-    Image,
     SafeAreaView,
     StyleProp,
     StyleSheet,
     Text,
-    TextStyle, TouchableHighlight,
+    TextStyle,
+    TouchableHighlight,
     TouchableOpacity,
     View,
     ViewStyle
@@ -29,8 +29,7 @@ import textStyle from "../configs/styles/textStyle.config";
 import PagerView from "react-native-pager-view";
 import {FragmentIntroduceType} from "../types/fragmentIntroduceType";
 import FragmentIntroduceItem from "../fragments/FragmentIntroduceItem";
-import FragmentIntroduce from "../fragments/FragmentIntroduce";
-
+import Carousel from "../components/carousel/Carousel";
 
 const data: FragmentIntroduceType[] = [
     {source: introduce_1, content: "More than 400 restaurants nationwide.", title: "Wide Selection"},
@@ -51,8 +50,6 @@ function IntroduceScreen() {
     const [textButtonSkip, setTextButtonSkip] = useState<TextButtonSkip>("Skip");
     const [currentPageViewPager, setCurrentPageViewPager] = useState(0);
     const viewPagerRef = useRef<PagerView>();
-    const listDotSizes = data.map(() => useState(10));
-    const listStatus = data.map(() => useState(false));
 
     const stylePropButtonSkip: Record<TextButtonSkip, {
         button: StyleProp<ViewStyle>,
@@ -92,11 +89,13 @@ function IntroduceScreen() {
 
     return (
         <SafeAreaView style={[style.container]}>
-            <FragmentIntroduce data={data}
-                               viewPagerRef={viewPager => {
-                                   viewPagerRef.current = viewPager;
-                               }}
-                               setCurrentPageViewPager={(currentPage) => setCurrentPageViewPager(currentPage)}/>
+            <Carousel<FragmentIntroduceType>
+                data={data}
+                viewPagerRef={viewPagerRef}
+                renderItem={(item, index) => {
+                    return <FragmentIntroduceItem key={index} {...item}/>
+                }}
+                onCurrentPage={(currentPage) => setCurrentPageViewPager(currentPage)}/>
             <View style={style.viewBottom}>
                 <TouchableOpacity
                     style={[style.buttonNext, {backgroundColor: theme.primary.getColor("500")}]}
