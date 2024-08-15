@@ -11,7 +11,6 @@ import {Platform, useColorScheme} from "react-native";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import React, {useEffect} from "react";
 import {setTheme} from "./src/hooks/redux/theme.slice";
-import {useTheme} from "@rneui/themed";
 
 const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -43,11 +42,12 @@ export default function App() {
 }
 
 function Root() {
-   const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const colorScheme = useColorScheme();
 
     useEffect(() => {
-        dispatch(setTheme("dark"))
+        if (!colorScheme) return;
+        dispatch(setTheme(colorScheme))
     }, []);
 
     return (
