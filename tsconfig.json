@@ -7,6 +7,9 @@
     ]
   },
   "include": [
-    ".env"
+    ".env",
+    "react-app-env.d.ts",
+    "src",
+    "assets/fonts"
   ]
 }
