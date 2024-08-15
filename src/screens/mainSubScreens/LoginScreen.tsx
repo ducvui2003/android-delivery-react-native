@@ -9,10 +9,10 @@
 import React, { useEffect } from "react";
 import { SafeAreaView, Text } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { LoginScreenStackParamList } from "../navigations/stack.type";
-import LoginFacebookFragment from "../fragments/LoginFacebookFragment";
-import LoginGoogleFragment from "../fragments/LoginGoogleFragment";
-import apiInstance from "../services/api";
+import { LoginScreenStackParamList } from "../../navigations/stack.type";
+import LoginFacebookFragment from "../../fragments/LoginFacebookFragment";
+import LoginGoogleFragment from "../../fragments/LoginGoogleFragment";
+import apiInstance from "../../services/api";
 
 const LoginScreenStack =
   createNativeStackNavigator<LoginScreenStackParamList>();

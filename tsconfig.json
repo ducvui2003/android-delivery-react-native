@@ -3,5 +3,10 @@
   "compilerOptions": {
     "strict": true
   },
-  "include": [".env.d.ts"]
+  "include": [
+    ".env.d.ts",
+    "react-app-env.d.ts",
+    "src",
+    "assets/fonts"
+  ]
 }
