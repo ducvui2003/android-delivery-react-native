@@ -6,8 +6,9 @@
  * User: lam-nguyen
  **/
 import {GradientColor, GroupColor, SingleColor} from "../utils/Color";
+import {ColorSchemeName} from "react-native";
 
-export type NameTheme = "DarkTheme" | "LightTheme";
+export type NameTheme = ColorSchemeName;
 
 export type ThemeType = {
     gradient: GradientColor;
@@ -28,4 +29,5 @@ export type ThemeType = {
     border_hover: SingleColor;
     text_1: SingleColor;
     text_2: SingleColor;
+    background_introduction: SingleColor;
 }

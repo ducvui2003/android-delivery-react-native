@@ -29,6 +29,7 @@ const border= ColorFactory.createSingleColor(neutral.getColor("400"));
 const border_hover= ColorFactory.createSingleColor(neutral.getColor("400"));
 const text_1= ColorFactory.createSingleColor(neutral.getColor("100"));
 const text_2= ColorFactory.createSingleColor(neutral.getColor("300"));
+const background_introduction= ColorFactory.createSingleColor(neutral.getColor("900"));
 
 const darkTheme: ThemeType = {
     gradient: gradient,
@@ -40,6 +41,7 @@ const darkTheme: ThemeType = {
     secondary: secondary,
     green: green,
     neutral: neutral,
+    background_introduction: background_introduction,
     background_1: background_1,
     background_2: background_2,
     background_card: background_card,
