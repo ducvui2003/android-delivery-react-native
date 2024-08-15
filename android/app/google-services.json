@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "897537541683-mp0vep5g6kc6ijdkt7n7e2jmovvb4etk.apps.googleusercontent.com",
+          "client_id": "897537541683-c1784niju0b7kp552pb8blcmmpepacsu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.lamnguyen1305.deliveryreactnativeapp",
-            "certificate_hash": "90ff269a0e4be51592467a25a67360415b527921"
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
