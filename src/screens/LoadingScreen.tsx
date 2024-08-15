@@ -123,17 +123,10 @@ function LoadingScreen() {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                    <Animated.View
-                        style={[
-                            animatedSizeLogo,
-                            animatedTransform
-                        ]}
-                    >
-                        <Image source={brand} style={{
-                            width: "100%",
-                            height: "100%"
-                        }}/>
-                    </Animated.View>
+                    <Animated.Image source={brand} style={[
+                        animatedSizeLogo,
+                        animatedTransform
+                    ]}/>
                     <Animated.Text style={[
                         transformFontSize(sizeTextNameAppAnim),
                         {

@@ -7,16 +7,34 @@ import {NavigationContainer} from "@react-navigation/native";
 import MainScreen from "./src/screens/MainScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import {WelcomeScreen} from "./src/screens/WelcomeScreen";
-import IntroduceScreen from "./src/screens/IntroduceScreen";
+const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
+import {Platform} from "react-native";
+import {GoogleOAuthProvider} from "@react-oauth/google";
+import React from "react";
 
 const RootStack = createStackNavigator<RootStackParamList>()
+
+const provider =
+    <Provider store={store}>
+        <Root/>
+    </Provider>
+
+const readerRoot: Record<typeof Platform.OS, React.JSX.Element> = {
+    web: <GoogleOAuthProvider clientId={process.env.EXPO_PUBLIC_WEB_CLIENT_ID as string}>
+        {provider}
+    </GoogleOAuthProvider>,
+    ios: provider,
+    macos: provider,
+    android: provider,
+    windows: provider,
+}
 
 export default function App() {
     return (
         <SafeAreaProvider>
             <Provider store={store}>
                 <SafeAreaView style={{flex: 1}}>
-                    <Root/>
+                    {readerRoot[Platform.OS]}
                 </SafeAreaView>
             </Provider>
         </SafeAreaProvider>
@@ -26,7 +44,7 @@ export default function App() {
 function Root() {
     return (
         <NavigationContainer>
-            <RootStack.Navigator  initialRouteName="MainScreen" screenOptions={{
+            <RootStack.Navigator initialRouteName="LoadingScreen" screenOptions={{
                 headerShown: false,
             }}>
                 <RootStack.Screen name={"MainScreen"}

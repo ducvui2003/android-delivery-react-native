@@ -8,6 +8,7 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {
+    Platform,
     SafeAreaView,
     StyleProp,
     StyleSheet,
@@ -28,7 +29,11 @@ import {white} from "../configs/colors/color-template.config";
 import textStyle from "../configs/styles/textStyle.config";
 import PagerView from "react-native-pager-view";
 import {FragmentIntroduceType} from "../types/fragmentIntroduceType";
-import FragmentIntroduce from "../fragments/FragmentIntroduce";
+import FragmentIntroduceItem from "../fragments/FragmentIntroduceItem";
+import Carousel from "../components/carousel/Carousel";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../navigations/stack.type";
 
 const data: FragmentIntroduceType[] = [
     {source: introduce_1, content: "More than 400 restaurants nationwide.", title: "Wide Selection"},
@@ -37,6 +42,7 @@ const data: FragmentIntroduceType[] = [
     {source: introduce_4, content: "Special offers", title: "Special offers"},
 ];
 
+
 type TextButtonSkip = "Skip" | "Login / Register";
 const textButtonNext: Record<TextButtonSkip, "Next" | "Start enjoying"> = {
     Skip: "Next",
@@ -44,12 +50,11 @@ const textButtonNext: Record<TextButtonSkip, "Next" | "Start enjoying"> = {
 }
 
 function IntroduceScreen() {
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "IntroduceScreen">>()
     const theme = useSelector((state: RootState) => state.themeState.theme);
     const [textButtonSkip, setTextButtonSkip] = useState<TextButtonSkip>("Skip");
     const [currentPageViewPager, setCurrentPageViewPager] = useState(0);
     const viewPagerRef = useRef<PagerView>();
-    const listDotSizes = data.map(() => useState(10));
-    const listStatus = data.map(() => useState(false));
 
     const stylePropButtonSkip: Record<TextButtonSkip, {
         button: StyleProp<ViewStyle>,
@@ -74,7 +79,15 @@ function IntroduceScreen() {
     }
 
     const onPressButtonNext = () => {
-        if (textButtonSkip === "Login / Register" || !viewPagerRef || !viewPagerRef.current) return;
+        if (textButtonSkip === "Login / Register" || !viewPagerRef || !viewPagerRef.current) {
+            navigation.navigate('MainScreen', {
+                screen: 'LoginScreen',
+                params: {
+                    screen: 'LoginGoogleFragment',
+                },
+            });
+            return;
+        }
         viewPagerRef.current.setPage(currentPageViewPager + 1);
     };
 
@@ -89,11 +102,13 @@ function IntroduceScreen() {
 
     return (
         <SafeAreaView style={[style.container]}>
-            <FragmentIntroduce data={data}
-                               viewPagerRef={viewPager => {
-                                   viewPagerRef.current = viewPager;
-                               }}
-                               setCurrentPageViewPager={(currentPage) => setCurrentPageViewPager(currentPage)}/>
+            <Carousel<FragmentIntroduceType>
+                data={data}
+                viewPagerRef={viewPagerRef}
+                renderItem={(item, index) => {
+                    return <FragmentIntroduceItem key={index} {...item}/>
+                }}
+                onCurrentPage={(currentPage) => setCurrentPageViewPager(currentPage)}/>
             <View style={style.viewBottom}>
                 <TouchableOpacity
                     style={[style.buttonNext, {backgroundColor: theme.primary.getColor("500")}]}

@@ -7,7 +7,7 @@
  **/
 
 import * as React from 'react';
-import {ImageBackground, SafeAreaView, StyleSheet, Text, View} from "react-native";
+import {ImageBackground, Platform, SafeAreaView, StyleSheet, Text, View} from "react-native";
 import background from "../../assets/images/introduce/welcome.png"
 import textStyle from "../configs/styles/textStyle.config";
 import {white} from "../configs/colors/color-template.config";
@@ -21,6 +21,16 @@ export function WelcomeScreen() {
 
     useEffect(() => {
         setTimeout(() => {
+            if (Platform.OS === "web") {
+                navigation.navigate('MainScreen', {
+                    screen: 'LoginScreen',
+                    params: {
+                        screen: 'LoginGoogleFragment',
+                    },
+                });
+                return;
+            }
+
             navigation.navigate("IntroduceScreen")
         }, 2000);
     }, []);
@@ -52,6 +62,7 @@ const style = StyleSheet.create({
     imageBackground: {
         flex: 1,
         justifyContent: "flex-end",
+        width: "100%",
     },
     viewContextTextButton: {
         justifyContent: "flex-start",
