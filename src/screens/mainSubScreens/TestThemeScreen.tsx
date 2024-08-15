@@ -19,9 +19,9 @@ function TestThemeScreen() {
 
     return (
         <View style={[styles.container, {
-            backgroundColor: theme.primary.getColor("400"),
+            backgroundColor: theme.background.getColor(),
         }]}>
-            <Text>Chào mừng bạn đến với chức năng đổi theme</Text>
+            <Text style={{color: theme.text_3.getColor()}}>Chào mừng bạn đến với chức năng đổi theme</Text>
             <View
                 style={{
                     flexDirection: 'column',
@@ -35,7 +35,7 @@ function TestThemeScreen() {
                         marginBottom: 10,
                     }}
                     onPress={() => {
-                        dispatch(setTheme("DarkTheme"));
+                        dispatch(setTheme("dark"));
                     }}
                 >
                     <Text style={{
@@ -50,7 +50,7 @@ function TestThemeScreen() {
                         marginBottom: 10,
                     }}
                     onPress={() => {
-                        dispatch(setTheme("LightTheme"));
+                        dispatch(setTheme("light"));
                     }}
                 >
                     <Text style={{
