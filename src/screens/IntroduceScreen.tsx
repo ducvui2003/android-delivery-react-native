@@ -8,7 +8,6 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {
-    Platform,
     SafeAreaView,
     StyleProp,
     StyleSheet,
@@ -31,7 +30,7 @@ import PagerView from "react-native-pager-view";
 import {FragmentIntroduceType} from "../types/fragmentIntroduceType";
 import FragmentIntroduceItem from "../fragments/FragmentIntroduceItem";
 import Carousel from "../components/carousel/Carousel";
-import {useNavigation} from "@react-navigation/native";
+import {CommonActions, useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../navigations/stack.type";
 
@@ -80,12 +79,20 @@ function IntroduceScreen() {
 
     const onPressButtonNext = () => {
         if (textButtonSkip === "Login / Register" || !viewPagerRef || !viewPagerRef.current) {
-            navigation.navigate('MainScreen', {
-                screen: 'LoginScreen',
-                params: {
-                    screen: 'LoginGoogleFragment',
-                },
-            });
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{
+                        name: 'MainScreen',
+                        params: {
+                            screen: 'LoginScreen',
+                            params: {
+                                screen: 'LoginGoogleFragment',
+                            },
+                        }
+                    }],
+                })
+            );
             return;
         }
         viewPagerRef.current.setPage(currentPageViewPager + 1);
