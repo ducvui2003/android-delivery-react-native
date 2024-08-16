@@ -10,7 +10,7 @@ import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet, View} from "react-native";
 import {useSelector} from "react-redux";
 import {RootState} from "../configs/redux/store.config";
-import {Image, LinearProgress} from "@rneui/themed";
+import {LinearProgress} from "@rneui/themed";
 import Animated, {
     Easing,
     SharedValue,
@@ -23,8 +23,8 @@ import Animated, {
     withTiming
 } from "react-native-reanimated";
 import {white} from "../configs/colors/color-template.config";
-import brand from "../../assets/brand/brand_3.png";
-import {useNavigation} from "@react-navigation/native";
+import brand from "../../assets/images/brand/brand_3.png";
+import {CommonActions, useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../navigations/stack.type";
 
@@ -103,10 +103,17 @@ function LoadingScreen() {
             ),
         );
 
-        setTimeout(() => {
-            navigation.navigate("WelcomeScreen");
+        const timeOut = setTimeout(() => {
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'WelcomeScreen'}],
+                })
+            );
         }, duration * 5);
-    },);
+
+        return () => clearTimeout(timeOut);
+    }, []);
 
     return (
         <SafeAreaView style={{
@@ -123,17 +130,10 @@ function LoadingScreen() {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                    <Animated.View
-                        style={[
-                            animatedSizeLogo,
-                            animatedTransform
-                        ]}
-                    >
-                        <Image source={brand} style={{
-                            width: "100%",
-                            height: "100%"
-                        }}/>
-                    </Animated.View>
+                    <Animated.Image source={brand} style={[
+                        animatedSizeLogo,
+                        animatedTransform
+                    ]}/>
                     <Animated.Text style={[
                         transformFontSize(sizeTextNameAppAnim),
                         {

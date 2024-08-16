@@ -15,7 +15,7 @@ type ThemeState = {
 }
 
 const initialState: ThemeState = {
-    theme: themes.LightTheme
+    theme: themes.light
 }
 
 const themeSlice = createSlice({

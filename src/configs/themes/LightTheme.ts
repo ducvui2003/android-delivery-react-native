@@ -20,16 +20,17 @@ import {
 } from "../colors/color-template.config";
 import ColorFactory from "../../utils/Color";
 
-const background_1 = white;
+const background_1 = ColorFactory.createSingleColor(white.getColor());
 const background_2 = ColorFactory.createSingleColor(primary.getColor("50"));
-const background_card = white;
+const background_card = ColorFactory.createSingleColor(white.getColor());
 const background_input = ColorFactory.createSingleColor(primary.getColor("500", 0.05));
-const background_bottom_sheet = white;
+const background_bottom_sheet = ColorFactory.createSingleColor(white.getColor());
 const border = ColorFactory.createSingleColor(neutral.getColor("50"));
 const border_hover = ColorFactory.createSingleColor(neutral.getColor("100"));
 const text_1 = ColorFactory.createSingleColor(neutral.getColor("900"));
 const text_2 = ColorFactory.createSingleColor(neutral.getColor("400"));
-
+const text_3 = ColorFactory.createSingleColor(neutral.getColor("900"));
+const background = ColorFactory.createSingleColor(white.getColor());
 
 const lightTheme: ThemeType = {
     gradient: gradient,
@@ -41,6 +42,7 @@ const lightTheme: ThemeType = {
     secondary: secondary,
     green: green,
     neutral: neutral,
+    background: background,
     background_1: background_1,
     background_2: background_2,
     background_card: background_card,
@@ -50,6 +52,7 @@ const lightTheme: ThemeType = {
     border_hover: border_hover,
     text_1: text_1,
     text_2: text_2,
+    text_3: text_3,
 }
 
 export default lightTheme;

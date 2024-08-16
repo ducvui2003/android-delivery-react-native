@@ -1,10 +1,14 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "module": "CommonJS",
+    "strict": true,
+    "types": [
+      "node"
+    ]
   },
   "include": [
-    ".env.d.ts",
+    ".env",
     "react-app-env.d.ts",
     "src",
     "assets/fonts"

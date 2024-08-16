@@ -11,8 +11,8 @@ import darkTheme from "./DarkTheme";
 
 
 const themes: Record<NameTheme, ThemeType> = {
-    DarkTheme: darkTheme,
-    LightTheme: lightTheme,
+    dark: darkTheme,
+    light: lightTheme,
 }
 
 export default themes;
