@@ -6,14 +6,14 @@
  * User: lam-nguyen
  **/
 
-import React, {LegacyRef, useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
-    Image,
     SafeAreaView,
     StyleProp,
     StyleSheet,
     Text,
-    TextStyle, TouchableHighlight,
+    TextStyle,
+    TouchableHighlight,
     TouchableOpacity,
     View,
     ViewStyle
@@ -29,8 +29,10 @@ import textStyle from "../configs/styles/textStyle.config";
 import PagerView from "react-native-pager-view";
 import {FragmentIntroduceType} from "../types/fragmentIntroduceType";
 import FragmentIntroduceItem from "../fragments/FragmentIntroduceItem";
-import FragmentIntroduce from "../fragments/FragmentIntroduce";
-
+import Carousel from "../components/carousel/Carousel";
+import {CommonActions, useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../navigations/stack.type";
 
 const data: FragmentIntroduceType[] = [
     {source: introduce_1, content: "More than 400 restaurants nationwide.", title: "Wide Selection"},
@@ -47,12 +49,11 @@ const textButtonNext: Record<TextButtonSkip, "Next" | "Start enjoying"> = {
 }
 
 function IntroduceScreen() {
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "IntroduceScreen">>()
     const theme = useSelector((state: RootState) => state.themeState.theme);
     const [textButtonSkip, setTextButtonSkip] = useState<TextButtonSkip>("Skip");
     const [currentPageViewPager, setCurrentPageViewPager] = useState(0);
     const viewPagerRef = useRef<PagerView>();
-    const listDotSizes = data.map(() => useState(10));
-    const listStatus = data.map(() => useState(false));
 
     const stylePropButtonSkip: Record<TextButtonSkip, {
         button: StyleProp<ViewStyle>,
@@ -60,10 +61,10 @@ function IntroduceScreen() {
     }> = {
         "Skip": {
             text: {
-                color: theme.neutral.getColor('900')
+                color: theme.text_3.getColor()
             },
             button: {
-                borderColor: white.getColor(),
+                borderColor: theme.background.getColor(),
             }
         },
         "Login / Register": {
@@ -77,7 +78,23 @@ function IntroduceScreen() {
     }
 
     const onPressButtonNext = () => {
-        if (textButtonSkip === "Login / Register" || !viewPagerRef || !viewPagerRef.current) return;
+        if (textButtonSkip === "Login / Register" || !viewPagerRef || !viewPagerRef.current) {
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{
+                        name: 'MainScreen',
+                        params: {
+                            screen: 'LoginScreen',
+                            params: {
+                                screen: 'LoginGoogleFragment',
+                            },
+                        }
+                    }],
+                })
+            );
+            return;
+        }
         viewPagerRef.current.setPage(currentPageViewPager + 1);
     };
 
@@ -91,12 +108,14 @@ function IntroduceScreen() {
     }, [currentPageViewPager]);
 
     return (
-        <SafeAreaView style={[style.container]}>
-            <FragmentIntroduce data={data}
-                               viewPagerRef={viewPager => {
-                                   viewPagerRef.current = viewPager;
-                               }}
-                               setCurrentPageViewPager={(currentPage) => setCurrentPageViewPager(currentPage)}/>
+        <SafeAreaView style={[style.container, {backgroundColor: theme.background.getColor()}]}>
+            <Carousel<FragmentIntroduceType>
+                data={data}
+                viewPagerRef={viewPagerRef}
+                renderItem={(item, index) => {
+                    return <FragmentIntroduceItem key={index} {...item}/>
+                }}
+                onCurrentPage={(currentPage) => setCurrentPageViewPager(currentPage)}/>
             <View style={style.viewBottom}>
                 <TouchableOpacity
                     style={[style.buttonNext, {backgroundColor: theme.primary.getColor("500")}]}
@@ -120,7 +139,6 @@ function IntroduceScreen() {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: white.getColor(),
         paddingVertical: 25
     },
     viewBottom: {
