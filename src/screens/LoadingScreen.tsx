@@ -10,7 +10,7 @@ import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet, View} from "react-native";
 import {useSelector} from "react-redux";
 import {RootState} from "../configs/redux/store.config";
-import {Image, LinearProgress} from "@rneui/themed";
+import {LinearProgress} from "@rneui/themed";
 import Animated, {
     Easing,
     SharedValue,
@@ -24,7 +24,7 @@ import Animated, {
 } from "react-native-reanimated";
 import {white} from "../configs/colors/color-template.config";
 import brand from "../../assets/images/brand/brand_3.png";
-import {useNavigation} from "@react-navigation/native";
+import {CommonActions, useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../navigations/stack.type";
 
@@ -103,10 +103,17 @@ function LoadingScreen() {
             ),
         );
 
-        setTimeout(() => {
-            navigation.navigate("WelcomeScreen");
+        const timeOut = setTimeout(() => {
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'WelcomeScreen'}],
+                })
+            );
         }, duration * 5);
-    },);
+
+        return () => clearTimeout(timeOut);
+    }, []);
 
     return (
         <SafeAreaView style={{

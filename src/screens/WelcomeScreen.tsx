@@ -11,7 +11,7 @@ import {ImageBackground, Platform, SafeAreaView, StyleSheet, Text, View} from "r
 import background from "../../assets/images/introduce/welcome.png"
 import textStyle from "../configs/styles/textStyle.config";
 import {white} from "../configs/colors/color-template.config";
-import {useNavigation} from "@react-navigation/native";
+import {CommonActions, useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../navigations/stack.type";
 import {useEffect} from "react";
@@ -20,19 +20,35 @@ export function WelcomeScreen() {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "WelcomeScreen">>()
 
     useEffect(() => {
-        setTimeout(() => {
+        const timeOut = setTimeout(() => {
             if (Platform.OS === "web") {
-                navigation.navigate('MainScreen', {
-                    screen: 'LoginScreen',
-                    params: {
-                        screen: 'LoginGoogleFragment',
-                    },
-                });
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [{
+                            name: 'MainScreen',
+                            params: {
+                                screen: 'LoginScreen',
+                                params: {
+                                    screen: 'LoginGoogleFragment',
+                                },
+                            }
+                        }],
+                    })
+                );
+
                 return;
             }
 
-            navigation.navigate("IntroduceScreen")
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'IntroduceScreen'}],
+                })
+            );
         }, 2000);
+
+        return () => clearTimeout(timeOut);
     }, []);
 
     return (

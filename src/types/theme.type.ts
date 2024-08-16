@@ -8,7 +8,7 @@
 import {GradientColor, GroupColor, SingleColor} from "../utils/Color";
 import {ColorSchemeName} from "react-native";
 
-export type NameTheme = ColorSchemeName;
+export type NameTheme = "light" | "dark";
 
 export type ThemeType = {
     gradient: GradientColor;
