@@ -11,15 +11,6 @@ import {ColorSchemeName} from "react-native";
 export type NameTheme = "light" | "dark";
 
 export type ThemeType = {
-    gradient: GradientColor;
-    gradient2: GradientColor;
-    primary: GroupColor;
-    secondary: GroupColor;
-    green: GroupColor;
-    neutral: GroupColor;
-    blackBottomSheet: SingleColor;
-    blackPopUp: SingleColor;
-    gradientBorder: GradientColor;
     background: SingleColor;
     background_1: SingleColor;
     background_2: SingleColor;
@@ -31,4 +22,8 @@ export type ThemeType = {
     text_1: SingleColor;
     text_2: SingleColor;
     text_3: SingleColor;
+    textSkip: SingleColor;
+    dialCode: SingleColor;
+    arrowSelector: SingleColor;
+    placeholder: SingleColor;
 }

@@ -7,14 +7,14 @@
  **/
 
 import * as React from 'react';
+import {useEffect} from 'react';
 import {ImageBackground, Platform, SafeAreaView, StyleSheet, Text, View} from "react-native";
 import background from "../../assets/images/introduce/welcome.png"
 import textStyle from "../configs/styles/textStyle.config";
 import {white} from "../configs/colors/color-template.config";
-import {CommonActions, useNavigation} from "@react-navigation/native";
+import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../navigations/stack.type";
-import {useEffect} from "react";
 
 export function WelcomeScreen() {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "WelcomeScreen">>()
@@ -22,30 +22,17 @@ export function WelcomeScreen() {
     useEffect(() => {
         const timeOut = setTimeout(() => {
             if (Platform.OS === "web") {
-                navigation.dispatch(
-                    CommonActions.reset({
-                        index: 0,
-                        routes: [{
-                            name: 'MainScreen',
-                            params: {
-                                screen: 'LoginScreen',
-                                params: {
-                                    screen: 'LoginGoogleFragment',
-                                },
-                            }
-                        }],
-                    })
-                );
+                navigation.replace("MainScreen", {
+                    screen: 'LoginScreen',
+                    params: {
+                        screen: 'LoginGoogleFragment',
+                    },
+                });
 
                 return;
             }
 
-            navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [{name: 'IntroduceScreen'}],
-                })
-            );
+            navigation.replace("IntroduceScreen");
         }, 2000);
 
         return () => clearTimeout(timeOut);

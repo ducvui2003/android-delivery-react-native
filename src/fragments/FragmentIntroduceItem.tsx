@@ -7,40 +7,44 @@
  **/
 import {FragmentIntroduceType} from "../types/fragmentIntroduce.type";
 import React from "react";
-import {useSelector} from "react-redux";
-import {RootState} from "../configs/redux/store.config";
 import {Image, StyleSheet, Text, View} from "react-native";
 import textStyle from "../configs/styles/textStyle.config";
+import {primary} from "../configs/colors/color-template.config";
 
 function FragmentIntroduceItem(item: FragmentIntroduceType, key: React.Key | null | undefined) {
-    const theme = useSelector((state: RootState) => state.themeState.theme);
     return (
-        <View style={style.container} key={key}>
+        <View style={styles.container} key={key}>
             <View style={{margin: 25}}>
-                <Image source={item.source}/>
+                <Image source={item.source} style={[styles.sizeImage]}/>
             </View>
-            <Text style={[style.textTitle, {color: theme.primary.getColor("500")}]}>
+            <Text style={[styles.textTitle]}>
                 {item.title}
             </Text>
-            <Text style={[style.textContent, {color: theme.primary.getColor("500")}]}>
+            <Text style={[styles.textContent,]}>
                 {item.content}
             </Text>
         </View>
     );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center"
     },
+    sizeImage: {
+        width: 300,
+        height: 300
+    },
     textTitle: {
         ...textStyle["22_semibold_5%"],
-        marginBottom: 12
+        marginBottom: 12,
+        color: primary.getColor("500")
     },
     textContent: {
         ...textStyle["18_regular"],
+        color: primary.getColor("500")
     },
 })
 

@@ -950,12 +950,12 @@ let countries: [Country] = [
         regionCode: "NL",
         dialCode: "+31"
       ),
-      Country(
-        name: "Netherlands Antilles",
-        flag: "",
-        regionCode: "AN",
-        dialCode: "+599"
-      ),
+//       Country(
+//         name: "Netherlands Antilles",
+//         flag: "",
+//         regionCode: "AN",
+//         dialCode: "+599"
+//       ),
       Country(
         name: "New Caledonia",
         flag: "🇳🇨",

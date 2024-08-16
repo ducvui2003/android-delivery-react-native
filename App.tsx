@@ -11,7 +11,6 @@ import {Platform, useColorScheme} from "react-native";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import React, {useEffect} from "react";
 import {setTheme} from "./src/hooks/redux/theme.slice";
-
 const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
 const RootStack = createStackNavigator<RootStackParamList>()

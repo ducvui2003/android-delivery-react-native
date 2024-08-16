@@ -937,12 +937,12 @@ const countries: CountryPhoneNumberType[] = [
         "code": "NL",
         "dial_code": "+31"
     },
-    {
-        "name": "Netherlands Antilles",
-        "flag": "",
-        "code": "AN",
-        "dial_code": "+599"
-    },
+    // {
+    //     "name": "Netherlands Antilles",
+    //     "flag": "",
+    //     "code": "AN",
+    //     "dial_code": "+599"
+    // },
     {
         "name": "New Caledonia",
         "flag": "🇳🇨",

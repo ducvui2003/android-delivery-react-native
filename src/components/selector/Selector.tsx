@@ -7,42 +7,135 @@
  **/
 
 import React, {useEffect} from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
+import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
+import Animated, {useAnimatedStyle, useSharedValue, withTiming} from "react-native-reanimated";
+import SelectorProps from "./type/selector.type";
+import {FlatList} from "react-native-gesture-handler";
 
-type SelectorProps<T> = {
-    data: T[];
-    renderItem: (item: T, index: number) => React.JSX.Element;
-}
 
-function Selector<T>({data, renderItem}: SelectorProps<T>) {
-    const [selectedItem, setSelectedItem] = React.useState<T>();
+function Selector<T>
+({
+     data,
+     renderItem,
+     renderItemSelected,
+     renderArrow,
+     onSelected,
+     height = 200,
+     width,
+     padding = 10,
+     showBorder = true,
+     backgroundColorSelected,
+     backgroundColorItems,
+     useStateShowed = React.useState<boolean>(false)
+ }: SelectorProps<T>) {
+    const [selectedItem, setSelectedItem] = React.useState<T>(data[0]);
+    const [isShow, setIsShow] = useStateShowed;
+    const arrowAnim = useSharedValue(0);
+    const duration = 200;
+    const [minWith, setMinWith] = React.useState<number>(0);
 
-    useEffect(() => {
-        setSelectedItem(data[0]);
-    }, []);
-
-    const renderItems = data.map((item: T, index: number) => {
-        return <TouchableOpacity style={{padding: 0, margin: 0}} key={index} onPress={() => {
-            setSelectedItem(item);
-        }}>
-            {renderItem(item, index)}
-        </TouchableOpacity>
+    const animatedArrow = useAnimatedStyle(() => {
+        return {
+            transform: [{rotate: `${arrowAnim.value}deg`}]
+        }
     });
 
+    const runAnimatedArrow = (toValue: 180 | 0) => {
+        arrowAnim.value = withTiming(
+            toValue,
+            {
+                duration
+            })
+    }
+
+    useEffect(() => {
+        setIsShow(false);
+    }, [selectedItem]);
+
+    useEffect(() => {
+        runAnimatedArrow(isShow ? 180 : 0);
+    }, [isShow]);
+
     return (
-        <View style={[styles.container]}>
-            {selectedItem && renderItem(selectedItem as T, -1)}
-            <ScrollView>
-                {renderItems}
-            </ScrollView>
+        <View style={[
+            {
+                width: width ?? "100%",
+                minWidth: minWith
+            }
+        ]}>
+            <TouchableOpacity
+                style={[
+                    styles.selectedContainer,
+                    {padding: padding, borderColor: backgroundColorSelected},
+                    showBorder && styles.borderSelectedContainer,
+                ]}
+                onPress={() => {
+                    setIsShow(!isShow);
+                }}>
+                {renderItemSelected(selectedItem)}
+                <Animated.View style={[
+                    animatedArrow
+                ]}>
+                    {renderArrow
+                        ? renderArrow()
+                        : <Image source={require("./icon/arrow.png")}
+                                 style={[styles.sizeArrow]}/>
+                    }
+                </Animated.View>
+            </TouchableOpacity>
+            <FlatList<T>
+                style={[
+                    styles.itemsContainer,
+                    {
+                        width: width ?? "100%",
+                        height: isShow ? height : 0,
+                        paddingHorizontal: padding,
+                        backgroundColor: backgroundColorItems,
+                    }
+                ]}
+                data={data}
+                renderItem={({item, index, separators}) => {
+                    return (
+                        <TouchableOpacity
+                            onPress={() => {
+                                setSelectedItem(item)
+                                setIsShow(false);
+                            }}
+                            onLayout={({nativeEvent}) => {
+                                setMinWith(nativeEvent.layout.width);
+                            }}
+                        >
+                            {renderItem(item, index)}
+                        </TouchableOpacity>
+                    );
+                }}
+            />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    }
+    sizeArrow: {
+        width: 20,
+        height: 20
+    },
+    selectedContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    borderSelectedContainer: {
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: "black",
+    },
+    itemsContainer: {
+        position: "absolute",
+        marginTop: 10,
+        top: "100%",
+        zIndex: 99999,
+    },
 })
 
 export default Selector;
