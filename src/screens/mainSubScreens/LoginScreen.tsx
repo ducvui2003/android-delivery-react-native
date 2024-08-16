@@ -96,6 +96,7 @@ function LoginScreen() {
                             <TextInput style={[styles.inputPhoneNumber, {color: theme.text_3.getColor()}]}
                                        placeholderTextColor={theme.placeholder.getColor()}
                                        onBlur={onBlurInput}
+                                       keyboardType={"numeric"}
                                        onChange={(e) => setPhoneNumber(e.nativeEvent.text)}
                                        onFocus={onFocusInput}
                                        placeholder={"00 000 000"}/>
