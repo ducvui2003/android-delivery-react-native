@@ -8,12 +8,13 @@
 
 import React from 'react';
 import {SafeAreaView, Text} from "react-native";
-import LoginScreen from "./mainSubScreens/LoginScreen";
 import TestThemeScreen from "./mainSubScreens/TestThemeScreen";
+import LoginScreen from "./mainSubScreens/TestThemeScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {useSelector} from "react-redux";
 import {RootState} from "../configs/redux/store.config";
 import {MainScreenStackParamList} from "../navigations/stack.type";
+import HomeScreen from "./home/HomeScreen";
 
 const MainScreenTab = createBottomTabNavigator<MainScreenStackParamList>();
 
@@ -22,6 +23,7 @@ function MainScreen() {
 
     return (
         <SafeAreaView style={{flex: 1}}>
+            {/*<Home/>*/}
             <Text>Header!</Text>
             <MainScreenTab.Navigator
                 initialRouteName={"LoginScreen"}
@@ -42,12 +44,20 @@ function MainScreen() {
                                       component={LoginScreen}/>
                 <MainScreenTab.Screen name="TestThemeScreen"
                                       options={{
-                                          title: "Login",
+                                          title: "Test",
                                           tabBarIcon: () => (
                                               <Text>Icon Test Theme</Text>
                                           ),
                                       }}
                                       component={TestThemeScreen}/>
+                <MainScreenTab.Screen name="HomeScreen"
+                                      options={{
+                                          title: "Home",
+                                          tabBarIcon: () => (
+                                              <Text>Icon Home</Text>
+                                          ),
+                                      }}
+                                      component={HomeScreen}/>
             </MainScreenTab.Navigator>
         </SafeAreaView>
     );

@@ -10,6 +10,7 @@ export type RootStackParamList = {
 export type MainScreenStackParamList = {
     LoginScreen: NavigatorScreenParams<LoginScreenStackParamList>;
     TestThemeScreen: undefined;
+    HomeScreen: undefined;
 };
 
 export type LoginScreenStackParamList = {
