@@ -6,7 +6,9 @@
     "start": "expo start",
     "android": "expo run:android --port 8088",
     "ios": "expo run:ios --port 8089",
-    "web": "expo start --web  --port 8090"
+    "web": "expo start --web  --port 8090",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@expo/env": "^0.3.0",
@@ -51,6 +53,13 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
+    "@typescript-eslint/eslint-plugin": "^8.1.0",
+    "@typescript-eslint/parser": "^8.1.0",
+    "eslint": "^8.57.0",
+    "eslint-config-expo": "^7.1.2",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.3.3",
     "typescript": "^5.5.4"
   },
   "private": true
