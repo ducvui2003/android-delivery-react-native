@@ -7,7 +7,7 @@
  **/
 
 export type Category = {
-    id: number;
-    name: string;
-    image: {};
-}
+	id: number;
+	name: string;
+	image: {};
+};

@@ -1,5 +1,5 @@
-import {LinearGradientProps} from "expo-linear-gradient/src/LinearGradient";
-import {StyleProp, TextStyle} from "react-native";
+import { LinearGradientProps } from "expo-linear-gradient/src/LinearGradient";
+import { StyleProp, TextStyle } from "react-native";
 
 /**
  * Author: Le Anh Duc
@@ -9,9 +9,9 @@ import {StyleProp, TextStyle} from "react-native";
  * User: ducvui2003
  **/
 type TypographyGradientType = {
-    text: string,
-    textStyle?: StyleProp<TextStyle>;
-    linearGradientProps?: LinearGradientProps
-}
+	text: string;
+	textStyle?: StyleProp<TextStyle>;
+	linearGradientProps?: LinearGradientProps;
+};
 
 export default TypographyGradientType;

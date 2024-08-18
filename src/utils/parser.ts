@@ -6,7 +6,7 @@
  * User: ducvui2003
  **/
 
-import {PixelRatio} from "react-native";
+import { PixelRatio } from "react-native";
 
 /**
  * Converts a pixel value (px) to density-independent pixels (dp)
@@ -14,7 +14,7 @@ import {PixelRatio} from "react-native";
  * @returns {number} - The converted dp value.
  */
 function pxToDp(px: number): number {
-    return PixelRatio.getPixelSizeForLayoutSize(px);
+	return PixelRatio.getPixelSizeForLayoutSize(px);
 }
 
-export {pxToDp};
+export { pxToDp };

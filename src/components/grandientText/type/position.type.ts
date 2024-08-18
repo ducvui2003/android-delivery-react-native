@@ -7,8 +7,8 @@
  **/
 
 interface GradientType {
-    x: 0 | 1
-    y: 0 | 1
+	x: 0 | 1;
+	y: 0 | 1;
 }
 
 export default GradientType;

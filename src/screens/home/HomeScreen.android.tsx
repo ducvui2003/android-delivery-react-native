@@ -36,10 +36,10 @@ function Home() {
 					data={banners}
 					viewPagerRef={viewPagerRef}
 					renderItem={(item, index) => {
-						return <Image style={styles.banner}
-									  source={item} />;
+						return <Image style={styles.banner} source={item} />;
 					}}
-					onCurrentPage={(currentPage) => setCurrentPageViewPager(currentPage)} />
+					onCurrentPage={currentPage => setCurrentPageViewPager(currentPage)}
+				/>
 			</View>
 			<View style={styles.inputContainer}>
 				<Icon
@@ -64,19 +64,29 @@ function Home() {
 			</View>
 
 			<View style={styles.categoryGridContainer}>
-				<GridLayout col={4} data={categories} gapRow={24}
-							renderItem={(item, index) => <CategoryItem key={index} item={item} />} />
+				<GridLayout
+					col={4}
+					data={categories}
+					gapRow={24}
+					renderItem={(item, index) => <CategoryItem key={index} item={item} />}
+				/>
 			</View>
 			<View style={styles.productGridContainer}>
 				<View style={styles.productGridContainerHeading}>
 					<Text>Special Offers</Text>
-					<Text>View All
+					<Text>
+						View All
 						<Image src />
 					</Text>
 				</View>
-				<GridLayout col={2} data={products} renderItem={(item, index) => {
-					return <ProductHomeCard key={index} product={item} />;
-				}} gapRow={24} />
+				<GridLayout
+					col={2}
+					data={products}
+					renderItem={(item, index) => {
+						return <ProductHomeCard key={index} product={item} />;
+					}}
+					gapRow={24}
+				/>
 			</View>
 		</ScrollView>
 	);
@@ -90,12 +100,15 @@ function Header() {
 		<View style={{ ...styles.stack }}>
 			<View>
 				<Text style={{ ...textStyle["16_regular"] }}>Deliver to</Text>
-				<Text style={{
-					...textStyle["18_semibold"],
-					marginTop: 11,
-					color: theme.neutral.getColor("200"),
-				}}>Select
-					Your Location</Text>
+				<Text
+					style={{
+						...textStyle["18_semibold"],
+						marginTop: 11,
+						color: theme.neutral.getColor("200"),
+					}}
+				>
+					Select Your Location
+				</Text>
 			</View>
 			<View style={styles.shopIconContainer}>
 				<Icon
@@ -109,69 +122,70 @@ function Header() {
 	);
 }
 
-const makeStyled = (theme: ThemeType) => StyleSheet.create({
-	container: {
-		paddingHorizontal: 24,
-		paddingTop: 54,
-		flex: 1,
-		backgroundColor: "white",
-	},
-	stack: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-	},
-	inputContainer: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 12,
-		borderRadius: 8,
-		borderWidth: 1.1,
-		borderColor: theme.neutral.getColor("100"),
-		backgroundColor: theme.neutral.getColor("50"),
-		paddingHorizontal: 16,
-		paddingVertical: 20,
-	},
-	input: {
-		flex: 1,
-		borderBottomWidth: 0,
-		color: theme.neutral.getColor("900"),
-	},
-	shopIconContainer: {
-		alignItems: "center",
-		justifyContent: "center",
-		padding: 8,
-		width: 50,
-		height: 50,
-		borderRadius: 25,
-		backgroundColor: "white",
-		elevation: 4,
-	},
-	shopIcon: {
-		aspectRatio: 1,
-		width: 50,
-		height: 50,
-	},
-	bannerContainer: {
-		marginTop: 24,
-		marginBottom: 8,
-		height: 220,
-	},
-	banner: {
-		width: Dimensions.get("window").width + 10,
-		marginHorizontal: -10,
-	},
-	categoryGridContainer: {
-		marginTop: 24,
-	},
-	productGridContainer: {
-		marginTop: 32,
-	},
-	productGridContainerHeading: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-	},
-});
+const makeStyled = (theme: ThemeType) =>
+	StyleSheet.create({
+		container: {
+			paddingHorizontal: 24,
+			paddingTop: 54,
+			flex: 1,
+			backgroundColor: "white",
+		},
+		stack: {
+			flexDirection: "row",
+			justifyContent: "space-between",
+			alignItems: "center",
+		},
+		inputContainer: {
+			flexDirection: "row",
+			alignItems: "center",
+			gap: 12,
+			borderRadius: 8,
+			borderWidth: 1.1,
+			borderColor: theme.neutral.getColor("100"),
+			backgroundColor: theme.neutral.getColor("50"),
+			paddingHorizontal: 16,
+			paddingVertical: 20,
+		},
+		input: {
+			flex: 1,
+			borderBottomWidth: 0,
+			color: theme.neutral.getColor("900"),
+		},
+		shopIconContainer: {
+			alignItems: "center",
+			justifyContent: "center",
+			padding: 8,
+			width: 50,
+			height: 50,
+			borderRadius: 25,
+			backgroundColor: "white",
+			elevation: 4,
+		},
+		shopIcon: {
+			aspectRatio: 1,
+			width: 50,
+			height: 50,
+		},
+		bannerContainer: {
+			marginTop: 24,
+			marginBottom: 8,
+			height: 220,
+		},
+		banner: {
+			width: Dimensions.get("window").width + 10,
+			marginHorizontal: -10,
+		},
+		categoryGridContainer: {
+			marginTop: 24,
+		},
+		productGridContainer: {
+			marginTop: 32,
+		},
+		productGridContainerHeading: {
+			flexDirection: "row",
+			justifyContent: "space-between",
+			alignItems: "center",
+		},
+	});
 
 export default Home;

@@ -5,18 +5,15 @@
  * Created at: 16/8/24 - 12:52 pm
  * User: ducvui2003
  **/
-import React from 'react';
-import {StyleSheet} from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 
 function Home() {
-    return (
-        <div>
-            <h1>
-                Web Login Screen
-            </h1>
-        </div>
-    );
+	return (
+		<div>
+			<h1>Web Login Screen</h1>
+		</div>
+	);
 }
-
 
 export default Home;

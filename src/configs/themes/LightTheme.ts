@@ -5,8 +5,8 @@
  * Create at: 1:10 PM - 06/08/2024
  * User: lam-nguyen
  **/
-import {ThemeType} from "../../types/theme.type";
-import {neutral, primary, white} from "../colors/color-template.config";
+import { ThemeType } from "../../types/theme.type";
+import { neutral, primary, white } from "../colors/color-template.config";
 import ColorFactory from "../../utils/Color";
 
 const background_1 = ColorFactory.createSingleColor(white.getColor());
@@ -26,21 +26,21 @@ const arrowSelector = ColorFactory.createSingleColor(neutral.getColor("900"));
 const placeholder = ColorFactory.createSingleColor(neutral.getColor("300"));
 
 const lightTheme: ThemeType = {
-    background: background,
-    background_1: background_1,
-    background_2: background_2,
-    background_card: background_card,
-    background_input: background_input,
-    background_bottom_sheet: background_bottom_sheet,
-    border: border,
-    border_hover: border_hover,
-    text_1: text_1,
-    text_2: text_2,
-    text_3: text_3,
-    textSkip: textSkip,
-    dialCode: dialCode,
-    arrowSelector: arrowSelector,
-    placeholder: placeholder,
-}
+	background: background,
+	background_1: background_1,
+	background_2: background_2,
+	background_card: background_card,
+	background_input: background_input,
+	background_bottom_sheet: background_bottom_sheet,
+	border: border,
+	border_hover: border_hover,
+	text_1: text_1,
+	text_2: text_2,
+	text_3: text_3,
+	textSkip: textSkip,
+	dialCode: dialCode,
+	arrowSelector: arrowSelector,
+	placeholder: placeholder,
+};
 
 export default lightTheme;

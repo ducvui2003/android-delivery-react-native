@@ -7,10 +7,10 @@
  **/
 
 type CountryPhoneNumberType = {
-    name: string,
-    flag: string,
-    code: string,
-    dial_code: string
-}
+	name: string;
+	flag: string;
+	code: string;
+	dial_code: string;
+};
 
 export default CountryPhoneNumberType;

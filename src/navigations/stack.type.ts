@@ -1,20 +1,19 @@
-import {NavigatorScreenParams} from "@react-navigation/native";
+import { NavigatorScreenParams } from "@react-navigation/native";
 
 export type RootStackParamList = {
-    MainScreen: NavigatorScreenParams<MainScreenStackParamList>;
-    LoadingScreen: undefined;
-    WelcomeScreen: undefined;
-    IntroduceScreen: undefined;
+	MainScreen: NavigatorScreenParams<MainScreenStackParamList>;
+	LoadingScreen: undefined;
+	WelcomeScreen: undefined;
+	IntroduceScreen: undefined;
 };
 
 export type MainScreenStackParamList = {
-    LoginScreen: NavigatorScreenParams<LoginScreenStackParamList>;
-    TestThemeScreen: undefined;
-    SignUpScreen: undefined;
+	LoginScreen: NavigatorScreenParams<LoginScreenStackParamList>;
+	TestThemeScreen: undefined;
+	SignUpScreen: undefined;
 };
 
 export type LoginScreenStackParamList = {
-    LoginFacebookFragment: undefined;
-    LoginGoogleFragment: undefined;
+	LoginFacebookFragment: undefined;
+	LoginGoogleFragment: undefined;
 };
-

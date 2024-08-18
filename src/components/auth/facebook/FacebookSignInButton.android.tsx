@@ -6,67 +6,65 @@
  * User: lam-nguyen
  **/
 
-import {StyleSheet, TouchableOpacity} from "react-native";
-import {borderOthMethodSignIn} from "../../../configs/colors/color-template.config";
-import {RootState} from "../../../configs/redux/store.config";
-import {useSelector} from "react-redux";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { borderOthMethodSignIn } from "../../../configs/colors/color-template.config";
+import { RootState } from "../../../configs/redux/store.config";
+import { useSelector } from "react-redux";
 import ButtonAuthProps from "../type/googleAuth.type";
-import {Avatar} from "@rneui/themed";
+import { Avatar } from "@rneui/themed";
 import icon from "../../../../assets/images/icons/facebook_icon.png";
 import * as React from "react";
-import {useEffect} from "react";
-import {AccessToken, LoginManager, Settings} from "react-native-fbsdk-next";
+import { useEffect } from "react";
+import { AccessToken, LoginManager, Settings } from "react-native-fbsdk-next";
+z;
 
-Settings.initializeSDK()
+Settings.initializeSDK();
 
-function FacebookSignInButtonAndroid({loginSuccess, loginFail}: ButtonAuthProps) {
-    const theme = useSelector((state: RootState) => state.themeState.theme);
-    const signIn = async () => {
-        LoginManager.logInWithPermissions(["public_profile", "email"])
-            .then((result) => {
-                    if (result.isCancelled) {
-                        loginFail && loginFail();
-                        return;
-                    }
-                }
-            ).catch((error) => {
-                loginFail && loginFail();
-            }
-        );
-    }
+function FacebookSignInButtonAndroid({ loginSuccess, loginFail }: ButtonAuthProps) {
+	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const signIn = async () => {
+		LoginManager.logInWithPermissions(["public_profile", "email"])
+			.then(result => {
+				if (result.isCancelled) {
+					loginFail && loginFail();
+					return;
+				}
+			})
+			.catch(error => {
+				loginFail && loginFail();
+			});
+	};
 
-    const getAccessToken = () => {
-        AccessToken.getCurrentAccessToken()
-            .then((accessToken) => {
-                loginSuccess && loginSuccess("")
-            })
-    }
+	const getAccessToken = () => {
+		AccessToken.getCurrentAccessToken().then(accessToken => {
+			loginSuccess && loginSuccess("");
+		});
+	};
 
-    useEffect(() => {
-        getAccessToken()
-    }, []);
+	useEffect(() => {
+		getAccessToken();
+	}, []);
 
-    return (
-        <TouchableOpacity onPress={signIn}>
-            <Avatar
-                size={50}
-                rounded
-                source={icon}
-                containerStyle={[styles.icon, {backgroundColor: theme.background.getColor()}]}
-            />
-        </TouchableOpacity>
-    );
+	return (
+		<TouchableOpacity onPress={signIn}>
+			<Avatar
+				size={50}
+				rounded
+				source={icon}
+				containerStyle={[styles.icon, { backgroundColor: theme.background.getColor() }]}
+			/>
+		</TouchableOpacity>
+	);
 }
 
 const styles = StyleSheet.create({
-    icon: {
-        borderColor: borderOthMethodSignIn.getColor(),
-        borderStyle: "solid",
-        borderWidth: 2,
-        padding: 8
-    }
-})
-
+	icon: {
+		borderColor: borderOthMethodSignIn.getColor(),
+		borderStyle: "solid",
+		borderWidth: 2,
+		padding: 8,
+	},
+});
 
 export default FacebookSignInButtonAndroid;
-export const androidFacebookSignOut = () =>  LoginManager.logOut();
+export const androidFacebookSignOut = () => LoginManager.logOut();

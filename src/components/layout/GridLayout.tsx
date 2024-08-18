@@ -5,51 +5,56 @@
  * Created at: 16/8/24 - 7:28 pm
  * User: ducvui2003
  **/
-import React from 'react';
-import {StyleSheet, View} from "react-native";
-import {GridLayoutType} from "./type/gridLayout.type";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { GridLayoutType } from "./type/gridLayout.type";
 
-
-function GridLayout<T>({row = undefined, col, data, gapRow, gapCol, renderItem}: GridLayoutType<T>) {
-    if (gapCol === undefined) gapCol = gapRow;
-    const styles = makeStyled(gapRow, gapCol);
-    if (row === undefined) row = Math.ceil(data.length / col);
-    return (
-        <View style={styles.container}>
-            {
-                Array.from({length: row}, (_, i) => {
-                    return (
-                        <View key={i} style={styles.row}>
-                            {
-                                Array.from({length: col}, (_, j) => {
-                                    const index = i * col + j;
-                                    return (
-                                        <View key={index} style={styles.col}>
-                                            {index >= data.length || data[index] === undefined ? null : renderItem(data[index], index)}
-                                        </View>
-                                    );
-                                })
-                            }
-                        </View>
-                    );
-                })
-            }
-        </View>
-    );
+function GridLayout<T>({
+	row = undefined,
+	col,
+	data,
+	gapRow,
+	gapCol,
+	renderItem,
+}: GridLayoutType<T>) {
+	if (gapCol === undefined) gapCol = gapRow;
+	const styles = makeStyled(gapRow, gapCol);
+	if (row === undefined) row = Math.ceil(data.length / col);
+	return (
+		<View style={styles.container}>
+			{Array.from({ length: row }, (_, i) => {
+				return (
+					<View key={i} style={styles.row}>
+						{Array.from({ length: col }, (_, j) => {
+							const index = i * col + j;
+							return (
+								<View key={index} style={styles.col}>
+									{index >= data.length || data[index] === undefined
+										? null
+										: renderItem(data[index], index)}
+								</View>
+							);
+						})}
+					</View>
+				);
+			})}
+		</View>
+	);
 }
 
-const makeStyled = (gapRow: number, gapCol: number) => StyleSheet.create({
-    container: {
-        gap: gapRow,
-        backgroundColor: "transparent",
-    },
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: gapCol,
-    },
-    col: {
-        flex: 1,
-    },
-});
+const makeStyled = (gapRow: number, gapCol: number) =>
+	StyleSheet.create({
+		container: {
+			gap: gapRow,
+			backgroundColor: "transparent",
+		},
+		row: {
+			flexDirection: "row",
+			justifyContent: "space-between",
+			gap: gapCol,
+		},
+		col: {
+			flex: 1,
+		},
+	});
 export default GridLayout;

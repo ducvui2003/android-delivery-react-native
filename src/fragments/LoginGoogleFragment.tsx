@@ -6,47 +6,50 @@
  * User: lam-nguyen
  **/
 
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import GoogleAuth from "../components/auth/GoogleAuth";
-import {NavigationProp, useNavigation} from "@react-navigation/native";
-import {LoginScreenStackParamList} from "../navigations/stack.type";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { LoginScreenStackParamList } from "../navigations/stack.type";
 
 function LoginGoogleFragment() {
-    const navigation = useNavigation<NavigationProp<LoginScreenStackParamList>>();
+	const navigation = useNavigation<NavigationProp<LoginScreenStackParamList>>();
 
-    return (
-        <View style={styles.container}>
-            <Text>Đăng nhập bằng google</Text>
-            <GoogleAuth/>
+	return (
+		<View style={styles.container}>
+			<Text>Đăng nhập bằng google</Text>
+			<GoogleAuth />
 
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.navigate("LoginFacebookFragment");
-                }}
-                style={{
-                    backgroundColor: 'blue',
-                    padding: 10,
-                    borderRadius: 5,
-                    marginTop: 10,
-                }}
-            >
-                <Text style={{
-                    color: 'white',
-                }}>Đăng nhập bằng Fakebook</Text>
-            </TouchableOpacity>
-        </View>
-    );
+			<TouchableOpacity
+				onPress={() => {
+					navigation.navigate("LoginFacebookFragment");
+				}}
+				style={{
+					backgroundColor: "blue",
+					padding: 10,
+					borderRadius: 5,
+					marginTop: 10,
+				}}
+			>
+				<Text
+					style={{
+						color: "white",
+					}}
+				>
+					Đăng nhập bằng Fakebook
+				</Text>
+			</TouchableOpacity>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
+	container: {
+		flex: 1,
+		backgroundColor: "#fff",
+		alignItems: "center",
+		justifyContent: "center",
+	},
 });
-
 
 export default LoginGoogleFragment;

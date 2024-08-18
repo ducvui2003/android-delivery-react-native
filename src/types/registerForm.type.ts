@@ -8,8 +8,8 @@
 import LoginFormType from "./loginForm.type";
 
 type RegisterFormType = LoginFormType & {
-    email: string,
-    fullName: string
-}
+	email: string;
+	fullName: string;
+};
 
 export default RegisterFormType;

@@ -7,7 +7,7 @@
  **/
 
 type LoginFormType = {
-    phoneNumber: string,
-}
+	phoneNumber: string;
+};
 
 export default LoginFormType;

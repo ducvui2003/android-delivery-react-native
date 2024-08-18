@@ -7,10 +7,10 @@
  **/
 
 export type Product = {
-    id: string,
-    image: {},
-    name: string,
-    rating: number,
-    basePrice: number,
-    salePrice?: number,
-}
+	id: string;
+	image: {};
+	name: string;
+	rating: number;
+	basePrice: number;
+	salePrice?: number;
+};

@@ -8,10 +8,10 @@
 import React from "react";
 
 export type GridLayoutType<T> = {
-    row?: number;
-    col: number;
-    data: T[];
-    renderItem: (item: T, index: number) => React.JSX.Element;
-    gapRow: number;
-    gapCol?: number;
-}
+	row?: number;
+	col: number;
+	data: T[];
+	renderItem: (item: T, index: number) => React.JSX.Element;
+	gapRow: number;
+	gapCol?: number;
+};
