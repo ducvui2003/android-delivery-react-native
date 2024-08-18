@@ -13,6 +13,8 @@ const gradientBorder = ColorFactory.createGradientColor("rgb(255, 255, 255, 5%)"
 const blackBottomSheet = ColorFactory.createSingleColor("#1F2A37");
 const blackPopUp = ColorFactory.createSingleColor("#1F2A37");
 const gradient2 = ColorFactory.createGradientColor("#FDDEA7", "#FAB53C")
+const otherMethodSignIn = ColorFactory.createSingleColor("#6D6C69");
+const borderOthMethodSignIn = ColorFactory.createSingleColor("#D6D6D6");
 
 const primary = ColorFactory.createGroupColor("#65291e")
     .addGroupColorItem("50", "#FFEFED")
@@ -64,4 +66,4 @@ const neutral = ColorFactory.createGroupColor("#0d1317")
 
 const white = ColorFactory.createSingleColor("#ffffff");
 
-export {white, primary, secondary, green, neutral, gradient, gradient2, blackBottomSheet, blackPopUp, gradientBorder};
+export {white, primary, secondary, green, neutral, gradient, gradient2, blackBottomSheet, blackPopUp, gradientBorder, borderOthMethodSignIn, otherMethodSignIn};

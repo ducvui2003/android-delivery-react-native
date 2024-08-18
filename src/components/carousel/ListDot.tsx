@@ -5,17 +5,23 @@
  * Create at: 8:49 AM - 15/08/2024
  *  User: lam-nguyen
  **/
-import {useSelector} from "react-redux";
-import {RootState} from "../../configs/redux/store.config";
 import {StyleSheet, View} from "react-native";
 import React from "react";
-import DotType from "./type/dot.type";
+import DotProps from "./type/dot.type";
+import {primary} from "../../configs/colors/color-template.config";
+import Row from "../custom/Row";
 
-function ListDot<T>({data, sizeDotDefault, dotSizes, dotStatuses, colorDot, colorDotActive}: DotType<T>) {
-    const theme = useSelector((state: RootState) => state.themeState.theme);
-
+function ListDot<T>({
+                        data,
+                        sizeDotDefault,
+                        dotSizes,
+                        dotStatuses,
+                        colorDot,
+                        colorDotActive,
+                        position = "center"
+                    }: DotProps<T>) {
     const renderDot = () => {
-        return data.map((item, index) => {
+        return data.map((_, index) => {
             return (
                 <View style={[
                     style.dot,
@@ -27,10 +33,10 @@ function ListDot<T>({data, sizeDotDefault, dotSizes, dotStatuses, colorDot, colo
                         width: dotSizes[index]
                     },
                     {
-                        backgroundColor: colorDot ?? theme.primary.getColor("100")
+                        backgroundColor: colorDot ?? primary.getColor("100")
                     },
                     dotStatuses[index] && {
-                        backgroundColor: colorDotActive ?? theme.primary.getColor("400")
+                        backgroundColor: colorDotActive ?? primary.getColor("400")
                     },
                 ]} key={index.toString()}/>
             );
@@ -38,13 +44,22 @@ function ListDot<T>({data, sizeDotDefault, dotSizes, dotStatuses, colorDot, colo
     }
 
     return (
-        <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+        <Row style={[
+            style.container,
+            {
+                justifyContent: position === "center" ? "center" :
+                    position === "left" ? "flex-start" : "flex-end",
+            }
+        ]}>
             {renderDot()}
-        </View>
+        </Row>
     );
 }
 
 const style = StyleSheet.create({
+    container: {
+        alignItems: "center",
+    },
     dot: {
         borderRadius: 999,
         marginBottom: 25,

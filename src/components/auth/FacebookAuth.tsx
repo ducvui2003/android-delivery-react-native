@@ -6,92 +6,28 @@
  * User: lam-nguyen
  **/
 
-// import {AccessToken, LoginManager, LoginResult, Profile} from "react-native-fbsdk-next";
-import {Text, TouchableOpacity} from "react-native";
-import {white} from "../../configs/colors/color-template.config";
-import {RootState} from "../../configs/redux/store.config";
-import {useSelector} from "react-redux";
+import {Platform, Text} from "react-native";
+import React from "react";
+import ButtonAuthProps from "./type/googleAuth.type";
 
-function FacebookAuth() {
-    // const [profile, setProfile] = React.useState<Profile | null>();
-    // const [accessToken, setAccessToken] = React.useState<AccessToken | null>();
-    const theme = useSelector((state: RootState) => state.themeState.theme);
-    //
-    // const login = async () => LoginManager.logInWithPermissions(["public_profile", "email"])
-    //     .then((result: LoginResult) => {
-    //             if (result.isCancelled) {
-    //                 console.log("Login cancelled");
-    //                 return;
-    //             }
-    //
-    //             getProfile();
-    //             getAccessToken();
-    //         }
-    //     ).catch((error) => {
-    //             console.log("Login fail with error: " + error);
-    //         }
-    //     );
-    // const logout = () => LoginManager.logOut();
-    //
-    // const getProfile = () => Profile.getCurrentProfile().then((profile) => {
-    //     setProfile(profile);
-    // });
-    //
-    // const getAccessToken = () => AccessToken.getCurrentAccessToken().then((accessToken) => {
-    //     setAccessToken(accessToken);
-    // })
-    //
-    // useEffect(() => {
-    //     getAccessToken().then(() => {
-    //         getProfile().then()
-    //     });
-    // }, []);
-    //
-    // if (accessToken)
-    //     return (
-    //         <View style={{
-    //             justifyContent: "center",
-    //             alignItems: "center",
-    //         }}>
-    //             <Text>Facebook Auth {profile && profile.name} & {accessToken && accessToken.getUserId()}</Text>
-    //             {profile && <Image source={{
-    //                 uri: profile.imageURL ? profile.imageURL : ""
-    //             }} style={{width: 100, height: 100}}/>}
-    //             <TouchableOpacity
-    //                 style={{
-    //                     padding: 10,
-    //                     margin: 5,
-    //                     backgroundColor: theme.primary.getColor("500"),
-    //                 }}
-    //                 onPress={() => {
-    //                     logout();
-    //                     setAccessToken(null);
-    //                     setProfile(null);
-    //                 }}
-    //             >
-    //                 <Text style={{
-    //                     color: white.getColor()
-    //                 }}>Đăng xuất</Text>
-    //             </TouchableOpacity>
-    //         </View>
-    //     );
+let FacebookSignInButton: React.ComponentType<ButtonAuthProps>;
 
-    return (
-        <TouchableOpacity
-            style={{
-                padding: 10,
-                margin: 5,
-                backgroundColor: theme.green.getColor("500"),
-            }}
-            onPress={async () => {
-                // await login();
-            }}
-        >
-            <Text style={{
-                color: white.getColor()
-            }}>Đăng nhập bằng Facebook</Text>
-        </TouchableOpacity>
-    );
+if (Platform.OS === 'android') {
+    FacebookSignInButton = require('./facebook/FacebookSignInButton.android').default;
+} else if (Platform.OS === 'web') {
+    FacebookSignInButton = require('./facebook/FacebookSignInButton.web').default;
+}
+
+function FacebookAuth({loginSuccess, logoutSuccess, email}: ButtonAuthProps) {
+    const renderComponent: Record<typeof Platform.OS, React.JSX.Element> = {
+        ios: <Text>Sign in with Google</Text>,
+        web: <FacebookSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess}/>,
+        android: <FacebookSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess}/>,
+        macos: <Text>Sign in with Google</Text>,
+        windows: <Text>Sign in with Google</Text>,
+    }
+
+    return renderComponent[Platform.OS];
 }
 
 export default FacebookAuth;

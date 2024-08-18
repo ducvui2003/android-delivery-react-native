@@ -8,32 +8,22 @@
 
 import React from "react";
 import {Platform, Text} from "react-native";
-import {WebGoogleSignInButton} from "./WebGoogleSignInButton";
-import {AndroidGoogleSignInButton} from "./AndroidGoogleSignInButton";
+import ButtonAuthProps from "./type/googleAuth.type";
 
-export type GoogleAuthProps = {
-    loginSuccess?: (email: string) => void; //để tạm
-    errorLogin?: () => void;
-    loginFail?: () => void;
-    logoutSuccess?: () => void;
-    email: string | undefined; //để tạm
-};
+let GoogleSignInButton: React.ComponentType<ButtonAuthProps>;
 
-const GoogleAuth = () => {
-    const [email, setEmail] = React.useState<string | undefined>();
+if (Platform.OS === 'android') {
+    GoogleSignInButton = require('./google/GoogleSignInButton.android').default;
+}  else if (Platform.OS === 'web') {
+    GoogleSignInButton = require('./google/GoogleSignInButton.web').default;
+}
 
-    const loginSuccess = (email: string) => {
-        setEmail(email);
-    }
 
-    const logoutSuccess = () => {
-        setEmail(undefined);
-    }
-
+const GoogleAuth = ({loginSuccess, logoutSuccess, email}: ButtonAuthProps) => {
     const renderComponent: Record<typeof Platform.OS, React.JSX.Element> = {
         ios: <Text>Sign in with Google</Text>,
-        web: <WebGoogleSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess}/>,
-        android: < AndroidGoogleSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess}/>,
+        web: <GoogleSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess}/>,
+        android: <GoogleSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess}/>,
         macos: <Text>Sign in with Google</Text>,
         windows: <Text>Sign in with Google</Text>,
     }
