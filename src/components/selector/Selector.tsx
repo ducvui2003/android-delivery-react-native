@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import Animated, {useAnimatedStyle, useSharedValue, withTiming} from "react-native-reanimated";
 import SelectorProps from "./type/selector.type";
@@ -33,6 +33,7 @@ function Selector<T>
     const arrowAnim = useSharedValue(0);
     const duration = 200;
     const [minWith, setMinWith] = React.useState<number>(0);
+    const flatListRef = useRef<FlatList<T>>(null);
 
     const animatedArrow = useAnimatedStyle(() => {
         return {
@@ -50,10 +51,17 @@ function Selector<T>
 
     useEffect(() => {
         setIsShow(false);
+        onSelected && onSelected(selectedItem);
     }, [selectedItem]);
 
     useEffect(() => {
         runAnimatedArrow(isShow ? 180 : 0);
+        if (!isShow) {
+            flatListRef.current?.scrollToIndex({
+                index: 0,
+                animated: false
+            });
+        }
     }, [isShow]);
 
     return (
@@ -84,6 +92,7 @@ function Selector<T>
                 </Animated.View>
             </TouchableOpacity>
             <FlatList<T>
+                ref={flatListRef}
                 style={[
                     styles.itemsContainer,
                     {
@@ -93,8 +102,11 @@ function Selector<T>
                         backgroundColor: backgroundColorItems,
                     }
                 ]}
+                initialNumToRender={20}
+                onEndReachedThreshold={0.5}
                 data={data}
-                renderItem={({item, index, separators}) => {
+                keyExtractor={(item, index) => `${index}-${height}`}
+                renderItem={({item, index,}) => {
                     return (
                         <TouchableOpacity
                             onPress={() => {
