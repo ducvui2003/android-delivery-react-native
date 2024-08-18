@@ -6,40 +6,46 @@
  * User: lam-nguyen
  **/
 
-import React, {useState} from "react";
+import React, {ReactNode, useState} from "react";
 import {
     Keyboard,
     Platform,
     SafeAreaView,
     StyleSheet,
     Text,
-    TextInput,
     TouchableOpacity,
     TouchableWithoutFeedback,
     View
 } from "react-native";
 import {useSelector} from "react-redux";
 import {RootState} from "../../configs/redux/store.config";
-import countries from "../../../assets/data/dialCodes/countries";
-import Selector from "../../components/selector/Selector";
-import CountryPhoneNumberType from "../../types/countryPhoneNumber.type";
 import textStyle from "../../configs/styles/textStyle.config";
-import {neutral, otherMethodSignIn, primary, white} from "../../configs/colors/color-template.config";
-import CountryPhoneNumberItem from "../../components/countryPhoneNumber/CountryPhoneNumberItem";
-import {Icon} from "@rneui/base";
+import {gradient, neutral, otherMethodSignIn, primary, white} from "../../configs/colors/color-template.config";
 import {CheckBox, Divider} from "@rneui/themed";
 import Row from "../../components/custom/Row";
 import Col from "../../components/custom/Col";
 import GoogleAuth from "../../components/auth/GoogleAuth";
 import FacebookAuth from "../../components/auth/FacebookAuth";
+import InputPhoneNumber from "../../components/input/InputPhoneNumber";
+import {FlatList} from "react-native-gesture-handler";
+import GradientText from "../../components/custom/GradientText";
+import {Controller, useForm} from "react-hook-form";
+
+type LoginForm = {
+    phoneNumber: string
+}
 
 function LoginScreen() {
     const [checked, setChecked] = React.useState(false);
     const [isShow, setIsShow] = React.useState(false);
     const [isFocusInput, setIsFocusInput] = React.useState(false);
     const theme = useSelector((state: RootState) => state.themeState.theme);
-    const [countryPhoneNumber, setCountryPhoneNumber] = React.useState<CountryPhoneNumberType>(countries[0]);
     const [phoneNumber, setPhoneNumber] = useState<string>('')
+    const {
+        control,
+        handleSubmit,
+        formState: {isValid}
+    } = useForm<LoginForm>({mode: "all"})
 
     const onFocusInput = () => {
         setIsFocusInput(true);
@@ -56,97 +62,106 @@ function LoginScreen() {
         Keyboard.dismiss();
     }
 
+    const onSubmit = (data: LoginForm) => {
+        console.log(data)
+        if (!isValid) return;
+    }
+
+    const button: Record<"true" | "false", ReactNode> = {
+        "true": <TouchableOpacity style={[styles.buttonNotActive, styles.button]} onPress={handleSubmit(onSubmit)}>
+            <Text style={[styles.textButton]}>Register</Text>
+        </TouchableOpacity>,
+        "false": <View style={[styles.buttonNotActive]}>
+            <Text style={[styles.textButton]}>Register</Text>
+        </View>
+    }
+
     return (
         <TouchableWithoutFeedback onPress={onOtherPress}>
             <SafeAreaView style={[{flex: 1, backgroundColor: theme.background.getColor()}]}>
-                <Col style={[styles.container, {paddingHorizontal: 24}]}>
-                    <Col>
-                        <Text style={[styles.title]}>Login</Text>
-                        <Row style={[
-                            styles.inputPhoneNumberContainer,
-                            {
-                                backgroundColor: theme.background_input.getColor(),
-                                borderColor: theme.border.getColor(),
-                            }
-                        ]}>
-                            <Selector<CountryPhoneNumberType>
-                                data={countries}
-                                showBorder={false}
-                                width={70}
-                                padding={0}
-                                useStateShowed={[isShow, setIsShow]}
-                                onSelected={(item) => {
-                                    setCountryPhoneNumber(item);
-                                }}
-                                renderItemSelected={(item) => {
-                                    return <Text style={[styles.itemSelected]}>{item.flag}</Text>
-                                }}
-                                renderArrow={() => {
-                                    return (
-                                        <Icon size={30} color={theme.arrowSelector.getColor()} brand={true}
-                                              type={"font-awesome"}
-                                              name={"angle-down"}/>
-                                    );
-                                }}
-                                backgroundColorItems={theme.background.getColor()}
-                                renderItem={item => <CountryPhoneNumberItem data={item}/>}
-                            />
-                            <Text
-                                style={[styles.textDialCode, {color: theme.dialCode.getColor()}]}>({countryPhoneNumber.dial_code})</Text>
-                            <TextInput style={[styles.inputPhoneNumber, {color: theme.text_3.getColor()}]}
-                                       placeholderTextColor={theme.placeholder.getColor()}
-                                       onBlur={onBlurInput}
-                                       keyboardType={"numeric"}
-                                       onChange={(e) => setPhoneNumber(e.nativeEvent.text)}
-                                       onFocus={onFocusInput}
-                                       placeholder={"00 000 000"}/>
-                        </Row>
+                <FlatList
+                    contentContainerStyle={[styles.container, {paddingHorizontal: 24}]}
+                    data={[1]}
+                    renderItem={() => {
+                        return (
+                            <Col>
+                                <GradientText style={{marginBottom: 32}} textStyle={[styles.title]} text={"Login"}
+                                              gradientColors={gradient.getColor()}/>
+                                <Controller
+                                    control={control}
+                                    name={"phoneNumber"}
+                                    rules={{
+                                        required: "Phone number is required",
+                                    }}
+                                    render={({
+                                                 field: {onChange, value},
+                                                 fieldState: {error},
+                                             }) => {
+                                        return (
+                                            <Col>
+                                                <InputPhoneNumber
+                                                    useStateShowed={[isShow, setIsShow]}
+                                                    placeholder={"00 000 000"}
+                                                    value={value}
+                                                    onBlur={onBlurInput}
+                                                    onFocus={onFocusInput}
+                                                    onChange={(element) => {
+                                                        onChange(element.nativeEvent.text);
+                                                    }}
+                                                />
+                                                {error && <Text style={{color: "red"}}>{error.message}</Text>}
+                                            </Col>
+                                        )
+                                    }}
+                                />
 
-                        <Row style={[styles.rememberMeContainer]}>
-                            <CheckBox
-                                checked={checked}
-                                onPress={() => setChecked(!checked)}
-                                iconType={"material-community"}
-                                checkedIcon={"checkbox-marked"}
-                                uncheckedIcon={"checkbox-blank-outline"}
-                                checkedColor={primary.getColor("500")}
-                                uncheckedColor={neutral.getColor("100")}
-                                size={24}
-                                containerStyle={{backgroundColor: theme.background.getColor(), padding: 5}}
-                            />
-                            <Text style={[styles.rememberMeText, {color: theme.text_1.getColor()}]}>Remember me</Text>
-                        </Row>
-                    </Col>
-                    <Col style={{zIndex: -1}}>
-                        <TouchableOpacity style={[styles.buttonNotActive, phoneNumber ? styles.button : {}]}>
-                            <Text style={[styles.textButton]}>Sign In</Text>
-                        </TouchableOpacity>
-
-                        <Col style={{display: isFocusInput ? "none" : "flex"}}>
-                            <View style={[styles.otherMethodSignInContainer]}>
-                                <Divider width={1} color={otherMethodSignIn.getColor()}
-                                         style={[styles.dividerStyle]}/>
-                                <Text
-                                    style={[styles.otherMethodSignIn, {
-                                        backgroundColor: theme.background.getColor(),
-                                    }]}
-                                >Or sign in with</Text>
-                            </View>
-                            <Row style={[styles.buttonOtherMethodSignIn]}>
-                                <GoogleAuth/>
-                                <View style={{padding: 8}}/>
-                                <FacebookAuth/>
-                            </Row>
-                            <Row style={[styles.askSignUpContainer]}>
-                                <Text style={[styles.askSignUpText, {color: theme.text_1.getColor()}]}>Don’t have an
-                                    account?</Text>
-                                <TouchableOpacity>
-                                    <Text style={[styles.signUpText]}>Sign Up</Text>
-                                </TouchableOpacity>
-                            </Row>
-                        </Col>
-                    </Col>
-                </Col>
+                                <Row style={[styles.rememberMeContainer]}>
+                                    <CheckBox
+                                        checked={checked}
+                                        onPress={() => setChecked(!checked)}
+                                        iconType={"material-community"}
+                                        checkedIcon={"checkbox-marked"}
+                                        uncheckedIcon={"checkbox-blank-outline"}
+                                        checkedColor={primary.getColor("500")}
+                                        uncheckedColor={neutral.getColor("100")}
+                                        size={24}
+                                        containerStyle={{backgroundColor: theme.background.getColor(), padding: 5}}
+                                    />
+                                    <Text style={[styles.rememberMeText, {color: theme.text_1.getColor()}]}>Remember
+                                        me</Text>
+                                </Row>
+                            </Col>
+                        );
+                    }}
+                    ListFooterComponent={() => {
+                        return (<Col style={{zIndex: -1}}>
+                            {button[isValid.toString() as "true" | "false"]}
+                            <Col style={{display: isFocusInput ? "none" : "flex"}}>
+                                <View style={[styles.otherMethodSignInContainer]}>
+                                    <Divider width={1} color={otherMethodSignIn.getColor()}
+                                             style={[styles.dividerStyle]}/>
+                                    <Text
+                                        style={[styles.otherMethodSignIn, {
+                                            backgroundColor: theme.background.getColor(),
+                                        }]}
+                                    >Or sign in with</Text>
+                                </View>
+                                <Row style={[styles.buttonOtherMethodSignIn]}>
+                                    <GoogleAuth/>
+                                    <View style={{padding: 8}}/>
+                                    <FacebookAuth/>
+                                </Row>
+                                <Row style={[styles.askSignUpContainer]}>
+                                    <Text style={[styles.askSignUpText, {color: theme.text_1.getColor()}]}>Don’t have an
+                                        account?</Text>
+                                    <TouchableOpacity>
+                                        <Text style={[styles.signUpText]}>Sign Up</Text>
+                                    </TouchableOpacity>
+                                </Row>
+                            </Col>
+                        </Col>);
+                    }}
+                />
             </SafeAreaView>
         </TouchableWithoutFeedback>
     )
@@ -161,7 +176,6 @@ const styles = StyleSheet.create({
     title: {
         ...textStyle["30_bold_5%"],
         color: primary.getColor("500"),
-        marginBottom: 32
     },
     itemSelected: {
         fontSize: 28
