@@ -8,29 +8,25 @@
 
 import React from 'react';
 import {SafeAreaView, Text} from "react-native";
+import LoginScreen from "./mainSubScreens/LoginScreen";
 import TestThemeScreen from "./mainSubScreens/TestThemeScreen";
-import LoginScreen from "./mainSubScreens/TestThemeScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {useSelector} from "react-redux";
-import {RootState} from "../configs/redux/store.config";
 import {MainScreenStackParamList} from "../navigations/stack.type";
+import {primary} from "../configs/colors/color-template.config";
 import HomeScreen from "./home/HomeScreen";
 
 const MainScreenTab = createBottomTabNavigator<MainScreenStackParamList>();
 
 function MainScreen() {
-    const theme = useSelector((state: RootState) => state.themeState.theme);
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            {/*<Home/>*/}
-            <Text>Header!</Text>
             <MainScreenTab.Navigator
                 initialRouteName={"LoginScreen"}
                 screenOptions={{
                     headerShown: false,
                     tabBarStyle: {
-                        backgroundColor: theme.primary.getColor("200"),
+                        backgroundColor: primary.getColor("200"),
                     },
                 }}
             >
@@ -44,7 +40,7 @@ function MainScreen() {
                                       component={LoginScreen}/>
                 <MainScreenTab.Screen name="TestThemeScreen"
                                       options={{
-                                          title: "Test",
+                                          title: "Login",
                                           tabBarIcon: () => (
                                               <Text>Icon Test Theme</Text>
                                           ),

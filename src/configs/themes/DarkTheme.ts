@@ -6,18 +6,7 @@
  * User: lam-nguyen
  **/
 import {ThemeType} from "../../types/theme.type";
-import {
-    blackBottomSheet,
-    blackPopUp,
-    gradient,
-    gradient2,
-    gradientBorder,
-    green,
-    neutral,
-    primary,
-    secondary,
-    white
-} from "../colors/color-template.config";
+import {neutral, primary, white} from "../colors/color-template.config";
 import ColorFactory from "../../utils/Color";
 
 const background_1 = ColorFactory.createSingleColor(primary.getColor("900"));
@@ -30,18 +19,13 @@ const border_hover = ColorFactory.createSingleColor(neutral.getColor("400"));
 const text_1 = ColorFactory.createSingleColor(neutral.getColor("100"));
 const text_2 = ColorFactory.createSingleColor(neutral.getColor("300"));
 const text_3 = ColorFactory.createSingleColor(neutral.getColor("50"));
+const textSkip = ColorFactory.createSingleColor("#65696C");
 const background = ColorFactory.createSingleColor(neutral.getColor("900"));
+const dialCode = ColorFactory.createSingleColor("#898B8E");
+const arrowSelector = ColorFactory.createSingleColor(neutral.getColor("50"));
+const placeholder = ColorFactory.createSingleColor("#898B8E");
 
 const darkTheme: ThemeType = {
-    gradient: gradient,
-    gradient2: gradient2,
-    blackBottomSheet: blackBottomSheet,
-    blackPopUp: blackPopUp,
-    gradientBorder: gradientBorder,
-    primary: primary,
-    secondary: secondary,
-    green: green,
-    neutral: neutral,
     background: background,
     background_1: background_1,
     background_2: background_2,
@@ -53,6 +37,10 @@ const darkTheme: ThemeType = {
     text_1: text_1,
     text_2: text_2,
     text_3: text_3,
+    textSkip: textSkip,
+    dialCode: dialCode,
+    arrowSelector: arrowSelector,
+    placeholder: placeholder,
 }
 
 export default darkTheme;

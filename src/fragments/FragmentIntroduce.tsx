@@ -5,36 +5,26 @@
  * Create at: 8:37 PM - 14/08/2024
  *  User: lam-nguyen
  **/
-import {FragmentIntroduceType} from "../types/fragmentIntroduceType";
-import React, {LegacyRef, MutableRefObject, RefAttributes, useEffect, useRef, useState} from "react";
-import {useSelector} from "react-redux";
-import {RootState} from "../configs/redux/store.config";
-import {Image, StyleSheet, Text, View} from "react-native";
-import textStyle from "../configs/styles/textStyle.config";
+import {FragmentIntroduceType} from "../types/fragmentIntroduce.type";
+import React, {useEffect, useState} from "react";
+import {StyleSheet, View} from "react-native";
 import PagerView from "react-native-pager-view";
 import FragmentIntroduceItem from "./FragmentIntroduceItem";
+import {primary} from "../configs/colors/color-template.config";
 
 function ListDot({data, dotSizes, dotStatuses}: {
     data: FragmentIntroduceType[],
     dotSizes: number[],
     dotStatuses: boolean[]
 }) {
-    const theme = useSelector((state: RootState) => state.themeState.theme);
 
     const renderDot = () => {
         return data.map((item, index) => {
             return (
                 <View style={[
-                    style.dot,
-                    {
-                        width: dotSizes[index]
-                    },
-                    {
-                        backgroundColor: theme.primary.getColor("50")
-                    },
-                    dotStatuses[index] && {
-                        backgroundColor: theme.primary.getColor("500")
-                    },
+                    styles.dot,
+                    {width: dotSizes[index]},
+                    dotStatuses[index] && styles.dotActive,
                 ]} key={index.toString()}/>
             );
         });
@@ -52,7 +42,7 @@ function FragmentIntroduce({data, viewPagerRef, setCurrentPageViewPager}: {
     viewPagerRef: (viewPager: PagerView) => void;
     setCurrentPageViewPager: (currentPage: number) => void;
 }) {
-    const [currentPageViewPager, ] = useState(0);
+    const [currentPageViewPager,] = useState(0);
     const listDotSizes = data.map(() => useState(10));
     const listStatus = data.map(() => useState(false));
 
@@ -71,8 +61,8 @@ function FragmentIntroduce({data, viewPagerRef, setCurrentPageViewPager}: {
 
 
     return (
-        <View style={style.container}>
-            <PagerView style={[style.container]}
+        <View style={styles.container}>
+            <PagerView style={[styles.container]}
                        ref={viewPager => {
                            if (!viewPager) return;
                            viewPagerRef(viewPager);
@@ -107,7 +97,7 @@ function FragmentIntroduce({data, viewPagerRef, setCurrentPageViewPager}: {
     );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
@@ -116,8 +106,12 @@ const style = StyleSheet.create({
         height: 10,
         borderRadius: 999,
         marginBottom: 25,
-        marginHorizontal: 4
+        marginHorizontal: 4,
+        backgroundColor: primary.getColor("50")
     },
+    dotActive: {
+        backgroundColor: primary.getColor("500")
+    }
 })
 
 export default FragmentIntroduce;
