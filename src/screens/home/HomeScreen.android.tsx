@@ -21,6 +21,7 @@ import GridLayout from "../../components/layout/GridLayout";
 import ProductHomeCard from "../../components/card/product/ProductHomeCard";
 import ChevronIcon from "../../../assets/icons/chevron-right.svg";
 import TypographyGradient from "../../components/typography/TypographyGradient";
+import { neutral } from "../../configs/colors/color-template.config";
 
 function Home() {
   const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
@@ -48,19 +49,19 @@ function Home() {
           size={20}
           type="font-awesome-5"
           solid={false}
-          color={theme.neutral.getColor("100")}
+          color={neutral.getColor("100")}
         />
         <TextInput
           placeholder="Vui lòng nhập số điện thoại"
           style={styles.input}
-          placeholderTextColor={theme.neutral.getColor("100")}
+          placeholderTextColor={neutral.getColor("100")}
         />
         <Icon
           name="sliders-h" // FontAwesome icon name
           size={20}
           type="font-awesome-5"
           solid={false}
-          color={theme.neutral.getColor("900")}
+          color={neutral.getColor("900")}
         />
       </View>
 
@@ -96,7 +97,7 @@ function Header() {
         <Text style={{
           ...textStyle["18_semibold"],
           marginTop: 11,
-          color: theme.neutral.getColor("200"),
+          color: neutral.getColor("200"),
         }}>Select
           Your Location</Text>
       </View>
@@ -130,15 +131,15 @@ const makeStyled = (theme: ThemeType) => StyleSheet.create({
     gap: 12,
     borderRadius: 8,
     borderWidth: 1.1,
-    borderColor: theme.neutral.getColor("100"),
-    backgroundColor: theme.neutral.getColor("50"),
+    borderColor: neutral.getColor("100"),
+    backgroundColor: neutral.getColor("50"),
     paddingHorizontal: 16,
     paddingVertical: 20,
   },
   input: {
     flex: 1,
     borderBottomWidth: 0,
-    color: theme.neutral.getColor("900"),
+    color: neutral.getColor("900"),
   },
   shopIconContainer: {
     alignItems: "center",
@@ -181,7 +182,7 @@ const makeStyled = (theme: ThemeType) => StyleSheet.create({
   },
   productGridContainerHeadingText: {
     ...textStyle["16_semibold"],
-    color: theme.neutral.getColor("900"),
+    color: neutral.getColor("900"),
   },
   productGridContainerMore: {
     ...textStyle["16_semibold"],
