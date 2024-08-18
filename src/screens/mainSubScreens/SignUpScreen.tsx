@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React, {ReactNode} from "react";
+import React, {ReactNode, useState} from "react";
 import {
     Keyboard,
     Platform,
@@ -26,18 +26,28 @@ import Row from "../../components/custom/Row";
 import Col from "../../components/custom/Col";
 import GoogleAuth from "../../components/auth/GoogleAuth";
 import FacebookAuth from "../../components/auth/FacebookAuth";
-import InputPhoneNumber from "../../components/input/InputPhoneNumber";
+import SolarLetterBold from "../../../assets/images/icons/SolarLetterBold";
+import InputIcon from "../../components/input/InputIcon";
+import SolarUserBold from "../../../assets/images/icons/SolarUserBold";
+import Space from "../../components/custom/Space";
 import {FlatList} from "react-native-gesture-handler";
 import {Controller, useForm} from "react-hook-form";
+import InputPhoneNumber from "../../components/input/InputPhoneNumber";
 import GradientText from "../../components/grandientText/GradientText";
-import LoginFormType from "../../types/loginForm.type";
+import RegisterFormType from "../../types/registerForm.type";
 
-function LoginScreen() {
-    const [checked, setChecked] = React.useState(false);
-    const [isShow, setIsShow] = React.useState(false);
-    const [isFocusInput, setIsFocusInput] = React.useState(false);
+
+function SignUpScreen() {
     const theme = useSelector((state: RootState) => state.themeState.theme);
-    const {control, setError, handleSubmit, formState: {isValid}} = useForm<LoginFormType>({mode: "all"})
+    const [isShow, setIsShow] = useState(false);
+    const [isFocusInput, setIsFocusInput] = useState(false);
+    const sizeIcon = 25;
+    const {control, setError, handleSubmit, formState: {isValid}} = useForm<RegisterFormType>({mode: "all"})
+
+    const onSubmit = (data: RegisterFormType) => {
+        console.log(data);
+        if (!isValid) return;
+    };
 
     const onFocusInput = () => {
         setIsFocusInput(true);
@@ -52,11 +62,6 @@ function LoginScreen() {
         setIsShow(false);
         if (Platform.OS === "web") return;
         Keyboard.dismiss();
-    }
-
-    const onSubmit = (data: LoginFormType) => {
-        console.log(data)
-        if (!isValid) return;
     }
 
     const button: Record<"true" | "false", ReactNode> = {
@@ -77,8 +82,8 @@ function LoginScreen() {
                     renderItem={() => {
                         return (
                             <Col>
-                                <GradientText style={{marginBottom: 32}} textStyle={styles.title} text={"Login"}
-                                              gradientColors={gradient.getColor()}/>
+                                <GradientText style={{marginBottom: 32}} textStyle={styles.title}
+                                              text={"Registration"} gradientColors={gradient.getColor()}/>
                                 <Controller
                                     control={control}
                                     name={"phoneNumber"}
@@ -90,35 +95,98 @@ function LoginScreen() {
                                         },
                                         validate: undefined
                                     }}
-                                    render={({field: {onChange, value}, fieldState: {error},}) => {
+                                    render={({
+                                                 field: {onChange, value},
+                                                 fieldState: {error},
+                                             }) => {
                                         return (
-                                            <Col>
+                                            <Col style={{zIndex: 2}}>
                                                 <InputPhoneNumber
                                                     useStateShowed={[isShow, setIsShow]}
                                                     placeholder={"00 000 000"}
                                                     value={value}
                                                     borderColor={error ? "red" : undefined}
+                                                    onBlur={onBlurInput}
                                                     onValidation={(isValid) => {
                                                         if (isValid) return;
                                                         setError("phoneNumber", {type: "validate", message: "Invalid phone number"})
                                                     }}
+                                                    onFocus={onFocusInput}
+                                                    onChange={(element) => {
+                                                        onChange(element.nativeEvent.text);
+                                                    }}
+                                                />
+                                                {error && <Text style={{color: "red", zIndex: -1}}>{error.message}</Text>}
+                                            </Col>
+                                        )
+                                    }}
+                                />
+                                <Space height={24}/>
+                                <Controller
+                                    control={control}
+                                    name={"email"}
+                                    rules={{
+                                        required: "Email is required",
+                                        pattern: {
+                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                            message: "invalid email"
+                                        },
+                                    }}
+                                    render={({field: {onChange, value}, fieldState: {error}}) => {
+                                        return (
+                                            <Col>
+                                                <InputIcon
+                                                    icon={<SolarLetterBold
+                                                        width={sizeIcon}
+                                                        height={sizeIcon}
+                                                        style={{marginRight: 12}}
+                                                        color={neutral.getColor("100")}/>}
+                                                    placeholder={"Email"}
+                                                    borderColor={error ? "red" : undefined}
+                                                    value={value}
                                                     onBlur={onBlurInput}
                                                     onFocus={onFocusInput}
                                                     onChange={(element) => {
                                                         onChange(element.nativeEvent.text);
                                                     }}
                                                 />
-                                                {error &&
-                                                    <Text style={{color: "red", zIndex: -1}}>{error.message}</Text>}
+                                                {error && <Text style={{color: "red"}}>{error.message}</Text>}
                                             </Col>
-                                        )
+                                        );
                                     }}
                                 />
-
+                                <Space height={24}/>
+                                <Controller
+                                    control={control}
+                                    name={"fullName"}
+                                    rules={{
+                                        required: "Full name is required",
+                                    }}
+                                    render={({field: {onChange, value}, fieldState: {error}}) => {
+                                        return (
+                                            <Col>
+                                                <InputIcon
+                                                    icon={<SolarUserBold
+                                                        width={sizeIcon}
+                                                        height={sizeIcon}
+                                                        style={{marginRight: 12}}
+                                                        color={neutral.getColor("100")}/>}
+                                                    placeholder={"Full Name"}
+                                                    value={value}
+                                                    borderColor={error ? "red" : undefined}
+                                                    onBlur={onBlurInput}
+                                                    onFocus={onFocusInput}
+                                                    onChange={(element) => {
+                                                        onChange(element.nativeEvent.text)
+                                                    }}
+                                                />
+                                                {error && <Text style={{color: "red"}}>{error.message}</Text>}
+                                            </Col>
+                                        );
+                                    }}/>
                                 <Row style={[styles.rememberMeContainer]}>
                                     <CheckBox
-                                        checked={checked}
-                                        onPress={() => setChecked(!checked)}
+                                        checked={false}
                                         iconType={"material-community"}
                                         checkedIcon={"checkbox-marked"}
                                         uncheckedIcon={"checkbox-blank-outline"}
@@ -139,13 +207,17 @@ function LoginScreen() {
                             {button[isValid.toString() as "true" | "false"]}
                             <Col style={{display: isFocusInput ? "none" : "flex"}}>
                                 <View style={[styles.otherMethodSignInContainer]}>
-                                    <Divider width={1} color={otherMethodSignIn.getColor()}
+                                    <Divider width={1}
+                                             color={otherMethodSignIn.getColor()}
                                              style={[styles.dividerStyle]}/>
                                     <Text
-                                        style={[styles.otherMethodSignIn, {
-                                            backgroundColor: theme.background.getColor(),
-                                        }]}
-                                    >Or sign in with</Text>
+                                        style={[
+                                            styles.otherMethodSignIn,
+                                            {
+                                                backgroundColor: theme.background.getColor(),
+                                            }
+                                        ]}
+                                    >Or sign up with</Text>
                                 </View>
                                 <Row style={[styles.buttonOtherMethodSignIn]}>
                                     <GoogleAuth/>
@@ -153,10 +225,11 @@ function LoginScreen() {
                                     <FacebookAuth/>
                                 </Row>
                                 <Row style={[styles.askSignUpContainer]}>
-                                    <Text style={[styles.askSignUpText, {color: theme.text_1.getColor()}]}>Don’t have an
-                                        account?</Text>
+                                    <Text style={[styles.askSignUpText, {color: theme.text_1.getColor()}]}>
+                                        Do have an account?
+                                    </Text>
                                     <TouchableOpacity>
-                                        <Text style={[styles.signUpText]}>Sign Up</Text>
+                                        <Text style={[styles.signUpText]}>Sign In</Text>
                                     </TouchableOpacity>
                                 </Row>
                             </Col>
@@ -176,6 +249,8 @@ const styles = StyleSheet.create({
     },
     title: {
         ...textStyle["30_bold_5%"],
+        textAlign: "center",
+        flexWrap: "wrap"
     },
     itemSelected: {
         fontSize: 28
@@ -256,4 +331,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default LoginScreen;
+export default SignUpScreen;

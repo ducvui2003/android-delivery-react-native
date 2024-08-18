@@ -13,6 +13,7 @@ import TestThemeScreen from "./mainSubScreens/TestThemeScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {MainScreenStackParamList} from "../navigations/stack.type";
 import {primary} from "../configs/colors/color-template.config";
+import SignUpScreen from "./mainSubScreens/SignUpScreen";
 import HomeScreen from "./home/HomeScreen";
 
 const MainScreenTab = createBottomTabNavigator<MainScreenStackParamList>();
@@ -46,6 +47,14 @@ function MainScreen() {
                                           ),
                                       }}
                                       component={TestThemeScreen}/>
+                <MainScreenTab.Screen name="SignUpScreen"
+                                      options={{
+                                          title: "sign up",
+                                          tabBarIcon: () => (
+                                              <Text>Sign up Screen</Text>
+                                          ),
+                                      }}
+                                      component={SignUpScreen}/>
                 <MainScreenTab.Screen name="HomeScreen"
                                       options={{
                                           title: "Home",
