@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React, {ReactNode, useState} from "react";
+import React, {ReactNode} from "react";
 import {
     Keyboard,
     Platform,
@@ -40,7 +40,6 @@ function LoginScreen() {
     const [isShow, setIsShow] = React.useState(false);
     const [isFocusInput, setIsFocusInput] = React.useState(false);
     const theme = useSelector((state: RootState) => state.themeState.theme);
-    const [phoneNumber, setPhoneNumber] = useState<string>('')
     const {
         control,
         handleSubmit,
