@@ -16,7 +16,6 @@ import icon from "../../../../assets/images/icons/facebook_icon.png";
 import * as React from "react";
 import { useEffect } from "react";
 import { AccessToken, LoginManager, Settings } from "react-native-fbsdk-next";
-z;
 
 Settings.initializeSDK();
 

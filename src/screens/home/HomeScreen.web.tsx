@@ -6,7 +6,6 @@
  * User: ducvui2003
  **/
 import React from "react";
-import { StyleSheet } from "react-native";
 
 function Home() {
 	return (

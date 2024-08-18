@@ -19,7 +19,6 @@ import { banners, categories, products } from "./data";
 import CategoryItem from "../../components/category/CategoryItem";
 import GridLayout from "../../components/layout/GridLayout";
 import ProductHomeCard from "../../components/card/product/ProductHomeCard";
-import chevronIcon from "../../assets/icons/chevron-right.png";
 
 function Home() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
