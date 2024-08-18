@@ -28,8 +28,8 @@ import GoogleAuth from "../../components/auth/GoogleAuth";
 import FacebookAuth from "../../components/auth/FacebookAuth";
 import InputPhoneNumber from "../../components/input/InputPhoneNumber";
 import {FlatList} from "react-native-gesture-handler";
-import GradientText from "../../components/custom/GradientText";
 import {Controller, useForm} from "react-hook-form";
+import GradientText from "../../components/grandientText/GradientText";
 
 type LoginForm = {
     phoneNumber: string
@@ -84,7 +84,7 @@ function LoginScreen() {
                     renderItem={() => {
                         return (
                             <Col>
-                                <GradientText style={{marginBottom: 32}} textStyle={[styles.title]} text={"Login"}
+                                <GradientText style={{marginBottom: 32}} textStyle={styles.title} text={"Login"}
                                               gradientColors={gradient.getColor()}/>
                                 <Controller
                                     control={control}
@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
     },
     title: {
         ...textStyle["30_bold_5%"],
-        color: primary.getColor("500"),
     },
     itemSelected: {
         fontSize: 28

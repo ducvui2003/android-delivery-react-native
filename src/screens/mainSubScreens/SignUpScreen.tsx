@@ -33,7 +33,7 @@ import Space from "../../components/custom/Space";
 import {FlatList} from "react-native-gesture-handler";
 import {Controller, useForm} from "react-hook-form";
 import InputPhoneNumber from "../../components/input/InputPhoneNumber";
-import GradientText from "../../components/custom/GradientText";
+import GradientText from "../../components/grandientText/GradientText";
 
 type RegisterForm = {
     phoneNumber: string,
@@ -90,7 +90,7 @@ function SignUpScreen() {
                     renderItem={() => {
                         return (
                             <Col>
-                                <GradientText style={{marginBottom: 32}} textStyle={[styles.title]}
+                                <GradientText style={{marginBottom: 32}} textStyle={styles.title}
                                               text={"Registration"} gradientColors={gradient.getColor()}/>
                                 <Controller
                                     control={control}
@@ -245,8 +245,8 @@ const styles = StyleSheet.create({
     },
     title: {
         ...textStyle["30_bold_5%"],
-        color: primary.getColor("500"),
-        textAlign: "center"
+        textAlign: "center",
+        flexWrap: "wrap"
     },
     itemSelected: {
         fontSize: 28
