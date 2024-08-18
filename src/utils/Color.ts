@@ -6,6 +6,7 @@
  * User: lam-nguyen
  **/
 import {CodeColor} from "./CodeColor";
+import {ColorValue} from "react-native/Libraries/StyleSheet/StyleSheet";
 
 type NameGroupColorItem = "50" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 
@@ -15,15 +16,15 @@ type GroupColorItem = {
 }
 
 class ColorFactory {
-    public static createSingleColor(color: string): SingleColor {
+    public static createSingleColor(color: ColorValue): SingleColor {
         return SingleColor.create(color);
     }
 
-    public static createGroupColor(color: string): GroupColor {
+    public static createGroupColor(color: ColorValue): GroupColor {
         return GroupColor.create(color);
     }
 
-    public static createGradientColor(...colors: string[]): GradientColor {
+    public static createGradientColor(...colors: ColorValue[]): GradientColor {
         return GradientColor.create(colors);
     }
 }
@@ -31,11 +32,11 @@ class ColorFactory {
 class GradientColor {
     private codeColors: CodeColor[];
 
-    private constructor(codeColors: string[]) {
+    private constructor(codeColors: ColorValue[]) {
         this.codeColors = codeColors.map(color => CodeColor.create(color));
     }
 
-    public static create(color: string[]): GradientColor {
+    public static create(color: ColorValue[]): GradientColor {
         return new GradientColor(color);
     }
 
@@ -50,11 +51,11 @@ class GradientColor {
 class SingleColor {
     private codeColor: CodeColor;
 
-    private constructor(codeColor: string) {
+    private constructor(codeColor: ColorValue) {
         this.codeColor = CodeColor.create(codeColor);
     }
 
-    public static create(color: string): SingleColor {
+    public static create(color: ColorValue): SingleColor {
         return new SingleColor(color);
     }
 
@@ -67,12 +68,12 @@ class GroupColor {
     private codeColor: CodeColor;
     private groupColor: GroupColorItem[];
 
-    private constructor(codeColor: string) {
+    private constructor(codeColor: ColorValue) {
         this.codeColor = CodeColor.create(codeColor);
         this.groupColor = [] as GroupColorItem[];
     }
 
-    public static create(color: string): GroupColor {
+    public static create(color: ColorValue): GroupColor {
         return new GroupColor(color);
     }
 

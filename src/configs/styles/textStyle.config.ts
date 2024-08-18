@@ -50,7 +50,7 @@ const textStyle: Record<NameTextStyle, TextStyle> = {
     },
     "16_semibold": {
         fontSize: 16,
-        fontWeight: "semibold",
+        fontWeight: "bold",
         fontFamily: "Roboto",
     },
     "18_light": {
@@ -60,7 +60,7 @@ const textStyle: Record<NameTextStyle, TextStyle> = {
     },
     "18_semibold": {
         fontSize: 18,
-        fontWeight: "semibold",
+        fontWeight: "bold",
         fontFamily: "Roboto",
     },
     "18_regular": {
@@ -75,12 +75,12 @@ const textStyle: Record<NameTextStyle, TextStyle> = {
     },
     "22_semibold": {
         fontSize: 22,
-        fontWeight: "semibold",
+        fontWeight: "bold",
         fontFamily: "Roboto",
     },
     "22_semibold_5%": {
         fontSize: 22,
-        fontWeight: "semibold",
+        fontWeight: "bold",
         letterSpacing: 1.05,
         fontFamily: "Roboto",
     },
@@ -92,7 +92,7 @@ const textStyle: Record<NameTextStyle, TextStyle> = {
     },
     "40_semibold": {
         fontSize: 40,
-        fontWeight: "semibold",
+        fontWeight: "bold",
         fontFamily: "Roboto",
     },
 }

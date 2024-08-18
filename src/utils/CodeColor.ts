@@ -1,23 +1,24 @@
 import hexRgb from "hex-rgb";
+import {ColorValue} from "react-native/Libraries/StyleSheet/StyleSheet";
 
 export class CodeColor {
-    private codeColor: string;
+    private codeColor: ColorValue;
 
-    private constructor(codeColor: string) {
+    private constructor(codeColor: ColorValue) {
         this.codeColor = codeColor;
     }
 
-    public static create(codeColor: string): CodeColor {
+    public static create(codeColor: ColorValue): CodeColor {
         return new CodeColor(codeColor);
     }
 
     public getCodeColor(alpha?: number): string {
         if (!alpha)
-            return this.codeColor;
+            return this.codeColor.toString();
 
 
-        if (this.codeColor.startsWith("#")) {
-            let code = hexRgb(this.codeColor, {
+        if (this.codeColor.toString().startsWith("#")) {
+            let code = hexRgb(this.codeColor.toString(), {
                 alpha: alpha,
                 format: "object"
             });
@@ -26,10 +27,10 @@ export class CodeColor {
         }
 
 
-        if (this.codeColor.split(",").length === 4)
-            return this.codeColor.substring(0, this.codeColor.lastIndexOf(",")) + alpha + ")";
+        if (this.codeColor.toString().split(",").length === 4)
+            return this.codeColor.toString().substring(0, this.codeColor.toString().lastIndexOf(",")) + alpha + ")";
 
-        return this.codeColor.substring(0, this.codeColor.length - 1) + alpha + ")";
+        return this.codeColor.toString().substring(0, this.codeColor.toString().length - 1) + alpha + ")";
     }
 
     public setCodeColor(codeColor: string): void {

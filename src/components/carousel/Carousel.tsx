@@ -5,30 +5,32 @@
  * Create at: 8:37 PM - 14/08/2024
  *  User: lam-nguyen
  **/
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {NativeSyntheticEvent, StyleSheet, View} from "react-native";
 import ListDot from "./ListDot";
 import {Double} from "react-native/Libraries/Types/CodegenTypes";
-import CarouselType from "./type/carousel.type";
+import CarouselProps from "./type/carousel.type";
 import PagerView from "react-native-pager-view";
 
 function Carousel<T>
 ({
      data,
-     viewPagerRef,
+     viewPagerRef = useRef<PagerView>(),
      onCurrentPage,
      renderItem,
-     initialPage,
+     initialPage = 0,
      showDot = true,
      colorDot,
      colorDotActive,
      sizeDot,
-     sizeDotActive
- }: CarouselType<T>) {
+     sizeDotActive,
+     positionListDot = {
+         position: "center",
+         side: "bottom",
+     },
+ }: CarouselProps<T>) {
     const sizeDotDefault = sizeDot ?? 10;
     const sizeDotActiveDefault = sizeDotActive ?? 30;
-    const initialPageDefault = initialPage ?? 0;
-    const [currentPageViewPager,] = useState(initialPageDefault);
     const listDotSizes = data.map(() => useState(sizeDotDefault));
     const listStatus = data.map(() => useState(false));
 
@@ -41,12 +43,13 @@ function Carousel<T>
     }
 
     useEffect(() => {
-        listStatus[initialPageDefault][1](true);
-        listDotSizes[initialPageDefault][1](sizeDotActiveDefault);
+        listStatus[initialPage][1](true);
+        listDotSizes[initialPage][1](sizeDotActiveDefault);
     }, [])
 
     const onPageScroll = (event: NativeSyntheticEvent<Readonly<{ position: Double, offset: Double }>>) => {
         const {offset, position} = event.nativeEvent;
+        onCurrentPage(position); //for set scroll page
         if (position === data.length - 1) return;
         const [, setSizeNextDot] = listDotSizes[position + 1];
         const [, setSizePrevDot] = listDotSizes[position];
@@ -60,31 +63,37 @@ function Carousel<T>
 
     return (
         <View style={style.container}>
-            <PagerView
-                style={[style.container]}
-                ref={viewPager => {
-                    if (!viewPager) return;
-                    viewPagerRef.current = viewPager;
-                }}
-                onPageSelected={event => {
-                    const {position} = event.nativeEvent;
-                    onCurrentPage(position);
-                }}
-                onPageScroll={onPageScroll}
-                onResponderEnd={() => {
-                    onCurrentPage(currentPageViewPager + 1);
-                }}
-            >
-                {renderViewPagerItem()}
-            </PagerView>
             {
-                showDot && <ListDot<T>
+                (showDot && positionListDot?.side === "top") && <ListDot<T>
                     data={data}
                     dotSizes={listDotSizes.map(([size,]) => size)}
                     dotStatuses={listStatus.map(([status,]) => status)}
                     colorDot={colorDot}
                     colorDotActive={colorDotActive}
                     sizeDotDefault={sizeDotDefault}
+                    position={positionListDot?.position}
+                />
+            }
+            <PagerView
+                style={[style.container]}
+                ref={viewPager => {
+                    if (!viewPager) return;
+                    viewPagerRef.current = viewPager;
+                }}
+                initialPage={initialPage}
+                onPageScroll={onPageScroll}
+            >
+                {renderViewPagerItem()}
+            </PagerView>
+            {
+                (showDot && positionListDot?.side === "bottom") && <ListDot<T>
+                    data={data}
+                    dotSizes={listDotSizes.map(([size,]) => size)}
+                    dotStatuses={listStatus.map(([status,]) => status)}
+                    colorDot={colorDot}
+                    colorDotActive={colorDotActive}
+                    sizeDotDefault={sizeDotDefault}
+                    position={positionListDot?.position}
                 />
             }
         </View>
