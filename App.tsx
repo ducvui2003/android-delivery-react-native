@@ -57,12 +57,12 @@ function Root() {
             }}>
                 <RootStack.Screen name={"MainScreen"}
                                   component={MainScreen}/>
-                <RootStack.Screen name={"LoadingScreen"}
-                                  component={LoadingScreen}/>
-                <RootStack.Screen name={"WelcomeScreen"}
-                                  component={WelcomeScreen}/>
-                <RootStack.Screen name={"IntroduceScreen"}
-                                  component={IntroduceScreen}/>
+                {/*<RootStack.Screen name={"LoadingScreen"}*/}
+                {/*                  component={LoadingScreen}/>*/}
+                {/*<RootStack.Screen name={"WelcomeScreen"}*/}
+                {/*                  component={WelcomeScreen}/>*/}
+                {/*<RootStack.Screen name={"IntroduceScreen"}*/}
+                {/*                  component={IntroduceScreen}/>*/}
             </RootStack.Navigator>
         </NavigationContainer>
     );
