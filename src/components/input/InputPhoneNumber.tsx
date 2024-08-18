@@ -6,11 +6,11 @@
  * User: lam-nguyen
  **/
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Selector from "../selector/Selector";
 import CountryPhoneNumberType from "../../types/countryPhoneNumber.type";
 import countries from "../../../assets/data/dialCodes/countries";
-import {StyleSheet, Text, TextInput} from "react-native";
+import {StyleSheet, Text} from "react-native";
 import {Icon} from "@rneui/base";
 import CountryPhoneNumberItem from "../countryPhoneNumber/CountryPhoneNumberItem";
 import Row from "../custom/Row";
@@ -18,9 +18,8 @@ import {RootState} from "../../configs/redux/store.config";
 import {useSelector} from "react-redux";
 import textStyle from "../../configs/styles/textStyle.config";
 import InputPhoneNumberProps from "./type/InputPhoneNumberProps";
-import InputStyles from "./style/input.styles";
 import InputIcon from "./InputIcon";
-
+import {PhoneNumberUtil} from "google-libphonenumber";
 
 function InputPhoneNumber
 ({
@@ -29,11 +28,31 @@ function InputPhoneNumber
      onBlur,
      onFocus,
      onChange,
-     useStateShowed = useState(false)
+     useStateShowed = useState(false),
+     onCountryPhoneNumberTypeSelected,
+     onValidation,
+     borderColor
  }: InputPhoneNumberProps) {
     const theme = useSelector((state: RootState) => state.themeState.theme);
     const [isShow, setIsShow] = useStateShowed;
     const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>(countries[0]);
+    const phoneUtil = PhoneNumberUtil.getInstance();
+    const [phoneNumberFormat, setPhoneNumberFormat] = useState<string>("");
+
+    useEffect(() => {
+        onCountryPhoneNumberTypeSelected && onCountryPhoneNumberTypeSelected(countryPhoneNumber);
+        validationPhoneNumber(phoneNumberFormat);
+    }, [countryPhoneNumber])
+
+    const validationPhoneNumber = (phoneNumber: string) => {
+        if (!onValidation) return;
+
+        if (phoneNumber.length <= 9 || phoneNumber.length >= 15) {
+            onValidation(false);
+        } else {
+            onValidation(phoneUtil.isValidNumber(phoneUtil.parse(phoneNumber, countryPhoneNumber.code)));
+        }
+    }
 
     return (
         <InputIcon
@@ -41,7 +60,12 @@ function InputPhoneNumber
             value={value}
             onBlur={onBlur}
             onFocus={onFocus}
-            onChange={onChange}
+            borderColor={borderColor}
+            onChange={e => {
+                setPhoneNumberFormat(e.nativeEvent.text)
+                onChange && onChange(e);
+                validationPhoneNumber(e.nativeEvent.text);
+            }}
             keyboardType={"phone-pad"}
             side={"left"}
             icon={

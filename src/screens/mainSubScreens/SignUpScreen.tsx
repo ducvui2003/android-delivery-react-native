@@ -34,25 +34,17 @@ import {FlatList} from "react-native-gesture-handler";
 import {Controller, useForm} from "react-hook-form";
 import InputPhoneNumber from "../../components/input/InputPhoneNumber";
 import GradientText from "../../components/grandientText/GradientText";
+import RegisterFormType from "../../types/registerForm.type";
 
-type RegisterForm = {
-    phoneNumber: string,
-    email: string,
-    fullName: string
-}
 
 function SignUpScreen() {
     const theme = useSelector((state: RootState) => state.themeState.theme);
     const [isShow, setIsShow] = useState(false);
     const [isFocusInput, setIsFocusInput] = useState(false);
     const sizeIcon = 25;
-    const {
-        control,
-        handleSubmit,
-        formState: {isValid}
-    } = useForm<RegisterForm>({mode: "all"})
+    const {control, setError, handleSubmit, formState: {isValid}} = useForm<RegisterFormType>({mode: "all"})
 
-    const onSubmit = (data: RegisterForm) => {
+    const onSubmit = (data: RegisterFormType) => {
         console.log(data);
         if (!isValid) return;
     };
@@ -97,24 +89,34 @@ function SignUpScreen() {
                                     name={"phoneNumber"}
                                     rules={{
                                         required: "Phone number is required",
+                                        minLength: {
+                                            value: 9,
+                                            message: "Phone number is too short"
+                                        },
+                                        validate: undefined
                                     }}
                                     render={({
                                                  field: {onChange, value},
                                                  fieldState: {error},
                                              }) => {
                                         return (
-                                            <Col>
+                                            <Col style={{zIndex: 2}}>
                                                 <InputPhoneNumber
                                                     useStateShowed={[isShow, setIsShow]}
                                                     placeholder={"00 000 000"}
                                                     value={value}
+                                                    borderColor={error ? "red" : undefined}
                                                     onBlur={onBlurInput}
+                                                    onValidation={(isValid) => {
+                                                        if (isValid) return;
+                                                        setError("phoneNumber", {type: "validate", message: "Invalid phone number"})
+                                                    }}
                                                     onFocus={onFocusInput}
                                                     onChange={(element) => {
                                                         onChange(element.nativeEvent.text);
                                                     }}
                                                 />
-                                                {error && <Text style={{color: "red"}}>{error.message}</Text>}
+                                                {error && <Text style={{color: "red", zIndex: -1}}>{error.message}</Text>}
                                             </Col>
                                         )
                                     }}
@@ -140,6 +142,7 @@ function SignUpScreen() {
                                                         style={{marginRight: 12}}
                                                         color={neutral.getColor("100")}/>}
                                                     placeholder={"Email"}
+                                                    borderColor={error ? "red" : undefined}
                                                     value={value}
                                                     onBlur={onBlurInput}
                                                     onFocus={onFocusInput}
@@ -170,6 +173,7 @@ function SignUpScreen() {
                                                         color={neutral.getColor("100")}/>}
                                                     placeholder={"Full Name"}
                                                     value={value}
+                                                    borderColor={error ? "red" : undefined}
                                                     onBlur={onBlurInput}
                                                     onFocus={onFocusInput}
                                                     onChange={(element) => {

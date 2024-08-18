@@ -32,6 +32,7 @@
     "expo-secure-store": "~13.0.2",
     "expo-status-bar": "~1.12.1",
     "expo-updates": "~0.25.21",
+    "google-libphonenumber": "^3.2.38",
     "hex-rgb": "^5.0.0",
     "immutable": "^4.3.7",
     "react": "18.2.0",
@@ -52,6 +53,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/google-libphonenumber": "^7.4.30",
     "@types/react": "~18.2.45",
     "typescript": "^5.5.4"
   },

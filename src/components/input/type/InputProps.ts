@@ -8,6 +8,7 @@
 import {KeyboardTypeOptions, NativeSyntheticEvent, TextInputChangeEventData} from "react-native";
 import {UseFormReturn} from "react-hook-form";
 import {RegisterOptions} from "react-hook-form/dist/types/validator";
+import {ColorValue} from "react-native/Libraries/StyleSheet/StyleSheet";
 
 type InputProps = {
     placeholder?: string;
@@ -16,6 +17,7 @@ type InputProps = {
     onChange?: ((element: NativeSyntheticEvent<TextInputChangeEventData>) => void) | undefined;
     onBlur?: () => void;
     onFocus?: () => void;
+    borderColor?: ColorValue
 }
 
 export default InputProps;

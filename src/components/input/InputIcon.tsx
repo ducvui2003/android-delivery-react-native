@@ -23,7 +23,8 @@ function InputIcon
      value,
      keyboardType,
      icon,
-     side = "left"
+     side = "left",
+     borderColor
  }: InputIconProps) {
     const theme = useSelector((state: RootState) => state.themeState.theme);
 
@@ -33,7 +34,8 @@ function InputIcon
             {
                 backgroundColor: theme.background_input.getColor(),
                 borderColor: theme.border.getColor(),
-            }
+            },
+            {borderColor: borderColor}
         ]}>
             {side === "left" && icon}
             <TextInput style={[InputStyles.input, {color: theme.text_3.getColor()}]}

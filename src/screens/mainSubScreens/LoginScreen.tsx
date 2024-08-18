@@ -30,21 +30,14 @@ import InputPhoneNumber from "../../components/input/InputPhoneNumber";
 import {FlatList} from "react-native-gesture-handler";
 import {Controller, useForm} from "react-hook-form";
 import GradientText from "../../components/grandientText/GradientText";
-
-type LoginForm = {
-    phoneNumber: string
-}
+import LoginFormType from "../../types/loginForm.type";
 
 function LoginScreen() {
     const [checked, setChecked] = React.useState(false);
     const [isShow, setIsShow] = React.useState(false);
     const [isFocusInput, setIsFocusInput] = React.useState(false);
     const theme = useSelector((state: RootState) => state.themeState.theme);
-    const {
-        control,
-        handleSubmit,
-        formState: {isValid}
-    } = useForm<LoginForm>({mode: "all"})
+    const {control, setError, handleSubmit, formState: {isValid}} = useForm<LoginFormType>({mode: "all"})
 
     const onFocusInput = () => {
         setIsFocusInput(true);
@@ -61,7 +54,7 @@ function LoginScreen() {
         Keyboard.dismiss();
     }
 
-    const onSubmit = (data: LoginForm) => {
+    const onSubmit = (data: LoginFormType) => {
         console.log(data)
         if (!isValid) return;
     }
@@ -91,24 +84,32 @@ function LoginScreen() {
                                     name={"phoneNumber"}
                                     rules={{
                                         required: "Phone number is required",
+                                        minLength: {
+                                            value: 9,
+                                            message: "Phone number is too short"
+                                        },
+                                        validate: undefined
                                     }}
-                                    render={({
-                                                 field: {onChange, value},
-                                                 fieldState: {error},
-                                             }) => {
+                                    render={({field: {onChange, value}, fieldState: {error},}) => {
                                         return (
                                             <Col>
                                                 <InputPhoneNumber
                                                     useStateShowed={[isShow, setIsShow]}
                                                     placeholder={"00 000 000"}
                                                     value={value}
+                                                    borderColor={error ? "red" : undefined}
+                                                    onValidation={(isValid) => {
+                                                        if (isValid) return;
+                                                        setError("phoneNumber", {type: "validate", message: "Invalid phone number"})
+                                                    }}
                                                     onBlur={onBlurInput}
                                                     onFocus={onFocusInput}
                                                     onChange={(element) => {
                                                         onChange(element.nativeEvent.text);
                                                     }}
                                                 />
-                                                {error && <Text style={{color: "red"}}>{error.message}</Text>}
+                                                {error &&
+                                                    <Text style={{color: "red", zIndex: -1}}>{error.message}</Text>}
                                             </Col>
                                         )
                                     }}
@@ -126,8 +127,9 @@ function LoginScreen() {
                                         size={24}
                                         containerStyle={{backgroundColor: theme.background.getColor(), padding: 5}}
                                     />
-                                    <Text style={[styles.rememberMeText, {color: theme.text_1.getColor()}]}>Remember
-                                        me</Text>
+                                    <Text style={[styles.rememberMeText, {color: theme.text_1.getColor()}]}>
+                                        Remember me
+                                    </Text>
                                 </Row>
                             </Col>
                         );
