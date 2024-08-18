@@ -7,13 +7,14 @@
  **/
 import {ColorValue} from "react-native/Libraries/StyleSheet/StyleSheet";
 
-type DotType<T> = {
+type DotProps<T> = {
     data: T[],
     dotSizes: number[],
     dotStatuses: boolean[],
     colorDot?: ColorValue | undefined,
     colorDotActive?: ColorValue | undefined,
-    sizeDotDefault?: number
+    sizeDotDefault?: number,
+    position?: "left" | "center" | "right",
 }
 
-export default DotType;
+export default DotProps;

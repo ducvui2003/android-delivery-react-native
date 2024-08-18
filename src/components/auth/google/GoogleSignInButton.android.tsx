@@ -7,19 +7,17 @@
  **/
 
 import * as React from 'react';
-import {TokenResponse, useGoogleLogin} from "@react-oauth/google";
-import {Button, Text, TouchableOpacity, View} from "react-native";
-import axiosInstance, {ApiResponse} from "../../configs/axios/axios.config";
-import {AxiosError, AxiosResponse} from "axios";
-import {
-    GoogleSignin,
-    GoogleSigninButton,
-    isErrorWithCode,
-    statusCodes,
-    User
-} from "@react-native-google-signin/google-signin";
-import {GoogleAuthProps} from "./GoogleAuth";
-import {Authentication} from "../../types/authentication.type";
+import {StyleSheet, TouchableOpacity} from "react-native";
+import axiosInstance, {ApiResponse} from "../../../configs/axios/axios.config";
+import {AxiosError} from "axios";
+import {GoogleSignin, isErrorWithCode, statusCodes, User} from "@react-native-google-signin/google-signin";
+import {Authentication} from "../../../types/authentication.type";
+import ButtonAuthProps from "../type/googleAuth.type";
+import {Avatar} from "@rneui/themed";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../configs/redux/store.config";
+import {borderOthMethodSignIn} from "../../../configs/colors/color-template.config";
+import icon from "../../../../assets/images/icons/google_icon.png";
 
 GoogleSignin.configure({
     scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
@@ -34,13 +32,11 @@ GoogleSignin.configure({
     // profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
 });
 
-export function AndroidGoogleSignInButton({
-                                              loginSuccess,
-                                              errorLogin,
-                                              loginFail,
-                                              logoutSuccess,
-                                              email
-                                          }: GoogleAuthProps) {
+function GoogleSignInButtonAndroid
+({
+     loginSuccess,
+ }: ButtonAuthProps) {
+    const theme = useSelector((state: RootState) => state.themeState.theme);
     const loginServerSide = async (authCode: string) => {
         axiosInstance.post<any, ApiResponse<Authentication>>
         ("/auth/login-google-mobile",
@@ -55,7 +51,6 @@ export function AndroidGoogleSignInButton({
                 console.error(error.code)
             });
     }
-
 
     const signIn = async () => {
         try {
@@ -82,28 +77,27 @@ export function AndroidGoogleSignInButton({
         }
     }
 
-    if (email)
-        return (
-            <View>
-                <Text style={{
-                    fontWeight: "bold",
-                    fontSize: 20,
-                }}>Xin chào {email} !</Text>
-                <Button title={"Sign out"} onPress={async () => {
-                    await GoogleSignin.signOut().then(() => {
-                        logoutSuccess && logoutSuccess();
-                    });
-                }}/>
-            </View>
-        );
-
 
     return (
-        <GoogleSigninButton
-            size={GoogleSigninButton.Size.Wide}
-            color={GoogleSigninButton.Color.Dark}
-            onPress={async () => {
-                await signIn();
-            }}/>
+        <TouchableOpacity onPress={signIn}>
+            <Avatar
+                size={50}
+                rounded
+                source={icon}
+                containerStyle={[styles.icon, {backgroundColor: theme.background.getColor()}]}
+            />
+        </TouchableOpacity>
     );
 }
+
+const styles = StyleSheet.create({
+    icon: {
+        borderColor: borderOthMethodSignIn.getColor(),
+        borderStyle: "solid",
+        borderWidth: 2,
+        padding: 8
+    }
+})
+
+export default GoogleSignInButtonAndroid;
+export const androidGoogleSignOut = () => GoogleSignin.signOut();
