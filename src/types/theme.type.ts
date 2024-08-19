@@ -5,8 +5,7 @@
  * Create at: 2:34 PM - 06/08/2024
  * User: lam-nguyen
  **/
-import { GradientColor, GroupColor, SingleColor } from "../utils/Color";
-import { ColorSchemeName } from "react-native";
+import { SingleColor } from "../utils/Color";
 
 export type NameTheme = "light" | "dark";
 

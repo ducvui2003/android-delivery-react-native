@@ -20,7 +20,10 @@ function GradientTextAndroid({
 	start = { x: 0, y: 0 },
 	end = { x: 1, y: 1 },
 }: GradientProps) {
-	const [size, setSize] = React.useState<{ width: number; height: number }>({ width: 0, height: 0 });
+	const [size, setSize] = React.useState<{ width: number; height: number }>({
+		width: 0,
+		height: 0,
+	});
 
 	return (
 		<View style={[style]}>

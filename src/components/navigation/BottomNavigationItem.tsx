@@ -8,7 +8,6 @@
 
 import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { white } from "../../configs/colors/color-template.config";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import BottomNavigationItemProps from "./type/bottomNavigationItem.type";
 import Col from "../custom/Col";

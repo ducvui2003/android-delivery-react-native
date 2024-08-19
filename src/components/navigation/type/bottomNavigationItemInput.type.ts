@@ -5,7 +5,7 @@
  * Create at: 1:49 PM - 19/08/2024
  * User: lam-nguyen
  **/
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 type BottomNavigationItemInputProps = {
 	icon: ReactNode;

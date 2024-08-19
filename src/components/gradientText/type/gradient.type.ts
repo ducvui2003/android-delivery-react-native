@@ -7,7 +7,6 @@
  **/
 import { StyleProp, TextStyle, ViewStyle } from "react-native";
 import GradientType from "./position.type";
-import { DimensionValue } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 
 type GradientProps = {
 	text: string;
