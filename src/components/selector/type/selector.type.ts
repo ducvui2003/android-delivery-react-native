@@ -6,22 +6,22 @@
  * User: lam-nguyen
  **/
 import React from "react";
-import {DimensionValue} from "react-native/Libraries/StyleSheet/StyleSheetTypes";
-import {ColorValue} from "react-native/Libraries/StyleSheet/StyleSheet";
+import { DimensionValue } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
 
 type SelectorProps<T> = {
-    data: T[];
-    renderItem: (item: T, index: number) => React.JSX.Element;
-    renderItemSelected: (item: T) => React.JSX.Element;
-    renderArrow?: () => React.JSX.Element;
-    onSelected?: (item: T) => void;
-    showBorder?: boolean;
-    height?: DimensionValue;
-    width?: DimensionValue;
-    padding?: number;
-    backgroundColorSelected?: ColorValue;
-    backgroundColorItems?: ColorValue;
-    useStateShowed?: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-}
+	data: T[];
+	renderItem: (item: T, index: number) => React.JSX.Element;
+	renderItemSelected: (item: T) => React.JSX.Element;
+	renderArrow?: () => React.JSX.Element;
+	onSelected?: (item: T) => void;
+	showBorder?: boolean;
+	height?: DimensionValue;
+	width?: DimensionValue;
+	padding?: number;
+	backgroundColorSelected?: ColorValue;
+	backgroundColorItems?: ColorValue;
+	useStateShowed?: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+};
 
 export default SelectorProps;

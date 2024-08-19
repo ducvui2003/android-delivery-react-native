@@ -7,11 +7,11 @@
  **/
 
 type ButtonAuthProps = {
-    loginSuccess?: (email: string) => void; //để tạm
-    errorLogin?: () => void;
-    loginFail?: () => void;
-    logoutSuccess?: () => void;
-    email?: string | undefined; //để tạm
+	loginSuccess?: (email: string) => void; //để tạm
+	errorLogin?: () => void;
+	loginFail?: () => void;
+	logoutSuccess?: () => void;
+	email?: string | undefined; //để tạm
 };
 
 export default ButtonAuthProps;
