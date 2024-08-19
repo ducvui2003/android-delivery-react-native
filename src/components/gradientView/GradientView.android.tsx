@@ -6,28 +6,22 @@
  *  User: lam-nguyen
  **/
 
-import React from 'react';
+import React from "react";
 import GradientProps from "./type/gradient.type";
-import {LinearGradient} from "expo-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";
 
-function GradientViewAndroid
-({
-     style,
-     gradientColors,
-     start = {x: 0, y: 0},
-     end = {x: 1, y: 1},
-     children
- }: GradientProps) {
-    return (
-        <LinearGradient
-            colors={gradientColors}
-            start={start}
-            end={end}
-            style={style}
-        >
-            {children}
-        </LinearGradient>
-    );
+function GradientViewAndroid({
+	style,
+	gradientColors,
+	start = { x: 0, y: 0 },
+	end = { x: 1, y: 1 },
+	children,
+}: GradientProps) {
+	return (
+		<LinearGradient colors={gradientColors} start={start} end={end} style={style}>
+			{children}
+		</LinearGradient>
+	);
 }
 
 export default GradientViewAndroid;

@@ -122,7 +122,7 @@ function IntroduceScreen() {
 				data={data}
 				viewPagerRef={viewPagerRef}
 				renderItem={(item, index) => {
-					return <FragmentIntroduceItem key={index} {...item} />;
+					return <IntroduceItemFragment key={index} {...item} />;
 				}}
 				onCurrentPage={setCurrentPageViewPager}
 			/>

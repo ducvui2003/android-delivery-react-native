@@ -5,14 +5,14 @@
  * Create at: 1:49 PM - 19/08/2024
  * User: lam-nguyen
  **/
-import React, {ReactNode} from "react";
+import React, { ReactNode } from "react";
 
 type BottomNavigationItemInputProps = {
-    icon: ReactNode;
-    iconActive: ReactNode;
-    title: string;
-    onPress?: () => void;
-    onDisabled?: (index: number) => void;
-}
+	icon: ReactNode;
+	iconActive: ReactNode;
+	title: string;
+	onPress?: () => void;
+	onDisabled?: (index: number) => void;
+};
 
 export default BottomNavigationItemInputProps;

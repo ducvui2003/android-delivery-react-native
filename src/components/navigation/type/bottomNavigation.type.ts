@@ -6,28 +6,28 @@
  * User: lam-nguyen
  **/
 import BottomNavigationItemInputProps from "./bottomNavigationItemInput.type";
-import {BottomNavigationItem} from "./bottomNavigationItem.type";
-import {DimensionValue} from "react-native/Libraries/StyleSheet/StyleSheetTypes";
-import {ColorValue} from "react-native/Libraries/StyleSheet/StyleSheet";
+import { BottomNavigationItem } from "./bottomNavigationItem.type";
+import { DimensionValue } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
 
 type BottomNavigationProps = BottomNavigationItem & {
-    items: BottomNavigationItemInputProps[];
-    backgroundColor?: string;
-    position?: 'relative' | 'static' | undefined;
-    top?: DimensionValue | undefined;
-    bottom?: DimensionValue | undefined;
-    right?: DimensionValue | undefined;
-    left?: DimensionValue | undefined;
-    zIndex?: number | undefined;
-    marginHorizontal?: DimensionValue | undefined;
-    initialItem?: number | undefined;
-    boxShadow?: {
-        shadowColor: ColorValue,
-        shadowOffset: {width: number, height: number},
-        shadowOpacity: number,
-        shadowRadius: number,
-        elevation: number,
-    },
+	items: BottomNavigationItemInputProps[];
+	backgroundColor?: string;
+	position?: "relative" | "static" | undefined;
+	top?: DimensionValue | undefined;
+	bottom?: DimensionValue | undefined;
+	right?: DimensionValue | undefined;
+	left?: DimensionValue | undefined;
+	zIndex?: number | undefined;
+	marginHorizontal?: DimensionValue | undefined;
+	initialItem?: number | undefined;
+	boxShadow?: {
+		shadowColor: ColorValue;
+		shadowOffset: { width: number; height: number };
+		shadowOpacity: number;
+		shadowRadius: number;
+		elevation: number;
+	};
 };
 
-export default BottomNavigationProps
+export default BottomNavigationProps;
