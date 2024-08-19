@@ -5,6 +5,12 @@
     "strict": true,
     "types": [
       "node"
+    ],
+    "moduleSuffixes": [
+      ".ios",
+      ".android",
+      ".native",
+      ""
     ]
   },
   "include": [

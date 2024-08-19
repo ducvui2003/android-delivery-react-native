@@ -6,7 +6,13 @@
     "start": "expo start",
     "android": "expo run:android --port 8088",
     "ios": "expo run:ios --port 8089",
-    "web": "expo start --web  --port 8090"
+    "web": "expo start --web  --port 8090",
+    "prettier:fix": "prettier --write .",
+    "prettier:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "@expo/env": "^0.3.0",
@@ -55,6 +61,16 @@
     "@babel/core": "^7.20.0",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/react": "~18.2.45",
+    "@typescript-eslint/eslint-plugin": "^8.1.0",
+    "@typescript-eslint/parser": "^8.1.0",
+    "@typescript-eslint/utils": "^8.1.0",
+    "eslint": "^8.57.0",
+    "eslint-config-expo": "^7.1.2",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.9",
+    "prettier": "^3.3.3",
     "typescript": "^5.5.4"
   },
   "private": true

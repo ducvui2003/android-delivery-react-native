@@ -7,7 +7,7 @@
  **/
 
 export type FragmentIntroduceType = {
-    source: {}
-    title: string;
-    content: string;
-}
+	source: {};
+	title: string;
+	content: string;
+};

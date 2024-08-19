@@ -1,0 +1,11 @@
+# Ignore everything
+/*
+
+# Un-ignore the src folder
+!src/
+
+# Un-ignore the assets/images/icons folder and its contents
+!assets/
+!assets/images/
+!assets/images/icons/
+!assets/images/icons/**.{.tsx, .ts}

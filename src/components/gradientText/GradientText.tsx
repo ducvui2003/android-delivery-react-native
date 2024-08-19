@@ -14,21 +14,16 @@
  * User: lam-nguyen
  **/
 
-
-import React from 'react';
-import {Platform} from 'react-native';
+import React from "react";
+import { Platform } from "react-native";
 import GradientProps from "./type/gradient.type";
 
 let LinearGradient: React.ComponentType<GradientProps>;
-if (Platform.OS === "android" || Platform.OS === "ios")
-    LinearGradient = require('./GradientText.android').default;
-else if (Platform.OS === "web")
-    LinearGradient = require('./GradientText.web').default;
+if (Platform.OS === "android" || Platform.OS === "ios") LinearGradient = require("./GradientText.android").default;
+else if (Platform.OS === "web") LinearGradient = require("./GradientText.web").default;
 
 function GradientText(props: GradientProps) {
-    return (
-        <LinearGradient {...props}/>
-    );
+	return <LinearGradient {...props} />;
 }
 
 export default GradientText;

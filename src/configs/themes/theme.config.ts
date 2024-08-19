@@ -5,15 +5,13 @@
  * Create at: 3:07 PM - 06/08/2024
  * User: lam-nguyen
  **/
-import {NameTheme, ThemeType} from "../../types/theme.type";
+import { NameTheme, ThemeType } from "../../types/theme.type";
 import lightTheme from "./LightTheme";
 import darkTheme from "./DarkTheme";
 
-
 const themes: Record<NameTheme, ThemeType> = {
-    dark: darkTheme,
-    light: lightTheme,
-}
+	dark: darkTheme,
+	light: lightTheme,
+};
 
 export default themes;
-
