@@ -10,12 +10,7 @@ import * as React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import axiosInstance, { ApiResponse } from "../../../configs/axios/axios.config";
 import { AxiosError } from "axios";
-import {
-	GoogleSignin,
-	isErrorWithCode,
-	statusCodes,
-	User,
-} from "@react-native-google-signin/google-signin";
+import { GoogleSignin, isErrorWithCode, statusCodes, User } from "@react-native-google-signin/google-signin";
 import { Authentication } from "../../../types/authentication.type";
 import ButtonAuthProps from "../type/googleAuth.type";
 import { Avatar } from "@rneui/themed";

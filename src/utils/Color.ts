@@ -8,17 +8,7 @@
 import { CodeColor } from "./CodeColor";
 import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
 
-type NameGroupColorItem =
-	| "50"
-	| "100"
-	| "200"
-	| "300"
-	| "400"
-	| "500"
-	| "600"
-	| "700"
-	| "800"
-	| "900";
+type NameGroupColorItem = "50" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 
 type GroupColorItem = {
 	name: NameGroupColorItem;
@@ -51,12 +41,9 @@ class GradientColor {
 	}
 
 	public getColor(alpha?: number | number[]): string[] {
-		if (typeof alpha === "number")
-			return this.codeColors.map(color => color.getCodeColor(alpha));
+		if (typeof alpha === "number") return this.codeColors.map(color => color.getCodeColor(alpha));
 
-		return this.codeColors.map((color, index) =>
-			color.getCodeColor(alpha ? alpha[index] : undefined)
-		);
+		return this.codeColors.map((color, index) => color.getCodeColor(alpha ? alpha[index] : undefined));
 	}
 }
 

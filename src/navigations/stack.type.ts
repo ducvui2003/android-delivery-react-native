@@ -18,3 +18,8 @@ export type LoginScreenStackParamList = {
 	LoginFacebookFragment: undefined;
 	LoginGoogleFragment: undefined;
 };
+
+export type HomeScreenStackParamList = {
+	HomeScreen: undefined;
+	ProductsScreen: undefined;
+};

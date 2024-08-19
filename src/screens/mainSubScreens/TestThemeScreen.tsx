@@ -26,9 +26,7 @@ function TestThemeScreen() {
 				},
 			]}
 		>
-			<Text style={{ color: theme.text_3.getColor() }}>
-				Chào mừng bạn đến với chức năng đổi theme
-			</Text>
+			<Text style={{ color: theme.text_3.getColor() }}>Chào mừng bạn đến với chức năng đổi theme</Text>
 			<View
 				style={{
 					flexDirection: "column",

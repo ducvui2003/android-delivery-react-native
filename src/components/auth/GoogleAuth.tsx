@@ -21,20 +21,8 @@ if (Platform.OS === "android") {
 const GoogleAuth = ({ loginSuccess, logoutSuccess, email }: ButtonAuthProps) => {
 	const renderComponent: Record<typeof Platform.OS, React.JSX.Element> = {
 		ios: <Text>Sign in with Google</Text>,
-		web: (
-			<GoogleSignInButton
-				email={email}
-				loginSuccess={loginSuccess}
-				logoutSuccess={logoutSuccess}
-			/>
-		),
-		android: (
-			<GoogleSignInButton
-				email={email}
-				loginSuccess={loginSuccess}
-				logoutSuccess={logoutSuccess}
-			/>
-		),
+		web: <GoogleSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess} />,
+		android: <GoogleSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess} />,
 		macos: <Text>Sign in with Google</Text>,
 		windows: <Text>Sign in with Google</Text>,
 	};

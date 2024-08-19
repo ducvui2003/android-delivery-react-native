@@ -9,4 +9,6 @@ import { Product } from "../../../../types/product.type";
 
 export type ProductHomeCardType = {
 	product: Product;
+	onPress?: () => void;
+	onPressHeart?: () => void;
 };

@@ -22,12 +22,7 @@ function GradientIconSvgAndroid({
 }: GradientProps) {
 	return (
 		<MaskedView style={style} maskElement={icon}>
-			<LinearGradient
-				colors={gradientColors}
-				start={start}
-				end={end}
-				style={{ height: height, width: width }}
-			/>
+			<LinearGradient colors={gradientColors} start={start} end={end} style={{ height: height, width: width }} />
 		</MaskedView>
 	);
 }

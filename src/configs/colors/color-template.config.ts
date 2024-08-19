@@ -8,10 +8,7 @@
 import ColorFactory from "../../utils/Color";
 
 const gradient = ColorFactory.createGradientColor("#FF6347", "#FF826C");
-const gradientBorder = ColorFactory.createGradientColor(
-	"rgb(255, 255, 255, 5%)",
-	"rgb(255, 255, 255, 60%)"
-);
+const gradientBorder = ColorFactory.createGradientColor("rgb(255, 255, 255, 5%)", "rgb(255, 255, 255, 60%)");
 const blackBottomSheet = ColorFactory.createSingleColor("#1F2A37");
 const blackPopUp = ColorFactory.createSingleColor("#1F2A37");
 const gradient2 = ColorFactory.createGradientColor("#FDDEA7", "#FAB53C");

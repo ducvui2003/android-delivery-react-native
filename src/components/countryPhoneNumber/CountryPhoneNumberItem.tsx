@@ -24,9 +24,7 @@ function CountryPhoneNumberItem({ data }: { data: CountryPhoneNumberType }) {
 			}}
 		>
 			<Text style={[styles.flag]}>{data.flag}</Text>
-			<Text style={[styles.dialCode, { color: theme.text_3.getColor() }]}>
-				({data.dial_code})
-			</Text>
+			<Text style={[styles.dialCode, { color: theme.text_3.getColor() }]}>({data.dial_code})</Text>
 		</View>
 	);
 }

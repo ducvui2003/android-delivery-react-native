@@ -40,7 +40,7 @@ function HomeScreen() {
 					renderItem={(item, index) => {
 						return (
 							<View style={{ borderRadius: 12, overflow: "hidden" }}>
-								<Image key={index} style={styles.banner} source={item} />
+								<Image resizeMode="cover" key={index} style={styles.banner} source={item} />
 							</View>
 						);
 					}}
@@ -48,21 +48,14 @@ function HomeScreen() {
 						position: "left",
 						side: "bottom",
 					}}
+					marginListDot={10}
 					onCurrentPage={currentPage => setCurrentPageViewPager(currentPage)}
 				/>
 			</View>
 
 			<InputSearch
-				iconLeft={
-					<SolarMagniferOutline width={25} height={25} color={neutral.getColor("100")} />
-				}
-				iconRight={
-					<RivetIconsFilter
-						width={25}
-						height={25}
-						color={theme.home.search.icon.getColor()}
-					/>
-				}
+				iconLeft={<SolarMagniferOutline width={25} height={25} color={neutral.getColor("100")} />}
+				iconRight={<RivetIconsFilter width={25} height={25} color={theme.home.search.icon.getColor()} />}
 				placeholder="Vui lòng nhập tên sản phẩm"
 			/>
 
@@ -71,7 +64,9 @@ function HomeScreen() {
 					col={4}
 					data={categories}
 					gapRow={24}
-					renderItem={(item, index) => <CategoryItem key={index} item={item} />}
+					renderItem={(item, index) => (
+						<CategoryItem key={index} item={item} onPress={() => console.log(item)} />
+					)}
 				/>
 			</View>
 			<HomeProductsFragment />
@@ -98,13 +93,13 @@ const makeStyled = (theme: ThemeType) =>
 			paddingVertical: 20,
 		},
 		bannerContainer: {
-			marginTop: 24,
-			marginBottom: 8,
+			marginVertical: 24,
 			height: 220,
 		},
 		banner: {
 			width: Dimensions.get("window").width + 10,
 			marginHorizontal: -10,
+			height: "100%",
 		},
 		categoryGridContainer: {
 			marginTop: 24,

@@ -21,6 +21,7 @@ type CarouselProps<T> = {
 	colorDot?: ColorValue | undefined;
 	colorDotActive?: ColorValue | undefined;
 	positionListDot?: Position;
+	marginListDot?: number;
 };
 
 type Position = {

@@ -34,9 +34,7 @@ function InputPhoneNumber({
 }: InputPhoneNumberProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [isShow, setIsShow] = useStateShowed;
-	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>(
-		countries[0]
-	);
+	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>(countries[0]);
 	const phoneUtil = PhoneNumberUtil.getInstance();
 	const [phoneNumberFormat, setPhoneNumberFormat] = useState<string>("");
 
@@ -51,9 +49,7 @@ function InputPhoneNumber({
 		if (phoneNumber.length <= 9 || phoneNumber.length >= 15) {
 			onValidation(false);
 		} else {
-			onValidation(
-				phoneUtil.isValidNumber(phoneUtil.parse(phoneNumber, countryPhoneNumber.code))
-			);
+			onValidation(phoneUtil.isValidNumber(phoneUtil.parse(phoneNumber, countryPhoneNumber.code)));
 		}
 	};
 

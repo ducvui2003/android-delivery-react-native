@@ -19,10 +19,7 @@ function FacebookSignInButtonWeb({}: ButtonAuthProps) {
 
 	return (
 		<TouchableOpacity style={[styles.container]}>
-			<Image
-				source={icon}
-				style={[styles.icon, { backgroundColor: theme.background.getColor() }]}
-			/>
+			<Image source={icon} style={[styles.icon, { backgroundColor: theme.background.getColor() }]} />
 		</TouchableOpacity>
 	);
 }

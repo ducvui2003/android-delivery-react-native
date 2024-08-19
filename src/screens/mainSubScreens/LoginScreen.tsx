@@ -20,13 +20,7 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import textStyle from "../../configs/styles/textStyle.config";
-import {
-	gradient,
-	neutral,
-	otherMethodSignIn,
-	primary,
-	white,
-} from "../../configs/colors/color-template.config";
+import { gradient, neutral, otherMethodSignIn, primary, white } from "../../configs/colors/color-template.config";
 import { CheckBox, Divider } from "@rneui/themed";
 import Row from "../../components/custom/Row";
 import Col from "../../components/custom/Col";
@@ -70,12 +64,9 @@ function LoginScreen() {
 		if (!isValid) return;
 	};
 
-	const button: Record<boolean, ReactNode> = {
+	const button: Record<"true" | "false", ReactNode> = {
 		true: (
-			<TouchableOpacity
-				style={[styles.buttonNotActive, styles.button]}
-				onPress={handleSubmit(onSubmit)}
-			>
+			<TouchableOpacity style={[styles.buttonNotActive, styles.button]} onPress={handleSubmit(onSubmit)}>
 				<Text style={[styles.textButton]}>Register</Text>
 			</TouchableOpacity>
 		),
@@ -112,10 +103,7 @@ function LoginScreen() {
 										},
 										validate: undefined,
 									}}
-									render={({
-										field: { onChange, value },
-										fieldState: { error },
-									}) => {
+									render={({ field: { onChange, value }, fieldState: { error } }) => {
 										return (
 											<Col>
 												<InputPhoneNumber
@@ -137,9 +125,7 @@ function LoginScreen() {
 													}}
 												/>
 												{error && (
-													<Text style={{ color: "red", zIndex: -1 }}>
-														{error.message}
-													</Text>
+													<Text style={{ color: "red", zIndex: -1 }}>{error.message}</Text>
 												)}
 											</Col>
 										);
@@ -161,12 +147,7 @@ function LoginScreen() {
 											padding: 5,
 										}}
 									/>
-									<Text
-										style={[
-											styles.rememberMeText,
-											{ color: theme.text_1.getColor() },
-										]}
-									>
+									<Text style={[styles.rememberMeText, { color: theme.text_1.getColor() }]}>
 										Remember me
 									</Text>
 								</Row>
@@ -201,12 +182,7 @@ function LoginScreen() {
 										<FacebookAuth />
 									</Row>
 									<Row style={[styles.askSignUpContainer]}>
-										<Text
-											style={[
-												styles.askSignUpText,
-												{ color: theme.text_1.getColor() },
-											]}
-										>
+										<Text style={[styles.askSignUpText, { color: theme.text_1.getColor() }]}>
 											Don’t have an account?
 										</Text>
 										<TouchableOpacity>

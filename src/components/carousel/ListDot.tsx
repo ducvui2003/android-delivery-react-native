@@ -51,12 +51,7 @@ function ListDot<T>({
 			style={[
 				style.container,
 				{
-					justifyContent:
-						position === "center"
-							? "center"
-							: position === "left"
-								? "flex-start"
-								: "flex-end",
+					justifyContent: position === "center" ? "center" : position === "left" ? "flex-start" : "flex-end",
 				},
 			]}
 		>
@@ -71,7 +66,6 @@ const style = StyleSheet.create({
 	},
 	dot: {
 		borderRadius: 999,
-		marginBottom: 25,
 		marginHorizontal: 4,
 	},
 });

@@ -19,8 +19,7 @@ import { Platform } from "react-native";
 import GradientProps from "./type/gradient.type";
 
 let LinearGradient: React.ComponentType<GradientProps>;
-if (Platform.OS === "android" || Platform.OS === "ios")
-	LinearGradient = require("./GradientText.android").default;
+if (Platform.OS === "android" || Platform.OS === "ios") LinearGradient = require("./GradientText.android").default;
 else if (Platform.OS === "web") LinearGradient = require("./GradientText.web").default;
 
 function GradientText(props: GradientProps) {

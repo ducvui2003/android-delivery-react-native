@@ -25,22 +25,14 @@ function ListDot({
 		return data.map((item, index) => {
 			return (
 				<View
-					style={[
-						styles.dot,
-						{ width: dotSizes[index] },
-						dotStatuses[index] && styles.dotActive,
-					]}
+					style={[styles.dot, { width: dotSizes[index] }, dotStatuses[index] && styles.dotActive]}
 					key={index.toString()}
 				/>
 			);
 		});
 	};
 
-	return (
-		<View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-			{renderDot()}
-		</View>
-	);
+	return <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>{renderDot()}</View>;
 }
 
 function FragmentIntroduce({

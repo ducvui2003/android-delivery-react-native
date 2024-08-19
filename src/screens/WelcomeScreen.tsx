@@ -17,8 +17,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
 
 export function WelcomeScreen() {
-	const navigation =
-		useNavigation<NativeStackNavigationProp<RootStackParamList, "WelcomeScreen">>();
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "WelcomeScreen">>();
 
 	useEffect(() => {
 		const timeOut = setTimeout(() => {
@@ -41,11 +40,7 @@ export function WelcomeScreen() {
 
 	return (
 		<SafeAreaView style={[style.container]}>
-			<ImageBackground
-				source={background}
-				style={style.imageBackground}
-				resizeMode={"stretch"}
-			>
+			<ImageBackground source={background} style={style.imageBackground} resizeMode={"stretch"}>
 				<View style={style.viewContextTextButton}>
 					<Text style={[textStyle["22_semibold"], style.welcomeText]}>Welcome to</Text>
 					<Text style={[textStyle["40_semibold"], style.appNameText]}>SPEEDY CHOW</Text>

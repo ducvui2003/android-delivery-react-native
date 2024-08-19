@@ -23,12 +23,7 @@ function GradientTextAndroid({
 }: GradientProps) {
 	return (
 		<MaskedView style={style} maskElement={<Text style={[textStyle]}>{text}</Text>}>
-			<LinearGradient
-				colors={gradientColors}
-				start={start}
-				end={end}
-				style={{ height: height }}
-			>
+			<LinearGradient colors={gradientColors} start={start} end={end} style={{ height: height }}>
 				<Text style={textStyle} />
 			</LinearGradient>
 		</MaskedView>

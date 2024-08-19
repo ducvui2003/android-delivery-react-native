@@ -52,8 +52,7 @@ const textButtonNext: Record<TextButtonSkip, "Next" | "Start enjoying"> = {
 };
 
 function IntroduceScreen() {
-	const navigation =
-		useNavigation<NativeStackNavigationProp<RootStackParamList, "IntroduceScreen">>();
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "IntroduceScreen">>();
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [textButtonSkip, setTextButtonSkip] = useState<TextButtonSkip>("Skip");
 	const [currentPageViewPager, setCurrentPageViewPager] = useState(0);
@@ -137,12 +136,7 @@ function IntroduceScreen() {
 					onPress={styleAndActionPropButtonSkip[textButtonSkip].onPress}
 					style={[style.buttonSkip, styleAndActionPropButtonSkip[textButtonSkip].button]}
 				>
-					<Text
-						style={[
-							style.textButtonNext,
-							styleAndActionPropButtonSkip[textButtonSkip].text,
-						]}
-					>
+					<Text style={[style.textButtonNext, styleAndActionPropButtonSkip[textButtonSkip].text]}>
 						{textButtonSkip}
 					</Text>
 				</TouchableHighlight>
@@ -160,6 +154,7 @@ const style = StyleSheet.create({
 		marginHorizontal: 25,
 	},
 	buttonNext: {
+		marginTop: 25,
 		padding: 15,
 		borderRadius: 999,
 		backgroundColor: primary.getColor("500"),

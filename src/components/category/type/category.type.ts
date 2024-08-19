@@ -9,4 +9,5 @@ import { Category } from "../../../types/category.type";
 
 export type CategoryType = {
 	item: Category;
+	onPress?: () => void;
 };

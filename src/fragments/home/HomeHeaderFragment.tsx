@@ -11,11 +11,12 @@ import { RootState } from "../../configs/redux/store.config";
 import { ThemeType } from "../../types/theme.type";
 import Row from "../../components/custom/Row";
 import Col from "../../components/custom/Col";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
-import { neutral, primary } from "../../configs/colors/color-template.config";
+import { gradient, neutral, primary } from "../../configs/colors/color-template.config";
 import SolarBagOutline from "../../../assets/images/icons/SolarBagOutline";
 import SolarArrowAlt from "../../../assets/images/icons/SolarArrowAlt";
+import GradientIconSvg from "../../components/grandientIconSvg/GradientIconSvg";
 
 function HomeHeaderFragment() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
@@ -32,7 +33,7 @@ function HomeHeaderFragment() {
 				>
 					Deliver to
 				</Text>
-				<Row style={{ marginTop: 11, alignItems: "center", gap: 13 }}>
+				<Row style={{ marginTop: 11, alignItems: "center", gap: 5 }}>
 					<Text
 						style={{
 							...textStyle["18_semibold"],
@@ -41,17 +42,25 @@ function HomeHeaderFragment() {
 					>
 						Select Your Location
 					</Text>
-					<SolarArrowAlt
+
+					<GradientIconSvg
+						icon={
+							<SolarArrowAlt
+								width={20}
+								height={16}
+								color={primary.getColor("500")}
+								style={{ transform: [{ rotate: "180deg" }] }}
+							/>
+						}
 						width={20}
 						height={16}
-						color={primary.getColor("500")}
-						style={{ transform: [{ rotate: "180deg" }] }}
+						gradientColors={gradient.getColor()}
 					/>
 				</Row>
 			</Col>
-			<View style={styles.shopIconContainer}>
+			<TouchableOpacity style={styles.shopIconContainer}>
 				<SolarBagOutline width={32} height={32} color={theme.home.cart.icon.getColor()} />
-			</View>
+			</TouchableOpacity>
 		</Row>
 	);
 }

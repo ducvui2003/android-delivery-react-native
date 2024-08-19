@@ -33,14 +33,10 @@ function GradientTextWeb({
 		if (comparePosition(start, topRight) && comparePosition(end, topLeft)) return "to left";
 		if (comparePosition(start, topLeft) && comparePosition(end, bottomLeft)) return "to bottom";
 		if (comparePosition(start, bottomLeft) && comparePosition(end, topLeft)) return "to top";
-		if (comparePosition(start, topLeft) && comparePosition(end, bottomRight))
-			return "to right bottom";
-		if (comparePosition(start, bottomLeft) && comparePosition(end, topRight))
-			return "to right top";
-		if (comparePosition(start, topRight) && comparePosition(end, bottomLeft))
-			return "to left bottom";
-		if (comparePosition(start, bottomRight) && comparePosition(end, topLeft))
-			return "to left top";
+		if (comparePosition(start, topLeft) && comparePosition(end, bottomRight)) return "to right bottom";
+		if (comparePosition(start, bottomLeft) && comparePosition(end, topRight)) return "to right top";
+		if (comparePosition(start, topRight) && comparePosition(end, bottomLeft)) return "to left bottom";
+		if (comparePosition(start, bottomRight) && comparePosition(end, topLeft)) return "to left top";
 	};
 
 	return (

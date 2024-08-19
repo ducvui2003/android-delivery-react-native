@@ -11,12 +11,7 @@ function SolarBagOutline(props: SvgProps) {
         ></Path>
         <Circle cx={15} cy={10} r={1} fill="currentColor"></Circle>
         <Circle cx={9} cy={10} r={1} fill="currentColor"></Circle>
-        <Path
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeWidth={1.5}
-          d="M9 6V5a3 3 0 1 1 6 0v1"
-        ></Path>
+        <Path stroke="currentColor" strokeLinecap="round" strokeWidth={1.5} d="M9 6V5a3 3 0 1 1 6 0v1"></Path>
       </G>
     </Svg>
   );

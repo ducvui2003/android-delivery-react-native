@@ -8,9 +8,10 @@
 
 export type Product = {
 	id: string;
-	image: object;
+	image: string;
 	name: string;
 	rating: number;
 	basePrice: number;
 	salePrice?: number;
+	isLiked?: boolean;
 };

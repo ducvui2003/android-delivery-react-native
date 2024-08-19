@@ -11,6 +11,8 @@ import ListDot from "./ListDot";
 import { Double } from "react-native/Libraries/Types/CodegenTypes";
 import CarouselProps from "./type/carousel.type";
 import PagerView from "react-native-pager-view";
+import Col from "../custom/Col";
+import Space from "../custom/Space";
 
 function Carousel<T>({
 	data,
@@ -27,6 +29,7 @@ function Carousel<T>({
 		position: "center",
 		side: "bottom",
 	},
+	marginListDot = 0,
 }: CarouselProps<T>) {
 	const sizeDotDefault = sizeDot ?? 10;
 	const sizeDotActiveDefault = sizeDotActive ?? 30;
@@ -44,9 +47,7 @@ function Carousel<T>({
 		listDotSizes[initialPage][1](sizeDotActiveDefault);
 	}, []);
 
-	const onPageScroll = (
-		event: NativeSyntheticEvent<Readonly<{ position: Double; offset: Double }>>
-	) => {
+	const onPageScroll = (event: NativeSyntheticEvent<Readonly<{ position: Double; offset: Double }>>) => {
 		const { offset, position } = event.nativeEvent;
 		onCurrentPage(position); //for set scroll page
 		if (position === data.length - 1) return;
@@ -63,15 +64,18 @@ function Carousel<T>({
 	return (
 		<View style={style.container}>
 			{showDot && positionListDot?.side === "top" && (
-				<ListDot<T>
-					data={data}
-					dotSizes={listDotSizes.map(([size]) => size)}
-					dotStatuses={listStatus.map(([status]) => status)}
-					colorDot={colorDot}
-					colorDotActive={colorDotActive}
-					sizeDotDefault={sizeDotDefault}
-					position={positionListDot?.position}
-				/>
+				<Col>
+					<ListDot<T>
+						data={data}
+						dotSizes={listDotSizes.map(([size]) => size)}
+						dotStatuses={listStatus.map(([status]) => status)}
+						colorDot={colorDot}
+						colorDotActive={colorDotActive}
+						sizeDotDefault={sizeDotDefault}
+						position={positionListDot?.position}
+					/>
+					<Space height={marginListDot} />
+				</Col>
 			)}
 			<PagerView
 				style={[style.container]}
@@ -85,15 +89,18 @@ function Carousel<T>({
 				{renderViewPagerItem()}
 			</PagerView>
 			{showDot && positionListDot?.side === "bottom" && (
-				<ListDot<T>
-					data={data}
-					dotSizes={listDotSizes.map(([size]) => size)}
-					dotStatuses={listStatus.map(([status]) => status)}
-					colorDot={colorDot}
-					colorDotActive={colorDotActive}
-					sizeDotDefault={sizeDotDefault}
-					position={positionListDot?.position}
-				/>
+				<Col>
+					<Space height={marginListDot} />
+					<ListDot<T>
+						data={data}
+						dotSizes={listDotSizes.map(([size]) => size)}
+						dotStatuses={listStatus.map(([status]) => status)}
+						colorDot={colorDot}
+						colorDotActive={colorDotActive}
+						sizeDotDefault={sizeDotDefault}
+						position={positionListDot?.position}
+					/>
+				</Col>
 			)}
 		</View>
 	);

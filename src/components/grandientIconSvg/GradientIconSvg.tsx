@@ -11,8 +11,7 @@ import { Platform } from "react-native";
 import GradientProps from "./type/gradient.type";
 
 let LinearGradient: React.ComponentType<GradientProps>;
-if (Platform.OS === "android" || Platform.OS === "ios")
-	LinearGradient = require("./GradientIconSvg.android").default;
+if (Platform.OS === "android" || Platform.OS === "ios") LinearGradient = require("./GradientIconSvg.android").default;
 else if (Platform.OS === "web") LinearGradient = require("./GradientIconSvg.web").default;
 
 function GradientIconSvg(props: GradientProps) {

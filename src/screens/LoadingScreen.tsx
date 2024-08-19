@@ -38,8 +38,7 @@ function LoadingScreen() {
 	const sizeLogoAnim = useSharedValue(0);
 	const sizeTextFooterAnim = useSharedValue(0);
 	const transformAnim = useSharedValue(0);
-	const navigation =
-		useNavigation<NativeStackNavigationProp<RootStackParamList, "LoadingScreen">>();
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "LoadingScreen">>();
 
 	const animatedTransform = useAnimatedStyle(() => ({
 		transform: [{ translateY: transformAnim.value }],
@@ -114,14 +113,10 @@ function LoadingScreen() {
 			>
 				<View style={[styles.topContainer]}>
 					<Animated.Image source={brand} style={[animatedSizeLogo, animatedTransform]} />
-					<Animated.Text
-						style={[transformFontSize(sizeTextNameAppAnim), styles.textAppName]}
-					>
+					<Animated.Text style={[transformFontSize(sizeTextNameAppAnim), styles.textAppName]}>
 						SPEEDY CHOW
 					</Animated.Text>
-					<Animated.Text
-						style={[transformFontSize(sizeTextVersionAnim), styles.textVersion]}
-					>
+					<Animated.Text style={[transformFontSize(sizeTextVersionAnim), styles.textVersion]}>
 						Version 2.1.0
 					</Animated.Text>
 				</View>

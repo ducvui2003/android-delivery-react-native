@@ -25,17 +25,9 @@ export class CodeColor {
 		}
 
 		if (this.codeColor.toString().split(",").length === 4)
-			return (
-				this.codeColor.toString().substring(0, this.codeColor.toString().lastIndexOf(",")) +
-				alpha +
-				")"
-			);
+			return this.codeColor.toString().substring(0, this.codeColor.toString().lastIndexOf(",")) + alpha + ")";
 
-		return (
-			this.codeColor.toString().substring(0, this.codeColor.toString().length - 1) +
-			alpha +
-			")"
-		);
+		return this.codeColor.toString().substring(0, this.codeColor.toString().length - 1) + alpha + ")";
 	}
 
 	public setCodeColor(codeColor: string): void {

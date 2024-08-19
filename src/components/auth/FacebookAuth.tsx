@@ -21,20 +21,8 @@ if (Platform.OS === "android") {
 function FacebookAuth({ loginSuccess, logoutSuccess, email }: ButtonAuthProps) {
 	const renderComponent: Record<typeof Platform.OS, React.JSX.Element> = {
 		ios: <Text>Sign in with Google</Text>,
-		web: (
-			<FacebookSignInButton
-				email={email}
-				loginSuccess={loginSuccess}
-				logoutSuccess={logoutSuccess}
-			/>
-		),
-		android: (
-			<FacebookSignInButton
-				email={email}
-				loginSuccess={loginSuccess}
-				logoutSuccess={logoutSuccess}
-			/>
-		),
+		web: <FacebookSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess} />,
+		android: <FacebookSignInButton email={email} loginSuccess={loginSuccess} logoutSuccess={logoutSuccess} />,
 		macos: <Text>Sign in with Google</Text>,
 		windows: <Text>Sign in with Google</Text>,
 	};

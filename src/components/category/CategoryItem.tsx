@@ -14,11 +14,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import { CategoryType } from "./type/category.type";
 
-function CategoryItem({ item }: CategoryType) {
+function CategoryItem({ item, onPress }: CategoryType) {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
 	return (
-		<TouchableOpacity style={{ ...styles.container }}>
+		<TouchableOpacity onPress={onPress} style={{ ...styles.container }}>
 			<Image source={item.image} style={{ ...styles.image }} />
 			<Text style={{ ...styles.text }}>{item.name}</Text>
 		</TouchableOpacity>

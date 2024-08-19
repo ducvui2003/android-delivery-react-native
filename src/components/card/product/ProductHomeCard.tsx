@@ -12,26 +12,33 @@ import { RootState } from "../../../configs/redux/store.config";
 import { ProductHomeCardType } from "./type/productHomeCard.type";
 import textStyle from "../../../configs/styles/textStyle.config";
 import React from "react";
-import { neutral, primary, secondary } from "../../../configs/colors/color-template.config";
+import { gradient, neutral, primary, secondary } from "../../../configs/colors/color-template.config";
 import SolarStarOutline from "../../../../assets/images/icons/SolarStarOutline";
 import SolarHeartOutline from "../../../../assets/images/icons/SolarHeartOutline";
-
+import SolarHeartBold from "../../../../assets/images/icons/SolarHeartBold";
+import GradientIconSvg from "../../grandientIconSvg/GradientIconSvg";
 function ProductHomeCard({
-	product: { name, rating, id, basePrice, salePrice, image },
+	product: { name, rating, id, basePrice, salePrice, image, isLiked = false },
+	onPress,
+	onPressHeart,
 }: ProductHomeCardType) {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
 	return (
-		<View style={styles.container}>
+		<TouchableOpacity onPress={onPress} style={styles.container}>
 			<View style={{ position: "relative" }}>
-				<Image
-					style={styles.thumbnail}
-					src={
-						"https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-					}
-				/>
-				<TouchableOpacity style={styles.heartContainer}>
-					<SolarHeartOutline width={18} height={18} color={primary.getColor("500")} />
+				<Image style={styles.thumbnail} src={image} />
+				<TouchableOpacity onPress={onPressHeart} style={styles.heartContainer}>
+					{!isLiked ? (
+						<SolarHeartOutline width={18} height={18} color={primary.getColor("500")} />
+					) : (
+						<GradientIconSvg
+							icon={<SolarHeartBold width={18} height={18} color={neutral.getColor("300")} />}
+							gradientColors={gradient.getColor()}
+							width={18}
+							height={18}
+						/>
+					)}
 				</TouchableOpacity>
 			</View>
 			<View style={styles.content}>
@@ -51,7 +58,7 @@ function ProductHomeCard({
 					)}
 				</View>
 			</View>
-		</View>
+		</TouchableOpacity>
 	);
 }
 

@@ -20,13 +20,7 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import textStyle from "../../configs/styles/textStyle.config";
-import {
-	gradient,
-	neutral,
-	otherMethodSignIn,
-	primary,
-	white,
-} from "../../configs/colors/color-template.config";
+import { gradient, neutral, otherMethodSignIn, primary, white } from "../../configs/colors/color-template.config";
 import { CheckBox, Divider } from "@rneui/themed";
 import Row from "../../components/custom/Row";
 import Col from "../../components/custom/Col";
@@ -76,10 +70,7 @@ function SignUpScreen() {
 
 	const button: Record<"true" | "false", ReactNode> = {
 		true: (
-			<TouchableOpacity
-				style={[styles.buttonNotActive, styles.button]}
-				onPress={handleSubmit(onSubmit)}
-			>
+			<TouchableOpacity style={[styles.buttonNotActive, styles.button]} onPress={handleSubmit(onSubmit)}>
 				<Text style={[styles.textButton]}>Register</Text>
 			</TouchableOpacity>
 		),
@@ -116,10 +107,7 @@ function SignUpScreen() {
 										},
 										validate: undefined,
 									}}
-									render={({
-										field: { onChange, value },
-										fieldState: { error },
-									}) => {
+									render={({ field: { onChange, value }, fieldState: { error } }) => {
 										return (
 											<Col style={{ zIndex: 2 }}>
 												<InputPhoneNumber
@@ -141,9 +129,7 @@ function SignUpScreen() {
 													}}
 												/>
 												{error && (
-													<Text style={{ color: "red", zIndex: -1 }}>
-														{error.message}
-													</Text>
+													<Text style={{ color: "red", zIndex: -1 }}>{error.message}</Text>
 												)}
 											</Col>
 										);
@@ -160,10 +146,7 @@ function SignUpScreen() {
 											message: "invalid email",
 										},
 									}}
-									render={({
-										field: { onChange, value },
-										fieldState: { error },
-									}) => {
+									render={({ field: { onChange, value }, fieldState: { error } }) => {
 										return (
 											<Col>
 												<InputIcon
@@ -184,11 +167,7 @@ function SignUpScreen() {
 														onChange(element.nativeEvent.text);
 													}}
 												/>
-												{error && (
-													<Text style={{ color: "red" }}>
-														{error.message}
-													</Text>
-												)}
+												{error && <Text style={{ color: "red" }}>{error.message}</Text>}
 											</Col>
 										);
 									}}
@@ -200,10 +179,7 @@ function SignUpScreen() {
 									rules={{
 										required: "Full name is required",
 									}}
-									render={({
-										field: { onChange, value },
-										fieldState: { error },
-									}) => {
+									render={({ field: { onChange, value }, fieldState: { error } }) => {
 										return (
 											<Col>
 												<InputIcon
@@ -224,11 +200,7 @@ function SignUpScreen() {
 														onChange(element.nativeEvent.text);
 													}}
 												/>
-												{error && (
-													<Text style={{ color: "red" }}>
-														{error.message}
-													</Text>
-												)}
+												{error && <Text style={{ color: "red" }}>{error.message}</Text>}
 											</Col>
 										);
 									}}
@@ -247,12 +219,7 @@ function SignUpScreen() {
 											padding: 5,
 										}}
 									/>
-									<Text
-										style={[
-											styles.rememberMeText,
-											{ color: theme.text_1.getColor() },
-										]}
-									>
+									<Text style={[styles.rememberMeText, { color: theme.text_1.getColor() }]}>
 										Remember me
 									</Text>
 								</Row>
@@ -287,12 +254,7 @@ function SignUpScreen() {
 										<FacebookAuth />
 									</Row>
 									<Row style={[styles.askSignUpContainer]}>
-										<Text
-											style={[
-												styles.askSignUpText,
-												{ color: theme.text_1.getColor() },
-											]}
-										>
+										<Text style={[styles.askSignUpText, { color: theme.text_1.getColor() }]}>
 											Do have an account?
 										</Text>
 										<TouchableOpacity>

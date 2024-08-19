@@ -5,12 +5,7 @@
  * Created at: 8/8/24 - 11:33am
  * User: ducvui2003
  **/
-import axios, {
-	AxiosInstance,
-	AxiosResponse,
-	HttpStatusCode,
-	InternalAxiosRequestConfig,
-} from "axios";
+import axios, { AxiosInstance, AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig } from "axios";
 import { getToken, setItem } from "../../services/secureStore.service";
 
 const axiosInstance: AxiosInstance = axios.create({
@@ -67,8 +62,7 @@ axiosInstance.interceptors.response.use(
 		// Timeout
 		if (error.code === "ECONNABORTED") console.log("Request timed out:", error.message);
 		//Error from server
-		if (error.response && error.response.status >= 400)
-			console.error("API response error:", error);
+		if (error.response && error.response.status >= 400) console.error("API response error:", error);
 		return Promise.reject(error);
 	}
 );
