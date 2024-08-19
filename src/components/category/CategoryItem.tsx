@@ -13,7 +13,6 @@ import { ThemeType } from "../../types/theme.type";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import { CategoryType } from "./type/category.type";
-import { neutral } from "../../configs/colors/color-template.config";
 
 function CategoryItem({ item }: CategoryType) {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);

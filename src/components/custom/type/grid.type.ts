@@ -7,7 +7,7 @@
  **/
 import React from "react";
 
-export type GridLayoutType<T> = {
+export type GridType<T> = {
 	row?: number;
 	col: number;
 	data: T[];

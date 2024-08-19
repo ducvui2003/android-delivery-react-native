@@ -16,7 +16,7 @@ import RivetIconsFilter from "../../../assets/images/icons/SolarFilterOutline";
 import Carousel from "../../components/carousel/Carousel";
 import CategoryItem from "../../components/category/CategoryItem";
 import InputSearch from "../../components/input/InputSearch";
-import GridLayout from "../../components/layout/GridLayout";
+import Grid from "../../components/custom/Grid";
 import { neutral } from "../../configs/colors/color-template.config";
 import { RootState } from "../../configs/redux/store.config";
 import HomeHeaderFragment from "../../fragments/home/HomeHeaderFragment";
@@ -67,7 +67,7 @@ function HomeScreen() {
 			/>
 
 			<View style={styles.categoryGridContainer}>
-				<GridLayout<Category>
+				<Grid<Category>
 					col={4}
 					data={categories}
 					gapRow={24}

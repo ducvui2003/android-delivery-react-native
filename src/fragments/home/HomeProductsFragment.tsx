@@ -1,8 +1,16 @@
+/**
+ * Author: Le Anh Duc
+ * Email: ducvui2003@gmail.com
+ * Phone number: +84 965809127
+ * Created at: 19/08/2024 - 16:04
+ * User: ducvui2003
+ **/
+
 import React from "react";
 import Col from "../../components/custom/Col";
 import Row from "../../components/custom/Row";
 import { StyleSheet, Text, View } from "react-native";
-import GridLayout from "../../components/layout/GridLayout";
+import Grid from "../../components/custom/Grid";
 import { Product } from "../../types/product.type";
 import { products } from "../../../assets/data/home/home";
 import ProductHomeCard from "../../components/card/product/ProductHomeCard";
@@ -35,7 +43,7 @@ const HomeProductsFragment = () => {
 				</Row>
 			</Row>
 			<View style={styles.productGridContainer}>
-				<GridLayout<Product>
+				<Grid<Product>
 					col={2}
 					data={products}
 					renderItem={(item, index) => {

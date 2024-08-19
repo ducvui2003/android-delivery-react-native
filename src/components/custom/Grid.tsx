@@ -7,16 +7,9 @@
  **/
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { GridLayoutType } from "./type/gridLayout.type";
+import { GridType } from "./type/grid.type";
 
-function GridLayout<T>({
-	row = undefined,
-	col,
-	data,
-	gapRow,
-	gapCol,
-	renderItem,
-}: GridLayoutType<T>) {
+function Grid<T>({ row = undefined, col, data, gapRow, gapCol, renderItem }: GridType<T>) {
 	if (gapCol === undefined) gapCol = gapRow;
 	const styles = makeStyled(gapRow, gapCol);
 	if (row === undefined) row = Math.ceil(data.length / col);
@@ -57,4 +50,4 @@ const makeStyled = (gapRow: number, gapCol: number) =>
 			flex: 1,
 		},
 	});
-export default GridLayout;
+export default Grid;
