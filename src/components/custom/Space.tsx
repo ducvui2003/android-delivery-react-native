@@ -6,13 +6,11 @@
  *  User: lam-nguyen
  **/
 
-import React from 'react';
-import {View} from "react-native";
+import React from "react";
+import { View } from "react-native";
 
-function Space({width, height}: { width?: number, height?: mumber }) {
-    return (
-        <View style={{height: height, width: width}}/>
-    );
+function Space({ width, height }: { width?: number; height?: number }) {
+	return <View style={{ height: height, width: width }} />;
 }
 
 export default Space;
