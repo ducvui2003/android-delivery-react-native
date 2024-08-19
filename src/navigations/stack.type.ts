@@ -5,6 +5,7 @@ export type RootStackParamList = {
     LoadingScreen: undefined;
     WelcomeScreen: undefined;
     IntroduceScreen: undefined;
+    ButtonNavigationScreen: undefined;
 };
 
 export type MainScreenStackParamList = {

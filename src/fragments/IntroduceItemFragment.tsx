@@ -11,7 +11,7 @@ import {Image, StyleSheet, Text, View} from "react-native";
 import textStyle from "../configs/styles/textStyle.config";
 import {primary} from "../configs/colors/color-template.config";
 
-function FragmentIntroduceItem(item: FragmentIntroduceType, key: React.Key | null | undefined) {
+function IntroduceItemFragment(item: FragmentIntroduceType, key: React.Key | null | undefined) {
     return (
         <View style={styles.container} key={key}>
             <View style={{margin: 25}}>
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default FragmentIntroduceItem;
+export default IntroduceItemFragment;

@@ -29,7 +29,7 @@ import FacebookAuth from "../../components/auth/FacebookAuth";
 import InputPhoneNumber from "../../components/input/InputPhoneNumber";
 import {FlatList} from "react-native-gesture-handler";
 import {Controller, useForm} from "react-hook-form";
-import GradientText from "../../components/grandientText/GradientText";
+import GradientText from "../../components/gradientText/GradientText";
 import LoginFormType from "../../types/loginForm.type";
 
 function LoginScreen() {

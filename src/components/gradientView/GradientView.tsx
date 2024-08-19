@@ -21,14 +21,14 @@ import GradientProps from "./type/gradient.type";
 
 let LinearGradient: React.ComponentType<GradientProps>;
 if (Platform.OS === "android" || Platform.OS === "ios")
-    LinearGradient = require('./GradientText.android').default;
+    LinearGradient = require('./GradientView.android').default;
 else if (Platform.OS === "web")
-    LinearGradient = require('./GradientText.web').default;
+    LinearGradient = require('./GradientView.web').default;
 
-function GradientText(props: GradientProps) {
+function GradientView(props: GradientProps) {
     return (
         <LinearGradient {...props}/>
     );
-};
+}
 
-export default GradientText;
+export default GradientView;

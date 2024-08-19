@@ -11,6 +11,7 @@ import {Platform, useColorScheme} from "react-native";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import React, {useEffect} from "react";
 import {setTheme} from "./src/hooks/redux/theme.slice";
+import ButtonNavigationScreen from "./src/screens/ButtonNavigationScreen";
 
 const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -63,6 +64,8 @@ function Root() {
                                   component={WelcomeScreen}/>
                 <RootStack.Screen name={"IntroduceScreen"}
                                   component={IntroduceScreen}/>
+                <RootStack.Screen name={"ButtonNavigationScreen"}
+                                    component={ButtonNavigationScreen}/>
             </RootStack.Navigator>
         </NavigationContainer>
     );

@@ -28,7 +28,7 @@ import {neutral, primary, white} from "../configs/colors/color-template.config";
 import textStyle from "../configs/styles/textStyle.config";
 import PagerView from "react-native-pager-view";
 import {FragmentIntroduceType} from "../types/fragmentIntroduce.type";
-import FragmentIntroduceItem from "../fragments/FragmentIntroduceItem";
+import IntroduceItemFragment from "../fragments/IntroduceItemFragment";
 import Carousel from "../components/carousel/Carousel";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
@@ -116,7 +116,7 @@ function IntroduceScreen() {
                 data={data}
                 viewPagerRef={viewPagerRef}
                 renderItem={(item, index) => {
-                    return <FragmentIntroduceItem key={index} {...item}/>
+                    return <IntroduceItemFragment key={index} {...item}/>
                 }}
                 onCurrentPage={setCurrentPageViewPager}/>
             <View style={style.viewBottom}>

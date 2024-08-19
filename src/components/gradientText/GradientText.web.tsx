@@ -20,7 +20,6 @@ function GradientTextWeb
      textStyle,
      start = {x: 0, y: 0},
      end = {x: 1, y: 1},
-     height
  }: GradientProps) {
     const topLeft: GradientType = {x: 0, y: 0};
     const topRight: GradientType = {x: 1, y: 0}
@@ -52,6 +51,6 @@ function GradientTextWeb
             }}>{text}</div>
         </View>
     );
-};
+}
 
 export default GradientTextWeb;
