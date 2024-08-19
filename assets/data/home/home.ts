@@ -5,25 +5,25 @@
  * Created at: 17/8/24 - 9:44am
  * User: ducvui2003
  **/
-import banner_1 from "../../../assets/images/banner/banner_1.png";
-import banner_2 from "../../../assets/images/banner/banner_2.png";
-import banner_3 from "../../../assets/images/banner/banner_3.png";
-import bugger from "../../../assets/images/category/cheese_burger.png";
-import taco from "../../../assets/images/category/taco.png";
-import burrito from "../../../assets/images/category/burrito.png";
-import drink from "../../../assets/images/category/drink.png";
-import pizza from "../../../assets/images/category/pizza.png";
-import donut from "../../../assets/images/category/donut_2.png";
-import salad from "../../../assets/images/category/salad.png";
-import noodles from "../../../assets/images/category/noodle_2.png";
-import sandwich from "../../../assets/images/category/sandwich.png";
-import pasta from "../../../assets/images/category/pasta.png";
-import iceCream from "../../../assets/images/category/ice_cream.png";
-import more from "../../../assets/images/category/more.png";
-import { Category } from "../../types/category.type";
-import { Product } from "../../types/product.type";
+import banner_1 from "../../images/banner/banner_1.png";
+import banner_2 from "../../images/banner/banner_2.png";
+import banner_3 from "../../images/banner/banner_3.png";
+import bugger from "../../images/category/cheese_burger.png";
+import taco from "../../images/category/taco.png";
+import burrito from "../../images/category/burrito.png";
+import drink from "../../images/category/drink.png";
+import pizza from "../../images/category/pizza.png";
+import donut from "../../images/category/donut_2.png";
+import salad from "../../images/category/salad.png";
+import noodles from "../../images/category/noodle_2.png";
+import sandwich from "../../images/category/sandwich.png";
+import pasta from "../../images/category/pasta.png";
+import iceCream from "../../images/category/ice_cream.png";
+import more from "../../images/category/more.png";
+import { Category } from "../../../src/types/category.type";
+import { Product } from "../../../src/types/product.type";
 
-export const banners: string[] = [banner_1, banner_2, banner_3];
+export const banners: object[] = [banner_1, banner_2, banner_3];
 export const categories: Category[] = [
   {
     id: 1,

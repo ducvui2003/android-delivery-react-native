@@ -8,7 +8,7 @@
 
 export type Product = {
   id: string,
-  image: {},
+  image: object,
   name: string,
   rating: number,
   basePrice: number,

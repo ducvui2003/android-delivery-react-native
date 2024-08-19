@@ -7,187 +7,114 @@
  **/
 
 import React, { useRef, useState } from "react";
-import { Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { ThemeType } from "../../types/theme.type";
-import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
-import { Icon } from "@rneui/themed";
-import textStyle from "../../configs/styles/textStyle.config";
-import Carousel from "../../components/carousel/Carousel";
+import { Dimensions, Image, ScrollView, StyleSheet, View } from "react-native";
 import PagerView from "react-native-pager-view";
-import { banners, categories, products } from "./data";
+import { useSelector } from "react-redux";
+import { banners, categories } from "../../../assets/data/home/home";
+import SolarMagniferOutline from "../../../assets/images/icons/MagniferOutline";
+import RivetIconsFilter from "../../../assets/images/icons/SolarFilterOutline";
+import Carousel from "../../components/carousel/Carousel";
 import CategoryItem from "../../components/category/CategoryItem";
+import InputSearch from "../../components/input/InputSearch";
 import GridLayout from "../../components/layout/GridLayout";
-import ProductHomeCard from "../../components/card/product/ProductHomeCard";
-import ChevronIcon from "../../../assets/icons/chevron-right.svg";
-import TypographyGradient from "../../components/typography/TypographyGradient";
 import { neutral } from "../../configs/colors/color-template.config";
-
-function Home() {
-  const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
+import { RootState } from "../../configs/redux/store.config";
+import HomeHeaderFragment from "../../fragments/home/HomeHeaderFragment";
+import { Category } from "../../types/category.type";
+import { ThemeType } from "../../types/theme.type";
+import HomeProductsFragment from "../../fragments/home/HomeProductsFragment";
+function HomeScreen() {
+  const theme: ThemeType = useSelector(
+    (state: RootState) => state.themeState.theme
+  );
   const styles = makeStyled(theme);
   const [, setCurrentPageViewPager] = useState(0);
   const viewPagerRef = useRef<PagerView>();
 
   return (
     <ScrollView style={styles.container}>
-      <Header />
+      <HomeHeaderFragment />
 
       <View style={styles.bannerContainer}>
-        <Carousel<{}>
+        <Carousel<object>
           data={banners}
           viewPagerRef={viewPagerRef}
           renderItem={(item, index) => {
-            return <Image style={styles.banner}
-                          source={item} />;
+            return (
+              <View style={{ borderRadius: 12, overflow: "hidden" }}>
+                <Image key={index} style={styles.banner} source={item} />
+              </View>
+            );
           }}
-          onCurrentPage={(currentPage) => setCurrentPageViewPager(currentPage)} />
-      </View>
-      <View style={styles.inputContainer}>
-        <Icon
-          name="search"
-          size={20}
-          type="font-awesome-5"
-          solid={false}
-          color={neutral.getColor("100")}
-        />
-        <TextInput
-          placeholder="Vui lòng nhập số điện thoại"
-          style={styles.input}
-          placeholderTextColor={neutral.getColor("100")}
-        />
-        <Icon
-          name="sliders-h" // FontAwesome icon name
-          size={20}
-          type="font-awesome-5"
-          solid={false}
-          color={neutral.getColor("900")}
+          positionListDot={{
+            position: "left",
+            side: "bottom",
+          }}
+          onCurrentPage={(currentPage) => setCurrentPageViewPager(currentPage)}
         />
       </View>
 
+      <InputSearch
+        iconLeft={
+          <SolarMagniferOutline
+            width={25}
+            height={25}
+            color={neutral.getColor("100")}
+          />
+        }
+        iconRight={
+          <RivetIconsFilter
+            width={25}
+            height={25}
+            color={theme.home.search.icon.getColor()}
+          />
+        }
+        placeholder="Vui lòng nhập tên sản phẩm"
+      />
+
       <View style={styles.categoryGridContainer}>
-        <GridLayout col={4} data={categories} gapRow={24}
-                    renderItem={(item, index) => <CategoryItem key={index} item={item} />} />
+        <GridLayout<Category>
+          col={4}
+          data={categories}
+          gapRow={24}
+          renderItem={(item, index) => <CategoryItem key={index} item={item} />}
+        />
       </View>
-      <View style={styles.productList}>
-        <View style={styles.productGridContainerHeading}>
-          <Text style={styles.productGridContainerHeadingText}>Special Offers</Text>
-          <View>
-            <Text style={styles.productGridContainerMore}>View All</Text>
-          </View>
-        </View>
-        <View style={styles.productGridContainer}>
-          <GridLayout col={2} data={products} renderItem={(item, index) => {
-            return <ProductHomeCard key={index} product={item} />;
-          }} gapRow={24} />
-        </View>
-      </View>
+      <HomeProductsFragment />
     </ScrollView>
   );
 }
 
-function Header() {
-  const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
-  const styles = makeStyled(theme);
+const makeStyled = (theme: ThemeType) =>
+  StyleSheet.create({
+    container: {
+      paddingHorizontal: 24,
+      paddingTop: 54,
+      flex: 1,
+      backgroundColor: theme.background.getColor(),
+    },
 
-  return (
-    <View style={{ ...styles.stack }}>
-      <View>
-        <Text style={{ ...textStyle["16_regular"] }}>Deliver to</Text>
-        <Text style={{
-          ...textStyle["18_semibold"],
-          marginTop: 11,
-          color: neutral.getColor("200"),
-        }}>Select
-          Your Location</Text>
-      </View>
-      <View style={styles.shopIconContainer}>
-        <Icon
-          name="shopping-bag" // FontAwesome icon name
-          size={32}
-          type="font-awesome-5"
-          solid={false}
-        />
-      </View>
-    </View>
-  );
-}
+    inputContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 12,
+      borderColor: neutral.getColor("100"),
+      backgroundColor: neutral.getColor("50"),
+      paddingHorizontal: 16,
+      paddingVertical: 20,
+    },
+    bannerContainer: {
+      marginTop: 24,
+      marginBottom: 8,
+      height: 220,
+    },
+    banner: {
+      width: Dimensions.get("window").width + 10,
+      marginHorizontal: -10,
+    },
+    categoryGridContainer: {
+      marginTop: 24,
+    },
+  });
 
-const makeStyled = (theme: ThemeType) => StyleSheet.create({
-  container: {
-    paddingHorizontal: 24,
-    paddingTop: 54,
-    flex: 1,
-    backgroundColor: theme.background.getColor(),
-  },
-  stack: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    borderRadius: 8,
-    borderWidth: 1.1,
-    borderColor: neutral.getColor("100"),
-    backgroundColor: neutral.getColor("50"),
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-  },
-  input: {
-    flex: 1,
-    borderBottomWidth: 0,
-    color: neutral.getColor("900"),
-  },
-  shopIconContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: "white",
-    elevation: 4,
-  },
-  shopIcon: {
-    aspectRatio: 1,
-    width: 50,
-    height: 50,
-  },
-  bannerContainer: {
-    marginTop: 24,
-    marginBottom: 8,
-    height: 220,
-  },
-  banner: {
-    width: Dimensions.get("window").width + 10,
-    marginHorizontal: -10,
-  },
-  categoryGridContainer: {
-    marginTop: 24,
-  },
-  productList: {
-    marginTop: 32,
-    marginBottom: 100,
-  },
-  productGridContainer: {
-    marginTop: 24,
-  },
-  productGridContainerHeading: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  productGridContainerHeadingText: {
-    ...textStyle["16_semibold"],
-    color: neutral.getColor("900"),
-  },
-  productGridContainerMore: {
-    ...textStyle["16_semibold"],
-  },
-
-});
-
-export default Home;
+export default HomeScreen;
