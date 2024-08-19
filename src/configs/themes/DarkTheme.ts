@@ -24,6 +24,7 @@ const background = ColorFactory.createSingleColor(neutral.getColor("900"));
 const dialCode = ColorFactory.createSingleColor("#898B8E");
 const arrowSelector = ColorFactory.createSingleColor(neutral.getColor("50"));
 const placeholder = ColorFactory.createSingleColor("#898B8E");
+const navigation = ColorFactory.createSingleColor(neutral.getColor("400"));
 
 const darkTheme: ThemeType = {
     background: background,
@@ -41,6 +42,7 @@ const darkTheme: ThemeType = {
     dialCode: dialCode,
     arrowSelector: arrowSelector,
     placeholder: placeholder,
+    navigation: navigation,
 }
 
 export default darkTheme;

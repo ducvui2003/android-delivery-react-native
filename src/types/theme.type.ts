@@ -26,4 +26,5 @@ export type ThemeType = {
     dialCode: SingleColor;
     arrowSelector: SingleColor;
     placeholder: SingleColor;
+    navigation: SingleColor;
 }

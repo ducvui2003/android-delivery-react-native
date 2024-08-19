@@ -20,20 +20,24 @@ import SolarUserCircleBold from "../../assets/images/icons/SolarUserCircleBold";
 import SolarBellLinear from "../../assets/images/icons/SolarBellLinear";
 import SolarBellBold from "../../assets/images/icons/SolarBellBold";
 import SolarClipboardListLinear from "../../assets/images/icons/SolarClipboardListLinear";
+import {useSelector} from "react-redux";
+import {RootState} from "../configs/redux/store.config";
 
 const windowHeight = Dimensions. get('window').height
 
 function ButtonNavigationScreen() {
+    const theme = useSelector((state: RootState) => state.themeState.theme)
+
     return (
         <View style={styles.container}>
             <BottomNavigation
                 initialItem={0}
                 position={"static"}
                 bottom={-windowHeight + 90}
-                sizeIcon={50}
+                sizeIcon={60}
                 marginHorizontal={10}
-                backgroundColor={white.getColor()}
-                backgroundIcon={white.getColor()}
+                backgroundColor={theme.navigation.getColor()}
+                backgroundIcon={theme.navigation.getColor()}
                 backgroundIconActive={gradient.getColor()}
                 colorTitle={gradient.getColor()}
                 boxShadow={{

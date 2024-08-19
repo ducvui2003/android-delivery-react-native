@@ -24,6 +24,7 @@ const background = ColorFactory.createSingleColor(white.getColor());
 const dialCode = ColorFactory.createSingleColor(neutral.getColor("300"));
 const arrowSelector = ColorFactory.createSingleColor(neutral.getColor("900"));
 const placeholder = ColorFactory.createSingleColor(neutral.getColor("300"));
+const navigation = ColorFactory.createSingleColor(white.getColor());
 
 const lightTheme: ThemeType = {
     background: background,
@@ -41,6 +42,7 @@ const lightTheme: ThemeType = {
     dialCode: dialCode,
     arrowSelector: arrowSelector,
     placeholder: placeholder,
+    navigation: navigation,
 }
 
 export default lightTheme;

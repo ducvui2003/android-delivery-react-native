@@ -71,17 +71,17 @@ const BottomNavigationItem =
         }
 
         const runActive = () => {
-            transformIconAnim.value = withTiming(-transformIcon, {duration: durationAnimation})
             iconAmin.value = withTiming(0, {duration: durationAnimation})
-            iconActiveAnim.value = withTiming(100, {duration: durationAnimation})
+            iconActiveAnim.value = withTiming(100, {duration: durationAnimation*3/5})
             opacityTitleAnim.value = withTiming(1, {duration: durationAnimation})
+            transformIconAnim.value = withTiming(-transformIcon, {duration: durationAnimation})
         }
 
         const disabled = () => {
             if (status) return;
             setStatus(false);
 
-            transformIconAnim.value = withTiming(0, {duration: durationAnimation})
+            transformIconAnim.value = withTiming(0, {duration: durationAnimation*3/5})
             iconAmin.value = withTiming(100, {duration: durationAnimation})
             iconActiveAnim.value = withTiming(0, {duration: durationAnimation})
             opacityTitleAnim.value = withTiming(0, {duration: durationAnimation})
@@ -105,7 +105,7 @@ const BottomNavigationItem =
                 ]}>
                     <TouchableOpacity onPress={onPressDefault}>
                         <GradientView gradientColors={backgroundIconArr}
-                                      style={[styles.containerIcon, {backgroundColor: white.getColor()}]}>
+                                      style={[styles.containerIcon]}>
                             <Animated.View
                                 style={[
                                     styles.containerIcon,
