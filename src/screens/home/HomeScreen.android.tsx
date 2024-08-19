@@ -39,8 +39,8 @@ function HomeScreen() {
 					viewPagerRef={viewPagerRef}
 					renderItem={(item, index) => {
 						return (
-							<View style={{ borderRadius: 12, overflow: "hidden" }}>
-								<Image resizeMode="cover" key={index} style={styles.banner} source={item} />
+							<View key={index} style={{ borderRadius: 12, overflow: "hidden" }}>
+								<Image resizeMode="cover" style={styles.banner} source={item} />
 							</View>
 						);
 					}}
