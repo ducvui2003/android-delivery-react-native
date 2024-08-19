@@ -9,7 +9,7 @@
 import React from "react";
 import { View } from "react-native";
 
-function Space({ width, height }: { width?: number; height?: mumber }) {
+function Space({ width, height }: { width?: number; height?: number }) {
 	return <View style={{ height: height, width: width }} />;
 }
 

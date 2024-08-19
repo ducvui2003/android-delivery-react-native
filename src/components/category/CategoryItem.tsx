@@ -6,22 +6,23 @@
  * User: ducvui2003
  **/
 
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import React from "react";
 import { ThemeType } from "../../types/theme.type";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import { CategoryType } from "./type/category.type";
+import { neutral } from "../../configs/colors/color-template.config";
 
 function CategoryItem({ item }: CategoryType) {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
 	return (
-		<View style={{ ...styles.container }}>
+		<TouchableOpacity style={{ ...styles.container }}>
 			<Image source={item.image} style={{ ...styles.image }} />
 			<Text style={{ ...styles.text }}>{item.name}</Text>
-		</View>
+		</TouchableOpacity>
 	);
 }
 
@@ -32,7 +33,7 @@ const makeStyled = (theme: ThemeType) =>
 			padding: 6,
 			elevation: 5,
 			borderRadius: 8,
-			backgroundColor: "white",
+			backgroundColor: theme.home.category.background.getColor(),
 		},
 		image: {
 			width: 24,
@@ -42,7 +43,7 @@ const makeStyled = (theme: ThemeType) =>
 			...textStyle["12_medium"],
 			marginTop: 5,
 			textAlign: "center",
-			color: theme.neutral.getColor("900"),
+			color: theme.home.category.text.getColor(),
 		},
 	});
 

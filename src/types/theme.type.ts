@@ -5,7 +5,8 @@
  * Create at: 2:34 PM - 06/08/2024
  * User: lam-nguyen
  **/
-import { SingleColor } from "../utils/Color";
+import { GradientColor, GroupColor, SingleColor } from "../utils/Color";
+import { ColorSchemeName } from "react-native";
 
 export type NameTheme = "light" | "dark";
 
@@ -25,4 +26,22 @@ export type ThemeType = {
 	dialCode: SingleColor;
 	arrowSelector: SingleColor;
 	placeholder: SingleColor;
+	home: {
+		heading: SingleColor;
+		search: {
+			icon: SingleColor;
+		};
+		category: {
+			background: SingleColor;
+			text: SingleColor;
+		};
+		cart: {
+			background: SingleColor;
+			icon: SingleColor;
+		};
+		product_card: {
+			background: SingleColor;
+			text: SingleColor;
+		};
+	};
 };

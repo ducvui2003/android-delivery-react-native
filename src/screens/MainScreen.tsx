@@ -14,6 +14,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MainScreenStackParamList } from "../navigations/stack.type";
 import { primary } from "../configs/colors/color-template.config";
 import SignUpScreen from "./mainSubScreens/SignUpScreen";
+import HomeScreen from "./home/HomeScreen";
 
 const MainScreenTab = createBottomTabNavigator<MainScreenStackParamList>();
 
@@ -52,6 +53,14 @@ function MainScreen() {
 						tabBarIcon: () => <Text>Sign up Screen</Text>,
 					}}
 					component={SignUpScreen}
+				/>
+				<MainScreenTab.Screen
+					name="HomeScreen"
+					options={{
+						title: "Home",
+						tabBarIcon: () => <Text>Icon Home</Text>,
+					}}
+					component={HomeScreen}
 				/>
 			</MainScreenTab.Navigator>
 		</SafeAreaView>

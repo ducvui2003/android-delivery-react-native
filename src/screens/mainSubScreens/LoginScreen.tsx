@@ -70,7 +70,7 @@ function LoginScreen() {
 		if (!isValid) return;
 	};
 
-	const button: Record<"true" | "false", ReactNode> = {
+	const button: Record<boolean, ReactNode> = {
 		true: (
 			<TouchableOpacity
 				style={[styles.buttonNotActive, styles.button]}

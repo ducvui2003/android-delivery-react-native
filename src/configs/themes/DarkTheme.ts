@@ -24,7 +24,15 @@ const background = ColorFactory.createSingleColor(neutral.getColor("900"));
 const dialCode = ColorFactory.createSingleColor("#898B8E");
 const arrowSelector = ColorFactory.createSingleColor(neutral.getColor("50"));
 const placeholder = ColorFactory.createSingleColor("#898B8E");
-
+// Home
+const home_category_background = ColorFactory.createSingleColor(neutral.getColor("700"));
+const home_category_text = ColorFactory.createSingleColor(neutral.getColor("100"));
+const home_search_icon = ColorFactory.createSingleColor(neutral.getColor("50"));
+const home_heading = ColorFactory.createSingleColor(neutral.getColor("50"));
+const home_cart_background = ColorFactory.createSingleColor("#25292E");
+const home_cart_icon = ColorFactory.createSingleColor(neutral.getColor("100"));
+const home_product_card_background = ColorFactory.createSingleColor(neutral.getColor("500"));
+const home_product_card_text = ColorFactory.createSingleColor(neutral.getColor("100"));
 const darkTheme: ThemeType = {
 	background: background,
 	background_1: background_1,
@@ -41,6 +49,24 @@ const darkTheme: ThemeType = {
 	dialCode: dialCode,
 	arrowSelector: arrowSelector,
 	placeholder: placeholder,
+	home: {
+		heading: home_heading,
+		search: {
+			icon: home_search_icon,
+		},
+		category: {
+			background: home_category_background,
+			text: home_category_text,
+		},
+		cart: {
+			background: home_cart_background,
+			icon: home_cart_icon,
+		},
+		product_card: {
+			background: home_product_card_background,
+			text: home_product_card_text,
+		},
+	},
 };
 
 export default darkTheme;
