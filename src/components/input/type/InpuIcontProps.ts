@@ -6,11 +6,11 @@
  *  User: lam-nguyen
  **/
 import InputProps from "./InputProps";
-import {ReactNode} from "react";
+import { ReactNode } from "react";
 
 type InputIconProps = InputProps & {
-    icon?: ReactNode;
-    side?: "left" | "right";
-}
+	icon?: ReactNode;
+	side?: "left" | "right";
+};
 
 export default InputIconProps;

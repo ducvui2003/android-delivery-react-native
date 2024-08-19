@@ -5,9 +5,9 @@
  * Create at: 2:56 PM - 13/08/2024
  * User: lam-nguyen
  **/
-import {User} from "./user.type";
+import { User } from "./user.type";
 
 export type Authentication = {
-    user: User
-    access_token: string
-}
+	user: User;
+	access_token: string;
+};

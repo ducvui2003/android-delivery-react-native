@@ -52,17 +52,17 @@ function Root() {
 
     return (
         <NavigationContainer>
-            <RootStack.Navigator initialRouteName="LoadingScreen" screenOptions={{
+            <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{
                 headerShown: false,
             }}>
                 <RootStack.Screen name={"MainScreen"}
                                   component={MainScreen}/>
-                <RootStack.Screen name={"LoadingScreen"}
-                                  component={LoadingScreen}/>
-                <RootStack.Screen name={"WelcomeScreen"}
-                                  component={WelcomeScreen}/>
-                <RootStack.Screen name={"IntroduceScreen"}
-                                  component={IntroduceScreen}/>
+              <RootStack.Screen name={"LoadingScreen"}
+                                component={LoadingScreen}/>
+              <RootStack.Screen name={"WelcomeScreen"}
+                                component={WelcomeScreen}/>
+              <RootStack.Screen name={"IntroduceScreen"}
+                                component={IntroduceScreen}/>
             </RootStack.Navigator>
         </NavigationContainer>
     );
