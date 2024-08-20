@@ -5,18 +5,16 @@
  * Create at: 12:52 PM - 18/08/2024
  * User: lam-nguyen
  **/
-import { StyleProp, TextStyle, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 import GradientType from "./position.type";
-import { DimensionValue } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import { ReactNode } from "react";
 
 type GradientProps = {
-	height?: DimensionValue;
-	text: string;
 	gradientColors: string[];
-	textStyle?: TextStyle;
 	style?: StyleProp<ViewStyle>;
 	start?: GradientType;
 	end?: GradientType;
+	children?: ReactNode;
 };
 
 export default GradientProps;

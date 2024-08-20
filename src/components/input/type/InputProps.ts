@@ -6,8 +6,6 @@
  *  User: lam-nguyen
  **/
 import { KeyboardTypeOptions, NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
-import { UseFormReturn } from "react-hook-form";
-import { RegisterOptions } from "react-hook-form/dist/types/validator";
 import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
 
 type InputProps = {
