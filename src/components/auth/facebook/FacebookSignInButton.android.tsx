@@ -29,7 +29,7 @@ function FacebookSignInButtonAndroid({ loginSuccess, loginFail }: ButtonAuthProp
 					return;
 				}
 			})
-			.catch(error => {
+			.catch(() => {
 				loginFail && loginFail();
 			});
 	};

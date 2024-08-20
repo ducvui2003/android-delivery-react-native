@@ -11,7 +11,7 @@ import { RootState } from "../../configs/redux/store.config";
 import { ThemeType } from "../../types/theme.type";
 import Row from "../../components/custom/Row";
 import Col from "../../components/custom/Col";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import { gradient, neutral, primary } from "../../configs/colors/color-template.config";
 import SolarBagOutline from "../../../assets/images/icons/SolarBagOutline";

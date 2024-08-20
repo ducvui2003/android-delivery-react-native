@@ -33,7 +33,7 @@ import Space from "../../components/custom/Space";
 import { FlatList } from "react-native-gesture-handler";
 import { Controller, useForm } from "react-hook-form";
 import InputPhoneNumber from "../../components/input/InputPhoneNumber";
-import GradientText from "../../components/grandientText/GradientText";
+import GradientText from "../../components/gradientText/GradientText";
 import RegisterFormType from "../../types/registerForm.type";
 
 function SignUpScreen() {

@@ -24,6 +24,7 @@ const background = ColorFactory.createSingleColor(white.getColor());
 const dialCode = ColorFactory.createSingleColor(neutral.getColor("300"));
 const arrowSelector = ColorFactory.createSingleColor(neutral.getColor("900"));
 const placeholder = ColorFactory.createSingleColor(neutral.getColor("300"));
+const navigation = ColorFactory.createSingleColor(white.getColor());
 // Home
 const home_category_background = ColorFactory.createSingleColor("white");
 const home_category_text = ColorFactory.createSingleColor(neutral.getColor("900"));
@@ -33,6 +34,7 @@ const home_cart_background = ColorFactory.createSingleColor("white");
 const home_cart_icon = ColorFactory.createSingleColor(neutral.getColor("900"));
 const home_product_card_background = ColorFactory.createSingleColor("white");
 const home_product_card_text = ColorFactory.createSingleColor(neutral.getColor("900"));
+
 const lightTheme: ThemeType = {
 	background: background,
 	background_1: background_1,
@@ -49,6 +51,7 @@ const lightTheme: ThemeType = {
 	dialCode: dialCode,
 	arrowSelector: arrowSelector,
 	placeholder: placeholder,
+	navigation: navigation,
 	home: {
 		heading: home_heading,
 		search: {

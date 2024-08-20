@@ -23,6 +23,7 @@ import HomeHeaderFragment from "../../fragments/home/HomeHeaderFragment";
 import { Category } from "../../types/category.type";
 import { ThemeType } from "../../types/theme.type";
 import HomeProductsFragment from "../../fragments/home/HomeProductsFragment";
+
 function HomeScreen() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
