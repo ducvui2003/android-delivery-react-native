@@ -17,7 +17,7 @@ import ProductHomeCard from "../../components/card/product/ProductHomeCard";
 import Col from "../../components/custom/Col";
 import Grid from "../../components/custom/Grid";
 import Row from "../../components/custom/Row";
-import GradientText from "../../components/grandientText/GradientText";
+import GradientText from "../../components/gradientText/GradientText";
 import { gradient, primary } from "../../configs/colors/color-template.config";
 import { RootState } from "../../configs/redux/store.config";
 import textStyle from "../../configs/styles/textStyle.config";
