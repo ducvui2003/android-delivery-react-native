@@ -9,15 +9,10 @@ export type RootStackParamList = {
 };
 
 export type MainScreenStackParamList = {
-	LoginScreen: NavigatorScreenParams<LoginScreenStackParamList>;
+	LoginScreen: undefined;
 	TestThemeScreen: undefined;
 	SignUpScreen: undefined;
 	HomeScreen: undefined;
-};
-
-export type LoginScreenStackParamList = {
-	LoginFacebookFragment: undefined;
-	LoginGoogleFragment: undefined;
 };
 
 export type HomeScreenStackParamList = {
