@@ -6,11 +6,11 @@
  *  User: lam-nguyen
  **/
 import InputProps from "./InputProps";
-import React from "react";
 import CountryPhoneNumberType from "../../../types/countryPhoneNumber.type";
 
 type InputPhoneNumberProps = InputProps & {
-	useStateShowed?: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+	showed?: boolean;
+	onShow?: (isShow: boolean) => void;
 	onCountryPhoneNumberTypeSelected?: (item: CountryPhoneNumberType) => void;
 	onValidation?: (isValid: boolean) => void;
 };
