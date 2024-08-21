@@ -23,9 +23,11 @@ type Props = {
 };
 
 export function CountDown({ icon, time, style, textStyle, onEnd }: Props) {
+	const [count, setCount] = React.useState<number>(time);
+
 	const formatTime = () => {
-		const hour = Math.floor(time / 60);
-		const minute = time >= 60 ? time % (hour * 60) : time;
+		const hour = Math.floor(count / 60);
+		const minute = count >= 60 ? count % (hour * 60) : count;
 		return `${hour < 10 ? "0" + hour : hour} : ${minute < 10 ? "0" + minute : minute}`;
 	};
 
@@ -35,15 +37,19 @@ export function CountDown({ icon, time, style, textStyle, onEnd }: Props) {
 		const start = new Date().getTime();
 		const interval = setInterval(() => {
 			const now = new Date().getTime();
-			onEnd?.();
-
-			if (Math.floor((now - start) / 1000) === time) {
+			if (Math.floor((now - start) / 1000) === count) {
+				onEnd?.();
 				clearInterval(interval);
 				return;
 			}
+			setCount(prevState => prevState - 1);
 		}, 1000);
 
 		return () => clearInterval(interval);
+	}, [count]);
+
+	useEffect(() => {
+		setCount(time);
 	}, [time]);
 
 	return (

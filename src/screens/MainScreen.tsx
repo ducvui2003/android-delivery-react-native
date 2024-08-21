@@ -62,7 +62,7 @@ function MainScreen() {
 						tabBarIcon: () => <Text>Icon VerificationScreen</Text>,
 					}}
 					component={VerificationScreen}
-					initialParams={{ dialCode: "+84", phoneNumber: "855***919", codeVerify: "acds" }}
+					initialParams={{ dialCode: "+84", phoneNumber: "855***919", codeVerify: "1234" }}
 				/>
 				<MainScreenTab.Screen
 					name="TestThemeScreen"

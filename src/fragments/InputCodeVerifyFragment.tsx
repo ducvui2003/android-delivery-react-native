@@ -7,12 +7,13 @@
  **/
 
 import React, { useEffect, useState } from "react";
-import { NativeSyntheticEvent, StyleProp, StyleSheet, TextInputChangeEventData, ViewStyle } from "react-native";
+import { NativeSyntheticEvent, StyleProp, StyleSheet, Text, TextInputChangeEventData, ViewStyle } from "react-native";
 import InputIcon from "../components/input/InputIcon";
 import textStyle from "../configs/styles/textStyle.config";
 import Row from "../components/custom/Row";
 import { primary } from "../configs/colors/color-template.config";
 import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
+import Col from "../components/custom/Col";
 
 function InputCodeVerifyFragment({
 	numberOfInput,
@@ -22,6 +23,7 @@ function InputCodeVerifyFragment({
 	sizeInputCode = 75,
 	onVerify,
 	styleInput,
+	messageError,
 }: {
 	numberOfInput: number;
 	codeVerify: string;
@@ -30,6 +32,7 @@ function InputCodeVerifyFragment({
 	onBlur?: () => void;
 	onVerify?: (status: boolean) => void;
 	styleInput?: StyleProp<ViewStyle>;
+	messageError?: string;
 }) {
 	const initialFocusStatus: boolean[] = [];
 	const initialListData: string[] = [];
@@ -44,6 +47,7 @@ function InputCodeVerifyFragment({
 	const onChange = (index: number, element: NativeSyntheticEvent<TextInputChangeEventData>) => {
 		setShowError(false);
 		const text = element.nativeEvent.text;
+		if (text.length > 1) return;
 		setListData(prevState => {
 			const newState = [...prevState];
 			newState[index] = text;
@@ -73,13 +77,13 @@ function InputCodeVerifyFragment({
 	};
 
 	useEffect(() => {
+		if (!listData.length) return;
+
 		for (let i = 0; i < listData.length; i++) {
-			if (!listData[i]) return;
+			if (!listData[i].length) return;
 		}
 
-		console.log(listData);
-
-		const codeInput = listData.join("");
+		const codeInput = listData.join("").toUpperCase();
 		onVerify?.(codeInput === codeVerify);
 		setShowError(codeInput !== codeVerify);
 	}, [listData]);
@@ -90,6 +94,7 @@ function InputCodeVerifyFragment({
 			inputCodes.push(
 				<InputIcon
 					key={i}
+					value={listData[i]}
 					focus={listFocus[i]}
 					width={sizeInputCode}
 					height={sizeInputCode}
@@ -120,18 +125,29 @@ function InputCodeVerifyFragment({
 		return inputCodes;
 	};
 
-	return <Row style={styles.inputCodeContainer}>{renderInputCode(numberOfInput)}</Row>;
+	return (
+		<Col>
+			<Row style={styles.inputCodeContainer}>{renderInputCode(numberOfInput)}</Row>
+			<Text style={[styles.messageError, { opacity: showError ? 1 : 0 }]}>{"Code Invalid" ?? messageError}</Text>
+		</Col>
+	);
 }
 
 const styles = StyleSheet.create({
 	inputCodeContainer: {
 		justifyContent: "space-between",
-		marginBottom: 51,
+		marginBottom: 30,
 	},
 	inputCode: {
 		height: "100%",
 		...textStyle["40_semibold"],
 		textAlign: "center",
+	},
+	messageError: {
+		...textStyle["16_regular"],
+		color: primary.getColor("500"),
+		textAlign: "center",
+		marginBottom: 25,
 	},
 });
 

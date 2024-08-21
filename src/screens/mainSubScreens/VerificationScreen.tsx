@@ -48,6 +48,7 @@ export function VerificationScreen({
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [hidden, setHidden] = useState<boolean>(false);
 	const [time, setTime] = useState(10);
+	const [verify, setVerify] = useState<boolean>(false);
 
 	const onPress = () => {
 		setTime(10);
@@ -62,11 +63,16 @@ export function VerificationScreen({
 		false: <Text style={[styles.text, styles.textSimiBold, { color: neutral.getColor("100") }]}>Resend Code</Text>,
 	};
 
+	const onBlurInput = () => {
+		setHidden(false);
+		Keyboard.dismiss();
+	};
+
 	return (
 		<TouchableWithoutFeedback
 			onPress={() => {
 				if (Platform.OS === "web") return;
-				Keyboard.dismiss();
+				onBlurInput();
 			}}
 		>
 			<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
@@ -94,9 +100,9 @@ export function VerificationScreen({
 						onFocus={() => {
 							setHidden(true);
 						}}
-						onBlur={() => {
-							setHidden(false);
-							Keyboard.dismiss();
+						onBlur={onBlurInput}
+						onVerify={result => {
+							setVerify(result);
 						}}
 					/>
 					<Text style={[styles.text, { color: theme.text_1.getColor() }]}>Didn’t receive code?</Text>
@@ -111,7 +117,7 @@ export function VerificationScreen({
 					{componentResend[(time === 0).toString() as "true" | "false"]}
 				</ScrollView>
 				<Col style={[styles.footerContainer]}>
-					<ButtonHasStatus title={"Verify"} styleButton={[styles.buttonVerify]} />
+					<ButtonHasStatus title={"Verify"} active={verify} styleButton={[styles.buttonVerify]} />
 					<Row style={[{ display: hidden ? "none" : "flex" }, styles.containerCanHidden]}>
 						<Text style={[styles.text, { color: theme.text_1.getColor() }]}>Back to </Text>
 						<TouchableOpacity
