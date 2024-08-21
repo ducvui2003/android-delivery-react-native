@@ -40,7 +40,7 @@ function InputCodeVerifyFragment({
 		initialFocusStatus.push(false);
 		initialListData.push("");
 	}
-	const [listData, setListData] = useState<string[]>([]);
+	const [listData, setListData] = useState<string[]>(initialListData);
 	const [listFocus, setListFocus] = useState<boolean[]>(initialFocusStatus);
 	const [showError, setShowError] = useState<boolean>(false);
 
@@ -77,8 +77,6 @@ function InputCodeVerifyFragment({
 	};
 
 	useEffect(() => {
-		if (!listData.length) return;
-
 		for (let i = 0; i < listData.length; i++) {
 			if (!listData[i].length) return;
 		}
