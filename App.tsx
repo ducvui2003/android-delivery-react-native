@@ -14,6 +14,7 @@ import { setTheme } from "./src/hooks/redux/theme.slice";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import { VerificationScreen } from "./src/screens/VerificationScreen";
+import { SettingPinSecurityScreen } from "./src/screens/SettingPinSecurityScreen";
 
 const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -50,12 +51,12 @@ function Root() {
 
     useEffect(() => {
         if (!colorScheme) return;
-        dispatch(setTheme(colorScheme))
+        dispatch(setTheme("dark"))
     }, []);
 
     return (
         <NavigationContainer>
-            <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{
+            <RootStack.Navigator initialRouteName="SettingPinSecurityScreen" screenOptions={{
                 headerShown: false,
             }}>
                 <RootStack.Screen name={"MainScreen"}
@@ -74,6 +75,7 @@ function Root() {
                                       dialCode: "+84",
                                       phoneNumber: "85****919",
                                   }} />
+              <RootStack.Screen name={"SettingPinSecurityScreen"} component={SettingPinSecurityScreen} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

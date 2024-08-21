@@ -7,7 +7,15 @@
  **/
 
 import React, { useEffect, useState } from "react";
-import { NativeSyntheticEvent, StyleProp, StyleSheet, Text, TextInputChangeEventData, ViewStyle } from "react-native";
+import {
+	KeyboardType,
+	NativeSyntheticEvent,
+	StyleProp,
+	StyleSheet,
+	Text,
+	TextInputChangeEventData,
+	ViewStyle,
+} from "react-native";
 import InputIcon from "../components/input/InputIcon";
 import textStyle from "../configs/styles/textStyle.config";
 import Row from "../components/custom/Row";
@@ -24,15 +32,21 @@ function InputCodeVerifyFragment({
 	onVerify,
 	styleInput,
 	messageError,
+	onChangeCode,
+	keyboardType,
+	disableVerify = false,
 }: {
 	numberOfInput: number;
-	codeVerify: string;
+	codeVerify?: string;
 	sizeInputCode?: number;
 	onFocus?: () => void;
 	onBlur?: () => void;
 	onVerify?: (status: boolean) => void;
 	styleInput?: StyleProp<ViewStyle>;
 	messageError?: string;
+	onChangeCode?: (code: string) => void;
+	keyboardType?: KeyboardType;
+	disableVerify?: boolean;
 }) {
 	const initialFocusStatus: boolean[] = [];
 	const initialListData: string[] = [];
@@ -77,11 +91,11 @@ function InputCodeVerifyFragment({
 	};
 
 	useEffect(() => {
-		for (let i = 0; i < listData.length; i++) {
-			if (!listData[i].length) return;
-		}
-
 		const codeInput = listData.join("").toUpperCase();
+		onChangeCode?.(codeInput);
+
+		if (codeInput.length !== numberOfInput || disableVerify) return;
+
 		onVerify?.(codeInput === codeVerify);
 		setShowError(codeInput !== codeVerify);
 	}, [listData]);
@@ -92,6 +106,7 @@ function InputCodeVerifyFragment({
 			inputCodes.push(
 				<InputIcon
 					key={i}
+					keyboardType={keyboardType}
 					value={listData[i]}
 					focus={listFocus[i]}
 					width={sizeInputCode}
