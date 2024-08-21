@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import InputIconProps from "./type/InpuIcontProps";
 import InputStyles from "./style/input.styles";
+import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
 
 function InputIcon({
 	onChange,
@@ -24,28 +25,45 @@ function InputIcon({
 	icon,
 	side = "left",
 	borderColor,
+	borderColorFocus,
+	width,
+	height,
+	backgroundColor,
+	styleInput,
 }: InputIconProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const [isFocus, setIsFocus] = React.useState<boolean>(false);
+
+	const borderColorArr: Record<"true" | "false", ColorValue> = {
+		true: borderColorFocus ? borderColorFocus : theme.border_hover.getColor(),
+		false: borderColor ? borderColor : theme.border.getColor(),
+	};
 
 	return (
 		<Row
 			style={[
 				InputStyles.container,
 				{
-					backgroundColor: theme.background_input.getColor(),
-					borderColor: theme.border.getColor(),
+					backgroundColor: backgroundColor ?? theme.background_input.getColor(),
+					borderColor: borderColorArr[isFocus.toString() as "false" | "true"],
 				},
-				{ borderColor: borderColor },
+				{ width, height },
 			]}
 		>
 			{side === "left" && icon}
 			<TextInput
-				style={[InputStyles.input, { color: theme.text_3.getColor() }]}
+				style={[InputStyles.input, { color: theme.text_3.getColor() }, styleInput]}
 				placeholderTextColor={theme.placeholder.getColor()}
-				onBlur={onBlur}
+				onBlur={() => {
+					onBlur && onBlur();
+					setIsFocus(false);
+				}}
 				keyboardType={keyboardType}
 				onChange={onChange}
-				onFocus={onFocus}
+				onFocus={() => {
+					onFocus && onFocus();
+					setIsFocus(true);
+				}}
 				value={value}
 				placeholder={placeholder}
 			/>

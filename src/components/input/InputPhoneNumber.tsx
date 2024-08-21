@@ -39,7 +39,7 @@ function InputPhoneNumber({
 	const [phoneNumberFormat, setPhoneNumberFormat] = useState<string>("");
 
 	useEffect(() => {
-		onCountryPhoneNumberTypeSelected && onCountryPhoneNumberTypeSelected(countryPhoneNumber);
+		onCountryPhoneNumberTypeSelected?.(countryPhoneNumber);
 		validationPhoneNumber(phoneNumberFormat);
 	}, [countryPhoneNumber]);
 
