@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React from "react";
+import React, { useState } from "react";
 import {
 	Keyboard,
 	Platform,
@@ -18,41 +18,49 @@ import {
 	View,
 } from "react-native";
 import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
-import textStyle from "../../configs/styles/textStyle.config";
-import { gradient, neutral, otherMethodSignIn, primary } from "../../configs/colors/color-template.config";
+import { RootState } from "../configs/redux/store.config";
+import textStyle from "../configs/styles/textStyle.config";
+import { gradient, neutral, otherMethodSignIn, primary } from "../configs/colors/color-template.config";
 import { CheckBox, Divider } from "@rneui/themed";
-import Row from "../../components/custom/Row";
-import Col from "../../components/custom/Col";
-import GoogleAuth from "../../components/auth/GoogleAuth";
-import FacebookAuth from "../../components/auth/FacebookAuth";
+import Row from "../components/custom/Row";
+import Col from "../components/custom/Col";
+import GoogleAuth from "../components/auth/GoogleAuth";
+import FacebookAuth from "../components/auth/FacebookAuth";
+import SolarLetterBold from "../../assets/images/icons/SolarLetterBold";
+import InputIcon from "../components/input/InputIcon";
+import SolarUserBold from "../../assets/images/icons/SolarUserBold";
+import Space from "../components/custom/Space";
 import { Controller, useForm } from "react-hook-form";
-import LoginFormType from "../../types/loginForm.type";
-import { ButtonHasStatus } from "../../components/custom/ButtonHasStatus";
-import InputPhoneNumber from "../../components/input/InputPhoneNumber";
-import GradientText from "../../components/gradientText/GradientText";
+import InputPhoneNumber from "../components/input/InputPhoneNumber";
+import GradientText from "../components/gradientText/GradientText";
+import RegisterFormType from "../types/registerForm.type";
+import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { MainScreenStackParamList } from "../../navigations/stack.type";
+import { MainScreenStackParamList } from "../navigations/stack.type";
 
-function LoginScreen() {
-	const [checked, setChecked] = React.useState(false);
-	const [showed, setShowed] = React.useState(false);
-	const [isFocusInput, setIsFocusInput] = React.useState(false);
+function SignUpScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
-	const navigation = useNavigation<NativeStackNavigationProp<MainScreenStackParamList, "LoginScreen">>();
-
+	const [isShow, setIsShow] = useState(false);
+	const [isFocusInput, setIsFocusInput] = useState(false);
+	const navigation = useNavigation<NativeStackNavigationProp<MainScreenStackParamList, "SignUpScreen">>();
+	const sizeIcon = 25;
 	const {
 		control,
 		setError,
 		handleSubmit,
 		formState: { isValid },
-	} = useForm<LoginFormType>({ mode: "all" });
+	} = useForm<RegisterFormType>({ mode: "all" });
+
+	const onSubmit = (data: RegisterFormType) => {
+		console.log(data);
+		if (!isValid) return;
+	};
 
 	const onFocusInput = () => {
 		setIsFocusInput(true);
-		setShowed(false);
+		setIsShow(false);
 	};
 
 	const onBlurInput = () => {
@@ -60,30 +68,29 @@ function LoginScreen() {
 	};
 
 	const onOtherPress = () => {
-		setShowed(false);
+		setIsShow(false);
 		if (Platform.OS === "web") return;
 		Keyboard.dismiss();
-	};
-
-	const onSubmit = (data: LoginFormType) => {
-		console.log(data);
-		if (!isValid) return;
 	};
 
 	return (
 		<TouchableWithoutFeedback onPress={onOtherPress}>
 			<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 				<FlatList
+					showsVerticalScrollIndicator={false}
+					showsHorizontalScrollIndicator={false}
 					data={[1]}
 					renderItem={() => {
 						return (
 							<>
-								<GradientText
-									style={{ marginBottom: 32 }}
-									textStyle={styles.title}
-									text={"Login"}
-									gradientColors={gradient.getColor()}
-								/>
+								<Row style={styles.titleContainer}>
+									<GradientText
+										style={{ marginBottom: 32 }}
+										textStyle={styles.title}
+										text={"Registration"}
+										gradientColors={gradient.getColor()}
+									/>
+								</Row>
 								<Controller
 									control={control}
 									name={"phoneNumber"}
@@ -97,13 +104,14 @@ function LoginScreen() {
 									}}
 									render={({ field: { onChange, value }, fieldState: { error } }) => {
 										return (
-											<Col>
+											<Col style={{ zIndex: 2 }}>
 												<InputPhoneNumber
-													showed={showed}
-													onShow={setShowed}
+													showed={isShow}
+													onShow={setIsShow}
 													placeholder={"00 000 000"}
 													value={value}
 													borderColor={error ? "red" : undefined}
+													onBlur={onBlurInput}
 													onValidation={isValid => {
 														if (isValid) return;
 														setError("phoneNumber", {
@@ -111,7 +119,6 @@ function LoginScreen() {
 															message: "Invalid phone number",
 														});
 													}}
-													onBlur={onBlurInput}
 													onFocus={onFocusInput}
 													onChange={element => {
 														onChange(element.nativeEvent.text);
@@ -124,11 +131,79 @@ function LoginScreen() {
 										);
 									}}
 								/>
-
+								<Space height={24} />
+								<Controller
+									control={control}
+									name={"email"}
+									rules={{
+										required: "Email is required",
+										pattern: {
+											value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+											message: "invalid email",
+										},
+									}}
+									render={({ field: { onChange, value }, fieldState: { error } }) => {
+										return (
+											<Col>
+												<InputIcon
+													icon={
+														<SolarLetterBold
+															width={sizeIcon}
+															height={sizeIcon}
+															style={{ marginRight: 12 }}
+															color={neutral.getColor("100")}
+														/>
+													}
+													placeholder={"Email"}
+													borderColor={error ? "red" : undefined}
+													value={value}
+													onBlur={onBlurInput}
+													onFocus={onFocusInput}
+													onChange={element => {
+														onChange(element.nativeEvent.text);
+													}}
+												/>
+												{error && <Text style={{ color: "red" }}>{error.message}</Text>}
+											</Col>
+										);
+									}}
+								/>
+								<Space height={24} />
+								<Controller
+									control={control}
+									name={"fullName"}
+									rules={{
+										required: "Full name is required",
+									}}
+									render={({ field: { onChange, value }, fieldState: { error } }) => {
+										return (
+											<Col>
+												<InputIcon
+													icon={
+														<SolarUserBold
+															width={sizeIcon}
+															height={sizeIcon}
+															style={{ marginRight: 12 }}
+															color={neutral.getColor("100")}
+														/>
+													}
+													placeholder={"Full Name"}
+													value={value}
+													borderColor={error ? "red" : undefined}
+													onBlur={onBlurInput}
+													onFocus={onFocusInput}
+													onChange={element => {
+														onChange(element.nativeEvent.text);
+													}}
+												/>
+												{error && <Text style={{ color: "red" }}>{error.message}</Text>}
+											</Col>
+										);
+									}}
+								/>
 								<Row style={[styles.rememberMeContainer]}>
 									<CheckBox
-										checked={checked}
-										onPress={() => setChecked(!checked)}
+										checked={false}
 										iconType={"material-community"}
 										checkedIcon={"checkbox-marked"}
 										uncheckedIcon={"checkbox-blank-outline"}
@@ -148,8 +223,9 @@ function LoginScreen() {
 						);
 					}}
 				/>
+
 				<Col style={{ zIndex: -1 }}>
-					<ButtonHasStatus title={"Sign in"} active={isValid} onPress={handleSubmit(onSubmit)} />
+					<ButtonHasStatus title={"Register"} active={isValid} onPress={handleSubmit(onSubmit)} />
 					<Col style={{ display: isFocusInput ? "none" : "flex" }}>
 						<View style={[styles.otherMethodSignInContainer]}>
 							<Divider width={1} color={otherMethodSignIn.getColor()} style={[styles.dividerStyle]} />
@@ -161,7 +237,7 @@ function LoginScreen() {
 									},
 								]}
 							>
-								Or sign in with
+								Or sign up with
 							</Text>
 						</View>
 						<Row style={[styles.buttonOtherMethodSignIn]}>
@@ -171,14 +247,14 @@ function LoginScreen() {
 						</Row>
 						<Row style={[styles.askSignUpContainer]}>
 							<Text style={[styles.askSignUpText, { color: theme.text_1.getColor() }]}>
-								Don’t have an account?
+								Do have an account?
 							</Text>
 							<TouchableOpacity
 								onPress={() => {
-									navigation.navigate("SignUpScreen");
+									navigation.navigate("LoginScreen");
 								}}
 							>
-								<Text style={[styles.signUpText]}>Sign Up</Text>
+								<Text style={[styles.signUpText]}>Sign In</Text>
 							</TouchableOpacity>
 						</Row>
 					</Col>
@@ -196,7 +272,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 24,
 	},
 	titleContainer: {
-		marginBottom: 32,
+		justifyContent: "center",
 	},
 	title: {
 		...textStyle["30_bold_5%"],
@@ -264,4 +340,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default LoginScreen;
+export default SignUpScreen;

@@ -78,6 +78,7 @@ const createStyles = (height: number, backgroundColor: ColorValue) =>
 				width: 0,
 				height: -5,
 			},
+			zIndex: 2,
 		},
 		iconContainer: {
 			justifyContent: "space-around",

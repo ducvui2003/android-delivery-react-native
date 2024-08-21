@@ -19,24 +19,24 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 } from "react-native";
-import { gradient, neutral, primary } from "../../configs/colors/color-template.config";
-import textStyle from "../../configs/styles/textStyle.config";
-import Row from "../../components/custom/Row";
-import SolarClockCircleLinear from "../../../assets/images/icons/SolarClockCircleLinear";
-import { ButtonHasStatus } from "../../components/custom/ButtonHasStatus";
-import Col from "../../components/custom/Col";
-import { Header } from "../../components/header/Header";
+import { gradient, neutral, primary } from "../configs/colors/color-template.config";
+import textStyle from "../configs/styles/textStyle.config";
+import Row from "../components/custom/Row";
+import SolarClockCircleLinear from "../../assets/images/icons/SolarClockCircleLinear";
+import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import Col from "../components/custom/Col";
 import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
-import { NavigationProp } from "@react-navigation/native";
-import { MainScreenStackParamList } from "../../navigations/stack.type";
-import { VerificationScreenRouteProp } from "../../navigations/route.type";
-import { CountDown } from "../../components/coutDown/CountDown";
-import InputCodeVerifyFragment from "../../fragments/InputCodeVerifyFragment";
+import { RootState } from "../configs/redux/store.config";
+import { RootStackParamList } from "../navigations/stack.type";
+import { VerificationScreenRouteProp } from "../navigations/route.type";
+import { CountDown } from "../components/coutDown/CountDown";
+import InputCodeVerifyFragment from "../fragments/InputCodeVerifyFragment";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Header } from "../components/header/Header";
 
 type Props = {
 	route: VerificationScreenRouteProp;
-	navigation: NavigationProp<MainScreenStackParamList>;
+	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
 export function VerificationScreen({
@@ -90,6 +90,7 @@ export function VerificationScreen({
 					style={{ flexDirection: "column" }}
 					showsVerticalScrollIndicator={false}
 					showsHorizontalScrollIndicator={false}
+					onResponderRelease={onBlurInput}
 				>
 					<Text style={[styles.text, styles.textNotification, { color: theme.text_1.getColor() }]}>
 						Code has been send to ({dialCode}) {phoneNumber}

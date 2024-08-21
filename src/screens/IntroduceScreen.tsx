@@ -59,9 +59,7 @@ function IntroduceScreen() {
 	const viewPagerRef = useRef<PagerView>();
 
 	const onLoginOrRegister = () => {
-		navigation.replace("MainScreen", {
-			screen: "LoginScreen",
-		});
+		navigation.replace("SignUpScreen");
 	};
 
 	const onPressButtonNext = () => {
