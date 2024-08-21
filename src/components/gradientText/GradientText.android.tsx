@@ -12,7 +12,7 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import GradientProps from "./type/gradient.type";
 import { LinearGradient } from "react-native-linear-gradient";
 
-function GradientTextAndroid({
+function GradientText({
 	style,
 	text,
 	gradientColors,
@@ -48,4 +48,4 @@ function GradientTextAndroid({
 	);
 }
 
-export default GradientTextAndroid;
+export default GradientText;
