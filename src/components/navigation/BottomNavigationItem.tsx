@@ -26,12 +26,11 @@ const BottomNavigationItem = ({
 	fontSize,
 	transformTop = 5,
 	durationAnimation = 500,
-	state = useState(false),
+	status,
 	onActive,
 	index,
 	onDisabled,
 }: BottomNavigationItemProps) => {
-	const [status, setStatus] = state;
 	const transformIconAnim = useSharedValue(0);
 	const iconActiveAnim = useSharedValue(0);
 	const iconAmin = useSharedValue(100);
@@ -63,7 +62,6 @@ const BottomNavigationItem = ({
 
 	const onPressDefault = () => {
 		if (status) return;
-		setStatus(true);
 		runActive();
 		onPress?.();
 		onActive(index);
@@ -78,7 +76,6 @@ const BottomNavigationItem = ({
 
 	const disabled = () => {
 		if (status) return;
-		setStatus(false);
 
 		transformIconAnim.value = withTiming(0, { duration: (durationAnimation * 3) / 5 });
 		iconAmin.value = withTiming(100, { duration: durationAnimation });

@@ -2,10 +2,10 @@
 module.exports = {
   extends: [
     "expo",
-    "prettier",
+    // "prettier",
   ],
   plugins: [
-    "prettier",
+    // "prettier",
     "@typescript-eslint",
     "unused-imports"
   ],
@@ -16,17 +16,17 @@ module.exports = {
     "@typescript-eslint/no-require-imports": "off",
     "no-irregular-whitespace": "off",
     "@typescript-eslint/ban-types": "off",
-    "prettier/prettier": ["warn",
-      {
-        "arrowParens": "avoid",
-        "semi": true,
-        "endOfLine": "lf",
-        "printWidth": 100,
-        "singleQuote": false,
-        "jsxSingleQuote": false,
-        "trailingComma": "es5",
-      },
-    ],
+    // "prettier/prettier": ["warn",
+    //   {
+    //     "arrowParens": "avoid",
+    //     "semi": true,
+    //     "endOfLine": "lf",
+    //     "printWidth": 100,
+    //     "singleQuote": false,
+    //     "jsxSingleQuote": false,
+    //     "trailingComma": "es5",
+    //   },
+    // ],
    "@typescript-eslint/no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [
