@@ -12,7 +12,7 @@ import ColorFactory from "../../utils/Color";
 const background_1 = ColorFactory.createSingleColor(white.getColor());
 const background_2 = ColorFactory.createSingleColor(primary.getColor("50"));
 const background_card = ColorFactory.createSingleColor(white.getColor());
-const background_input = ColorFactory.createSingleColor("#EAEAEC");
+const background_input = ColorFactory.createSingleColor("#F4F4F5");
 const background_bottom_sheet = ColorFactory.createSingleColor(white.getColor());
 const border = ColorFactory.createSingleColor(neutral.getColor("50"));
 const border_hover = ColorFactory.createSingleColor(neutral.getColor("100"));
@@ -25,6 +25,8 @@ const dialCode = ColorFactory.createSingleColor(neutral.getColor("300"));
 const arrowSelector = ColorFactory.createSingleColor(neutral.getColor("900"));
 const placeholder = ColorFactory.createSingleColor(neutral.getColor("300"));
 const navigation = ColorFactory.createSingleColor(white.getColor());
+// Header
+const backgroundIconBack = ColorFactory.createSingleColor("#f6f6f6");
 // Home
 const home_category_background = ColorFactory.createSingleColor("white");
 const home_category_text = ColorFactory.createSingleColor(neutral.getColor("900"));
@@ -52,6 +54,9 @@ const lightTheme: ThemeType = {
 	arrowSelector: arrowSelector,
 	placeholder: placeholder,
 	navigation: navigation,
+	header: {
+		backgroundIconBack: backgroundIconBack,
+	},
 	home: {
 		heading: home_heading,
 		search: {

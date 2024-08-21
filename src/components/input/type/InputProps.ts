@@ -28,6 +28,7 @@ type InputProps = {
 	height?: DimensionValue | undefined;
 	backgroundColor?: ColorValue;
 	styleInput?: StyleProp<TextStyle>;
+	focus?: boolean;
 };
 
 export default InputProps;

@@ -15,6 +15,7 @@ import { MainScreenStackParamList } from "../navigations/stack.type";
 import { primary } from "../configs/colors/color-template.config";
 import SignUpScreen from "./mainSubScreens/SignUpScreen";
 import HomeScreen from "./home/HomeScreen";
+import { VerificationScreen } from "./mainSubScreens/VerificationScreen";
 
 const MainScreenTab = createBottomTabNavigator<MainScreenStackParamList>();
 
@@ -22,7 +23,7 @@ function MainScreen() {
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<MainScreenTab.Navigator
-				initialRouteName={"LoginScreen"}
+				initialRouteName={"VerificationScreen"}
 				screenOptions={{
 					headerShown: false,
 					tabBarStyle: {
@@ -39,14 +40,6 @@ function MainScreen() {
 					component={LoginScreen}
 				/>
 				<MainScreenTab.Screen
-					name="TestThemeScreen"
-					options={{
-						title: "Login",
-						tabBarIcon: () => <Text>Icon Test Theme</Text>,
-					}}
-					component={TestThemeScreen}
-				/>
-				<MainScreenTab.Screen
 					name="SignUpScreen"
 					options={{
 						title: "sign up",
@@ -61,6 +54,23 @@ function MainScreen() {
 						tabBarIcon: () => <Text>Icon Home</Text>,
 					}}
 					component={HomeScreen}
+				/>
+				<MainScreenTab.Screen
+					name="VerificationScreen"
+					options={{
+						title: "VerificationScreen",
+						tabBarIcon: () => <Text>Icon VerificationScreen</Text>,
+					}}
+					component={VerificationScreen}
+					initialParams={{ dialCode: "+84", phoneNumber: "855***919", codeVerify: "acds" }}
+				/>
+				<MainScreenTab.Screen
+					name="TestThemeScreen"
+					options={{
+						title: "Login",
+						tabBarIcon: () => <Text>Icon Test Theme</Text>,
+					}}
+					component={TestThemeScreen}
 				/>
 			</MainScreenTab.Navigator>
 		</SafeAreaView>

@@ -24,9 +24,6 @@ export function WelcomeScreen() {
 			if (Platform.OS === "web") {
 				navigation.replace("MainScreen", {
 					screen: "LoginScreen",
-					params: {
-						screen: "LoginGoogleFragment",
-					},
 				});
 
 				return;

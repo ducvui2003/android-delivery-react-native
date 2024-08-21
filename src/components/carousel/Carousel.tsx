@@ -16,7 +16,7 @@ import Space from "../custom/Space";
 
 function Carousel<T>({
 	data,
-	viewPagerRef = useRef<PagerView>(),
+	viewPagerRef,
 	onCurrentPage,
 	renderItem,
 	initialPage = 0,
@@ -32,6 +32,7 @@ function Carousel<T>({
 	marginListDot = 0,
 }: CarouselProps<T>) {
 	const sizeDotDefault = sizeDot ?? 10;
+	const ref = useRef<PagerView>();
 	const sizeDotActiveDefault = sizeDotActive ?? 30;
 	const [listStatus, setListStatus] = useState<boolean[]>(data.map(() => false));
 	const [listDotSizes, setListDotSizes] = useState<number[]>(data.map(() => sizeDotDefault));
@@ -92,7 +93,8 @@ function Carousel<T>({
 				style={[style.container]}
 				ref={viewPager => {
 					if (!viewPager) return;
-					viewPagerRef.current = viewPager;
+					ref.current = viewPager;
+					viewPagerRef?.(viewPager);
 				}}
 				initialPage={initialPage}
 				onPageScroll={onPageScroll}

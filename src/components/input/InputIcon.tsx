@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React from "react";
+import React, { useEffect } from "react";
 import Row from "../custom/Row";
 import { TextInput } from "react-native";
 import { useSelector } from "react-redux";
@@ -30,14 +30,21 @@ function InputIcon({
 	height,
 	backgroundColor,
 	styleInput,
+	focus,
 }: InputIconProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [isFocus, setIsFocus] = React.useState<boolean>(false);
+	const textInputRef = React.useRef<TextInput>(null);
 
 	const borderColorArr: Record<"true" | "false", ColorValue> = {
 		true: borderColorFocus ? borderColorFocus : theme.border_hover.getColor(),
 		false: borderColor ? borderColor : theme.border.getColor(),
 	};
+
+	useEffect(() => {
+		if (focus) textInputRef.current?.focus();
+		else textInputRef.current?.blur();
+	}, [focus]);
 
 	return (
 		<Row
@@ -55,13 +62,14 @@ function InputIcon({
 				style={[InputStyles.input, { color: theme.text_3.getColor() }, styleInput]}
 				placeholderTextColor={theme.placeholder.getColor()}
 				onBlur={() => {
-					onBlur && onBlur();
+					onBlur?.();
 					setIsFocus(false);
 				}}
+				ref={textInputRef}
 				keyboardType={keyboardType}
 				onChange={onChange}
 				onFocus={() => {
-					onFocus && onFocus();
+					onFocus?.();
 					setIsFocus(true);
 				}}
 				value={value}

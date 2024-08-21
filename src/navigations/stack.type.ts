@@ -13,6 +13,11 @@ export type MainScreenStackParamList = {
 	TestThemeScreen: undefined;
 	SignUpScreen: undefined;
 	HomeScreen: undefined;
+	VerificationScreen: {
+		dialCode: string;
+		phoneNumber: string;
+		codeVerify: string;
+	};
 };
 
 export type HomeScreenStackParamList = {

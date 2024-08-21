@@ -6,9 +6,8 @@
  * User: ducvui2003
  **/
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Dimensions, Image, ScrollView, StyleSheet, View } from "react-native";
-import PagerView from "react-native-pager-view";
 import { useSelector } from "react-redux";
 import { banners, categories } from "../../../assets/data/home/home";
 import SolarMagniferOutline from "../../../assets/images/icons/MagniferOutline";
@@ -28,7 +27,6 @@ function HomeScreen() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
 	const [, setCurrentPageViewPager] = useState(0);
-	const viewPagerRef = useRef<PagerView>();
 
 	return (
 		<ScrollView style={styles.container}>
@@ -37,7 +35,6 @@ function HomeScreen() {
 			<View style={styles.bannerContainer}>
 				<Carousel<object>
 					data={banners}
-					viewPagerRef={viewPagerRef}
 					renderItem={(item, index) => {
 						return (
 							<View key={index} style={{ borderRadius: 12, overflow: "hidden" }}>
