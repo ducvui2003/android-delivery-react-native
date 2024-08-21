@@ -35,8 +35,6 @@ function ProductHomeCard({
 						<GradientIconSvg
 							icon={<SolarHeartBold width={18} height={18} color={neutral.getColor("300")} />}
 							gradientColors={gradient.getColor()}
-							width={18}
-							height={18}
 						/>
 					)}
 				</TouchableOpacity>

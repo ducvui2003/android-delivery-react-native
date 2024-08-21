@@ -41,7 +41,7 @@ function GradientText({
 					colors={gradientColors}
 					start={start}
 					end={end}
-					style={[style, { width: size.width, height: size.height }]}
+					style={[{ width: size.width, height: size.height }]}
 				/>
 			</MaskedView>
 		</View>
