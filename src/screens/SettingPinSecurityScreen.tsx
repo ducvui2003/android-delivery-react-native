@@ -24,7 +24,7 @@ import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
 import Col from "../components/custom/Col";
 import { useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
-import InputCodeVerifyFragment from "../fragments/InputCodeVerifyFragment";
+import InputCodeFragment from "../fragments/InputCodeFragment";
 import { Header } from "../components/header/Header";
 
 export function SettingPinSecurityScreen() {
@@ -64,9 +64,8 @@ export function SettingPinSecurityScreen() {
 					<Text style={[styles.text, styles.textNotification, { color: theme.text_1.getColor() }]}>
 						Protect your account with a secure PIN
 					</Text>
-					<InputCodeVerifyFragment
+					<InputCodeFragment
 						numberOfInput={4}
-						disableVerify={true}
 						keyboardType={"numeric"}
 						onChangeCode={setCode}
 						onFocus={() => {

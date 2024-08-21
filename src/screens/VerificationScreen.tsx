@@ -30,7 +30,7 @@ import { RootState } from "../configs/redux/store.config";
 import { RootStackParamList } from "../navigations/stack.type";
 import { VerificationScreenRouteProp } from "../navigations/route.type";
 import { CountDown } from "../components/coutDown/CountDown";
-import InputCodeVerifyFragment from "../fragments/InputCodeVerifyFragment";
+import InputCodeFragment from "../fragments/InputCodeFragment";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Header } from "../components/header/Header";
 
@@ -95,7 +95,7 @@ export function VerificationScreen({
 					<Text style={[styles.text, styles.textNotification, { color: theme.text_1.getColor() }]}>
 						Code has been send to ({dialCode}) {phoneNumber}
 					</Text>
-					<InputCodeVerifyFragment
+					<InputCodeFragment
 						codeVerify={codeVerify}
 						numberOfInput={4}
 						onFocus={() => {

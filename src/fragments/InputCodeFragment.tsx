@@ -23,19 +23,7 @@ import { primary } from "../configs/colors/color-template.config";
 import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
 import Col from "../components/custom/Col";
 
-function InputCodeVerifyFragment({
-	numberOfInput,
-	codeVerify,
-	onFocus,
-	onBlur,
-	sizeInputCode = 75,
-	onVerify,
-	styleInput,
-	messageError,
-	onChangeCode,
-	keyboardType,
-	disableVerify = false,
-}: {
+type InputCodeFragmentProp = {
 	numberOfInput: number;
 	codeVerify?: string;
 	sizeInputCode?: number;
@@ -46,8 +34,20 @@ function InputCodeVerifyFragment({
 	messageError?: string;
 	onChangeCode?: (code: string) => void;
 	keyboardType?: KeyboardType;
-	disableVerify?: boolean;
-}) {
+};
+
+function InputCodeFragment({
+	numberOfInput,
+	codeVerify,
+	onFocus,
+	onBlur,
+	sizeInputCode = 75,
+	onVerify,
+	styleInput,
+	messageError,
+	onChangeCode,
+	keyboardType,
+}: InputCodeFragmentProp) {
 	const initialFocusStatus: boolean[] = [];
 	const initialListData: string[] = [];
 	for (let i = 0; i < numberOfInput; i++) {
@@ -94,7 +94,7 @@ function InputCodeVerifyFragment({
 		const codeInput = listData.join("").toUpperCase();
 		onChangeCode?.(codeInput);
 
-		if (codeInput.length !== numberOfInput || disableVerify) return;
+		if (codeInput.length !== numberOfInput || !codeVerify) return;
 
 		onVerify?.(codeInput === codeVerify);
 		setShowError(codeInput !== codeVerify);
@@ -164,4 +164,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default InputCodeVerifyFragment;
+export default InputCodeFragment;
