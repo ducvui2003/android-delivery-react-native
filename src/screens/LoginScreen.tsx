@@ -18,30 +18,30 @@ import {
 	View,
 } from "react-native";
 import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
-import textStyle from "../../configs/styles/textStyle.config";
-import { gradient, neutral, otherMethodSignIn, primary } from "../../configs/colors/color-template.config";
+import { RootState } from "../configs/redux/store.config";
+import textStyle from "../configs/styles/textStyle.config";
+import { gradient, neutral, otherMethodSignIn, primary } from "../configs/colors/color-template.config";
 import { CheckBox, Divider } from "@rneui/themed";
-import Row from "../../components/custom/Row";
-import Col from "../../components/custom/Col";
-import GoogleAuth from "../../components/auth/GoogleAuth";
-import FacebookAuth from "../../components/auth/FacebookAuth";
+import Row from "../components/custom/Row";
+import Col from "../components/custom/Col";
+import GoogleAuth from "../components/auth/GoogleAuth";
+import FacebookAuth from "../components/auth/FacebookAuth";
 import { Controller, useForm } from "react-hook-form";
-import LoginFormType from "../../types/loginForm.type";
-import { ButtonHasStatus } from "../../components/custom/ButtonHasStatus";
-import InputPhoneNumber from "../../components/input/InputPhoneNumber";
-import GradientText from "../../components/gradientText/GradientText";
+import LoginFormType from "../types/loginForm.type";
+import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import InputPhoneNumber from "../components/input/InputPhoneNumber";
+import GradientText from "../components/gradientText/GradientText";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { MainScreenStackParamList } from "../../navigations/stack.type";
+import { RootStackParamList } from "../navigations/stack.type";
 
 function LoginScreen() {
 	const [checked, setChecked] = React.useState(false);
 	const [showed, setShowed] = React.useState(false);
 	const [isFocusInput, setIsFocusInput] = React.useState(false);
 	const theme = useSelector((state: RootState) => state.themeState.theme);
-	const navigation = useNavigation<NativeStackNavigationProp<MainScreenStackParamList, "LoginScreen">>();
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "LoginScreen">>();
 
 	const {
 		control,

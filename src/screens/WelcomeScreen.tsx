@@ -23,7 +23,7 @@ export function WelcomeScreen() {
 		const timeOut = setTimeout(() => {
 			if (Platform.OS === "web") {
 				navigation.replace("MainScreen", {
-					screen: "LoginScreen",
+					screen: "HomeScreen",
 				});
 
 				return;

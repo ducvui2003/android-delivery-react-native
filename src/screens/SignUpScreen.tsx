@@ -18,33 +18,33 @@ import {
 	View,
 } from "react-native";
 import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
-import textStyle from "../../configs/styles/textStyle.config";
-import { gradient, neutral, otherMethodSignIn, primary } from "../../configs/colors/color-template.config";
+import { RootState } from "../configs/redux/store.config";
+import textStyle from "../configs/styles/textStyle.config";
+import { gradient, neutral, otherMethodSignIn, primary } from "../configs/colors/color-template.config";
 import { CheckBox, Divider } from "@rneui/themed";
-import Row from "../../components/custom/Row";
-import Col from "../../components/custom/Col";
-import GoogleAuth from "../../components/auth/GoogleAuth";
-import FacebookAuth from "../../components/auth/FacebookAuth";
-import SolarLetterBold from "../../../assets/images/icons/SolarLetterBold";
-import InputIcon from "../../components/input/InputIcon";
-import SolarUserBold from "../../../assets/images/icons/SolarUserBold";
-import Space from "../../components/custom/Space";
+import Row from "../components/custom/Row";
+import Col from "../components/custom/Col";
+import GoogleAuth from "../components/auth/GoogleAuth";
+import FacebookAuth from "../components/auth/FacebookAuth";
+import SolarLetterBold from "../../assets/images/icons/SolarLetterBold";
+import InputIcon from "../components/input/InputIcon";
+import SolarUserBold from "../../assets/images/icons/SolarUserBold";
+import Space from "../components/custom/Space";
 import { Controller, useForm } from "react-hook-form";
-import InputPhoneNumber from "../../components/input/InputPhoneNumber";
-import GradientText from "../../components/gradientText/GradientText";
-import RegisterFormType from "../../types/registerForm.type";
-import { ButtonHasStatus } from "../../components/custom/ButtonHasStatus";
+import InputPhoneNumber from "../components/input/InputPhoneNumber";
+import GradientText from "../components/gradientText/GradientText";
+import RegisterFormType from "../types/registerForm.type";
+import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { MainScreenStackParamList } from "../../navigations/stack.type";
+import { RootStackParamList } from "../navigations/stack.type";
 
 function SignUpScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [isShow, setIsShow] = useState(false);
 	const [isFocusInput, setIsFocusInput] = useState(false);
-	const navigation = useNavigation<NativeStackNavigationProp<MainScreenStackParamList, "SignUpScreen">>();
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "SignUpScreen">>();
 	const sizeIcon = 25;
 	const {
 		control,

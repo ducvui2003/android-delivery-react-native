@@ -9,19 +9,19 @@
 import React, { useState } from "react";
 import { Dimensions, Image, ScrollView, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
-import { banners, categories } from "../../../assets/data/home/home";
-import SolarMagniferOutline from "../../../assets/images/icons/MagniferOutline";
-import RivetIconsFilter from "../../../assets/images/icons/SolarFilterOutline";
-import Carousel from "../../components/carousel/Carousel";
-import CategoryItem from "../../components/category/CategoryItem";
-import InputSearch from "../../components/input/InputSearch";
-import Grid from "../../components/custom/Grid";
-import { neutral } from "../../configs/colors/color-template.config";
-import { RootState } from "../../configs/redux/store.config";
-import HomeHeaderFragment from "../../fragments/home/HomeHeaderFragment";
-import { Category } from "../../types/category.type";
-import { ThemeType } from "../../types/theme.type";
-import HomeProductsFragment from "../../fragments/home/HomeProductsFragment";
+import { banners, categories } from "../../../../assets/data/home/home";
+import SolarMagniferOutline from "../../../../assets/images/icons/MagniferOutline";
+import RivetIconsFilter from "../../../../assets/images/icons/SolarFilterOutline";
+import Carousel from "../../../components/carousel/Carousel";
+import CategoryItem from "../../../components/category/CategoryItem";
+import InputSearch from "../../../components/input/InputSearch";
+import Grid from "../../../components/custom/Grid";
+import { neutral } from "../../../configs/colors/color-template.config";
+import { RootState } from "../../../configs/redux/store.config";
+import HomeHeaderFragment from "../../../fragments/home/HomeHeaderFragment";
+import { Category } from "../../../types/category.type";
+import { ThemeType } from "../../../types/theme.type";
+import HomeProductsFragment from "../../../fragments/home/HomeProductsFragment";
 
 function HomeScreen() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
