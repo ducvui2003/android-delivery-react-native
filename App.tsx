@@ -51,7 +51,7 @@ function Root() {
 
     useEffect(() => {
         if (!colorScheme) return;
-        dispatch(setTheme("dark"))
+        dispatch(setTheme(colorScheme))
     }, []);
 
     return (
