@@ -25,6 +25,8 @@ const dialCode = ColorFactory.createSingleColor("#898B8E");
 const arrowSelector = ColorFactory.createSingleColor(neutral.getColor("50"));
 const placeholder = ColorFactory.createSingleColor("#898B8E");
 const navigation = ColorFactory.createSingleColor(neutral.getColor("400"));
+// Header
+const backgroundIconBack = ColorFactory.createSingleColor("#25292E");
 // Home
 const home_category_background = ColorFactory.createSingleColor(neutral.getColor("700"));
 const home_category_text = ColorFactory.createSingleColor(neutral.getColor("100"));
@@ -52,6 +54,9 @@ const darkTheme: ThemeType = {
 	arrowSelector: arrowSelector,
 	placeholder: placeholder,
 	navigation: navigation,
+	header: {
+		backgroundIconBack: backgroundIconBack,
+	},
 	home: {
 		heading: home_heading,
 		search: {

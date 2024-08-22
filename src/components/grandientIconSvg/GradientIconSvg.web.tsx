@@ -11,15 +11,13 @@ import { View } from "react-native";
 import GradientProps from "./type/gradient.type";
 import GradientType from "./type/position.type";
 
-function GradientIconSvgWeb({
+function GradientIconSvg({
 	style,
 	icon,
 	gradientColors,
 	textStyle,
 	start = { x: 0, y: 0 },
 	end = { x: 1, y: 1 },
-	height = "auto",
-	width = "auto",
 }: GradientProps) {
 	const topLeft: GradientType = { x: 0, y: 0 };
 	const topRight: GradientType = { x: 1, y: 0 };
@@ -49,8 +47,6 @@ function GradientIconSvgWeb({
 					backgroundClip: "text",
 					color: "transparent",
 					flex: 1,
-					width: height?.toString(),
-					height: width?.toString(),
 				}}
 			>
 				{icon}
@@ -59,4 +55,4 @@ function GradientIconSvgWeb({
 	);
 }
 
-export default GradientIconSvgWeb;
+export default GradientIconSvg;

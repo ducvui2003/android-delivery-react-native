@@ -85,7 +85,7 @@ class GroupColor {
 	public getColor(name?: NameGroupColorItem, alpha?: number): string {
 		if (!name) return this.codeColor.getCodeColor(alpha);
 
-		const groupColorItem = this.groupColor.find(item => item.name == name);
+		const groupColorItem = this.groupColor.find(item => item.name === name);
 
 		if (groupColorItem) return groupColorItem.codeColor.getCodeColor(alpha);
 

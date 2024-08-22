@@ -10,7 +10,7 @@ import React from "react";
 import GradientProps from "./type/gradient.type";
 import { LinearGradient } from "expo-linear-gradient";
 
-function GradientViewAndroid({
+function GradientView({
 	style,
 	gradientColors,
 	start = { x: 0, y: 0 },
@@ -24,4 +24,4 @@ function GradientViewAndroid({
 	);
 }
 
-export default GradientViewAndroid;
+export default GradientView;

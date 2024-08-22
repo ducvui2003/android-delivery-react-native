@@ -11,7 +11,7 @@ import GradientType from "./position.type";
 type GradientProps = {
 	text: string;
 	gradientColors: string[];
-	textStyle?: TextStyle;
+	textStyle?: StyleProp<TextStyle>;
 	style?: StyleProp<ViewStyle>;
 	start?: GradientType;
 	end?: GradientType;

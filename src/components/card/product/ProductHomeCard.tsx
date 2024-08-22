@@ -18,7 +18,7 @@ import SolarHeartOutline from "../../../../assets/images/icons/SolarHeartOutline
 import SolarHeartBold from "../../../../assets/images/icons/SolarHeartBold";
 import GradientIconSvg from "../../grandientIconSvg/GradientIconSvg";
 function ProductHomeCard({
-	product: { name, rating, id, basePrice, salePrice, image, isLiked = false },
+	product: { name, rating, basePrice, salePrice, image, isLiked = false },
 	onPress,
 	onPressHeart,
 }: ProductHomeCardType) {
@@ -35,8 +35,6 @@ function ProductHomeCard({
 						<GradientIconSvg
 							icon={<SolarHeartBold width={18} height={18} color={neutral.getColor("300")} />}
 							gradientColors={gradient.getColor()}
-							width={18}
-							height={18}
 						/>
 					)}
 				</TouchableOpacity>

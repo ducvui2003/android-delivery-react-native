@@ -26,6 +26,9 @@ export type ThemeType = {
 	arrowSelector: SingleColor;
 	placeholder: SingleColor;
 	navigation: SingleColor;
+	header: {
+		backgroundIconBack: SingleColor;
+	};
 	home: {
 		heading: SingleColor;
 		search: {

@@ -24,7 +24,6 @@ const InputSearch = ({
 	placeholder,
 	value,
 	keyboardType,
-	borderColor,
 }: InputSearchProps) => {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
