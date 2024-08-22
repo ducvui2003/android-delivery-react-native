@@ -11,7 +11,7 @@ import { View } from "react-native";
 import GradientProps from "./type/gradient.type";
 import GradientType from "./type/position.type";
 
-function GradientViewWeb({
+function GradientView({
 	style,
 	gradientColors,
 	start = { x: 0, y: 0 },
@@ -51,4 +51,4 @@ function GradientViewWeb({
 	);
 }
 
-export default GradientViewWeb;
+export default GradientView;

@@ -1,17 +1,19 @@
-import {Provider, useDispatch} from "react-redux";
-import {createStackNavigator} from "@react-navigation/stack";
-import {RootStackParamList} from "./src/navigations/stack.type";
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import { Provider, useDispatch } from "react-redux";
+import { createStackNavigator } from "@react-navigation/stack";
+import { RootStackParamList } from "./src/navigations/stack.type";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import store from "./src/configs/redux/store.config";
-import {NavigationContainer} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import MainScreen from "./src/screens/MainScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
-import {WelcomeScreen} from "./src/screens/WelcomeScreen";
-import {Platform, useColorScheme} from "react-native";
-import {GoogleOAuthProvider} from "@react-oauth/google";
-import React, {useEffect} from "react";
-import {setTheme} from "./src/hooks/redux/theme.slice";
-import ButtonNavigationScreen from "./src/screens/ButtonNavigationScreen";
+import { WelcomeScreen } from "./src/screens/WelcomeScreen";
+import { Platform, useColorScheme } from "react-native";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import React, { useEffect } from "react";
+import { setTheme } from "./src/hooks/redux/theme.slice";
+import LoginScreen from "./src/screens/LoginScreen";
+import SignUpScreen from "./src/screens/SignUpScreen";
+import { VerificationScreen } from "./src/screens/VerificationScreen";
 
 const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -53,7 +55,7 @@ function Root() {
 
     return (
         <NavigationContainer>
-            <RootStack.Navigator initialRouteName="LoadingScreen" screenOptions={{
+            <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{
                 headerShown: false,
             }}>
                 <RootStack.Screen name={"MainScreen"}
@@ -64,8 +66,14 @@ function Root() {
                                   component={WelcomeScreen}/>
                 <RootStack.Screen name={"IntroduceScreen"}
                                   component={IntroduceScreen}/>
-                <RootStack.Screen name={"ButtonNavigationScreen"}
-                                    component={ButtonNavigationScreen}/>
+                <RootStack.Screen name={"SignUpScreen"} component={SignUpScreen} />
+                <RootStack.Screen name={"LoginScreen"} component={LoginScreen} />
+                <RootStack.Screen name={"VerificationScreen"} component={VerificationScreen}
+                                  initialParams={{
+                                      codeVerify: "1234",
+                                      dialCode: "+84",
+                                      phoneNumber: "85****919",
+                                  }} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

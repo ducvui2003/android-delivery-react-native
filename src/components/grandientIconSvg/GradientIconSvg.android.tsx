@@ -10,21 +10,29 @@ import React from "react";
 import MaskedView from "@react-native-masked-view/masked-view";
 import GradientProps from "./type/gradient.type";
 import { LinearGradient } from "expo-linear-gradient";
+import { View } from "react-native";
 
-function GradientIconSvgAndroid({
-	style,
-	icon,
-	gradientColors,
-	start = { x: 0, y: 0 },
-	end = { x: 1, y: 1 },
-	height = "auto",
-	width = "auto",
-}: GradientProps) {
+function GradientIconSvg({ style, icon, gradientColors, start = { x: 0, y: 0 }, end = { x: 1, y: 1 } }: GradientProps) {
+	const [sizeIcon, setSizeIcon] = React.useState<{ width: number; height: number }>({ width: 0, height: 0 });
+
 	return (
-		<MaskedView style={style} maskElement={icon}>
-			<LinearGradient colors={gradientColors} start={start} end={end} style={{ height: height, width: width }} />
-		</MaskedView>
+		<View>
+			<View
+				style={[{ opacity: 0, position: "absolute" }]}
+				onLayout={event => {
+					setSizeIcon({
+						width: event.nativeEvent.layout.width,
+						height: event.nativeEvent.layout.height,
+					});
+				}}
+			>
+				{icon}
+			</View>
+			<MaskedView style={style} maskElement={icon}>
+				<LinearGradient colors={gradientColors} start={start} end={end} style={sizeIcon} />
+			</MaskedView>
+		</View>
 	);
 }
 
-export default GradientIconSvgAndroid;
+export default GradientIconSvg;

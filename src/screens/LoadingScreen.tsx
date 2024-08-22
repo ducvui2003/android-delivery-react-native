@@ -49,7 +49,7 @@ function LoadingScreen() {
 		height: sizeLogoAnim.value,
 	}));
 
-	const transformFontSize = (anim: SharedValue<number>) => {
+	const useTransformFontSize = (anim: SharedValue<number>) => {
 		return useAnimatedStyle(() => ({
 			fontSize: anim.value,
 		}));
@@ -113,18 +113,18 @@ function LoadingScreen() {
 			>
 				<View style={[styles.topContainer]}>
 					<Animated.Image source={brand} style={[animatedSizeLogo, animatedTransform]} />
-					<Animated.Text style={[transformFontSize(sizeTextNameAppAnim), styles.textAppName]}>
+					<Animated.Text style={[useTransformFontSize(sizeTextNameAppAnim), styles.textAppName]}>
 						SPEEDY CHOW
 					</Animated.Text>
-					<Animated.Text style={[transformFontSize(sizeTextVersionAnim), styles.textVersion]}>
+					<Animated.Text style={[useTransformFontSize(sizeTextVersionAnim), styles.textVersion]}>
 						Version 2.1.0
 					</Animated.Text>
 				</View>
 				<View style={[styles.textContainer]}>
-					<Animated.Text style={[transformFontSize(sizeTextFooterAnim), styles.text]}>
+					<Animated.Text style={[useTransformFontSize(sizeTextFooterAnim), styles.text]}>
 						As fast as lightning,
 					</Animated.Text>
-					<Animated.Text style={[transformFontSize(sizeTextFooterAnim), styles.text]}>
+					<Animated.Text style={[useTransformFontSize(sizeTextFooterAnim), styles.text]}>
 						as delicious as thunder!
 					</Animated.Text>
 				</View>

@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React, { ReactNode } from "react";
+import React from "react";
 import {
 	Keyboard,
 	Platform,
@@ -18,25 +18,31 @@ import {
 	View,
 } from "react-native";
 import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
-import textStyle from "../../configs/styles/textStyle.config";
-import { gradient, neutral, otherMethodSignIn, primary, white } from "../../configs/colors/color-template.config";
+import { RootState } from "../configs/redux/store.config";
+import textStyle from "../configs/styles/textStyle.config";
+import { gradient, neutral, otherMethodSignIn, primary } from "../configs/colors/color-template.config";
 import { CheckBox, Divider } from "@rneui/themed";
-import Row from "../../components/custom/Row";
-import Col from "../../components/custom/Col";
-import GoogleAuth from "../../components/auth/GoogleAuth";
-import FacebookAuth from "../../components/auth/FacebookAuth";
-import InputPhoneNumber from "../../components/input/InputPhoneNumber";
-import { FlatList } from "react-native-gesture-handler";
+import Row from "../components/custom/Row";
+import Col from "../components/custom/Col";
+import GoogleAuth from "../components/auth/GoogleAuth";
+import FacebookAuth from "../components/auth/FacebookAuth";
 import { Controller, useForm } from "react-hook-form";
-import GradientText from "../../components/gradientText/GradientText";
-import LoginFormType from "../../types/loginForm.type";
+import LoginFormType from "../types/loginForm.type";
+import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import InputPhoneNumber from "../components/input/InputPhoneNumber";
+import GradientText from "../components/gradientText/GradientText";
+import { FlatList } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigations/stack.type";
 
 function LoginScreen() {
 	const [checked, setChecked] = React.useState(false);
-	const [isShow, setIsShow] = React.useState(false);
+	const [showed, setShowed] = React.useState(false);
 	const [isFocusInput, setIsFocusInput] = React.useState(false);
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "LoginScreen">>();
+
 	const {
 		control,
 		setError,
@@ -46,7 +52,7 @@ function LoginScreen() {
 
 	const onFocusInput = () => {
 		setIsFocusInput(true);
-		setIsShow(false);
+		setShowed(false);
 	};
 
 	const onBlurInput = () => {
@@ -54,7 +60,7 @@ function LoginScreen() {
 	};
 
 	const onOtherPress = () => {
-		setIsShow(false);
+		setShowed(false);
 		if (Platform.OS === "web") return;
 		Keyboard.dismiss();
 	};
@@ -64,28 +70,14 @@ function LoginScreen() {
 		if (!isValid) return;
 	};
 
-	const button: Record<"true" | "false", ReactNode> = {
-		true: (
-			<TouchableOpacity style={[styles.buttonNotActive, styles.button]} onPress={handleSubmit(onSubmit)}>
-				<Text style={[styles.textButton]}>Register</Text>
-			</TouchableOpacity>
-		),
-		false: (
-			<View style={[styles.buttonNotActive]}>
-				<Text style={[styles.textButton]}>Register</Text>
-			</View>
-		),
-	};
-
 	return (
 		<TouchableWithoutFeedback onPress={onOtherPress}>
-			<SafeAreaView style={[{ flex: 1, backgroundColor: theme.background.getColor() }]}>
+			<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 				<FlatList
-					contentContainerStyle={[styles.container, { paddingHorizontal: 24 }]}
 					data={[1]}
 					renderItem={() => {
 						return (
-							<Col>
+							<>
 								<GradientText
 									style={{ marginBottom: 32 }}
 									textStyle={styles.title}
@@ -107,7 +99,8 @@ function LoginScreen() {
 										return (
 											<Col>
 												<InputPhoneNumber
-													useStateShowed={[isShow, setIsShow]}
+													showed={showed}
+													onShow={setShowed}
 													placeholder={"00 000 000"}
 													value={value}
 													borderColor={error ? "red" : undefined}
@@ -151,49 +144,45 @@ function LoginScreen() {
 										Remember me
 									</Text>
 								</Row>
-							</Col>
-						);
-					}}
-					ListFooterComponent={() => {
-						return (
-							<Col style={{ zIndex: -1 }}>
-								{button[isValid.toString() as "true" | "false"]}
-								<Col style={{ display: isFocusInput ? "none" : "flex" }}>
-									<View style={[styles.otherMethodSignInContainer]}>
-										<Divider
-											width={1}
-											color={otherMethodSignIn.getColor()}
-											style={[styles.dividerStyle]}
-										/>
-										<Text
-											style={[
-												styles.otherMethodSignIn,
-												{
-													backgroundColor: theme.background.getColor(),
-												},
-											]}
-										>
-											Or sign in with
-										</Text>
-									</View>
-									<Row style={[styles.buttonOtherMethodSignIn]}>
-										<GoogleAuth />
-										<View style={{ padding: 8 }} />
-										<FacebookAuth />
-									</Row>
-									<Row style={[styles.askSignUpContainer]}>
-										<Text style={[styles.askSignUpText, { color: theme.text_1.getColor() }]}>
-											Don’t have an account?
-										</Text>
-										<TouchableOpacity>
-											<Text style={[styles.signUpText]}>Sign Up</Text>
-										</TouchableOpacity>
-									</Row>
-								</Col>
-							</Col>
+							</>
 						);
 					}}
 				/>
+				<Col style={{ zIndex: -1 }}>
+					<ButtonHasStatus title={"Sign in"} active={isValid} onPress={handleSubmit(onSubmit)} />
+					<Col style={{ display: isFocusInput ? "none" : "flex" }}>
+						<View style={[styles.otherMethodSignInContainer]}>
+							<Divider width={1} color={otherMethodSignIn.getColor()} style={[styles.dividerStyle]} />
+							<Text
+								style={[
+									styles.otherMethodSignIn,
+									{
+										backgroundColor: theme.background.getColor(),
+									},
+								]}
+							>
+								Or sign in with
+							</Text>
+						</View>
+						<Row style={[styles.buttonOtherMethodSignIn]}>
+							<GoogleAuth />
+							<View style={{ padding: 8 }} />
+							<FacebookAuth />
+						</Row>
+						<Row style={[styles.askSignUpContainer]}>
+							<Text style={[styles.askSignUpText, { color: theme.text_1.getColor() }]}>
+								Don’t have an account?
+							</Text>
+							<TouchableOpacity
+								onPress={() => {
+									navigation.navigate("SignUpScreen");
+								}}
+							>
+								<Text style={[styles.signUpText]}>Sign Up</Text>
+							</TouchableOpacity>
+						</Row>
+					</Col>
+				</Col>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
 	);
@@ -204,6 +193,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingTop: 78,
 		justifyContent: "space-between",
+		paddingHorizontal: 24,
+	},
+	titleContainer: {
+		marginBottom: 32,
 	},
 	title: {
 		...textStyle["30_bold_5%"],
@@ -227,36 +220,20 @@ const styles = StyleSheet.create({
 		...textStyle["16_regular"],
 		marginHorizontal: 10,
 	},
-	inputPhoneNumber: {
-		...textStyle["16_regular"],
-		flex: 1,
-	},
 	rememberMeContainer: {
-		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
 		marginTop: 34,
+		marginBottom: 25,
 	},
 	rememberMeText: {
 		...textStyle["16_regular"],
 	},
-	buttonNotActive: {
-		paddingVertical: 16,
-		backgroundColor: primary.getColor("100"),
-		borderRadius: 999,
-		alignItems: "center",
-	},
-	button: {
-		backgroundColor: primary.getColor("500"),
-	},
-	textButton: {
-		...textStyle["18_semibold"],
-		color: white.getColor(),
-	},
 	otherMethodSignInContainer: {
 		alignItems: "center",
 		position: "relative",
-		marginVertical: 32,
+		marginBottom: 32,
+		marginTop: 7,
 	},
 	otherMethodSignIn: {
 		...textStyle["16_regular"],

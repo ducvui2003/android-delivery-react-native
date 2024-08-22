@@ -33,7 +33,7 @@ function BottomNavigation({
 	boxShadow,
 }: BottomNavigationProps) {
 	const styles = createStyles(sizeIcon + 20, backgroundColor);
-	const stateItems = items.map((_, index, __) => useState(initialItem === index));
+	const [listStatusItems, setListStatusItems] = useState(items.map((_, index, __) => initialItem === index));
 
 	const renderItems = () => {
 		return items.map((item, index) => {
@@ -41,7 +41,7 @@ function BottomNavigation({
 				<BottomNavigationItem
 					key={index}
 					index={index}
-					state={stateItems[index]}
+					status={listStatusItems[index]}
 					icon={item.icon}
 					title={item.title}
 					iconActive={item.iconActive}
@@ -53,11 +53,7 @@ function BottomNavigation({
 					fontSize={fontSize}
 					transformTop={transformTop}
 					onActive={index => {
-						stateItems.forEach(([, setState], i) => {
-							if (i !== index) {
-								setState(false);
-							}
-						});
+						setListStatusItems(listStatusItems.map((_, i) => i === index));
 					}}
 				/>
 			);
@@ -82,6 +78,7 @@ const createStyles = (height: number, backgroundColor: ColorValue) =>
 				width: 0,
 				height: -5,
 			},
+			zIndex: 2,
 		},
 		iconContainer: {
 			justifyContent: "space-around",

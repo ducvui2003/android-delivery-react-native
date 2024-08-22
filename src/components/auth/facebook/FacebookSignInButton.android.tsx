@@ -35,14 +35,14 @@ function FacebookSignInButtonAndroid({ loginSuccess, loginFail }: ButtonAuthProp
 	};
 
 	const getAccessToken = () => {
-		AccessToken.getCurrentAccessToken().then(accessToken => {
+		AccessToken.getCurrentAccessToken().then(_accessToken => {
 			loginSuccess && loginSuccess("");
 		});
 	};
 
 	useEffect(() => {
 		getAccessToken();
-	}, []);
+	});
 
 	return (
 		<TouchableOpacity onPress={signIn}>

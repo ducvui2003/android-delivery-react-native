@@ -14,7 +14,7 @@ import * as React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
 
-function FacebookSignInButtonWeb({}: ButtonAuthProps) {
+function FacebookSignInButtonWeb(_: ButtonAuthProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	return (
