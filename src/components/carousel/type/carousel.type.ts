@@ -5,13 +5,13 @@
  * Create at: 9:03 AM - 15/08/2024
  * User: lam-nguyen
  **/
-import React, { MutableRefObject } from "react";
+import React from "react";
 import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
 import PagerView from "react-native-pager-view";
 
 type CarouselProps<T> = {
 	data: T[];
-	viewPagerRef?: MutableRefObject<PagerView | undefined>;
+	viewPagerRef?: (pagerView: PagerView) => void;
 	onCurrentPage: (currentPage: number) => void;
 	renderItem: (item: T, index: number) => React.JSX.Element;
 	initialPage?: number;

@@ -59,12 +59,7 @@ function IntroduceScreen() {
 	const viewPagerRef = useRef<PagerView>();
 
 	const onLoginOrRegister = () => {
-		navigation.replace("MainScreen", {
-			screen: "LoginScreen",
-			params: {
-				screen: "LoginGoogleFragment",
-			},
-		});
+		navigation.replace("SignUpScreen");
 	};
 
 	const onPressButtonNext = () => {
@@ -120,7 +115,9 @@ function IntroduceScreen() {
 		<SafeAreaView style={[style.container, { backgroundColor: theme.background.getColor() }]}>
 			<Carousel<FragmentIntroduceType>
 				data={data}
-				viewPagerRef={viewPagerRef}
+				viewPagerRef={pagerView => {
+					viewPagerRef.current = pagerView;
+				}}
 				renderItem={(item, index) => {
 					return <IntroduceItemFragment key={index} {...item} />;
 				}}

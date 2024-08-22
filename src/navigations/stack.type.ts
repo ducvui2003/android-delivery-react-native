@@ -5,14 +5,22 @@ export type RootStackParamList = {
 	LoadingScreen: undefined;
 	WelcomeScreen: undefined;
 	IntroduceScreen: undefined;
-	ButtonNavigationScreen: undefined;
+	SignUpScreen: undefined;
+	LoginScreen: undefined;
+	VerificationScreen: {
+		dialCode: string;
+		phoneNumber: string;
+		codeVerify: string;
+	};
 };
 
 export type MainScreenStackParamList = {
-	LoginScreen: undefined;
 	TestThemeScreen: undefined;
-	SignUpScreen: undefined;
 	HomeScreen: undefined;
+	OrderScreen: undefined;
+	LikedScreen: undefined;
+	NotificationScreen: undefined;
+	ProfileScreen: undefined;
 };
 
 export type HomeScreenStackParamList = {

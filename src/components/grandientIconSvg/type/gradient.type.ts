@@ -7,12 +7,9 @@
  **/
 import { StyleProp, TextStyle, ViewStyle } from "react-native";
 import GradientType from "./position.type";
-import { DimensionValue } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 import React from "react";
 
 type GradientProps = {
-	height?: DimensionValue; // Với android phải điền
-	width?: DimensionValue; // Với android phải điền
 	icon: React.JSX.Element;
 	gradientColors: string[];
 	textStyle?: TextStyle;

@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React, { ReactNode, useState } from "react";
+import React, { useState } from "react";
 import {
 	Keyboard,
 	Platform,
@@ -18,28 +18,33 @@ import {
 	View,
 } from "react-native";
 import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
-import textStyle from "../../configs/styles/textStyle.config";
-import { gradient, neutral, otherMethodSignIn, primary, white } from "../../configs/colors/color-template.config";
+import { RootState } from "../configs/redux/store.config";
+import textStyle from "../configs/styles/textStyle.config";
+import { gradient, neutral, otherMethodSignIn, primary } from "../configs/colors/color-template.config";
 import { CheckBox, Divider } from "@rneui/themed";
-import Row from "../../components/custom/Row";
-import Col from "../../components/custom/Col";
-import GoogleAuth from "../../components/auth/GoogleAuth";
-import FacebookAuth from "../../components/auth/FacebookAuth";
-import SolarLetterBold from "../../../assets/images/icons/SolarLetterBold";
-import InputIcon from "../../components/input/InputIcon";
-import SolarUserBold from "../../../assets/images/icons/SolarUserBold";
-import Space from "../../components/custom/Space";
-import { FlatList } from "react-native-gesture-handler";
+import Row from "../components/custom/Row";
+import Col from "../components/custom/Col";
+import GoogleAuth from "../components/auth/GoogleAuth";
+import FacebookAuth from "../components/auth/FacebookAuth";
+import SolarLetterBold from "../../assets/images/icons/SolarLetterBold";
+import InputIcon from "../components/input/InputIcon";
+import SolarUserBold from "../../assets/images/icons/SolarUserBold";
+import Space from "../components/custom/Space";
 import { Controller, useForm } from "react-hook-form";
-import InputPhoneNumber from "../../components/input/InputPhoneNumber";
-import GradientText from "../../components/gradientText/GradientText";
-import RegisterFormType from "../../types/registerForm.type";
+import InputPhoneNumber from "../components/input/InputPhoneNumber";
+import GradientText from "../components/gradientText/GradientText";
+import RegisterFormType from "../types/registerForm.type";
+import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import { FlatList } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigations/stack.type";
 
 function SignUpScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [isShow, setIsShow] = useState(false);
 	const [isFocusInput, setIsFocusInput] = useState(false);
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "SignUpScreen">>();
 	const sizeIcon = 25;
 	const {
 		control,
@@ -68,34 +73,24 @@ function SignUpScreen() {
 		Keyboard.dismiss();
 	};
 
-	const button: Record<"true" | "false", ReactNode> = {
-		true: (
-			<TouchableOpacity style={[styles.buttonNotActive, styles.button]} onPress={handleSubmit(onSubmit)}>
-				<Text style={[styles.textButton]}>Register</Text>
-			</TouchableOpacity>
-		),
-		false: (
-			<View style={[styles.buttonNotActive]}>
-				<Text style={[styles.textButton]}>Register</Text>
-			</View>
-		),
-	};
-
 	return (
 		<TouchableWithoutFeedback onPress={onOtherPress}>
-			<SafeAreaView style={[{ flex: 1, backgroundColor: theme.background.getColor() }]}>
+			<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 				<FlatList
-					contentContainerStyle={[styles.container, { paddingHorizontal: 24 }]}
+					showsVerticalScrollIndicator={false}
+					showsHorizontalScrollIndicator={false}
 					data={[1]}
 					renderItem={() => {
 						return (
-							<Col>
-								<GradientText
-									style={{ marginBottom: 32 }}
-									textStyle={styles.title}
-									text={"Registration"}
-									gradientColors={gradient.getColor()}
-								/>
+							<>
+								<Row style={styles.titleContainer}>
+									<GradientText
+										style={{ marginBottom: 32 }}
+										textStyle={styles.title}
+										text={"Registration"}
+										gradientColors={gradient.getColor()}
+									/>
+								</Row>
 								<Controller
 									control={control}
 									name={"phoneNumber"}
@@ -111,7 +106,8 @@ function SignUpScreen() {
 										return (
 											<Col style={{ zIndex: 2 }}>
 												<InputPhoneNumber
-													useStateShowed={[isShow, setIsShow]}
+													showed={isShow}
+													onShow={setIsShow}
 													placeholder={"00 000 000"}
 													value={value}
 													borderColor={error ? "red" : undefined}
@@ -223,49 +219,46 @@ function SignUpScreen() {
 										Remember me
 									</Text>
 								</Row>
-							</Col>
-						);
-					}}
-					ListFooterComponent={() => {
-						return (
-							<Col style={{ zIndex: -1 }}>
-								{button[isValid.toString() as "true" | "false"]}
-								<Col style={{ display: isFocusInput ? "none" : "flex" }}>
-									<View style={[styles.otherMethodSignInContainer]}>
-										<Divider
-											width={1}
-											color={otherMethodSignIn.getColor()}
-											style={[styles.dividerStyle]}
-										/>
-										<Text
-											style={[
-												styles.otherMethodSignIn,
-												{
-													backgroundColor: theme.background.getColor(),
-												},
-											]}
-										>
-											Or sign up with
-										</Text>
-									</View>
-									<Row style={[styles.buttonOtherMethodSignIn]}>
-										<GoogleAuth />
-										<View style={{ padding: 8 }} />
-										<FacebookAuth />
-									</Row>
-									<Row style={[styles.askSignUpContainer]}>
-										<Text style={[styles.askSignUpText, { color: theme.text_1.getColor() }]}>
-											Do have an account?
-										</Text>
-										<TouchableOpacity>
-											<Text style={[styles.signUpText]}>Sign In</Text>
-										</TouchableOpacity>
-									</Row>
-								</Col>
-							</Col>
+							</>
 						);
 					}}
 				/>
+
+				<Col style={{ zIndex: -1 }}>
+					<ButtonHasStatus title={"Register"} active={isValid} onPress={handleSubmit(onSubmit)} />
+					<Col style={{ display: isFocusInput ? "none" : "flex" }}>
+						<View style={[styles.otherMethodSignInContainer]}>
+							<Divider width={1} color={otherMethodSignIn.getColor()} style={[styles.dividerStyle]} />
+							<Text
+								style={[
+									styles.otherMethodSignIn,
+									{
+										backgroundColor: theme.background.getColor(),
+									},
+								]}
+							>
+								Or sign up with
+							</Text>
+						</View>
+						<Row style={[styles.buttonOtherMethodSignIn]}>
+							<GoogleAuth />
+							<View style={{ padding: 8 }} />
+							<FacebookAuth />
+						</Row>
+						<Row style={[styles.askSignUpContainer]}>
+							<Text style={[styles.askSignUpText, { color: theme.text_1.getColor() }]}>
+								Do have an account?
+							</Text>
+							<TouchableOpacity
+								onPress={() => {
+									navigation.navigate("LoginScreen");
+								}}
+							>
+								<Text style={[styles.signUpText]}>Sign In</Text>
+							</TouchableOpacity>
+						</Row>
+					</Col>
+				</Col>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
 	);
@@ -276,11 +269,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingTop: 78,
 		justifyContent: "space-between",
+		paddingHorizontal: 24,
+	},
+	titleContainer: {
+		justifyContent: "center",
 	},
 	title: {
 		...textStyle["30_bold_5%"],
-		textAlign: "center",
-		flexWrap: "wrap",
 	},
 	itemSelected: {
 		fontSize: 28,
@@ -301,36 +296,20 @@ const styles = StyleSheet.create({
 		...textStyle["16_regular"],
 		marginHorizontal: 10,
 	},
-	inputPhoneNumber: {
-		...textStyle["16_regular"],
-		flex: 1,
-	},
 	rememberMeContainer: {
-		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
 		marginTop: 34,
+		marginBottom: 25,
 	},
 	rememberMeText: {
 		...textStyle["16_regular"],
 	},
-	buttonNotActive: {
-		paddingVertical: 16,
-		backgroundColor: primary.getColor("100"),
-		borderRadius: 999,
-		alignItems: "center",
-	},
-	button: {
-		backgroundColor: primary.getColor("500"),
-	},
-	textButton: {
-		...textStyle["18_semibold"],
-		color: white.getColor(),
-	},
 	otherMethodSignInContainer: {
 		alignItems: "center",
 		position: "relative",
-		marginVertical: 32,
+		marginBottom: 32,
+		marginTop: 7,
 	},
 	otherMethodSignIn: {
 		...textStyle["16_regular"],

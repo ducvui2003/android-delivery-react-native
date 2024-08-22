@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import SelectorProps from "./type/selector.type";
@@ -24,13 +24,14 @@ function Selector<T>({
 	showBorder = true,
 	backgroundColorSelected,
 	backgroundColorItems,
-	useStateShowed = React.useState<boolean>(false),
+	showed = false,
+	onShow,
 }: SelectorProps<T>) {
-	const [selectedItem, setSelectedItem] = React.useState<T>(data[0]);
-	const [isShow, setIsShow] = useStateShowed;
+	const [selectedItem, setSelectedItem] = useState<T>(data[0]);
+	const [isShow, setIsShow] = useState<boolean>(showed);
 	const arrowAnim = useSharedValue(0);
 	const duration = 200;
-	const [minWith, setMinWith] = React.useState<number>(0);
+	const [minWith, setMinWith] = useState<number>(0);
 	const flatListRef = useRef<FlatList<T>>(null);
 
 	const animatedArrow = useAnimatedStyle(() => {
@@ -47,11 +48,13 @@ function Selector<T>({
 
 	useEffect(() => {
 		setIsShow(false);
-		onSelected && onSelected(selectedItem);
+		onSelected?.(selectedItem);
 	}, [selectedItem]);
 
 	useEffect(() => {
 		runAnimatedArrow(isShow ? 180 : 0);
+
+		onShow?.(isShow);
 		if (!isShow) {
 			flatListRef.current?.scrollToIndex({
 				index: 0,
@@ -59,6 +62,10 @@ function Selector<T>({
 			});
 		}
 	}, [isShow]);
+
+	useEffect(() => {
+		setIsShow(showed);
+	}, [showed]);
 
 	return (
 		<View
@@ -94,8 +101,8 @@ function Selector<T>({
 					styles.itemsContainer,
 					{
 						width: width ?? "100%",
-						height: isShow ? height : 0,
 						paddingHorizontal: padding,
+						height: isShow ? height : 0,
 						backgroundColor: backgroundColorItems,
 					},
 				]}

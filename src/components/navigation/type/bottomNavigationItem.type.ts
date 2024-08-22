@@ -5,13 +5,12 @@
  * Create at: 1:49 PM - 19/08/2024
  * User: lam-nguyen
  **/
-import React from "react";
 import BottomNavigationItemInputProps from "./bottomNavigationItemInput.type";
 
 type BottomNavigationItemProps = BottomNavigationItemInputProps &
 	BottomNavigationItem & {
 		index: number;
-		state?: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+		status?: boolean;
 		onActive: (index: number) => void;
 	};
 

@@ -11,7 +11,7 @@ import { View } from "react-native";
 import GradientProps from "./type/gradient.type";
 import GradientType from "./type/position.type";
 
-function GradientTextWeb({
+function GradientText({
 	style,
 	text,
 	gradientColors,
@@ -55,4 +55,4 @@ function GradientTextWeb({
 	);
 }
 
-export default GradientTextWeb;
+export default GradientText;

@@ -5,8 +5,15 @@
  * Create at: 1:58 PM - 17/08/2024
  *  User: lam-nguyen
  **/
-import { KeyboardTypeOptions, NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
+import {
+	KeyboardTypeOptions,
+	NativeSyntheticEvent,
+	StyleProp,
+	TextInputChangeEventData,
+	TextStyle,
+} from "react-native";
 import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
+import { DimensionValue } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 
 type InputProps = {
 	placeholder?: string;
@@ -16,6 +23,12 @@ type InputProps = {
 	onBlur?: () => void;
 	onFocus?: () => void;
 	borderColor?: ColorValue;
+	borderColorFocus?: ColorValue;
+	width?: DimensionValue | undefined;
+	height?: DimensionValue | undefined;
+	backgroundColor?: ColorValue;
+	styleInput?: StyleProp<TextStyle>;
+	focus?: boolean;
 };
 
 export default InputProps;
