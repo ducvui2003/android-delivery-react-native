@@ -12,6 +12,7 @@ export type RootStackParamList = {
 		phoneNumber: string;
 		codeVerify: string;
 	};
+	SettingPinSecurityScreen: undefined;
 };
 
 export type MainScreenStackParamList = {
