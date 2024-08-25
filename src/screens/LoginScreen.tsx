@@ -208,7 +208,7 @@ function LoginScreen() {
 													onChange={element => {
 														onChange(element.nativeEvent.text);
 													}}
-													secureTextEntry={true}
+													secureTextEntry={!showPassword}
 													onPressIconRight={() => setShowPassword(!showPassword)}
 												/>
 												{error && (
