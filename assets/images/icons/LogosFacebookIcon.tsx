@@ -9,7 +9,7 @@
 import React from "react";
 import Svg, { Path, SvgProps } from "react-native-svg";
 
-export default function LogosFacebook(props: SvgProps) {
+export default function LogosFacebookIcon(props: SvgProps) {
   return (
     <Svg width={20} height={20} viewBox="0 0 256 256" {...props}>
       <Path

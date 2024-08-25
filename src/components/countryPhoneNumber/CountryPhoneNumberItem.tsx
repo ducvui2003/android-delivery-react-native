@@ -20,7 +20,7 @@ function CountryPhoneNumberItem({ data }: { data: CountryPhoneNumberType }) {
 			style={{
 				flexDirection: "row",
 				alignItems: "center",
-				justifyContent: "space-between",
+				justifyContent: "space-around",
 			}}
 		>
 			<Text style={[styles.flag]}>{data.flag}</Text>

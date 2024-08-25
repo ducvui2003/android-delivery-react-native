@@ -6,8 +6,9 @@
  * User: lam-nguyen
  **/
 
-import React from "react";
+import React, { ReactNode, useState } from "react";
 import {
+	Alert,
 	Keyboard,
 	Platform,
 	SafeAreaView,
@@ -17,7 +18,7 @@ import {
 	TouchableWithoutFeedback,
 	View,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
 import textStyle from "../configs/styles/textStyle.config";
 import { gradient, neutral, otherMethodSignIn, primary } from "../configs/colors/color-template.config";
@@ -35,6 +36,16 @@ import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
+import InputIcon from "../components/input/InputIcon";
+import SolarLockPasswordBold from "../../assets/images/icons/SolarLockPasswordBold";
+import Space from "../components/custom/Space";
+import CountryPhoneNumberType from "../types/countryPhoneNumber.type";
+import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
+import { User } from "../types/user.type";
+import { login } from "../hooks/redux/auth.slice";
+import { AxiosError } from "axios";
+import SolarEyeBold from "../../assets/images/icons/SolarEyeBold";
+import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
 
 function LoginScreen() {
 	const [checked, setChecked] = React.useState(false);
@@ -42,6 +53,10 @@ function LoginScreen() {
 	const [isFocusInput, setIsFocusInput] = React.useState(false);
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "LoginScreen">>();
+	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>();
+	const [showPassword, setShowPassword] = useState(false);
+	const sizeIcon = 25;
+	const dispatch = useDispatch();
 
 	const {
 		control,
@@ -66,8 +81,36 @@ function LoginScreen() {
 	};
 
 	const onSubmit = (data: LoginFormType) => {
-		console.log(data);
-		if (!isValid) return;
+		if (!isValid || !countryPhoneNumber) return;
+		data.region = countryPhoneNumber?.code;
+		axiosInstance
+			.post<ApiResponse<User>>("/auth/login", data)
+			.then(result => {
+				dispatch(login(result.data.data));
+				navigation.navigate("SettingPinSecurityScreen");
+			})
+			.catch((error: AxiosError<ApiResponse<string>>) => {
+				Alert.alert("Lỗi đăng nhập", error.response?.data?.message);
+			});
+	};
+
+	const renderIconShowPassword: Record<"true" | "false", ReactNode> = {
+		true: (
+			<SolarEyeBold
+				width={sizeIcon}
+				height={sizeIcon}
+				style={{ marginRight: 12 }}
+				color={neutral.getColor("100")}
+			/>
+		),
+		false: (
+			<SolarEyeClosedBold
+				width={sizeIcon}
+				height={sizeIcon}
+				style={{ marginRight: 12 }}
+				color={neutral.getColor("100")}
+			/>
+		),
 	};
 
 	return (
@@ -111,6 +154,7 @@ function LoginScreen() {
 															message: "Invalid phone number",
 														});
 													}}
+													onCountryPhoneNumberSelected={setCountryPhoneNumber}
 													onBlur={onBlurInput}
 													onFocus={onFocusInput}
 													onChange={element => {
@@ -124,7 +168,58 @@ function LoginScreen() {
 										);
 									}}
 								/>
-
+								<Space height={24} />
+								<Controller
+									control={control}
+									name={"password"}
+									rules={{
+										required: "Password is required",
+										minLength: {
+											value: 8,
+											message: "Password is too short",
+										},
+										pattern: {
+											value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+\[\]{}|;:,.<>?])[A-Za-z\d!@#$%^&*()_+\[\]{}|;:,.<>?]*$/,
+											message: "Invalid password",
+										},
+									}}
+									render={({ field: { onChange, value }, fieldState: { error } }) => {
+										return (
+											<Col style={{ zIndex: -1 }}>
+												<InputIcon
+													iconLeft={
+														<SolarLockPasswordBold
+															width={sizeIcon}
+															height={sizeIcon}
+															style={{ marginRight: 12 }}
+															color={neutral.getColor("100")}
+														/>
+													}
+													iconRight={
+														renderIconShowPassword[
+															showPassword.toString() as "true" | "false"
+														]
+													}
+													placeholder={"Password"}
+													borderColor={error ? primary.getColor("500") : undefined}
+													value={value}
+													onBlur={onBlurInput}
+													onFocus={onFocusInput}
+													onChange={element => {
+														onChange(element.nativeEvent.text);
+													}}
+													secureTextEntry={!showPassword}
+													onPressIconRight={() => setShowPassword(!showPassword)}
+												/>
+												{error && (
+													<Text style={{ color: primary.getColor("500") }}>
+														{error.message}
+													</Text>
+												)}
+											</Col>
+										);
+									}}
+								/>
 								<Row style={[styles.rememberMeContainer]}>
 									<CheckBox
 										checked={checked}
@@ -175,7 +270,7 @@ function LoginScreen() {
 							</Text>
 							<TouchableOpacity
 								onPress={() => {
-									navigation.navigate("SignUpScreen");
+									navigation.replace("SignUpScreen");
 								}}
 							>
 								<Text style={[styles.signUpText]}>Sign Up</Text>

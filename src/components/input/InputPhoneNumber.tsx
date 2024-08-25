@@ -27,9 +27,10 @@ function InputPhoneNumber({
 	onBlur,
 	onFocus,
 	onChange,
-	onCountryPhoneNumberTypeSelected,
+	onCountryPhoneNumberSelected,
 	onValidation,
 	borderColor,
+	borderColorFocus,
 	showed = false,
 	onShow,
 }: InputPhoneNumberProps) {
@@ -39,7 +40,7 @@ function InputPhoneNumber({
 	const [phoneNumberFormat, setPhoneNumberFormat] = useState<string>("");
 
 	useEffect(() => {
-		onCountryPhoneNumberTypeSelected?.(countryPhoneNumber);
+		onCountryPhoneNumberSelected?.(countryPhoneNumber);
 		validationPhoneNumber(phoneNumberFormat);
 	}, [countryPhoneNumber]);
 
@@ -60,19 +61,19 @@ function InputPhoneNumber({
 			onBlur={onBlur}
 			onFocus={onFocus}
 			borderColor={borderColor}
+			borderColorFocus={borderColorFocus}
 			onChange={e => {
-				setPhoneNumberFormat(e.nativeEvent.text);
 				onChange?.(e);
+				setPhoneNumberFormat(e.nativeEvent.text);
 				validationPhoneNumber(e.nativeEvent.text);
 			}}
 			keyboardType={"phone-pad"}
-			side={"left"}
-			icon={
+			iconLeft={
 				<Row style={[styles.container]}>
 					<Selector<CountryPhoneNumberType>
 						data={countries}
 						showBorder={false}
-						width={70}
+						width={80}
 						padding={0}
 						showed={showed}
 						onShow={onShow}

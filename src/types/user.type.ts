@@ -7,6 +7,8 @@
  **/
 
 export type User = {
-	email: string;
 	id: number;
+	email: string;
+	phoneNumber: string;
+	fullName: string;
 };
