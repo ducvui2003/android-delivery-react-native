@@ -28,10 +28,6 @@ function HomeScreen() {
 	const styles = makeStyled(theme);
 	const [, setCurrentPageViewPager] = useState(0);
 
-	useEffect(() => {
-		Alert.alert("Home Screen");
-	}, []);
-
 	return (
 		<ScrollView style={styles.container}>
 			<HomeHeaderFragment />

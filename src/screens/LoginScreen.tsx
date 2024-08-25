@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import {
 	Alert,
 	Keyboard,
@@ -44,6 +44,8 @@ import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import { User } from "../types/user.type";
 import { login } from "../hooks/redux/auth.slice";
 import { AxiosError } from "axios";
+import SolarEyeBold from "../../assets/images/icons/SolarEyeBold";
+import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
 
 function LoginScreen() {
 	const [checked, setChecked] = React.useState(false);
@@ -52,6 +54,7 @@ function LoginScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "LoginScreen">>();
 	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>();
+	const [showPassword, setShowPassword] = useState(false);
 	const sizeIcon = 25;
 	const dispatch = useDispatch();
 
@@ -89,6 +92,25 @@ function LoginScreen() {
 			.catch((error: AxiosError<ApiResponse<string>>) => {
 				Alert.alert("Lỗi đăng nhập", error.response?.data?.message);
 			});
+	};
+
+	const renderIconShowPassword: Record<"true" | "false", ReactNode> = {
+		true: (
+			<SolarEyeBold
+				width={sizeIcon}
+				height={sizeIcon}
+				style={{ marginRight: 12 }}
+				color={neutral.getColor("100")}
+			/>
+		),
+		false: (
+			<SolarEyeClosedBold
+				width={sizeIcon}
+				height={sizeIcon}
+				style={{ marginRight: 12 }}
+				color={neutral.getColor("100")}
+			/>
+		),
 	};
 
 	return (
@@ -165,13 +187,18 @@ function LoginScreen() {
 										return (
 											<Col style={{ zIndex: -1 }}>
 												<InputIcon
-													icon={
+													iconLeft={
 														<SolarLockPasswordBold
 															width={sizeIcon}
 															height={sizeIcon}
 															style={{ marginRight: 12 }}
 															color={neutral.getColor("100")}
 														/>
+													}
+													iconRight={
+														renderIconShowPassword[
+															showPassword.toString() as "true" | "false"
+														]
 													}
 													placeholder={"Password"}
 													borderColor={error ? primary.getColor("500") : undefined}
@@ -181,6 +208,8 @@ function LoginScreen() {
 													onChange={element => {
 														onChange(element.nativeEvent.text);
 													}}
+													secureTextEntry={true}
+													onPressIconRight={() => setShowPassword(!showPassword)}
 												/>
 												{error && (
 													<Text style={{ color: primary.getColor("500") }}>

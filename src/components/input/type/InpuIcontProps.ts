@@ -9,8 +9,10 @@ import InputProps from "./InputProps";
 import { ReactNode } from "react";
 
 type InputIconProps = InputProps & {
-	icon?: ReactNode;
-	side?: "left" | "right";
+	iconLeft?: ReactNode;
+	iconRight?: ReactNode;
+	onPressIconLeft?: () => void;
+	onPressIconRight?: () => void;
 };
 
 export default InputIconProps;

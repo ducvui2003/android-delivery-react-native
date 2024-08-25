@@ -58,7 +58,7 @@ export function VerificationScreen({
 	const [confirmation, setConfirmation] = useState<FirebaseAuthTypes.ConfirmationResult>();
 
 	useEffect(() => {
-		signInWithPhoneNumber(form.phoneNumber);
+		// signInWithPhoneNumber(form.phoneNumber);
 
 		return firebaseAuth.onAuthStateChanged(user => {
 			if (!user) return;
@@ -103,7 +103,7 @@ export function VerificationScreen({
 
 	const verifyCode = (code: string) => {
 		if (!confirmation) {
-			navigation.replace("SignUpScreen");
+			setErrorVerify(true);
 			return;
 		}
 		confirmation
@@ -167,13 +167,14 @@ export function VerificationScreen({
 						onFocus={() => {
 							setHidden(true);
 						}}
-						sizeInputCode={40}
+						sizeInputCode={50}
 						onBlur={onBlurInput}
 						setError={errorVerify}
 						onChangeCode={code => {
 							if (code.length !== 6) return;
 							verifyCode(code);
 						}}
+						fontSize={20}
 					/>
 					<Text style={[styles.text, { color: theme.text_1.getColor() }]}>Didn’t receive code?</Text>
 					<CountDown

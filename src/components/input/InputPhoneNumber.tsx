@@ -68,8 +68,7 @@ function InputPhoneNumber({
 				validationPhoneNumber(e.nativeEvent.text);
 			}}
 			keyboardType={"phone-pad"}
-			side={"left"}
-			icon={
+			iconLeft={
 				<Row style={[styles.container]}>
 					<Selector<CountryPhoneNumberType>
 						data={countries}

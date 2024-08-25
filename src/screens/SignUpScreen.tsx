@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import {
 	Alert,
 	Keyboard,
@@ -44,6 +44,8 @@ import SolarLockPasswordBold from "../../assets/images/icons/SolarLockPasswordBo
 import CountryPhoneNumberType from "../types/countryPhoneNumber.type";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import { AxiosError } from "axios";
+import SolarEyeBold from "../../assets/images/icons/SolarEyeBold";
+import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
 
 function SignUpScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
@@ -51,6 +53,7 @@ function SignUpScreen() {
 	const [isFocusInput, setIsFocusInput] = useState(false);
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "SignUpScreen">>();
 	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>();
+	const [showPassword, setShowPassword] = useState(false);
 	const sizeIcon = 25;
 	const {
 		control,
@@ -93,6 +96,25 @@ function SignUpScreen() {
 		setIsShow(false);
 		if (Platform.OS === "web") return;
 		Keyboard.dismiss();
+	};
+
+	const renderIconShowPassword: Record<"true" | "false", ReactNode> = {
+		true: (
+			<SolarEyeBold
+				width={sizeIcon}
+				height={sizeIcon}
+				style={{ marginRight: 12 }}
+				color={neutral.getColor("100")}
+			/>
+		),
+		false: (
+			<SolarEyeClosedBold
+				width={sizeIcon}
+				height={sizeIcon}
+				style={{ marginRight: 12 }}
+				color={neutral.getColor("100")}
+			/>
+		),
 	};
 
 	return (
@@ -178,7 +200,7 @@ function SignUpScreen() {
 										return (
 											<Col>
 												<InputIcon
-													icon={
+													iconLeft={
 														<SolarLetterBold
 															width={sizeIcon}
 															height={sizeIcon}
@@ -218,7 +240,7 @@ function SignUpScreen() {
 										return (
 											<Col>
 												<InputIcon
-													icon={
+													iconLeft={
 														<SolarUserBold
 															width={sizeIcon}
 															height={sizeIcon}
@@ -266,13 +288,18 @@ function SignUpScreen() {
 										return (
 											<Col>
 												<InputIcon
-													icon={
+													iconLeft={
 														<SolarLockPasswordBold
 															width={sizeIcon}
 															height={sizeIcon}
 															style={{ marginRight: 12 }}
 															color={neutral.getColor("100")}
 														/>
+													}
+													iconRight={
+														renderIconShowPassword[
+															showPassword.toString() as "true" | "false"
+														]
 													}
 													placeholder={"Password"}
 													borderColor={errors.password ? primary.getColor("500") : undefined}
@@ -281,11 +308,12 @@ function SignUpScreen() {
 													}
 													value={value}
 													onBlur={onBlurInput}
-													secureTextEntry={true}
+													secureTextEntry={!showPassword}
 													onFocus={onFocusInput}
 													onChange={element => {
 														onChange(element.nativeEvent.text);
 													}}
+													onPressIconRight={() => setShowPassword(!showPassword)}
 												/>
 												{errors.password && (
 													<Text style={{ color: primary.getColor("500") }}>

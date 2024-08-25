@@ -35,6 +35,7 @@ type InputCodeFragmentProp = {
 	onChangeCode?: (code: string) => void;
 	keyboardType?: KeyboardType;
 	setError?: boolean;
+	fontSize?: number;
 };
 
 function InputCodeFragment({
@@ -49,6 +50,7 @@ function InputCodeFragment({
 	onChangeCode,
 	keyboardType,
 	setError,
+	fontSize = 20,
 }: InputCodeFragmentProp) {
 	const initialFocusStatus: boolean[] = [];
 	const initialListData: string[] = [];
@@ -121,7 +123,7 @@ function InputCodeFragment({
 					height={sizeInputCode}
 					borderColor={showError ? (primary.getColor("500") as ColorValue) : undefined}
 					borderColorFocus={showError ? (primary.getColor("500") as ColorValue) : undefined}
-					styleInput={[styles.inputCode, styleInput]}
+					styleInput={[styles.inputCode, styleInput, { fontSize }]}
 					onFocus={() => {
 						onFocus?.();
 						setListFocus(prevState => {

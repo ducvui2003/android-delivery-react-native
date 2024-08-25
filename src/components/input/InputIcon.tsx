@@ -8,7 +8,7 @@
 
 import React, { useEffect } from "react";
 import Row from "../custom/Row";
-import { TextInput } from "react-native";
+import { TextInput, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import InputIconProps from "./type/InpuIcontProps";
@@ -22,8 +22,8 @@ function InputIcon({
 	placeholder,
 	value,
 	keyboardType,
-	icon,
-	side = "left",
+	iconLeft,
+	iconRight,
 	borderColor,
 	borderColorFocus,
 	width,
@@ -32,6 +32,8 @@ function InputIcon({
 	styleInput,
 	focus,
 	secureTextEntry,
+	onPressIconLeft,
+	onPressIconRight,
 }: InputIconProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [isFocus, setIsFocus] = React.useState<boolean>(false);
@@ -58,7 +60,7 @@ function InputIcon({
 				{ width, height },
 			]}
 		>
-			{side === "left" && icon}
+			{iconLeft && <TouchableOpacity onPress={onPressIconLeft}>{iconLeft}</TouchableOpacity>}
 			<TextInput
 				style={[InputStyles.input, { color: theme.text_3.getColor() }, styleInput]}
 				placeholderTextColor={theme.placeholder.getColor()}
@@ -77,7 +79,7 @@ function InputIcon({
 				value={value}
 				placeholder={placeholder}
 			/>
-			{side === "right" && icon}
+			{iconRight && <TouchableOpacity onPress={onPressIconRight}>{iconRight}</TouchableOpacity>}
 		</Row>
 	);
 }

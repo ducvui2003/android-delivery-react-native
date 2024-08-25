@@ -8,15 +8,15 @@
 
 import * as React from "react";
 import { googleLogout, TokenResponse, useGoogleLogin } from "@react-oauth/google";
-import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import axiosInstance, { ApiResponse } from "../../../configs/axios/axios.config";
 import { AxiosError } from "axios";
 import { Authentication } from "../../../types/authentication.type";
 import ButtonAuthProps from "../type/googleAuth.type";
-import icon from "../../../../assets/images/icons/google_icon.png";
 import { borderOthMethodSignIn } from "../../../configs/colors/color-template.config";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
+import LogosGoogleIcon from "../../../../assets/images/icons/LogosGoogleIcon";
 
 function GoogleSignInButtonWeb({ email, loginSuccess, logoutSuccess }: ButtonAuthProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
@@ -41,10 +41,12 @@ function GoogleSignInButtonWeb({ email, loginSuccess, logoutSuccess }: ButtonAut
 		console.log(errorResponse);
 	};
 
-	const login = useGoogleLogin({
-		onSuccess: onSuccess,
-		onError: onError,
-	});
+	const useLogin = () => {
+		useGoogleLogin({
+			onSuccess: onSuccess,
+			onError: onError,
+		});
+	};
 
 	if (email)
 		return (
@@ -67,24 +69,21 @@ function GoogleSignInButtonWeb({ email, loginSuccess, logoutSuccess }: ButtonAut
 		);
 
 	return (
-		<TouchableOpacity onPress={() => login()} style={[styles.container]}>
-			<Image source={icon} style={[styles.icon, { backgroundColor: theme.background.getColor() }]} />
+		<TouchableOpacity onPress={useLogin} style={[styles.icon, { backgroundColor: theme.background.getColor() }]}>
+			<LogosGoogleIcon width={30} height={30} />
 		</TouchableOpacity>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
+	icon: {
 		borderColor: borderOthMethodSignIn.getColor(),
+		borderRadius: 9999,
 		borderStyle: "solid",
 		borderWidth: 2,
 		padding: 8,
-		borderRadius: 99999,
-	},
-	icon: {
-		borderRadius: 99999,
-		width: 40,
-		height: 40,
+		justifyContent: "center",
+		alignItems: "center",
 	},
 });
 

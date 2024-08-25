@@ -13,11 +13,10 @@ import { AxiosError } from "axios";
 import { GoogleSignin, isErrorWithCode, statusCodes, User } from "@react-native-google-signin/google-signin";
 import { Authentication } from "../../../types/authentication.type";
 import ButtonAuthProps from "../type/googleAuth.type";
-import { Avatar } from "@rneui/themed";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
 import { borderOthMethodSignIn } from "../../../configs/colors/color-template.config";
-import icon from "../../../../assets/images/icons/google_icon.png";
+import LogosGoogleIcon from "../../../../assets/images/icons/LogosGoogleIcon";
 
 GoogleSignin.configure({
 	scopes: ["https://www.googleapis.com/auth/drive.readonly"], // what API you want to access on behalf of the user, default is email and profile
@@ -73,13 +72,8 @@ function GoogleSignInButtonAndroid({ loginSuccess }: ButtonAuthProps) {
 	};
 
 	return (
-		<TouchableOpacity onPress={signIn}>
-			<Avatar
-				size={50}
-				rounded
-				source={icon}
-				containerStyle={[styles.icon, { backgroundColor: theme.background.getColor() }]}
-			/>
+		<TouchableOpacity onPress={signIn} style={[styles.icon, { backgroundColor: theme.background.getColor() }]}>
+			<LogosGoogleIcon width={30} height={30} />
 		</TouchableOpacity>
 	);
 }
@@ -87,9 +81,12 @@ function GoogleSignInButtonAndroid({ loginSuccess }: ButtonAuthProps) {
 const styles = StyleSheet.create({
 	icon: {
 		borderColor: borderOthMethodSignIn.getColor(),
+		borderRadius: 9999,
 		borderStyle: "solid",
 		borderWidth: 2,
 		padding: 8,
+		justifyContent: "center",
+		alignItems: "center",
 	},
 });
 
