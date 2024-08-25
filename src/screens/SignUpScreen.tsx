@@ -6,8 +6,9 @@
  * User: lam-nguyen
  **/
 
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import {
+	Alert,
 	Keyboard,
 	Platform,
 	SafeAreaView,
@@ -39,23 +40,47 @@ import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
+import SolarLockPasswordBold from "../../assets/images/icons/SolarLockPasswordBold";
+import CountryPhoneNumberType from "../types/countryPhoneNumber.type";
+import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
+import { AxiosError } from "axios";
+import SolarEyeBold from "../../assets/images/icons/SolarEyeBold";
+import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
 
 function SignUpScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [isShow, setIsShow] = useState(false);
 	const [isFocusInput, setIsFocusInput] = useState(false);
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "SignUpScreen">>();
+	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>();
+	const [showPassword, setShowPassword] = useState(false);
 	const sizeIcon = 25;
 	const {
 		control,
 		setError,
 		handleSubmit,
-		formState: { isValid },
+		formState: { isValid, errors },
 	} = useForm<RegisterFormType>({ mode: "all" });
 
-	const onSubmit = (data: RegisterFormType) => {
-		console.log(data);
-		if (!isValid) return;
+	const onSubmit = async (data: RegisterFormType) => {
+		if (!isValid || !countryPhoneNumber) return;
+		axiosInstance
+			.post("/auth/check-before-register", {
+				phoneNumber: data.phoneNumber,
+				region: countryPhoneNumber.code,
+				email: data.email,
+			})
+			.then(() => {
+				data.region = countryPhoneNumber.code;
+
+				navigation.replace("VerificationScreen", {
+					dialCode: countryPhoneNumber.dial_code,
+					form: data,
+				});
+			})
+			.catch((error: AxiosError<ApiResponse<string>>) => {
+				Alert.alert("Lỗi đăng ký", error.response?.data?.message);
+			});
 	};
 
 	const onFocusInput = () => {
@@ -71,6 +96,25 @@ function SignUpScreen() {
 		setIsShow(false);
 		if (Platform.OS === "web") return;
 		Keyboard.dismiss();
+	};
+
+	const renderIconShowPassword: Record<"true" | "false", ReactNode> = {
+		true: (
+			<SolarEyeBold
+				width={sizeIcon}
+				height={sizeIcon}
+				style={{ marginRight: 12 }}
+				color={neutral.getColor("100")}
+			/>
+		),
+		false: (
+			<SolarEyeClosedBold
+				width={sizeIcon}
+				height={sizeIcon}
+				style={{ marginRight: 12 }}
+				color={neutral.getColor("100")}
+			/>
+		),
 	};
 
 	return (
@@ -92,6 +136,7 @@ function SignUpScreen() {
 									/>
 								</Row>
 								<Controller
+									key={"phoneNumber"}
 									control={control}
 									name={"phoneNumber"}
 									rules={{
@@ -102,7 +147,7 @@ function SignUpScreen() {
 										},
 										validate: undefined,
 									}}
-									render={({ field: { onChange, value }, fieldState: { error } }) => {
+									render={({ field: { onChange, value } }) => {
 										return (
 											<Col style={{ zIndex: 2 }}>
 												<InputPhoneNumber
@@ -110,22 +155,31 @@ function SignUpScreen() {
 													onShow={setIsShow}
 													placeholder={"00 000 000"}
 													value={value}
-													borderColor={error ? "red" : undefined}
+													borderColor={
+														errors.phoneNumber ? primary.getColor("500") : undefined
+													}
+													borderColorFocus={
+														errors.phoneNumber ? primary.getColor("500") : undefined
+													}
 													onBlur={onBlurInput}
+													onFocus={onFocusInput}
 													onValidation={isValid => {
 														if (isValid) return;
+
 														setError("phoneNumber", {
 															type: "validate",
 															message: "Invalid phone number",
 														});
 													}}
-													onFocus={onFocusInput}
 													onChange={element => {
 														onChange(element.nativeEvent.text);
 													}}
+													onCountryPhoneNumberSelected={setCountryPhoneNumber}
 												/>
-												{error && (
-													<Text style={{ color: "red", zIndex: -1 }}>{error.message}</Text>
+												{errors.phoneNumber && (
+													<Text style={{ color: primary.getColor("500"), zIndex: -1 }}>
+														{errors.phoneNumber.message}
+													</Text>
 												)}
 											</Col>
 										);
@@ -139,14 +193,14 @@ function SignUpScreen() {
 										required: "Email is required",
 										pattern: {
 											value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-											message: "invalid email",
+											message: "Invalid email",
 										},
 									}}
-									render={({ field: { onChange, value }, fieldState: { error } }) => {
+									render={({ field: { onChange, value } }) => {
 										return (
 											<Col>
 												<InputIcon
-													icon={
+													iconLeft={
 														<SolarLetterBold
 															width={sizeIcon}
 															height={sizeIcon}
@@ -155,7 +209,10 @@ function SignUpScreen() {
 														/>
 													}
 													placeholder={"Email"}
-													borderColor={error ? "red" : undefined}
+													borderColor={errors.email ? primary.getColor("500") : undefined}
+													borderColorFocus={
+														errors.email ? primary.getColor("500") : undefined
+													}
 													value={value}
 													onBlur={onBlurInput}
 													onFocus={onFocusInput}
@@ -163,7 +220,11 @@ function SignUpScreen() {
 														onChange(element.nativeEvent.text);
 													}}
 												/>
-												{error && <Text style={{ color: "red" }}>{error.message}</Text>}
+												{errors.email && (
+													<Text style={{ color: primary.getColor("500") }}>
+														{errors.email.message}
+													</Text>
+												)}
 											</Col>
 										);
 									}}
@@ -175,11 +236,11 @@ function SignUpScreen() {
 									rules={{
 										required: "Full name is required",
 									}}
-									render={({ field: { onChange, value }, fieldState: { error } }) => {
+									render={({ field: { onChange, value } }) => {
 										return (
 											<Col>
 												<InputIcon
-													icon={
+													iconLeft={
 														<SolarUserBold
 															width={sizeIcon}
 															height={sizeIcon}
@@ -189,14 +250,76 @@ function SignUpScreen() {
 													}
 													placeholder={"Full Name"}
 													value={value}
-													borderColor={error ? "red" : undefined}
+													borderColor={errors.fullName ? primary.getColor("500") : undefined}
+													borderColorFocus={
+														errors.fullName ? primary.getColor("500") : undefined
+													}
 													onBlur={onBlurInput}
 													onFocus={onFocusInput}
 													onChange={element => {
 														onChange(element.nativeEvent.text);
 													}}
 												/>
-												{error && <Text style={{ color: "red" }}>{error.message}</Text>}
+												{errors.fullName && (
+													<Text style={{ color: primary.getColor("500") }}>
+														{errors.fullName.message}
+													</Text>
+												)}
+											</Col>
+										);
+									}}
+								/>
+								<Space height={24} />
+								<Controller
+									control={control}
+									name={"password"}
+									rules={{
+										required: "Password is required",
+										minLength: {
+											value: 8,
+											message: "Password is too short",
+										},
+										pattern: {
+											value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+\[\]{}|;:,.<>?])[A-Za-z\d!@#$%^&*()_+\[\]{}|;:,.<>?]*$/,
+											message: "Invalid password",
+										},
+									}}
+									render={({ field: { onChange, value } }) => {
+										return (
+											<Col>
+												<InputIcon
+													iconLeft={
+														<SolarLockPasswordBold
+															width={sizeIcon}
+															height={sizeIcon}
+															style={{ marginRight: 12 }}
+															color={neutral.getColor("100")}
+														/>
+													}
+													iconRight={
+														renderIconShowPassword[
+															showPassword.toString() as "true" | "false"
+														]
+													}
+													placeholder={"Password"}
+													borderColor={errors.password ? primary.getColor("500") : undefined}
+													borderColorFocus={
+														errors.password ? primary.getColor("500") : undefined
+													}
+													value={value}
+													onBlur={onBlurInput}
+													secureTextEntry={!showPassword}
+													onFocus={onFocusInput}
+													onChange={element => {
+														onChange(element.nativeEvent.text);
+													}}
+													onPressIconRight={() => setShowPassword(!showPassword)}
+												/>
+												{errors.password && (
+													<Text style={{ color: primary.getColor("500") }}>
+														{errors.password.message}
+													</Text>
+												)}
 											</Col>
 										);
 									}}
@@ -223,7 +346,6 @@ function SignUpScreen() {
 						);
 					}}
 				/>
-
 				<Col style={{ zIndex: -1 }}>
 					<ButtonHasStatus title={"Register"} active={isValid} onPress={handleSubmit(onSubmit)} />
 					<Col style={{ display: isFocusInput ? "none" : "flex" }}>

@@ -8,6 +8,8 @@
 
 type LoginFormType = {
 	phoneNumber: string;
+	password: string;
+	region: string;
 };
 
 export default LoginFormType;

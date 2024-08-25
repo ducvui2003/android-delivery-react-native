@@ -29,6 +29,7 @@ type InputProps = {
 	backgroundColor?: ColorValue;
 	styleInput?: StyleProp<TextStyle>;
 	focus?: boolean;
+	secureTextEntry?: boolean;
 };
 
 export default InputProps;

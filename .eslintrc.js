@@ -7,7 +7,8 @@ module.exports = {
   plugins: [
     // "prettier",
     "@typescript-eslint",
-    "unused-imports"
+    "unused-imports",
+    "eslint-plugin-unused-imports",
   ],
   rules: {
     "no-warning-comments": "off",   // Disables the rule that warns about specific comment types like TODO or FIXME

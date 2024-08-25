@@ -11,11 +11,10 @@ import { borderOthMethodSignIn } from "../../../configs/colors/color-template.co
 import { RootState } from "../../../configs/redux/store.config";
 import { useSelector } from "react-redux";
 import ButtonAuthProps from "../type/googleAuth.type";
-import { Avatar } from "@rneui/themed";
-import icon from "../../../../assets/images/icons/facebook_icon.png";
 import * as React from "react";
 import { useEffect } from "react";
 import { AccessToken, LoginManager, Settings } from "react-native-fbsdk-next";
+import LogosFacebookIcon from "../../../../assets/images/icons/LogosFacebookIcon";
 
 Settings.initializeSDK();
 
@@ -45,13 +44,8 @@ function FacebookSignInButtonAndroid({ loginSuccess, loginFail }: ButtonAuthProp
 	});
 
 	return (
-		<TouchableOpacity onPress={signIn}>
-			<Avatar
-				size={50}
-				rounded
-				source={icon}
-				containerStyle={[styles.icon, { backgroundColor: theme.background.getColor() }]}
-			/>
+		<TouchableOpacity style={[styles.icon, { backgroundColor: theme.background.getColor() }]}>
+			<LogosFacebookIcon width={30} height={30} />
 		</TouchableOpacity>
 	);
 }
@@ -59,9 +53,12 @@ function FacebookSignInButtonAndroid({ loginSuccess, loginFail }: ButtonAuthProp
 const styles = StyleSheet.create({
 	icon: {
 		borderColor: borderOthMethodSignIn.getColor(),
+		borderRadius: 9999,
 		borderStyle: "solid",
 		borderWidth: 2,
 		padding: 8,
+		justifyContent: "center",
+		alignItems: "center",
 	},
 });
 

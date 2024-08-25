@@ -6,36 +6,33 @@
  * User: lam-nguyen
  **/
 
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { borderOthMethodSignIn } from "../../../configs/colors/color-template.config";
 import ButtonAuthProps from "../type/googleAuth.type";
-import icon from "../../../../assets/images/icons/facebook_icon.png";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
+import LogosFacebookIcon from "../../../../assets/images/icons/LogosFacebookIcon";
 
 function FacebookSignInButtonWeb(_: ButtonAuthProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	return (
-		<TouchableOpacity style={[styles.container]}>
-			<Image source={icon} style={[styles.icon, { backgroundColor: theme.background.getColor() }]} />
+		<TouchableOpacity style={[styles.icon, { backgroundColor: theme.background.getColor() }]}>
+			<LogosFacebookIcon width={30} height={30} />
 		</TouchableOpacity>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
+	icon: {
 		borderColor: borderOthMethodSignIn.getColor(),
+		borderRadius: 9999,
 		borderStyle: "solid",
 		borderWidth: 2,
 		padding: 8,
-		borderRadius: 99999,
-	},
-	icon: {
-		borderRadius: 99999,
-		width: 40,
-		height: 40,
+		justifyContent: "center",
+		alignItems: "center",
 	},
 });
 
