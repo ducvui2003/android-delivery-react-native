@@ -9,7 +9,7 @@ import axios, { AxiosInstance, AxiosResponse, HttpStatusCode, InternalAxiosReque
 import { getToken, setItem } from "../../services/secureStore.service";
 
 const axiosInstance: AxiosInstance = axios.create({
-	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END,
+	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END_WIFI_LAM_NGUYEN,
 	headers: {
 		"Access-Control-Allow-Origin": "*",
 	},

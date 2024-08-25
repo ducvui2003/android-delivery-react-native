@@ -11,10 +11,10 @@ import { Platform, useColorScheme } from "react-native";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import React, { useEffect } from "react";
 import { setTheme } from "./src/hooks/redux/theme.slice";
-import LoginScreen from "./src/screens/LoginScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import { VerificationScreen } from "./src/screens/VerificationScreen";
 import { SettingPinSecurityScreen } from "./src/screens/SettingPinSecurityScreen";
+import LoginScreen from "./src/screens/LoginScreen";
 
 const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -56,7 +56,7 @@ function Root() {
 
     return (
         <NavigationContainer>
-            <RootStack.Navigator initialRouteName="SettingPinSecurityScreen" screenOptions={{
+          <RootStack.Navigator initialRouteName="LoadingScreen" screenOptions={{
                 headerShown: false,
             }}>
                 <RootStack.Screen name={"MainScreen"}
@@ -68,13 +68,8 @@ function Root() {
                 <RootStack.Screen name={"IntroduceScreen"}
                                   component={IntroduceScreen}/>
                 <RootStack.Screen name={"SignUpScreen"} component={SignUpScreen} />
-                <RootStack.Screen name={"LoginScreen"} component={LoginScreen} />
-                <RootStack.Screen name={"VerificationScreen"} component={VerificationScreen}
-                                  initialParams={{
-                                      codeVerify: "1234",
-                                      dialCode: "+84",
-                                      phoneNumber: "85****919",
-                                  }} />
+              <RootStack.Screen name={"LoginScreen"} component={LoginScreen} />
+              <RootStack.Screen name={"VerificationScreen"} component={VerificationScreen} />
               <RootStack.Screen name={"SettingPinSecurityScreen"} component={SettingPinSecurityScreen} />
             </RootStack.Navigator>
         </NavigationContainer>

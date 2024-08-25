@@ -8,8 +8,9 @@
 
 // @flow
 import * as React from "react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import {
+	Alert,
 	Keyboard,
 	Platform,
 	SafeAreaView,
@@ -33,6 +34,11 @@ import { CountDown } from "../components/coutDown/CountDown";
 import InputCodeFragment from "../fragments/InputCodeFragment";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Header } from "../components/header/Header";
+import { formatHiddenPhoneNumber } from "../utils/formator";
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
+import { firebaseAuth } from "../configs/firebase/firebase.config";
+import { AxiosError } from "axios";
 
 type Props = {
 	route: VerificationScreenRouteProp;
@@ -41,22 +47,31 @@ type Props = {
 
 export function VerificationScreen({
 	route: {
-		params: { dialCode, phoneNumber, codeVerify },
+		params: { dialCode, form },
 	},
 	navigation,
 }: Props) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [hidden, setHidden] = useState<boolean>(false);
-	const [time, setTime] = useState(10);
-	const [verify, setVerify] = useState<boolean>(false);
+	const [time, setTime] = useState(0);
+	const [errorVerify, setErrorVerify] = useState<boolean>(false);
+	const [confirmation, setConfirmation] = useState<FirebaseAuthTypes.ConfirmationResult>();
 
-	const onPress = () => {
-		setTime(10);
-	};
+	useEffect(() => {
+		signInWithPhoneNumber(form.phoneNumber);
+
+		return firebaseAuth.onAuthStateChanged(user => {
+			if (!user) return;
+
+			user.getIdToken(true).then(token => {
+				register(token);
+			});
+		});
+	}, []);
 
 	const componentResend: Record<"true" | "false", ReactNode> = {
 		true: (
-			<TouchableOpacity onPress={onPress}>
+			<TouchableOpacity onPress={() => signInWithPhoneNumber(form.phoneNumber)}>
 				<Text style={[styles.text, styles.textSimiBold, { color: primary.getColor("500") }]}>Resend Code</Text>
 			</TouchableOpacity>
 		),
@@ -66,6 +81,55 @@ export function VerificationScreen({
 	const onBlurInput = () => {
 		setHidden(false);
 		Keyboard.dismiss();
+	};
+
+	const signInWithPhoneNumber = (phoneNumber: string) => {
+		if (time !== 0 || firebaseAuth.currentUser) return;
+		setTime(60 * 5);
+		firebaseAuth
+			.signInWithPhoneNumber(`${dialCode}${phoneNumber}`)
+			.then(confirmation => {
+				if (!confirmation) {
+					navigation.replace("SignUpScreen");
+					return;
+				}
+				setConfirmation(confirmation);
+			})
+			.catch(error => {
+				console.log(error);
+				navigation.replace("SignUpScreen");
+			});
+	};
+
+	const verifyCode = (code: string) => {
+		if (!confirmation) {
+			navigation.replace("SignUpScreen");
+			return;
+		}
+		confirmation
+			.confirm(code)
+			.then((value: FirebaseAuthTypes.UserCredential | null) => {
+				if (!value) {
+					setErrorVerify(true);
+					return;
+				}
+				value.user.getIdToken(true).then(idToken => {
+					register(idToken);
+				});
+			})
+			.catch(() => setErrorVerify(true));
+	};
+
+	const register = (idToken: string) => {
+		form.idToken = idToken;
+		axiosInstance
+			.post("/auth/register", form)
+			.then(() => {
+				navigation.navigate("LoginScreen");
+			})
+			.catch((error: AxiosError<ApiResponse<string>>) => {
+				Alert.alert("Lỗi đăng ký", error.response?.data?.message);
+			});
 	};
 
 	return (
@@ -85,6 +149,9 @@ export function VerificationScreen({
 					strokeWidth={2}
 					styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor(), borderWidth: 0 }}
 					style={{ marginBottom: 32 }}
+					onPressBack={() => {
+						navigation.replace("SignUpScreen");
+					}}
 				/>
 				<ScrollView
 					style={{ flexDirection: "column" }}
@@ -93,17 +160,19 @@ export function VerificationScreen({
 					onResponderRelease={onBlurInput}
 				>
 					<Text style={[styles.text, styles.textNotification, { color: theme.text_1.getColor() }]}>
-						Code has been send to ({dialCode}) {phoneNumber}
+						Code has been send to ({dialCode}) {formatHiddenPhoneNumber(form.phoneNumber)}
 					</Text>
 					<InputCodeFragment
-						codeVerify={codeVerify}
-						numberOfInput={4}
+						numberOfInput={6}
 						onFocus={() => {
 							setHidden(true);
 						}}
+						sizeInputCode={40}
 						onBlur={onBlurInput}
-						onVerify={result => {
-							setVerify(result);
+						setError={errorVerify}
+						onChangeCode={code => {
+							if (code.length !== 6) return;
+							verifyCode(code);
 						}}
 					/>
 					<Text style={[styles.text, { color: theme.text_1.getColor() }]}>Didn’t receive code?</Text>
@@ -118,7 +187,7 @@ export function VerificationScreen({
 					{componentResend[(time === 0).toString() as "true" | "false"]}
 				</ScrollView>
 				<Col style={[styles.footerContainer]}>
-					<ButtonHasStatus title={"Verify"} active={verify} styleButton={[styles.buttonVerify]} />
+					<ButtonHasStatus title={"Verify"} active={errorVerify} styleButton={[styles.buttonVerify]} />
 					<Row style={[{ display: hidden ? "none" : "flex" }, styles.containerCanHidden]}>
 						<Text style={[styles.text, { color: theme.text_1.getColor() }]}>Back to </Text>
 						<TouchableOpacity

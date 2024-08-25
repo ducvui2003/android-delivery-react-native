@@ -31,6 +31,7 @@ function InputIcon({
 	backgroundColor,
 	styleInput,
 	focus,
+	secureTextEntry,
 }: InputIconProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [isFocus, setIsFocus] = React.useState<boolean>(false);
@@ -72,6 +73,7 @@ function InputIcon({
 					onFocus?.();
 					setIsFocus(true);
 				}}
+				secureTextEntry={secureTextEntry}
 				value={value}
 				placeholder={placeholder}
 			/>

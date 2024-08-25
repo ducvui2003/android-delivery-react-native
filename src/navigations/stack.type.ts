@@ -1,4 +1,5 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
+import RegisterFormType from "../types/registerForm.type";
 
 export type RootStackParamList = {
 	MainScreen: NavigatorScreenParams<MainScreenStackParamList>;
@@ -9,8 +10,7 @@ export type RootStackParamList = {
 	LoginScreen: undefined;
 	VerificationScreen: {
 		dialCode: string;
-		phoneNumber: string;
-		codeVerify: string;
+		form: RegisterFormType;
 	};
 	SettingPinSecurityScreen: undefined;
 };

@@ -101,7 +101,6 @@ function Selector<T>({
 					styles.itemsContainer,
 					{
 						width: width ?? "100%",
-						paddingHorizontal: padding,
 						height: isShow ? height : 0,
 						backgroundColor: backgroundColorItems,
 					},
@@ -151,6 +150,8 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 		top: "100%",
 		zIndex: 99999,
+		borderBottomRightRadius: 10,
+		borderBottomLeftRadius: 10,
 	},
 });
 

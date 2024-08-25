@@ -34,6 +34,7 @@ type InputCodeFragmentProp = {
 	messageError?: string;
 	onChangeCode?: (code: string) => void;
 	keyboardType?: KeyboardType;
+	setError?: boolean;
 };
 
 function InputCodeFragment({
@@ -47,6 +48,7 @@ function InputCodeFragment({
 	messageError,
 	onChangeCode,
 	keyboardType,
+	setError,
 }: InputCodeFragmentProp) {
 	const initialFocusStatus: boolean[] = [];
 	const initialListData: string[] = [];
@@ -99,6 +101,12 @@ function InputCodeFragment({
 		onVerify?.(codeInput === codeVerify);
 		setShowError(codeInput !== codeVerify);
 	}, [listData]);
+
+	useEffect(() => {
+		if (setError === undefined) return;
+
+		setShowError(setError);
+	}, [setError]);
 
 	const renderInputCode = (numberOfInput: number) => {
 		const inputCodes = [];

@@ -58,13 +58,11 @@ function IntroduceScreen() {
 	const [currentPageViewPager, setCurrentPageViewPager] = useState(0);
 	const viewPagerRef = useRef<PagerView>();
 
-	const onLoginOrRegister = () => {
-		navigation.replace("SignUpScreen");
-	};
-
 	const onPressButtonNext = () => {
 		if (textButtonSkip === "Login / Register" || !viewPagerRef || !viewPagerRef.current) {
-			onLoginOrRegister();
+			navigation.replace("MainScreen", {
+				screen: "HomeScreen",
+			});
 			return;
 		}
 		viewPagerRef.current.setPage(currentPageViewPager + 1);
@@ -98,7 +96,7 @@ function IntroduceScreen() {
 			button: {
 				borderColor: neutral.getColor("50"),
 			},
-			onPress: onLoginOrRegister,
+			onPress: () => navigation.replace("LoginScreen"),
 		},
 	};
 
