@@ -26,11 +26,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
 import InputCodeFragment from "../fragments/InputCodeFragment";
 import { Header } from "../components/header/Header";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigations/stack.type";
 
 export function SettingPinSecurityScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [hidden, setHidden] = useState<boolean>(false);
 	const [code, setCode] = useState<string>("");
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "SettingPinSecurityScreen">>();
 
 	const onBlurInput = () => {
 		setHidden(false);
@@ -54,6 +58,7 @@ export function SettingPinSecurityScreen() {
 					strokeWidth={2}
 					styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor(), borderWidth: 0 }}
 					style={{ marginBottom: 32 }}
+					onPressBack={() => navigation.replace("LoginScreen")}
 				/>
 				<ScrollView
 					style={{ flexDirection: "column" }}
@@ -87,6 +92,7 @@ export function SettingPinSecurityScreen() {
 								display: hidden ? "none" : "flex",
 							},
 						]}
+						onPress={() => navigation.replace("MainScreen", { screen: "HomeScreen" })}
 					>
 						<Text style={[{ ...textStyle["18_regular"], color: theme.textSkip.getColor() }]}>Skip</Text>
 					</TouchableOpacity>

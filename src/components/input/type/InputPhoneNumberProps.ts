@@ -11,7 +11,7 @@ import CountryPhoneNumberType from "../../../types/countryPhoneNumber.type";
 type InputPhoneNumberProps = InputProps & {
 	showed?: boolean;
 	onShow?: (isShow: boolean) => void;
-	onCountryPhoneNumberTypeSelected?: (item: CountryPhoneNumberType) => void;
+	onCountryPhoneNumberSelected?: (item: CountryPhoneNumberType) => void;
 	onValidation?: (isValid: boolean) => void;
 };
 

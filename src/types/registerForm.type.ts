@@ -8,7 +8,9 @@
 import LoginFormType from "./loginForm.type";
 
 type RegisterFormType = LoginFormType & {
+	idToken?: string;
 	email: string;
+	password: string;
 	fullName: string;
 };
 
