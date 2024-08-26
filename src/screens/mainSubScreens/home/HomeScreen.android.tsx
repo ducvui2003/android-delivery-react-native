@@ -7,11 +7,9 @@
  **/
 
 import React, { useState } from "react";
-import { Dimensions, Image, ScrollView, StyleSheet, View } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { useSelector } from "react-redux";
 import { banners, categories } from "../../../../assets/data/home/home";
-import SolarMagniferOutline from "../../../../assets/images/icons/MagniferOutline";
-import RivetIconsFilter from "../../../../assets/images/icons/SolarFilterOutline";
 import Carousel from "../../../components/carousel/Carousel";
 import CategoryItem from "../../../components/category/CategoryItem";
 import InputSearch from "../../../components/input/InputSearch";
@@ -22,11 +20,15 @@ import HomeHeaderFragment from "../../../fragments/home/HomeHeaderFragment";
 import { Category } from "../../../types/category.type";
 import { ThemeType } from "../../../types/theme.type";
 import HomeProductsFragment from "../../../fragments/home/HomeProductsFragment";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../navigations/stack.type";
 
 function HomeScreen() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
 	const [, setCurrentPageViewPager] = useState(0);
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	return (
 		<ScrollView style={styles.container}>
@@ -51,11 +53,27 @@ function HomeScreen() {
 				/>
 			</View>
 
-			<InputSearch
-				iconLeft={<SolarMagniferOutline width={25} height={25} color={neutral.getColor("100")} />}
-				iconRight={<RivetIconsFilter width={25} height={25} color={theme.home.search.icon.getColor()} />}
-				placeholder="Vui lòng nhập tên sản phẩm"
-			/>
+			<View style={{ position: "relative" }}>
+				<InputSearch placeholder="Vui lòng nhập tên sản phẩm" />
+				<TouchableWithoutFeedback
+					onPress={() =>
+						navigation.navigate("SearchScreen", {
+							autoFocus: true,
+						})
+					}
+				>
+					<View
+						style={{
+							position: "absolute",
+							top: 0,
+							left: 0,
+							width: "100%",
+							height: "100%",
+							zIndex: 1,
+						}}
+					/>
+				</TouchableWithoutFeedback>
+			</View>
 
 			<View style={styles.categoryGridContainer}>
 				<Grid<Category>
@@ -63,7 +81,19 @@ function HomeScreen() {
 					data={categories}
 					gapRow={24}
 					renderItem={(item, index) => (
-						<CategoryItem key={index} item={item} onPress={() => console.log(item)} />
+						<CategoryItem
+							key={index}
+							item={item}
+							onPress={() => {
+								if (item.name === "More") navigation.navigate("CategoriesScreen");
+								else {
+									navigation.navigate("SearchScreen", {
+										autoFocus: false,
+										category: item,
+									});
+								}
+							}}
+						/>
 					)}
 				/>
 			</View>

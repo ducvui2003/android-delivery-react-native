@@ -7,54 +7,58 @@
  **/
 
 import React from "react";
-import Row from "../custom/Row";
-import InputStyles from "./style/input.styles";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
-import { TextInput } from "react-native-gesture-handler";
 import InputSearchProps from "./type/InputSearchProps";
-import { View } from "react-native";
+import InputIcon from "./InputIcon";
+import { neutral } from "../../configs/colors/color-template.config";
+import SolarMagniferOutline from "../../../assets/images/icons/MagniferOutline";
+import RivetIconsFilter from "../../../assets/images/icons/SolarFilterOutline";
 
 const InputSearch = ({
-	iconLeft,
-	iconRight,
+	onPressIconLeft,
+	onPressIconRight,
 	onChange,
 	onFocus,
 	onBlur,
 	placeholder,
 	value,
 	keyboardType,
+	focus,
+	autoFocus,
 }: InputSearchProps) => {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	return (
-		<View>
-			<Row
-				style={[
-					InputStyles.container,
-					{
-						backgroundColor: theme.background_input.getColor(),
-						borderColor: theme.border.getColor(),
-						borderRadius: 8,
-						borderWidth: 1,
-						gap: 12,
-					},
-				]}
-			>
-				{iconLeft && iconLeft}
-				<TextInput
-					style={[InputStyles.input, { color: theme.text_3.getColor() }]}
-					placeholderTextColor={theme.placeholder.getColor()}
-					onBlur={onBlur}
-					keyboardType={keyboardType}
-					onChange={onChange}
-					onFocus={onFocus}
-					value={value}
-					placeholder={placeholder}
+		<InputIcon
+			iconLeft={
+				<SolarMagniferOutline
+					width={25}
+					height={25}
+					style={{ marginRight: 12 }}
+					color={neutral.getColor("100")}
 				/>
-				{iconRight && iconRight}
-			</Row>
-		</View>
+			}
+			iconRight={
+				<RivetIconsFilter
+					width={25}
+					height={25}
+					style={{ marginLeft: 12 }}
+					color={theme.home.search.icon.getColor()}
+				/>
+			}
+			styleInput={{ color: theme.text_3.getColor() }}
+			onBlur={onBlur}
+			keyboardType={keyboardType}
+			onChange={onChange}
+			onFocus={onFocus}
+			value={value}
+			focus={focus}
+			placeholder={placeholder}
+			onPressIconLeft={onPressIconLeft}
+			onPressIconRight={onPressIconRight}
+			autoFocus={autoFocus}
+		/>
 	);
 };
 

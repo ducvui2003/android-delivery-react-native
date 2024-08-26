@@ -32,12 +32,12 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
 import { RouteProp } from "@react-navigation/native";
 
-type Props = {
+type AddNewLocationScreenProps = {
 	route: RouteProp<RootStackParamList, "AddNewLocationScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function AddNewLocationScreen({ navigation }: Props) {
+export function AddNewLocationScreen({ navigation }: AddNewLocationScreenProps) {
 	const [currentLocation, setCurrentLocation] = useState<LocationObjectCoords>();
 	const [pickedLocation, setPickedLocation] = useState<LatLng>({ latitude: 0, longitude: 0 });
 	const mapViewRef = useRef<MapView>(null);
@@ -91,7 +91,7 @@ export function AddNewLocationScreen({ navigation }: Props) {
 						styleIconBack={{
 							backgroundColor: theme.header.backgroundIconBack.getColor(),
 						}}
-						onPressBack={() => navigation.replace("MyLocationScreen")}
+						onPressBack={() => navigation.pop()}
 					/>
 					<View style={styles.mapContainer}>
 						<MapView

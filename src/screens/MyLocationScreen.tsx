@@ -25,12 +25,12 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
 import data from "../../assets/data/location/location";
 
-type Props = {
+type MyLocationScreenProps = {
 	route: RouteProp<RootStackParamList, "MyLocationScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function MyLocationScreen({ navigation }: Props) {
+export function MyLocationScreen({ navigation }: MyLocationScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [indexChecked, setIndexChecked] = React.useState<number>(0);
 	const myLocation = 0;
@@ -44,6 +44,7 @@ export function MyLocationScreen({ navigation }: Props) {
 				styleIconBack={{
 					backgroundColor: theme.header.backgroundIconBack.getColor(),
 				}}
+				onPressBack={() => navigation.pop()}
 			/>
 			<Col style={styles.container}>
 				<FlatList
@@ -66,7 +67,7 @@ export function MyLocationScreen({ navigation }: Props) {
 					}}
 					ListFooterComponent={() => {
 						return (
-							<TouchableOpacity onPress={() => navigation.replace("AddNewLocationScreen")}>
+							<TouchableOpacity onPress={() => navigation.navigate("AddNewLocationScreen")}>
 								<Row
 									style={[
 										{

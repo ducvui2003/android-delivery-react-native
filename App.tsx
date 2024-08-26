@@ -18,6 +18,7 @@ import LoginScreen from "./src/screens/LoginScreen";
 import { AddNewLocationScreen } from "./src/screens/AddNewLocationScreen";
 import { MyLocationScreen } from "./src/screens/MyLocationScreen";
 import { CategoriesScreen } from "./src/screens/CategoriesScreen";
+import { SearchScreen } from "./src/screens/SearchScreen";
 
 const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -59,7 +60,7 @@ function Root() {
 
     return (
         <NavigationContainer>
-          <RootStack.Navigator initialRouteName="LoadingScreen" screenOptions={{
+          <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{
                 headerShown: false,
             }}>
                 <RootStack.Screen name={"MainScreen"}
@@ -77,6 +78,7 @@ function Root() {
             <RootStack.Screen name={"AddNewLocationScreen"} component={AddNewLocationScreen} />
             <RootStack.Screen name={"MyLocationScreen"} component={MyLocationScreen} />
             <RootStack.Screen name={"CategoriesScreen"} component={CategoriesScreen} />
+            <RootStack.Screen name={"SearchScreen"} component={SearchScreen} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

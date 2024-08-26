@@ -59,7 +59,11 @@ export function Header({
 					</TouchableOpacity>
 				</View>
 			)}
-			<GradientText textStyle={titleStyle} text={title} gradientColors={colorTitleArr} />
+			{typeof title === "string" ? (
+				<GradientText textStyle={titleStyle} text={title} gradientColors={colorTitleArr} />
+			) : (
+				title
+			)}
 			{iconRight ? (
 				<TouchableOpacity
 					style={[styles.defaultStyleIconBack, styleIconRight, { width: sizeIcon, height: sizeIcon }]}
