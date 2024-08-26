@@ -9,7 +9,7 @@
 // @flow
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
-import { Alert, Keyboard, StyleSheet, Text, View } from "react-native";
+import { Alert, Keyboard, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { LocationObjectCoords } from "expo-location/src/Location.types";
@@ -81,7 +81,7 @@ export function AddNewLocationScreen({ navigation }: Props) {
 	}, [currentLocation]);
 
 	return (
-		<View style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
+		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 			{currentLocation ? (
 				<Col style={{ width: "100%", height: "100%" }}>
 					<Header
@@ -161,7 +161,7 @@ export function AddNewLocationScreen({ navigation }: Props) {
 						<Space height={16} />
 						<InputIcon height={54} placeholder={"Location name"} />
 						<Space height={32} />
-						<ButtonHasStatus title={"Apply"} onPress={() => {}} styleButton={{ marginBottom: 45 }} />
+						<ButtonHasStatus title={"Apply"} onPress={() => {}} styleButton={styles.buttonApply} />
 					</Animated.View>
 				</Col>
 			) : (
@@ -171,7 +171,7 @@ export function AddNewLocationScreen({ navigation }: Props) {
 					text={"Loading..."}
 				/>
 			)}
-		</View>
+		</SafeAreaView>
 	);
 }
 
@@ -184,7 +184,6 @@ const styles = StyleSheet.create({
 	header: {
 		marginTop: 55,
 		marginBottom: 16,
-		marginHorizontal: 25,
 	},
 	mapContainer: {
 		flex: 1,
@@ -213,5 +212,9 @@ const styles = StyleSheet.create({
 		marginBottom: 18,
 		width: "40%",
 		left: "30%",
+	},
+	buttonApply: {
+		marginVertical: 40,
+		width: "100%",
 	},
 });

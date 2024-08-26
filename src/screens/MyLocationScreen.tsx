@@ -8,7 +8,7 @@
 
 // @flow
 import * as React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Col from "../components/custom/Col";
 import { Header } from "../components/header/Header";
 import { useSelector } from "react-redux";
@@ -35,7 +35,7 @@ export function MyLocationScreen({ navigation }: Props) {
 	const myLocation = 0;
 
 	return (
-		<Col style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
+		<SafeAreaView style={[{ flex: 1, backgroundColor: theme.background.getColor() }]}>
 			<Header
 				title={"My Locations"}
 				colorTitle={theme.text_1.getColor()}
@@ -46,62 +46,64 @@ export function MyLocationScreen({ navigation }: Props) {
 					borderColor: theme.border.getColor(),
 				}}
 			/>
-			<FlatList
-				style={{ width: "100%", padding: 0, margin: 0 }}
-				data={listDataDemo}
-				showsHorizontalScrollIndicator={false}
-				showsVerticalScrollIndicator={false}
-				renderItem={({ item: { name, address }, index }) => {
-					return (
-						<Col key={index}>
-							<InfoLocation
-								name={name}
-								checked={indexChecked === index}
-								onCheck={() => setIndexChecked(index)}
-								address={address}
-							/>
-							<Space height={15} />
-						</Col>
-					);
-				}}
-				ListFooterComponent={() => {
-					return (
-						<TouchableOpacity onPress={() => navigation.replace("AddNewLocationScreen")}>
-							<Row
-								style={[
-									{
-										backgroundColor: theme.my_location.background_button_add.getColor(),
-									},
-									styles.buttonAdd,
-								]}
-							>
-								<SolarAddLinear
-									width={25}
-									height={25}
-									color={theme.my_location.color_button_add.getColor()}
+			<Col style={styles.container}>
+				<FlatList
+					style={styles.flatList}
+					data={listDataDemo}
+					showsHorizontalScrollIndicator={false}
+					showsVerticalScrollIndicator={false}
+					renderItem={({ item: { name, address }, index }) => {
+						return (
+							<Col key={index}>
+								<InfoLocation
+									name={name}
+									checked={indexChecked === index}
+									onCheck={() => setIndexChecked(index)}
+									address={address}
 								/>
-								<Text
+								<Space height={15} />
+							</Col>
+						);
+					}}
+					ListFooterComponent={() => {
+						return (
+							<TouchableOpacity onPress={() => navigation.replace("AddNewLocationScreen")}>
+								<Row
 									style={[
 										{
-											...textStyle["18_semibold"],
-											color: theme.my_location.color_button_add.getColor(),
+											backgroundColor: theme.my_location.background_button_add.getColor(),
 										},
+										styles.buttonAdd,
 									]}
 								>
-									Add New Location
-								</Text>
-							</Row>
-						</TouchableOpacity>
-					);
-				}}
-			/>
-			<ButtonHasStatus
-				active={indexChecked !== myLocation}
-				title={"Apply"}
-				onPress={() => {}}
-				styleButton={{ marginVertical: 40, width: "100%" }}
-			/>
-		</Col>
+									<SolarAddLinear
+										width={25}
+										height={25}
+										color={theme.my_location.color_button_add.getColor()}
+									/>
+									<Text
+										style={[
+											{
+												...textStyle["18_semibold"],
+												color: theme.my_location.color_button_add.getColor(),
+											},
+										]}
+									>
+										Add New Location
+									</Text>
+								</Row>
+							</TouchableOpacity>
+						);
+					}}
+				/>
+				<ButtonHasStatus
+					active={indexChecked !== myLocation}
+					title={"Apply"}
+					onPress={() => {}}
+					styleButton={styles.buttonApply}
+				/>
+			</Col>
+		</SafeAreaView>
 	);
 }
 
@@ -114,13 +116,21 @@ const styles = StyleSheet.create({
 	header: {
 		marginTop: 55,
 		marginBottom: 16,
-		justifyContent: "space-between",
 	},
 	buttonAdd: {
 		padding: 17,
 		gap: 10,
 		alignItems: "center",
 		borderRadius: 15,
+	},
+	flatList: {
+		width: "100%",
+		padding: 0,
+		margin: 0,
+	},
+	buttonApply: {
+		marginVertical: 40,
+		width: "100%",
 	},
 });
 

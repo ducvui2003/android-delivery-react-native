@@ -77,6 +77,7 @@ export function Header({
 const styles = StyleSheet.create({
 	defaultStyleContainer: {
 		justifyContent: "space-between",
+		paddingHorizontal: 25,
 		alignItems: "center",
 	},
 	defaultStyleIconBack: {

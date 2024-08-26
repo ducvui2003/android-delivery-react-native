@@ -58,7 +58,7 @@ function Root() {
 
     return (
         <NavigationContainer>
-          <RootStack.Navigator initialRouteName="LoadingScreen" screenOptions={{
+          <RootStack.Navigator initialRouteName="SettingPinSecurityScreen" screenOptions={{
                 headerShown: false,
             }}>
                 <RootStack.Screen name={"MainScreen"}
