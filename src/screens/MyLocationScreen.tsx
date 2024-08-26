@@ -23,6 +23,7 @@ import Space from "../components/custom/Space";
 import { RootStackParamList } from "../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
+import data from "../../assets/data/location/location";
 
 type Props = {
 	route: RouteProp<RootStackParamList, "MyLocationScreen">;
@@ -40,7 +41,6 @@ export function MyLocationScreen({ navigation }: Props) {
 				title={"My Locations"}
 				colorTitle={theme.text_1.getColor()}
 				colorIconBack={theme.text_1.getColor()}
-				style={[styles.header]}
 				styleIconBack={{
 					backgroundColor: theme.header.backgroundIconBack.getColor(),
 				}}
@@ -48,7 +48,7 @@ export function MyLocationScreen({ navigation }: Props) {
 			<Col style={styles.container}>
 				<FlatList
 					style={styles.flatList}
-					data={listDataDemo}
+					data={data}
 					showsHorizontalScrollIndicator={false}
 					showsVerticalScrollIndicator={false}
 					renderItem={({ item: { name, address }, index }) => {
@@ -112,10 +112,6 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		paddingHorizontal: 25,
 	},
-	header: {
-		marginTop: 55,
-		marginBottom: 16,
-	},
 	buttonAdd: {
 		padding: 17,
 		gap: 10,
@@ -132,46 +128,3 @@ const styles = StyleSheet.create({
 		width: "100%",
 	},
 });
-
-const listDataDemo = [
-	{
-		name: "Home",
-		address: "221B Baker Street, London, United Kingdom",
-	},
-	{
-		name: "Home",
-		address: "221B Baker Street, London, United Kingdom",
-	},
-	{
-		name: "Home",
-		address: "221B Baker Street, London, United Kingdom",
-	},
-	{
-		name: "Home",
-		address: "221B Baker Street, London, United Kingdom",
-	},
-	{
-		name: "Home",
-		address: "221B Baker Street, London, United Kingdom",
-	},
-	{
-		name: "Home",
-		address: "221B Baker Street, London, United Kingdom",
-	},
-	{
-		name: "Home",
-		address: "221B Baker Street, London, United Kingdom",
-	},
-	{
-		name: "Home",
-		address: "221B Baker Street, London, United Kingdom",
-	},
-	{
-		name: "Home",
-		address: "221B Baker Street, London, United Kingdom",
-	},
-	{
-		name: "Home",
-		address: "221B Baker Street, London, United Kingdom",
-	},
-];

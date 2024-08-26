@@ -17,6 +17,7 @@ import { SettingPinSecurityScreen } from "./src/screens/SettingPinSecurityScreen
 import LoginScreen from "./src/screens/LoginScreen";
 import { AddNewLocationScreen } from "./src/screens/AddNewLocationScreen";
 import { MyLocationScreen } from "./src/screens/MyLocationScreen";
+import { CategoriesScreen } from "./src/screens/CategoriesScreen";
 
 const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -75,6 +76,7 @@ function Root() {
               <RootStack.Screen name={"SettingPinSecurityScreen"} component={SettingPinSecurityScreen} />
             <RootStack.Screen name={"AddNewLocationScreen"} component={AddNewLocationScreen} />
             <RootStack.Screen name={"MyLocationScreen"} component={MyLocationScreen} />
+            <RootStack.Screen name={"CategoriesScreen"} component={CategoriesScreen} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

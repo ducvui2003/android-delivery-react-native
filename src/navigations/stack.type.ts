@@ -15,6 +15,7 @@ export type RootStackParamList = {
 	SettingPinSecurityScreen: undefined;
 	AddNewLocationScreen: undefined;
 	MyLocationScreen: undefined;
+	CategoriesScreen: undefined;
 };
 
 export type MainScreenStackParamList = {

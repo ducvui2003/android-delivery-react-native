@@ -88,7 +88,6 @@ export function AddNewLocationScreen({ navigation }: Props) {
 						title={"Add new location"}
 						colorTitle={theme.text_1.getColor()}
 						colorIconBack={theme.text_1.getColor()}
-						style={[styles.header]}
 						styleIconBack={{
 							backgroundColor: theme.header.backgroundIconBack.getColor(),
 						}}
@@ -179,10 +178,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-	},
-	header: {
-		marginTop: 55,
-		marginBottom: 16,
 	},
 	mapContainer: {
 		flex: 1,
