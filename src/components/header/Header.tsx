@@ -15,6 +15,7 @@ import SolarArrowLeftLinear from "../../../assets/images/icons/SolarArrowLeftLin
 import GradientText from "../gradientText/GradientText";
 import GradientIconSvg from "../grandientIconSvg/GradientIconSvg";
 import HeaderProps from "./type/header.type";
+import textStyle from "../../configs/styles/textStyle.config";
 
 export function Header({
 	showIconBack = true,
@@ -24,11 +25,11 @@ export function Header({
 	sizeIconBack = 20,
 	colorTitle = "#fff",
 	title,
-	titleStyle,
+	titleStyle = { ...textStyle["22_semibold"] },
 	style,
 	iconRight,
 	styleIconRight,
-	strokeWidth,
+	strokeWidth = 2,
 }: HeaderProps) {
 	const colorTitleArr: string[] = typeof colorTitle === "string" ? [colorTitle, colorTitle] : colorTitle;
 	const colorIconArr: string[] = typeof colorIconBack === "string" ? [colorIconBack, colorIconBack] : colorIconBack;

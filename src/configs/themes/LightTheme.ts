@@ -26,7 +26,7 @@ const arrowSelector = ColorFactory.createSingleColor(neutral.getColor("900"));
 const placeholder = ColorFactory.createSingleColor(neutral.getColor("300"));
 const navigation = ColorFactory.createSingleColor(white.getColor());
 // Header
-const backgroundIconBack = ColorFactory.createSingleColor("#f6f6f6");
+const backgroundIconBack = ColorFactory.createSingleColor("#fafafa");
 // Home
 const home_category_background = ColorFactory.createSingleColor("white");
 const home_category_text = ColorFactory.createSingleColor(neutral.getColor("900"));
@@ -36,6 +36,9 @@ const home_cart_background = ColorFactory.createSingleColor("white");
 const home_cart_icon = ColorFactory.createSingleColor(neutral.getColor("900"));
 const home_product_card_background = ColorFactory.createSingleColor("white");
 const home_product_card_text = ColorFactory.createSingleColor(neutral.getColor("900"));
+// Add new location
+const drop_button = ColorFactory.createSingleColor("#CCCCCC");
+const background_3 = ColorFactory.createSingleColor(white.getColor());
 
 const lightTheme: ThemeType = {
 	background: background,
@@ -74,6 +77,14 @@ const lightTheme: ThemeType = {
 			background: home_product_card_background,
 			text: home_product_card_text,
 		},
+	},
+	add_new_location: {
+		drop_button: drop_button,
+		background: background_3,
+	},
+	my_location: {
+		background_button_add: ColorFactory.createSingleColor(primary.getColor("50")),
+		color_button_add: ColorFactory.createSingleColor(primary.getColor("500")),
 	},
 };
 

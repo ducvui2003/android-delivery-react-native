@@ -1,4 +1,4 @@
-import { Provider, useDispatch } from "react-redux";
+import { Provider as ProviderRedux, useDispatch } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import { RootStackParamList } from "./src/navigations/stack.type";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -15,15 +15,17 @@ import SignUpScreen from "./src/screens/SignUpScreen";
 import { VerificationScreen } from "./src/screens/VerificationScreen";
 import { SettingPinSecurityScreen } from "./src/screens/SettingPinSecurityScreen";
 import LoginScreen from "./src/screens/LoginScreen";
+import { AddNewLocationScreen } from "./src/screens/AddNewLocationScreen";
+import { MyLocationScreen } from "./src/screens/MyLocationScreen";
 
 const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
 const RootStack = createStackNavigator<RootStackParamList>()
 
 const provider =
-    <Provider store={store}>
+  <ProviderRedux store={store}>
         <Root/>
-    </Provider>
+  </ProviderRedux>
 
 const readerRoot: Record<typeof Platform.OS, React.JSX.Element> = {
     web: <GoogleOAuthProvider clientId={process.env.EXPO_PUBLIC_WEB_CLIENT_ID as string}>
@@ -71,6 +73,8 @@ function Root() {
               <RootStack.Screen name={"LoginScreen"} component={LoginScreen} />
               <RootStack.Screen name={"VerificationScreen"} component={VerificationScreen} />
               <RootStack.Screen name={"SettingPinSecurityScreen"} component={SettingPinSecurityScreen} />
+            <RootStack.Screen name={"AddNewLocationScreen"} component={AddNewLocationScreen} />
+            <RootStack.Screen name={"MyLocationScreen"} component={MyLocationScreen} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

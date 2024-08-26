@@ -6,7 +6,6 @@
  * User: lam-nguyen
  **/
 import { RouteProp } from "@react-navigation/native";
-import { MainScreenStackParamList, RootStackParamList } from "./stack.type";
+import { RootStackParamList } from "./stack.type";
 
 export type VerificationScreenRouteProp = RouteProp<RootStackParamList, "VerificationScreen">;
-export type TextThemeScreenRouteProp = RouteProp<MainScreenStackParamList, "TestThemeScreen">;
