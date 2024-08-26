@@ -145,9 +145,7 @@ export function VerificationScreen({
 					colorTitle={gradient.getColor()}
 					titleStyle={[styles.titleHeader]}
 					colorIconBack={theme.text_1.getColor()}
-					sizeIconBack={26}
-					strokeWidth={2}
-					styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor(), borderWidth: 0 }}
+					styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor() }}
 					style={styles.header}
 					onPressBack={() => {
 						navigation.replace("SignUpScreen");

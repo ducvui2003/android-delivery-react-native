@@ -43,7 +43,6 @@ export function MyLocationScreen({ navigation }: Props) {
 				style={[styles.header]}
 				styleIconBack={{
 					backgroundColor: theme.header.backgroundIconBack.getColor(),
-					borderColor: theme.border.getColor(),
 				}}
 			/>
 			<Col style={styles.container}>

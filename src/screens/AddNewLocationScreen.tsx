@@ -91,7 +91,6 @@ export function AddNewLocationScreen({ navigation }: Props) {
 						style={[styles.header]}
 						styleIconBack={{
 							backgroundColor: theme.header.backgroundIconBack.getColor(),
-							borderColor: theme.border.getColor(),
 						}}
 						onPressBack={() => navigation.replace("MyLocationScreen")}
 					/>
