@@ -18,7 +18,7 @@ const firebaseConfig: ReactNativeFirebase.FirebaseAppOptions = {
 	messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 	databaseURL: process.env.EXPO_PUBLIC_FIREBASE_DATABASE_URL,
 };
-if (!firebase.app.length) initializeApp(firebaseConfig, "delivery-app");
+if (firebase.app.name !== "delivery-app") initializeApp(firebaseConfig, "delivery-app");
 const firebaseAuth = getAuth();
 firebaseAuth.setLanguageCode("VN").then();
 

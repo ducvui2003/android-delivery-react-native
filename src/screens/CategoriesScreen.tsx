@@ -20,13 +20,14 @@ import CategoryItem from "../components/category/CategoryItem";
 import data from "../../assets/data/category/category";
 import { Category } from "../types/category.type";
 
-type Props = {
+type CategoriesScreenProps = {
 	route: RouteProp<RootStackParamList, "CategoriesScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function CategoriesScreen({ navigation }: Props) {
+export function CategoriesScreen({ navigation }: CategoriesScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: theme.background.getColor() }}>
 			<Header
@@ -36,13 +37,27 @@ export function CategoriesScreen({ navigation }: Props) {
 				styleIconBack={{
 					backgroundColor: theme.header.backgroundIconBack.getColor(),
 				}}
+				onPressBack={() => {
+					navigation.pop();
+				}}
 			/>
 			<View style={{ paddingHorizontal: 25 }}>
 				<Grid<Category>
 					col={4}
 					data={data}
 					renderItem={(item, index) => {
-						return <CategoryItem key={index.toString()} item={item} />;
+						return (
+							<CategoryItem
+								key={index.toString()}
+								item={item}
+								onPress={() => {
+									navigation.navigate("SearchScreen", {
+										autoFocus: false,
+										category: item,
+									});
+								}}
+							/>
+						);
 					}}
 					gapRow={25}
 				/>

@@ -30,6 +30,7 @@ type InputProps = {
 	styleInput?: StyleProp<TextStyle>;
 	focus?: boolean;
 	secureTextEntry?: boolean;
+	autoFocus?: boolean;
 };
 
 export default InputProps;

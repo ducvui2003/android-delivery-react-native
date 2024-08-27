@@ -40,7 +40,7 @@ import { firebaseAuth } from "../configs/firebase/firebase.config";
 import { AxiosError } from "axios";
 import { formatHiddenPhoneNumber } from "../utils/formator";
 
-type Props = {
+type VerificationScreenProps = {
 	route: VerificationScreenRouteProp;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
@@ -50,7 +50,7 @@ export function VerificationScreen({
 		params: { dialCode, form },
 	},
 	navigation,
-}: Props) {
+}: VerificationScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [hidden, setHidden] = useState<boolean>(false);
 	const [time, setTime] = useState(0);

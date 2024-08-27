@@ -7,6 +7,7 @@
  **/
 import * as React from "react";
 import { StyleProp, TextStyle, ViewStyle } from "react-native";
+import { ReactNode } from "react";
 
 type HeaderProps = {
 	showIconBack?: boolean;
@@ -14,7 +15,7 @@ type HeaderProps = {
 	colorIconBack?: string | string[];
 	styleIconBack?: StyleProp<ViewStyle>;
 	onPressBack?: () => void;
-	title: string;
+	title: string | ReactNode;
 	colorTitle?: string | string[];
 	titleStyle?: StyleProp<TextStyle>;
 	style?: StyleProp<ViewStyle>;

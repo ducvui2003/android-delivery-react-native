@@ -34,6 +34,7 @@ function InputIcon({
 	secureTextEntry,
 	onPressIconLeft,
 	onPressIconRight,
+	autoFocus,
 }: InputIconProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [isFocus, setIsFocus] = React.useState<boolean>(false);
@@ -78,6 +79,7 @@ function InputIcon({
 				secureTextEntry={secureTextEntry}
 				value={value}
 				placeholder={placeholder}
+				autoFocus={autoFocus}
 			/>
 			{iconRight && <TouchableOpacity onPress={onPressIconRight}>{iconRight}</TouchableOpacity>}
 		</Row>

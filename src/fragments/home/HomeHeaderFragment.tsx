@@ -17,10 +17,14 @@ import { gradient, neutral, primary } from "../../configs/colors/color-template.
 import SolarBagOutline from "../../../assets/images/icons/SolarBagOutline";
 import SolarArrowAlt from "../../../assets/images/icons/SolarArrowAlt";
 import GradientIconSvg from "../../components/grandientIconSvg/GradientIconSvg";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigations/stack.type";
 
 function HomeHeaderFragment() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	return (
 		<Row style={{ justifyContent: "space-between", alignItems: "center" }}>
@@ -33,28 +37,30 @@ function HomeHeaderFragment() {
 				>
 					Deliver to
 				</Text>
-				<Row style={{ marginTop: 11, alignItems: "center", gap: 5 }}>
-					<Text
-						style={{
-							...textStyle["18_semibold"],
-							color: neutral.getColor("200"),
-						}}
-					>
-						Select Your Location
-					</Text>
+				<TouchableOpacity onPress={() => navigation.navigate("MyLocationScreen")}>
+					<Row style={{ marginTop: 11, alignItems: "center", gap: 5 }}>
+						<Text
+							style={{
+								...textStyle["18_semibold"],
+								color: neutral.getColor("200"),
+							}}
+						>
+							Select Your Location
+						</Text>
 
-					<GradientIconSvg
-						icon={
-							<SolarArrowAlt
-								width={20}
-								height={16}
-								color={primary.getColor("500")}
-								style={{ transform: [{ rotate: "180deg" }] }}
-							/>
-						}
-						gradientColors={gradient.getColor()}
-					/>
-				</Row>
+						<GradientIconSvg
+							icon={
+								<SolarArrowAlt
+									width={20}
+									height={16}
+									color={primary.getColor("500")}
+									style={{ transform: [{ rotate: "180deg" }] }}
+								/>
+							}
+							gradientColors={gradient.getColor()}
+						/>
+					</Row>
+				</TouchableOpacity>
 			</Col>
 			<TouchableOpacity style={styles.shopIconContainer}>
 				<SolarBagOutline width={32} height={32} color={theme.home.cart.icon.getColor()} />

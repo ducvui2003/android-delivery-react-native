@@ -6,11 +6,10 @@
  * User: ducvui2003
  **/
 
-import { ReactNode } from "react";
 import InputProps from "./InputProps";
 
 type InputSearchProps = InputProps & {
-	iconLeft?: ReactNode;
-	iconRight?: ReactNode;
+	onPressIconLeft?: () => void;
+	onPressIconRight?: () => void;
 };
 export default InputSearchProps;
