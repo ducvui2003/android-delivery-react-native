@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		paddingHorizontal: 25,
 		alignItems: "center",
+		marginTop: 55,
+		marginBottom: 15,
 	},
 	defaultStyleIconBack: {
 		padding: 8,

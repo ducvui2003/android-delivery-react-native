@@ -18,10 +18,7 @@ import {
 	View,
 	ViewStyle,
 } from "react-native";
-import introduce_1 from "../../assets/images/introduce/introduce_1.png";
-import introduce_2 from "../../assets/images/introduce/introduce_2.png";
-import introduce_3 from "../../assets/images/introduce/introduce_3.png";
-import introduce_4 from "../../assets/images/introduce/introduce_4.png";
+import { introduce_1, introduce_2, introduce_3, introduce_4 } from "../../assets/images/introduce/introduce.icon";
 import { useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
 import { neutral, primary, white } from "../configs/colors/color-template.config";

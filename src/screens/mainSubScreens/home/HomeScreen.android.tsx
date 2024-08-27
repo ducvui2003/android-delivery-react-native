@@ -6,8 +6,8 @@
  * User: ducvui2003
  **/
 
-import React, { useEffect, useState } from "react";
-import { Alert, Dimensions, Image, ScrollView, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { Dimensions, Image, ScrollView, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import { banners, categories } from "../../../../assets/data/home/home";
 import SolarMagniferOutline from "../../../../assets/images/icons/MagniferOutline";

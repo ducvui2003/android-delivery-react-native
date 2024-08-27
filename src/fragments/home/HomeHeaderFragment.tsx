@@ -52,8 +52,6 @@ function HomeHeaderFragment() {
 								style={{ transform: [{ rotate: "180deg" }] }}
 							/>
 						}
-						width={20}
-						height={16}
 						gradientColors={gradient.getColor()}
 					/>
 				</Row>
