@@ -34,11 +34,11 @@ import { CountDown } from "../components/coutDown/CountDown";
 import InputCodeFragment from "../fragments/InputCodeFragment";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Header } from "../components/header/Header";
-import { formatHiddenPhoneNumber } from "../utils/formator";
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import { firebaseAuth } from "../configs/firebase/firebase.config";
 import { AxiosError } from "axios";
+import { formatHiddenPhoneNumber } from "../utils/formator";
 
 type Props = {
 	route: VerificationScreenRouteProp;
@@ -139,16 +139,14 @@ export function VerificationScreen({
 				onBlurInput();
 			}}
 		>
-			<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
+			<SafeAreaView style={[{ flex: 1, backgroundColor: theme.background.getColor() }]}>
 				<Header
 					title={"Verification"}
 					colorTitle={gradient.getColor()}
 					titleStyle={[styles.titleHeader]}
 					colorIconBack={theme.text_1.getColor()}
-					sizeIconBack={26}
-					strokeWidth={2}
-					styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor(), borderWidth: 0 }}
-					style={{ marginBottom: 32 }}
+					styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor() }}
+					style={styles.header}
 					onPressBack={() => {
 						navigation.replace("SignUpScreen");
 					}}
@@ -208,9 +206,12 @@ export function VerificationScreen({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingHorizontal: 32,
-		paddingTop: 75,
+		paddingHorizontal: 25,
 		justifyContent: "space-between",
+	},
+	header: {
+		marginBottom: 32,
+		marginTop: 75,
 	},
 	titleHeader: {
 		...textStyle["30_bold_5%"],

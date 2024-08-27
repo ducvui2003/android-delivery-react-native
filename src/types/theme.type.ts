@@ -47,4 +47,12 @@ export type ThemeType = {
 			text: SingleColor;
 		};
 	};
+	add_new_location: {
+		drop_button: SingleColor;
+		background: SingleColor;
+	};
+	my_location: {
+		background_button_add: SingleColor;
+		color_button_add: SingleColor;
+	};
 };

@@ -12,17 +12,15 @@ import { StyleProp, View, ViewStyle } from "react-native";
 function Col({
 	children,
 	style,
-	key,
 	ref,
 }: {
 	children: React.ReactNode;
 	style?: StyleProp<ViewStyle>;
-	key?: React.Key;
+	keyCol?: string;
 	ref?: React.LegacyRef<View>;
 }) {
 	return (
 		<View
-			key={key}
 			style={[
 				style,
 				{

@@ -48,54 +48,54 @@ export function SettingPinSecurityScreen() {
 				onBlurInput();
 			}}
 		>
-			<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
+			<SafeAreaView style={[{ flex: 1, backgroundColor: theme.background.getColor() }]}>
 				<Header
 					title={"PIN Security"}
 					colorTitle={theme.text_1.getColor()}
 					titleStyle={[styles.titleHeader]}
 					colorIconBack={theme.text_1.getColor()}
-					sizeIconBack={26}
-					strokeWidth={2}
-					styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor(), borderWidth: 0 }}
-					style={{ marginBottom: 32 }}
+					styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor() }}
+					style={styles.header}
 					onPressBack={() => navigation.replace("LoginScreen")}
 				/>
-				<ScrollView
-					style={{ flexDirection: "column" }}
-					showsVerticalScrollIndicator={false}
-					showsHorizontalScrollIndicator={false}
-					onResponderRelease={onBlurInput}
-				>
-					<Text style={[styles.text, styles.textNotification, { color: theme.text_1.getColor() }]}>
-						Protect your account with a secure PIN
-					</Text>
-					<InputCodeFragment
-						numberOfInput={4}
-						keyboardType={"numeric"}
-						onChangeCode={setCode}
-						onFocus={() => {
-							setHidden(true);
-						}}
-						onBlur={onBlurInput}
-					/>
-				</ScrollView>
-				<Col style={[styles.footerContainer]}>
-					<ButtonHasStatus
-						title={"Continue"}
-						active={code.length === 4}
-						styleButton={[styles.buttonVerify]}
-					/>
-					<TouchableOpacity
-						style={[
-							styles.buttonSkip,
-							{
-								display: hidden ? "none" : "flex",
-							},
-						]}
-						onPress={() => navigation.replace("MainScreen", { screen: "HomeScreen" })}
+				<Col style={styles.container}>
+					<ScrollView
+						style={{ flexDirection: "column" }}
+						showsVerticalScrollIndicator={false}
+						showsHorizontalScrollIndicator={false}
+						onResponderRelease={onBlurInput}
 					>
-						<Text style={[{ ...textStyle["18_regular"], color: theme.textSkip.getColor() }]}>Skip</Text>
-					</TouchableOpacity>
+						<Text style={[styles.text, styles.textNotification, { color: theme.text_1.getColor() }]}>
+							Protect your account with a secure PIN
+						</Text>
+						<InputCodeFragment
+							numberOfInput={4}
+							keyboardType={"numeric"}
+							onChangeCode={setCode}
+							onFocus={() => {
+								setHidden(true);
+							}}
+							onBlur={onBlurInput}
+						/>
+					</ScrollView>
+					<Col style={[styles.footerContainer]}>
+						<ButtonHasStatus
+							title={"Continue"}
+							active={code.length === 4}
+							styleButton={[styles.buttonVerify]}
+						/>
+						<TouchableOpacity
+							style={[
+								styles.buttonSkip,
+								{
+									display: hidden ? "none" : "flex",
+								},
+							]}
+							onPress={() => navigation.replace("MainScreen", { screen: "HomeScreen" })}
+						>
+							<Text style={[{ ...textStyle["18_regular"], color: theme.textSkip.getColor() }]}>Skip</Text>
+						</TouchableOpacity>
+					</Col>
 				</Col>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
@@ -106,8 +106,11 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 25,
-		paddingTop: 55,
 		justifyContent: "space-between",
+	},
+	header: {
+		marginTop: 55,
+		marginBottom: 32,
 	},
 	titleHeader: {
 		...textStyle["30_bold_5%"],

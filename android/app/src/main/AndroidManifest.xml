@@ -32,6 +32,9 @@
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
         <meta-data android:name='com.facebook.sdk.AutoLogAppEventsEnabled'
                    android:value='false'/>
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyBhT_kMGNkNJrzr77COPoFr0-Q_zSBtM0A" />
         <activity android:name=".MainActivity"
                   android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
                   android:launchMode="singleTask" android:windowSoftInputMode="adjustResize"

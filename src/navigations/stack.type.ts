@@ -13,6 +13,8 @@ export type RootStackParamList = {
 		form: RegisterFormType;
 	};
 	SettingPinSecurityScreen: undefined;
+	AddNewLocationScreen: undefined;
+	MyLocationScreen: undefined;
 };
 
 export type MainScreenStackParamList = {

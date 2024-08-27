@@ -36,6 +36,9 @@ const home_cart_background = ColorFactory.createSingleColor("#25292E");
 const home_cart_icon = ColorFactory.createSingleColor(neutral.getColor("100"));
 const home_product_card_background = ColorFactory.createSingleColor(neutral.getColor("500"));
 const home_product_card_text = ColorFactory.createSingleColor(neutral.getColor("100"));
+// Add new location
+const drop_button = ColorFactory.createSingleColor("#DBD6CE");
+const background_3 = ColorFactory.createSingleColor(neutral.getColor("500"));
 
 const darkTheme: ThemeType = {
 	background: background,
@@ -74,6 +77,14 @@ const darkTheme: ThemeType = {
 			background: home_product_card_background,
 			text: home_product_card_text,
 		},
+	},
+	add_new_location: {
+		drop_button: drop_button,
+		background: background_3,
+	},
+	my_location: {
+		background_button_add: ColorFactory.createSingleColor(neutral.getColor("700")),
+		color_button_add: ColorFactory.createSingleColor(neutral.getColor("50")),
 	},
 };
 
