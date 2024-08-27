@@ -1,0 +1,10 @@
+# Tắt cấu hình format code của editor
+# Tự cấu hình format code theo ý muốn
+root = true
+# Format code cho tất cả các file trong src/
+[src/**]
+# Thụt lề bằng tab
+indent_style = tab
+# Kích thước thụt lề 1 tab = 4 space
+indent_size = 4
+charset = utf-8

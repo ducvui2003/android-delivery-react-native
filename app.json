@@ -1,0 +1,72 @@
+{
+  "expo": {
+    "name": "Delivery React Native App",
+    "slug": "delivery-react-native-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.lamnguyen1305.deliveryreactnativeapp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3f122c2a-835d-4d74-ba33-a353029aa008"
+      }
+    },
+    "plugins": [
+      "@react-native-google-signin/google-signin",
+      "expo-secure-store",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "assets/fonts/Roboto/Roboto-Black.ttf",
+            "assets/fonts/Roboto/Roboto-BlackItalic.ttf",
+            "assets/fonts/Roboto/Roboto-Bold.ttf",
+            "assets/fonts/Roboto/Roboto-BoldItalic.ttf",
+            "assets/fonts/Roboto/Roboto-Italic.ttf",
+            "assets/fonts/Roboto/Roboto-Light.ttf",
+            "assets/fonts/Roboto/Roboto-LightItalic.ttf",
+            "assets/fonts/Roboto/Roboto-Medium.ttf",
+            "assets/fonts/Roboto/Roboto-MediumItalic.ttf",
+            "assets/fonts/Roboto/Roboto-Regular.ttf",
+            "assets/fonts/Roboto/Roboto-Thin.ttf",
+            "assets/fonts/Roboto/Roboto-ThinItalic.ttf"
+          ]
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "",
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ]
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/3f122c2a-835d-4d74-ba33-a353029aa008"
+    }
+  }
+}

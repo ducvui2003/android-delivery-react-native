@@ -1,0 +1,12 @@
+<resources>
+  <string name="app_name">Delivery React Native App</string>
+  <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
+  <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
+  <string name="expo_runtime_version">1.0.0</string>
+  <!--Google Auth-->
+  <string name="server_client_id">897537541683-mp0vep5g6kc6ijdkt7n7e2jmovvb4etk.apps.googleusercontent.com</string>
+  <!--Auth facebook-->
+  <string name="facebook_app_id">1219694855878203</string>
+  <string name="fb_login_protocol_scheme">fb1219694855878203</string>
+  <string name="facebook_client_token">3868efd2dbd6b4e752902f3949c8e6f5</string>
+</resources>
