@@ -12,28 +12,28 @@ import { useEffect, useState } from "react";
 import Col from "../../components/custom/Col";
 import { Text, View } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
-import { GroupOption, Option } from "../../types/product.type";
-import { OptionItem } from "../../components/productScreen/OptionItem";
+import { OptionItem } from "../../components/optionItem/OptionItem";
 import SolarDot from "../../../assets/images/icons/SolarDot";
 import { neutral } from "../../configs/colors/color-template.config";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import { GroupOptionSelected } from "../../screens/ProductDetailScreen";
+import { GroupOptionType, OptionType } from "../../types/productDetail.type";
 
 type ProductDetailAdditionalOptionProps = {
-	data: (Option | GroupOption)[];
-	onAdditionalOption?: (value: (Option | GroupOptionSelected)[]) => void;
+	data: (OptionType | GroupOptionType)[];
+	onAdditionalOption?: (value: (OptionType | GroupOptionSelected)[]) => void;
 };
 
 export function ProductDetailAdditionalOption({ data, onAdditionalOption }: ProductDetailAdditionalOptionProps) {
-	const [additionalOption, setAdditionalOption] = useState<(Option | GroupOptionSelected)[]>([]);
+	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	useEffect(() => {
 		onAdditionalOption?.(additionalOption);
 	}, [additionalOption]);
 
-	const renderOption = (option: Option) => {
+	const renderOption = (option: OptionType) => {
 		const isSelected = additionalOption.filter(item => item._id === option._id).length > 0;
 		return (
 			<View key={option._id}>
@@ -51,7 +51,7 @@ export function ProductDetailAdditionalOption({ data, onAdditionalOption }: Prod
 		);
 	};
 
-	const renderGroupOption = (groupOption: GroupOption) => {
+	const renderGroupOption = (groupOption: GroupOptionType) => {
 		const groupOptionSelected = additionalOption.filter(
 			item => (item as GroupOptionSelected)._id === groupOption._id
 		)[0] as GroupOptionSelected | undefined;
@@ -101,7 +101,7 @@ export function ProductDetailAdditionalOption({ data, onAdditionalOption }: Prod
 		);
 	};
 
-	const addOption = (option: Option, groupOption?: GroupOption) => {
+	const addOption = (option: OptionType, groupOption?: GroupOptionType) => {
 		if (groupOption) {
 			setAdditionalOption([
 				...additionalOption,
@@ -121,8 +121,8 @@ export function ProductDetailAdditionalOption({ data, onAdditionalOption }: Prod
 				Additional Options :
 			</Text>
 			{data.map(item => {
-				if ((item as Option).price) return renderOption(item as Option);
-				return renderGroupOption(item as GroupOption);
+				if ((item as OptionType).price) return renderOption(item as OptionType);
+				return renderGroupOption(item as GroupOptionType);
 			})}
 		</Col>
 	);

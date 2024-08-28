@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Row from "../components/custom/Row";
 import textStyle from "../configs/styles/textStyle.config";
 import Col from "../components/custom/Col";
@@ -28,6 +28,7 @@ import Grid from "../components/custom/Grid";
 import ProductDetailFooter from "../fragments/productDetail/ProductDetailFooter";
 import { ProductDetailAdditionalOption } from "../fragments/productDetail/ProductDetailAdditionalOption";
 import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from "../types/productDetail.type";
+import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
 
 type ProductDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "ProductDetailScreen">;
@@ -94,9 +95,20 @@ export function ProductDetailScreen({
 					style={{ position: "absolute", zIndex: 2 }}
 				/>
 				<View style={[styles.containerImage]}>
+					<Image
+						style={{ height: "100%", width: "100%" }}
+						resizeMode={"cover"}
+						source={{ uri: product?.image }}
+					/>
 					<TouchableOpacity style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}>
 						<GradientIconSvg
-							icon={<SolarHeartBold width={26} height={26} />}
+							icon={
+								product?.isLiked ? (
+									<SolarHeartBold width={26} height={26} />
+								) : (
+									<SolarHeartLinear width={26} height={26} />
+								)
+							}
 							gradientColors={gradient.getColor()}
 						/>
 					</TouchableOpacity>
@@ -175,6 +187,7 @@ const styles = StyleSheet.create({
 		margin: 10,
 		borderRadius: 10,
 		position: "relative",
+		overflow: "hidden",
 	},
 	buttonHeart: {
 		position: "absolute",
@@ -192,7 +205,7 @@ const dataDemo: ProductDetailType = {
 	basePrice: 100,
 	rating: 5,
 	quantity: 10,
-	isLiked: true,
+	isLiked: false,
 	description:
 		"A delicious chicken burger served on a toasted bun with fresh lettuce, tomato slices, and mayonnaise. Juicy grilled chicken patty seasoned to perfection for a mouthwatering taste experience.",
 	nutritional_information: [

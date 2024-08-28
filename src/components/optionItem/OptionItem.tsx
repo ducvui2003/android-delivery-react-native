@@ -12,7 +12,7 @@ import { StyleSheet, Text } from "react-native";
 import Row from "../custom/Row";
 import { CheckBox } from "@rneui/themed";
 import textStyle from "../../configs/styles/textStyle.config";
-import { neutral } from "../../configs/colors/color-template.config";
+import { neutral, primary } from "../../configs/colors/color-template.config";
 import OptionItemProps from "./type/optionItem.props";
 
 export function OptionItem({ name, price, beforeText, selected, onPress, icon, color }: OptionItemProps) {
@@ -35,8 +35,15 @@ export function OptionItem({ name, price, beforeText, selected, onPress, icon, c
 					iconType={groupIcon[icon].iconType}
 					checkedIcon={groupIcon[icon].checkedIcon}
 					uncheckedIcon={groupIcon[icon].uncheckedIcon}
-					checkedColor="red"
-					containerStyle={{ padding: 4, margin: 4, marginRight: 0, paddingRight: 0 }}
+					checkedColor={primary.getColor("500")}
+					size={28}
+					containerStyle={{
+						padding: 2,
+						margin: 2,
+						marginRight: 0,
+						paddingRight: 0,
+						backgroundColor: undefined,
+					}}
 					uncheckedColor={color}
 				/>
 			</Row>

@@ -44,19 +44,19 @@ export default function ProductDetailFooter({
 	};
 
 	return (
-		<Row style={[stylesFooter.container, { backgroundColor: theme.navigation.getColor() }]}>
+		<Row style={[styles.container, { backgroundColor: theme.navigation.getColor() }]}>
 			<Row style={{ alignItems: "center" }}>
-				<TouchableOpacity onPress={onMinus} style={stylesFooter.button}>
-					<SolarMinusLinear width={25} height={25} />
+				<TouchableOpacity onPress={onMinus} style={styles.button}>
+					<SolarMinusLinear width={25} height={25} color={theme.text_1.getColor()} />
 				</TouchableOpacity>
-				<Text style={[stylesFooter.text]}>{amount}</Text>
-				<TouchableOpacity onPress={onPlus} style={stylesFooter.button}>
-					<SolarAddLinear width={25} height={25} />
+				<Text style={[styles.text, { color: theme.text_1.getColor() }]}>{amount}</Text>
+				<TouchableOpacity onPress={onPlus} style={styles.button}>
+					<SolarAddLinear width={25} height={25} color={theme.text_1.getColor()} />
 				</TouchableOpacity>
 			</Row>
 
 			<ButtonHasStatus
-				styleButton={[stylesFooter.buttonAdd]}
+				styleButton={[styles.buttonAdd]}
 				icon={<SolarBag5Bold color={white.getColor()} width={24} height={24} style={{ marginRight: 10 }} />}
 				title={"Add to Basket"}
 				active={true}
@@ -65,7 +65,7 @@ export default function ProductDetailFooter({
 	);
 }
 
-const stylesFooter = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		paddingHorizontal: 8,
 		paddingVertical: 12,
