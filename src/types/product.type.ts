@@ -6,7 +6,7 @@
  * User: ducvui2003
  **/
 
-export type Product = {
+type ProductType = {
 	id: string;
 	image: string;
 	name: string;
@@ -15,3 +15,5 @@ export type Product = {
 	salePrice?: number;
 	isLiked?: boolean;
 };
+
+export default ProductType;
