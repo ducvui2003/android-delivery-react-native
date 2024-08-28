@@ -18,7 +18,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Grid from "../components/custom/Grid";
 import CategoryItem from "../components/category/CategoryItem";
 import data from "../../assets/data/category/category";
-import { Category } from "../types/category.type";
+import CategoryType from "../types/category.type";
 
 type CategoriesScreenProps = {
 	route: RouteProp<RootStackParamList, "CategoriesScreen">;
@@ -42,7 +42,7 @@ export function CategoriesScreen({ navigation }: CategoriesScreenProps) {
 				}}
 			/>
 			<View style={{ paddingHorizontal: 25 }}>
-				<Grid<Category>
+				<Grid<CategoryType>
 					col={4}
 					data={data}
 					renderItem={(item, index) => {

@@ -9,7 +9,7 @@ import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import { ThemeType } from "../../../types/theme.type";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
-import { ProductHomeCardType } from "./type/productHomeCard.type";
+import { ProductHomeCardProps } from "./type/productHomeCard.props";
 import textStyle from "../../../configs/styles/textStyle.config";
 import React from "react";
 import { gradient, neutral, primary, secondary } from "../../../configs/colors/color-template.config";
@@ -21,7 +21,7 @@ function ProductHomeCard({
 	product: { name, rating, basePrice, salePrice, image, isLiked = false },
 	onPress,
 	onPressHeart,
-}: ProductHomeCardType) {
+}: ProductHomeCardProps) {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
 	return (

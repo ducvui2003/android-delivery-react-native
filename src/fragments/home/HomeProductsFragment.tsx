@@ -22,9 +22,9 @@ import { gradient, primary } from "../../configs/colors/color-template.config";
 import { RootState } from "../../configs/redux/store.config";
 import textStyle from "../../configs/styles/textStyle.config";
 import { RootStackParamList } from "../../navigations/stack.type";
-import { Product } from "../../types/product.type";
+import ProductType from "../../types/product.type";
 import { ThemeType } from "../../types/theme.type";
-import { Category } from "../../types/category.type";
+import CategoryType from "../../types/category.type";
 
 const HomeProductsFragment = () => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -36,7 +36,7 @@ const HomeProductsFragment = () => {
 				id: 1,
 				name: "Special Offers",
 				image: {},
-			} as Category,
+			} as CategoryType,
 		});
 	};
 
@@ -55,7 +55,7 @@ const HomeProductsFragment = () => {
 				</TouchableOpacity>
 			</Row>
 			<View style={styles.productGridContainer}>
-				<Grid<Product>
+				<Grid<ProductType>
 					col={2}
 					data={products}
 					renderItem={(item, index) => {

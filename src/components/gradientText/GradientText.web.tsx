@@ -8,8 +8,8 @@
 
 import React, { CSSProperties } from "react";
 import { View } from "react-native";
-import GradientProps from "./type/gradient.type";
-import GradientType from "./type/position.type";
+import GradientProps from "./type/gradient.props";
+import GradientType from "./type/position.props";
 
 function GradientText({
 	style,

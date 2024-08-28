@@ -26,7 +26,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
 import Col from "../components/custom/Col";
 import InputSearch from "../components/input/InputSearch";
-import { Product } from "../types/product.type";
+import ProductType from "../types/product.type";
 import { products } from "../../assets/data/home/home";
 import ProductHomeCard from "../components/card/product/ProductHomeCard";
 import Grid from "../components/custom/Grid";
@@ -87,7 +87,7 @@ export function SearchScreen({
 						showsHorizontalScrollIndicator={false}
 					>
 						{category && (
-							<Grid<Product>
+							<Grid<ProductType>
 								col={2}
 								data={products}
 								renderItem={(item, index) => {

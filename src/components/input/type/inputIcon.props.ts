@@ -5,7 +5,7 @@
  * Create at: 1:58 PM - 17/08/2024
  *  User: lam-nguyen
  **/
-import InputProps from "./InputProps";
+import InputProps from "./input.props";
 import { ReactNode } from "react";
 
 type InputIconProps = InputProps & {

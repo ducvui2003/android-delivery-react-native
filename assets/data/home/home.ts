@@ -20,11 +20,11 @@ import {
   sandwich,
   taco,
 } from "../../images/category/category.icon";
-import { Category } from "../../../src/types/category.type";
-import { Product } from "../../../src/types/product.type";
+import CategoryType from "../../../src/types/category.type";
+import ProductType from "../../../src/types/product.type";
 
 export const banners: object[] = [banner_1, banner_2, banner_3];
-export const categories: Category[] = [
+export const categories: CategoryType[] = [
   {
     id: 1,
     name: "Bugger",
@@ -87,7 +87,7 @@ export const categories: Category[] = [
   },
 ];
 
-export const products: Product[] = [
+export const products: ProductType[] = [
   {
     id: "1",
     name: "Hambugger",

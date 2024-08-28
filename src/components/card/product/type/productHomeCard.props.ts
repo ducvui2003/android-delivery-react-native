@@ -5,10 +5,10 @@
  * Created at: 17/8/24 - 12:04 pm
  * User: ducvui2003
  **/
-import { Product } from "../../../../types/product.type";
+import ProductType from "../../../../types/product.type";
 
-export type ProductHomeCardType = {
-	product: Product;
+export type ProductHomeCardProps = {
+	product: ProductType;
 	onPress?: () => void;
 	onPressHeart?: () => void;
 };

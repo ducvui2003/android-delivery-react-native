@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import BottomNavigationItemProps from "./type/bottomNavigationItem.type";
+import BottomNavigationItemProps from "./type/bottomNavigationItem.props";
 import Col from "../custom/Col";
 import GradientText from "../gradientText/GradientText";
 import GradientView from "../gradientView/GradientView";

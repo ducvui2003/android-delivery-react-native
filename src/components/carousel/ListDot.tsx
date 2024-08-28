@@ -7,7 +7,7 @@
  **/
 import { StyleSheet, View } from "react-native";
 import React from "react";
-import DotProps from "./type/dot.type";
+import DotProps from "./type/dot.props";
 import { primary } from "../../configs/colors/color-template.config";
 import Row from "../custom/Row";
 

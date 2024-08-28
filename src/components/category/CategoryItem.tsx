@@ -12,9 +12,9 @@ import React from "react";
 import { ThemeType } from "../../types/theme.type";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
-import { CategoryType } from "./type/category.type";
+import CategoryProps from "./type/category.type";
 
-function CategoryItem({ item, onPress }: CategoryType) {
+function CategoryItem({ item, onPress }: CategoryProps) {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
 	return (

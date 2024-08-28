@@ -14,7 +14,7 @@ import Row from "../custom/Row";
 import SolarArrowLeftLinear from "../../../assets/images/icons/SolarArrowLeftLinear";
 import GradientText from "../gradientText/GradientText";
 import GradientIconSvg from "../grandientIconSvg/GradientIconSvg";
-import HeaderProps from "./type/header.type";
+import HeaderProps from "./type/header.props";
 import textStyle from "../../configs/styles/textStyle.config";
 
 export function Header({

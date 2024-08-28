@@ -7,9 +7,9 @@
  **/
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { GridType } from "./type/grid.type";
+import { GridProps } from "./type/grid.props";
 
-function Grid<T>({ row = undefined, col, data, gapRow, gapCol, renderItem }: GridType<T>) {
+function Grid<T>({ row = undefined, col, data, gapRow, gapCol, renderItem }: GridProps<T>) {
 	if (gapCol === undefined) gapCol = gapRow;
 	const styles = makeStyled(gapRow, gapCol);
 	if (row === undefined) row = Math.ceil(data.length / col);

@@ -17,7 +17,7 @@ import Grid from "../../../components/custom/Grid";
 import { neutral } from "../../../configs/colors/color-template.config";
 import { RootState } from "../../../configs/redux/store.config";
 import HomeHeaderFragment from "../../../fragments/home/HomeHeaderFragment";
-import { Category } from "../../../types/category.type";
+import CategoryType from "../../../types/category.type";
 import { ThemeType } from "../../../types/theme.type";
 import HomeProductsFragment from "../../../fragments/home/HomeProductsFragment";
 import { useNavigation } from "@react-navigation/native";
@@ -76,7 +76,7 @@ function HomeScreen() {
 			</View>
 
 			<View style={styles.categoryGridContainer}>
-				<Grid<Category>
+				<Grid<CategoryType>
 					col={4}
 					data={categories}
 					gapRow={24}

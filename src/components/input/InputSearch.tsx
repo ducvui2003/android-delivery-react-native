@@ -9,7 +9,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
-import InputSearchProps from "./type/InputSearchProps";
+import InputSearchProps from "./type/inputSearch.props";
 import InputIcon from "./InputIcon";
 import { neutral } from "../../configs/colors/color-template.config";
 import SolarMagniferOutline from "../../../assets/images/icons/MagniferOutline";

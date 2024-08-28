@@ -8,21 +8,13 @@
 
 // @flow
 import * as React from "react";
-import { ReactNode } from "react";
 import { Image, View } from "react-native";
 import pin from "../../../assets/images/icons/Pin.png";
 import SolarUserCircleBold from "../../../assets/images/icons/SolarUserCircleBold";
 import { secondary } from "../../configs/colors/color-template.config";
+import PickerProps from "./type/picker.props";
 
-type Props = {
-	size?: number;
-	sizeIcon?: number;
-	top?: number;
-	left?: number;
-	icon?: ReactNode;
-};
-
-export function Picker({ size = 60, icon, sizeIcon = size - 10, top = 2, left = 5 }: Props) {
+export function Picker({ size = 60, icon, sizeIcon = size - 10, top = 2, left = 5 }: PickerProps) {
 	return (
 		<View style={{ position: "relative", width: size, height: size + 3 }}>
 			<Image source={pin} style={{ height: size, width: size }} />
