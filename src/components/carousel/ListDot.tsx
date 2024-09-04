@@ -48,6 +48,7 @@ function ListDot<T>({
 
 	return (
 		<Row
+			flex={0}
 			style={[
 				style.container,
 				{

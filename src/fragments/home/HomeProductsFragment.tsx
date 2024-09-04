@@ -7,11 +7,10 @@
  **/
 
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { useSelector } from "react-redux";
-import { products } from "../../../assets/data/home/home";
 import SolarAltArrowRightOutline from "../../../assets/images/icons/SolarArrowRightOutline";
 import ProductHomeCard from "../../components/card/product/ProductHomeCard";
 import Col from "../../components/custom/Col";
@@ -25,9 +24,13 @@ import { RootStackParamList } from "../../navigations/stack.type";
 import ProductType from "../../types/product.type";
 import { ThemeType } from "../../types/theme.type";
 import CategoryType from "../../types/category.type";
+import axiosInstance, { ApiResponse } from "../../configs/axios/axios.config";
 
 const HomeProductsFragment = () => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
+	const styles = styled(theme);
+	const [products, setProducts] = React.useState<ProductType[]>([]);
 
 	const onClickViewAll = () => {
 		navigation.navigate("SearchScreen", {
@@ -40,8 +43,12 @@ const HomeProductsFragment = () => {
 		});
 	};
 
-	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
-	const styles = styled(theme);
+	useEffect(() => {
+		axiosInstance.get<ApiResponse<ProductType[]>>("/product").then(res => {
+			setProducts(res.data.data);
+		});
+	}, []);
+
 	return (
 		<Col style={styles.productList}>
 			<Row style={styles.productGridContainerHeading}>

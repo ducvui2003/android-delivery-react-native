@@ -10,14 +10,14 @@ import React from "react";
 import { View } from "react-native";
 import ColProps from "./type/col.props";
 
-function Col({ children, style, ref }: ColProps) {
+function Col({ children, style, flex, ref }: ColProps) {
 	return (
 		<View
 			style={[
 				style,
 				{
 					flexDirection: "column",
-					flex: 1,
+					flex,
 				},
 			]}
 			ref={ref}

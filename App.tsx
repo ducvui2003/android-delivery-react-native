@@ -61,7 +61,7 @@ function Root() {
 
     return (
         <NavigationContainer>
-          <RootStack.Navigator initialRouteName="ProductDetailScreen" screenOptions={{
+          <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{
                 headerShown: false,
             }}>
                 <RootStack.Screen name={"MainScreen"}

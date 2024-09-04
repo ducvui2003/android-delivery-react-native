@@ -9,7 +9,7 @@ import axios, { AxiosInstance, AxiosResponse, HttpStatusCode, InternalAxiosReque
 import { getToken, setItem } from "../../services/secureStore.service";
 
 const axiosInstance: AxiosInstance = axios.create({
-	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END_WIFI_LAM_NGUYEN,
+	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END,
 	headers: {
 		"Access-Control-Allow-Origin": "*",
 	},
@@ -24,6 +24,7 @@ interface ApiResponse<T> {
 
 axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
 	try {
+		console.log(`Enter to: ${config.baseURL}${config.url}`);
 		const token = await getToken("ACCESS_TOKEN");
 		if (token != null) config.headers.Authorization = `Bearer ${token}`;
 		return config;
@@ -45,7 +46,7 @@ axiosInstance.interceptors.response.use(
 						setItem("REFRESH_TOKEN", refreshToken);
 					}
 				});
-				return response.data;
+				break;
 			case HttpStatusCode.BadRequest:
 				console.error("Bad request", response.data.data);
 				break;
@@ -53,6 +54,8 @@ axiosInstance.interceptors.response.use(
 				console.warn(response.data);
 				break;
 		}
+
+		return response;
 	},
 	error => {
 		//Network

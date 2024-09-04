@@ -13,6 +13,7 @@ type ColProps = {
 	style?: StyleProp<ViewStyle>;
 	keyCol?: string;
 	ref?: React.LegacyRef<View>;
+	flex?: number;
 };
 
 export default ColProps;

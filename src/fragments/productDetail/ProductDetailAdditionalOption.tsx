@@ -34,13 +34,13 @@ export function ProductDetailAdditionalOption({ data, onAdditionalOption }: Prod
 	}, [additionalOption]);
 
 	const renderOption = (option: OptionType) => {
-		const isSelected = additionalOption.filter(item => item._id === option._id).length > 0;
+		const isSelected = additionalOption.filter(item => item.id === option.id).length > 0;
 		return (
-			<View key={option._id}>
+			<View key={option.id}>
 				<OptionItem
 					selected={isSelected}
 					onPress={() => {
-						if (isSelected) setAdditionalOption(additionalOption.filter(item => item._id !== option._id));
+						if (isSelected) setAdditionalOption(additionalOption.filter(item => item.id !== option.id));
 						else setAdditionalOption([...additionalOption, option]);
 					}}
 					icon={"square"}
@@ -53,16 +53,16 @@ export function ProductDetailAdditionalOption({ data, onAdditionalOption }: Prod
 
 	const renderGroupOption = (groupOption: GroupOptionType) => {
 		const groupOptionSelected = additionalOption.filter(
-			item => (item as GroupOptionSelected)._id === groupOption._id
+			item => (item as GroupOptionSelected).id === groupOption.id
 		)[0] as GroupOptionSelected | undefined;
 		return (
-			<Col key={groupOption._id}>
+			<Col key={groupOption.id}>
 				<OptionItem
 					selected={groupOptionSelected !== undefined}
 					onPress={() => {
 						if (groupOptionSelected)
 							setAdditionalOption(
-								additionalOption.filter(item => (item as GroupOptionSelected)._id !== groupOption._id)
+								additionalOption.filter(item => (item as GroupOptionSelected).id !== groupOption.id)
 							);
 						else addOption(groupOption.options[0], groupOption);
 					}}
@@ -72,15 +72,15 @@ export function ProductDetailAdditionalOption({ data, onAdditionalOption }: Prod
 				{groupOption.options.map(option => {
 					return (
 						<OptionItem
-							key={option._id}
-							selected={groupOptionSelected?.option._id === option._id}
+							key={option.id}
+							selected={groupOptionSelected?.option.id === option.id}
 							beforeText={<SolarDot color={neutral.getColor("300")} />}
 							onPress={() => {
 								if (groupOptionSelected)
 									setAdditionalOption(
 										additionalOption.map(item => {
 											const groupOption = item as GroupOptionSelected;
-											if (groupOption._id === groupOptionSelected._id)
+											if (groupOption.id === groupOptionSelected.id)
 												return {
 													...groupOption,
 													option: option,

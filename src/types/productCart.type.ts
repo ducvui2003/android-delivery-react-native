@@ -8,6 +8,6 @@ import ProductDetailType from "./productDetail.type";
  * User: lam-nguyen
  **/
 
-type ProductCartType = Pick<ProductDetailType, "id" | "name" | "basePrice" | "salePrice" | "quantity">;
+type ProductCartType = Pick<ProductDetailType, "id" | "name" | "price" | "discount" | "quantity">;
 
 export default ProductCartType;

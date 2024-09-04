@@ -29,6 +29,8 @@ import ProductDetailFooter from "../fragments/productDetail/ProductDetailFooter"
 import { ProductDetailAdditionalOption } from "../fragments/productDetail/ProductDetailAdditionalOption";
 import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from "../types/productDetail.type";
 import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
+import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
+import { firebaseStorage } from "../configs/firebase/firebase.config";
 
 type ProductDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "ProductDetailScreen">;
@@ -48,6 +50,7 @@ export function ProductDetailScreen({
 	const [product, setProduct] = useState<ProductDetailType>();
 	const [amount, setAmount] = useState<number>(1);
 	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
+	const [url, setUrl] = useState<string>("");
 
 	const onSeeMore = () => {
 		setSeeMore(true);
@@ -58,14 +61,20 @@ export function ProductDetailScreen({
 	};
 
 	useEffect(() => {
-		getProduct().then();
+		axiosInstance.get<ApiResponse<ProductDetailType>>(`/product/${id}`).then(res => {
+			setProduct(res.data.data);
+		});
 	}, []);
 
-	const getProduct = async () => {
-		// Call API to get product detail by id
-		// const product = await api.getProductById(id);
-		setProduct(dataDemo);
-	};
+	useEffect(() => {
+		firebaseStorage
+			.ref(product?.image)
+			.getDownloadURL()
+			.then(setUrl)
+			.catch(error => {
+				console.log("error", error);
+			});
+	}, [product]);
 
 	const renderButtonSeeMore = () => {
 		if (seeMore)
@@ -95,11 +104,9 @@ export function ProductDetailScreen({
 					style={{ position: "absolute", zIndex: 2 }}
 				/>
 				<View style={[styles.containerImage]}>
-					<Image
-						style={{ height: "100%", width: "100%" }}
-						resizeMode={"cover"}
-						source={{ uri: product?.image }}
-					/>
+					{url && (
+						<Image style={{ height: "100%", width: "100%" }} resizeMode={"cover"} source={{ uri: url }} />
+					)}
 					<TouchableOpacity style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}>
 						<GradientIconSvg
 							icon={
@@ -133,7 +140,7 @@ export function ProductDetailScreen({
 					{seeMore && (
 						<Grid<NutritionalType>
 							col={2}
-							data={product?.nutritional_information ?? []}
+							data={product?.nutritional ?? []}
 							renderItem={(item, index) => {
 								return (
 									<Row key={index}>
@@ -147,7 +154,7 @@ export function ProductDetailScreen({
 					)}
 					<Row style={[styles.containerButtonSeeMore]}>{renderButtonSeeMore()}</Row>
 					<ProductDetailAdditionalOption
-						data={product?.additional_option ?? []}
+						data={product?.options ?? []}
 						onAdditionalOption={setAdditionalOption}
 					/>
 					<Space height={125} />
@@ -197,41 +204,3 @@ const styles = StyleSheet.create({
 		borderRadius: 999,
 	},
 });
-
-const dataDemo: ProductDetailType = {
-	id: "1",
-	name: "Hamburger",
-	image: "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	basePrice: 100,
-	rating: 5,
-	quantity: 10,
-	isLiked: false,
-	description:
-		"A delicious chicken burger served on a toasted bun with fresh lettuce, tomato slices, and mayonnaise. Juicy grilled chicken patty seasoned to perfection for a mouthwatering taste experience.",
-	nutritional_information: [
-		{ name: "Calories", value: 420 },
-		{ name: "Protein", value: "27g" },
-		{ name: "Carbs", value: "30g" },
-		{ name: "Fat", value: "18g" },
-	],
-	additional_option: [
-		{
-			_id: "1",
-			name: "Cheese",
-			price: 1250000,
-		},
-		{
-			_id: "2",
-			name: "Bacon",
-			price: 2500000,
-		},
-		{
-			_id: "3",
-			name: "Meat",
-			options: [
-				{ _id: "3_1", name: "Extra Patty", price: 5000000 },
-				{ _id: "3_2", name: "Double Patty", price: 8750000 },
-			],
-		},
-	],
-};

@@ -10,18 +10,18 @@ import ProductType from "./product.type";
 type ProductDetailType = ProductType & {
 	quantity: number;
 	description: string;
-	nutritional_information?: NutritionalType[];
-	additional_option?: (OptionType | GroupOptionType)[];
+	nutritional?: NutritionalType[];
+	options?: (OptionType | GroupOptionType)[];
 };
 
 export type OptionType = {
-	_id: string;
+	id: string;
 	name: string;
 	price: number;
 };
 
 export type GroupOptionType = {
-	_id: string;
+	id: string;
 	name: string;
 	options: OptionType[];
 };
