@@ -49,7 +49,7 @@ export function SearchScreen({
 	const renderTitle = () => {
 		if (category) {
 			return (
-				<Row style={{ alignItems: "center", gap: 10 }}>
+				<Row style={{ alignItems: "center", gap: 10, justifyContent: "center" }}>
 					<Image resizeMode={"cover"} style={{ width: 30, height: 30 }} source={category.image} />
 					<Text style={{ ...textStyle["22_semibold"], color: theme.text_1.getColor() }}>{category.name}</Text>
 				</Row>
@@ -79,7 +79,7 @@ export function SearchScreen({
 						navigation.pop();
 					}}
 				/>
-				<Col style={[styles.contentContainer]}>
+				<Col style={[styles.contentContainer]} flex={1}>
 					<InputSearch autoFocus={autoFocus} placeholder="Vui lòng nhập tên sản phẩm" />
 					<ScrollView
 						style={[styles.scrollContainer]}
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
 	},
 	contentContainer: {
 		paddingHorizontal: 25,
-		flex: 1,
 	},
 	scrollContainer: {
 		flex: 1,

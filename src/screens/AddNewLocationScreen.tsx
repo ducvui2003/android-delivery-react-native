@@ -125,10 +125,10 @@ export function AddNewLocationScreen({ navigation }: AddNewLocationScreenProps) 
 						<PanGestureHandler
 							onGestureEvent={event => {
 								const { translationY } = event.nativeEvent;
-								if (translationY < -40) {
+								if (translationY < -20) {
 									dropAnimHandler("up");
 								}
-								if (translationY > 40) {
+								if (translationY > 20) {
 									Keyboard.dismiss();
 									dropAnimHandler("down");
 								}
@@ -208,7 +208,6 @@ const styles = StyleSheet.create({
 		left: "30%",
 	},
 	buttonApply: {
-		marginVertical: 40,
 		width: "100%",
 	},
 });

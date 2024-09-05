@@ -36,7 +36,7 @@ export function Header({
 	const [sizeIcon, setsizeIcon] = useState<number>(0);
 
 	return (
-		<Row style={[styles.defaultStyleContainer, style]}>
+		<Row style={[styles.defaultStyleContainer, style]} flex={0}>
 			{showIconBack && (
 				<View style={[styles.defaultStyleIconBack, styleIconBack]}>
 					<TouchableOpacity

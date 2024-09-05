@@ -60,6 +60,7 @@ function InputIcon({
 				},
 				{ width, height },
 			]}
+			flex={0}
 		>
 			{iconLeft && <TouchableOpacity onPress={onPressIconLeft}>{iconLeft}</TouchableOpacity>}
 			<TextInput

@@ -152,7 +152,7 @@ export function VerificationScreen({
 					}}
 				/>
 				<ScrollView
-					style={{ flexDirection: "column" }}
+					style={{ flexDirection: "column", paddingHorizontal: 25 }}
 					showsVerticalScrollIndicator={false}
 					showsHorizontalScrollIndicator={false}
 					onResponderRelease={onBlurInput}
@@ -185,7 +185,7 @@ export function VerificationScreen({
 					/>
 					{componentResend[(time === 0).toString() as "true" | "false"]}
 				</ScrollView>
-				<Col style={[styles.footerContainer]}>
+				<Col style={[styles.footerContainer, { paddingHorizontal: 25 }]} flex={1}>
 					<ButtonHasStatus title={"Verify"} active={errorVerify} styleButton={[styles.buttonVerify]} />
 					<Row style={[{ display: hidden ? "none" : "flex" }, styles.containerCanHidden]}>
 						<Text style={[styles.text, { color: theme.text_1.getColor() }]}>Back to </Text>

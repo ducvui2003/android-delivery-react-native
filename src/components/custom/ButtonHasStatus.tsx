@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		marginBottom: 25,
 		flexDirection: "row",
+		justifyContent: "center",
 	},
 	button: {
 		backgroundColor: primary.getColor("500"),
