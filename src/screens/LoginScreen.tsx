@@ -259,12 +259,12 @@ function LoginScreen() {
 								Or sign in with
 							</Text>
 						</View>
-						<Row style={[styles.buttonOtherMethodSignIn]}>
+						<Row style={[styles.buttonOtherMethodSignIn]} flex={0}>
 							<GoogleAuth />
 							<View style={{ padding: 8 }} />
 							<FacebookAuth />
 						</Row>
-						<Row style={[styles.askSignUpContainer]}>
+						<Row style={[styles.askSignUpContainer]} flex={0}>
 							<Text style={[styles.askSignUpText, { color: theme.text_1.getColor() }]}>
 								Don’t have an account?
 							</Text>

@@ -5,8 +5,9 @@
  * Create at: 9:39 AM - 24/08/2024
  * User: lam-nguyen
  **/
-import { firebase, getAuth } from "@react-native-firebase/auth";
+import { getAuth } from "@react-native-firebase/auth";
 import { initializeApp, ReactNativeFirebase } from "@react-native-firebase/app";
+import { getStorage } from "@react-native-firebase/storage";
 
 const firebaseConfig: ReactNativeFirebase.FirebaseAppOptions = {
 	apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
@@ -18,8 +19,10 @@ const firebaseConfig: ReactNativeFirebase.FirebaseAppOptions = {
 	messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 	databaseURL: process.env.EXPO_PUBLIC_FIREBASE_DATABASE_URL,
 };
-if (firebase.app.name !== "delivery-app") initializeApp(firebaseConfig, "delivery-app");
+
+initializeApp(firebaseConfig, "delivery-app");
 const firebaseAuth = getAuth();
 firebaseAuth.setLanguageCode("VN").then();
+const firebaseStorage = getStorage();
 
-export { firebaseAuth };
+export { firebaseAuth, firebaseStorage };

@@ -9,7 +9,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
-import GradientProps from "./type/gradient.type";
+import GradientProps from "./type/gradient.props";
 import { LinearGradient } from "react-native-linear-gradient";
 
 function GradientText({

@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Row from "../custom/Row";
 import BottomNavigationItem from "./BottomNavigationItem";
-import BottomNavigationProps from "./type/bottomNavigation.type";
+import BottomNavigationProps from "./type/bottomNavigation.props";
 import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
 
 function BottomNavigation({

@@ -17,7 +17,7 @@ import Row from "../custom/Row";
 import { RootState } from "../../configs/redux/store.config";
 import { useSelector } from "react-redux";
 import textStyle from "../../configs/styles/textStyle.config";
-import InputPhoneNumberProps from "./type/InputPhoneNumberProps";
+import InputPhoneNumberProps from "./type/inputPhoneNumber.props";
 import InputIcon from "./InputIcon";
 import { PhoneNumberUtil } from "google-libphonenumber";
 

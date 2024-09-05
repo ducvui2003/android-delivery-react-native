@@ -12,7 +12,7 @@ import axiosInstance, { ApiResponse } from "../../../configs/axios/axios.config"
 import { AxiosError } from "axios";
 import { GoogleSignin, isErrorWithCode, statusCodes, User } from "@react-native-google-signin/google-signin";
 import { Authentication } from "../../../types/authentication.type";
-import ButtonAuthProps from "../type/googleAuth.type";
+import ButtonAuthProps from "../type/buttonAuth.props";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
 import { borderOthMethodSignIn } from "../../../configs/colors/color-template.config";
@@ -31,7 +31,7 @@ GoogleSignin.configure({
 	// profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
 });
 
-function GoogleSignInButtonAndroid({ loginSuccess }: ButtonAuthProps) {
+function GoogleSignInButton({ loginSuccess }: ButtonAuthProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const loginServerSide = async (authCode: string) => {
 		axiosInstance
@@ -90,5 +90,5 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default GoogleSignInButtonAndroid;
+export default GoogleSignInButton;
 export const androidGoogleSignOut = () => GoogleSignin.signOut();

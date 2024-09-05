@@ -9,19 +9,10 @@
 // @flow
 import * as React from "react";
 import { ReactNode } from "react";
-import { StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { primary, white } from "../../configs/colors/color-template.config";
 import textStyle from "../../configs/styles/textStyle.config";
-
-type Props = {
-	title: string;
-	active?: boolean;
-	onPress?: () => void;
-	styleText?: StyleProp<TextStyle>;
-	styleButtonNotActive?: StyleProp<ViewStyle>;
-	styleButtonActive?: StyleProp<ViewStyle>;
-	styleButton?: StyleProp<ViewStyle>;
-};
+import ButtonHasStatusProps from "./type/buttonHasStatus.props";
 
 export function ButtonHasStatus({
 	title,
@@ -31,19 +22,25 @@ export function ButtonHasStatus({
 	styleText,
 	active = false,
 	onPress,
-}: Props) {
+	icon,
+	side = "left",
+}: ButtonHasStatusProps) {
 	const button: Record<"true" | "false", ReactNode> = {
 		true: (
 			<TouchableOpacity
 				style={[styles.buttonNotActive, styles.button, styleButton, styleButtonActive]}
 				onPress={onPress}
 			>
+				{side === "left" && icon}
 				<Text style={[styles.textButton, styleText]}>{title}</Text>
+				{side === "right" && icon}
 			</TouchableOpacity>
 		),
 		false: (
 			<View style={[[styles.buttonNotActive, styleButton, styleButtonNotActive]]}>
+				{side === "left" && icon}
 				<Text style={[styles.textButton, styleText]}>{title}</Text>
+				{side === "right" && icon}
 			</View>
 		),
 	};
@@ -58,6 +55,8 @@ const styles = StyleSheet.create({
 		borderRadius: 999,
 		alignItems: "center",
 		marginBottom: 25,
+		flexDirection: "row",
+		justifyContent: "center",
 	},
 	button: {
 		backgroundColor: primary.getColor("500"),

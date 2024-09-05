@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 import { StyleProp, TextStyle, ViewStyle } from "react-native";
-import GradientType from "./position.type";
+import GradientType from "./position.props";
 
 type GradientProps = {
 	text: string;

@@ -7,24 +7,17 @@
  **/
 
 import React from "react";
-import { StyleProp, View, ViewStyle } from "react-native";
+import { View } from "react-native";
+import ColProps from "./type/col.props";
 
-function Col({
-	children,
-	style,
-	ref,
-}: {
-	children: React.ReactNode;
-	style?: StyleProp<ViewStyle>;
-	keyCol?: string;
-	ref?: React.LegacyRef<View>;
-}) {
+function Col({ children, style, flex, ref }: ColProps) {
 	return (
 		<View
 			style={[
 				style,
 				{
 					flexDirection: "column",
+					flex,
 				},
 			]}
 			ref={ref}

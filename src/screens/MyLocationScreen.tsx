@@ -46,7 +46,7 @@ export function MyLocationScreen({ navigation }: MyLocationScreenProps) {
 				}}
 				onPressBack={() => navigation.pop()}
 			/>
-			<Col style={styles.container}>
+			<Col style={styles.container} flex={1}>
 				<FlatList
 					style={styles.flatList}
 					data={data}

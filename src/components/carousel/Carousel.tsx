@@ -9,7 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { NativeSyntheticEvent, StyleSheet, View } from "react-native";
 import ListDot from "./ListDot";
 import { Double } from "react-native/Libraries/Types/CodegenTypes";
-import CarouselProps from "./type/carousel.type";
+import CarouselProps from "./type/carousel.props";
 import PagerView from "react-native-pager-view";
 import Col from "../custom/Col";
 import Space from "../custom/Space";

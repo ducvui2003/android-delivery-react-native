@@ -19,6 +19,7 @@ import { AddNewLocationScreen } from "./src/screens/AddNewLocationScreen";
 import { MyLocationScreen } from "./src/screens/MyLocationScreen";
 import { CategoriesScreen } from "./src/screens/CategoriesScreen";
 import { SearchScreen } from "./src/screens/SearchScreen";
+import { ProductDetailScreen } from "./src/screens/ProductDetailScreen";
 
 const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -79,6 +80,7 @@ function Root() {
             <RootStack.Screen name={"MyLocationScreen"} component={MyLocationScreen} />
             <RootStack.Screen name={"CategoriesScreen"} component={CategoriesScreen} />
             <RootStack.Screen name={"SearchScreen"} component={SearchScreen} />
+            <RootStack.Screen name={"ProductDetailScreen"} component={ProductDetailScreen} initialParams={{id: ""}} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

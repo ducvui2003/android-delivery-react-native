@@ -127,7 +127,7 @@ function SignUpScreen() {
 					renderItem={() => {
 						return (
 							<>
-								<Row style={styles.titleContainer}>
+								<Row style={styles.titleContainer} flex={0}>
 									<GradientText
 										style={{ marginBottom: 32 }}
 										textStyle={styles.title}
@@ -324,7 +324,7 @@ function SignUpScreen() {
 										);
 									}}
 								/>
-								<Row style={[styles.rememberMeContainer]}>
+								<Row style={[styles.rememberMeContainer]} flex={0}>
 									<CheckBox
 										checked={false}
 										iconType={"material-community"}
@@ -362,12 +362,12 @@ function SignUpScreen() {
 								Or sign up with
 							</Text>
 						</View>
-						<Row style={[styles.buttonOtherMethodSignIn]}>
+						<Row style={[styles.buttonOtherMethodSignIn]} flex={0}>
 							<GoogleAuth />
 							<View style={{ padding: 8 }} />
 							<FacebookAuth />
 						</Row>
-						<Row style={[styles.askSignUpContainer]}>
+						<Row style={[styles.askSignUpContainer]} flex={0}>
 							<Text style={[styles.askSignUpText, { color: theme.text_1.getColor() }]}>
 								Do have an account?
 							</Text>

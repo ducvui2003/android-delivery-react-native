@@ -7,7 +7,7 @@
  **/
 
 import React, { useState } from "react";
-import { Dimensions, Image, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { Image, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { useSelector } from "react-redux";
 import { banners, categories } from "../../../../assets/data/home/home";
 import Carousel from "../../../components/carousel/Carousel";
@@ -17,7 +17,7 @@ import Grid from "../../../components/custom/Grid";
 import { neutral } from "../../../configs/colors/color-template.config";
 import { RootState } from "../../../configs/redux/store.config";
 import HomeHeaderFragment from "../../../fragments/home/HomeHeaderFragment";
-import { Category } from "../../../types/category.type";
+import CategoryType from "../../../types/category.type";
 import { ThemeType } from "../../../types/theme.type";
 import HomeProductsFragment from "../../../fragments/home/HomeProductsFragment";
 import { useNavigation } from "@react-navigation/native";
@@ -76,7 +76,7 @@ function HomeScreen() {
 			</View>
 
 			<View style={styles.categoryGridContainer}>
-				<Grid<Category>
+				<Grid<CategoryType>
 					col={4}
 					data={categories}
 					gapRow={24}
@@ -122,11 +122,11 @@ const makeStyled = (theme: ThemeType) =>
 		},
 		bannerContainer: {
 			marginVertical: 24,
+			width: "100%",
 			height: 220,
 		},
 		banner: {
-			width: Dimensions.get("window").width + 10,
-			marginHorizontal: -10,
+			width: "100%",
 			height: "100%",
 		},
 		categoryGridContainer: {

@@ -26,7 +26,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
 import Col from "../components/custom/Col";
 import InputSearch from "../components/input/InputSearch";
-import { Product } from "../types/product.type";
+import ProductType from "../types/product.type";
 import { products } from "../../assets/data/home/home";
 import ProductHomeCard from "../components/card/product/ProductHomeCard";
 import Grid from "../components/custom/Grid";
@@ -49,7 +49,7 @@ export function SearchScreen({
 	const renderTitle = () => {
 		if (category) {
 			return (
-				<Row style={{ alignItems: "center", gap: 10 }}>
+				<Row style={{ alignItems: "center", gap: 10, justifyContent: "center" }}>
 					<Image resizeMode={"cover"} style={{ width: 30, height: 30 }} source={category.image} />
 					<Text style={{ ...textStyle["22_semibold"], color: theme.text_1.getColor() }}>{category.name}</Text>
 				</Row>
@@ -79,7 +79,7 @@ export function SearchScreen({
 						navigation.pop();
 					}}
 				/>
-				<Col style={[styles.contentContainer]}>
+				<Col style={[styles.contentContainer]} flex={1}>
 					<InputSearch autoFocus={autoFocus} placeholder="Vui lòng nhập tên sản phẩm" />
 					<ScrollView
 						style={[styles.scrollContainer]}
@@ -87,7 +87,7 @@ export function SearchScreen({
 						showsHorizontalScrollIndicator={false}
 					>
 						{category && (
-							<Grid<Product>
+							<Grid<ProductType>
 								col={2}
 								data={products}
 								renderItem={(item, index) => {
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
 	},
 	contentContainer: {
 		paddingHorizontal: 25,
-		flex: 1,
 	},
 	scrollContainer: {
 		flex: 1,

@@ -6,12 +6,19 @@
  * User: ducvui2003
  **/
 
-export type Product = {
+type ProductType = {
 	id: string;
 	image: string;
 	name: string;
 	rating: number;
-	basePrice: number;
-	salePrice?: number;
+	price: number;
+	discountInfo?: DiscountInfo;
 	isLiked?: boolean;
 };
+
+type DiscountInfo = {
+	discount: number;
+	expired: Date;
+};
+
+export default ProductType;

@@ -8,8 +8,9 @@
 
 import React from "react";
 import { View } from "react-native";
+import SpaceProps from "./type/space.props";
 
-function Space({ width, height }: { width?: number; height?: number }) {
+function Space({ width, height }: SpaceProps) {
 	return <View style={{ height: height, width: width }} />;
 }
 

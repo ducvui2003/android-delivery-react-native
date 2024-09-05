@@ -58,7 +58,7 @@ export function SettingPinSecurityScreen() {
 					style={styles.header}
 					onPressBack={() => navigation.replace("LoginScreen")}
 				/>
-				<Col style={styles.container}>
+				<Col style={styles.container} flex={1}>
 					<ScrollView
 						style={{ flexDirection: "column" }}
 						showsVerticalScrollIndicator={false}

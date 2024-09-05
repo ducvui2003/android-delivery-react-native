@@ -8,13 +8,13 @@
 
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { borderOthMethodSignIn } from "../../../configs/colors/color-template.config";
-import ButtonAuthProps from "../type/googleAuth.type";
+import ButtonAuthProps from "../type/buttonAuth.props";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
 import LogosFacebookIcon from "../../../../assets/images/icons/LogosFacebookIcon";
 
-function FacebookSignInButtonWeb(_: ButtonAuthProps) {
+function FacebookSignInButton(_: ButtonAuthProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	return (
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default FacebookSignInButtonWeb;
+export default FacebookSignInButton;

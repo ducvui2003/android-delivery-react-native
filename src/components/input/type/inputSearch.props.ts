@@ -6,7 +6,7 @@
  * User: ducvui2003
  **/
 
-import InputProps from "./InputProps";
+import InputProps from "./input.props";
 
 type InputSearchProps = InputProps & {
 	onPressIconLeft?: () => void;
