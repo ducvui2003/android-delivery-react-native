@@ -27,7 +27,7 @@ import CategoryType from "../../types/category.type";
 import axiosInstance, { ApiResponse } from "../../configs/axios/axios.config";
 import ApiPagingType from "../../types/apiPaging.type";
 
-const HomeProductsFragment = () => {
+const HomeProductsFragment = ({ refresh, onRefresh }: { refresh?: number; onRefresh?: (result: boolean) => void }) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = styled(theme);
@@ -47,8 +47,9 @@ const HomeProductsFragment = () => {
 	useEffect(() => {
 		axiosInstance.get<ApiResponse<ApiPagingType<ProductType>>>("/product").then(res => {
 			setProducts(res.data.data.content);
+			onRefresh?.(false);
 		});
-	}, []);
+	}, [refresh, onRefresh]);
 
 	return (
 		<Col style={styles.productList}>
