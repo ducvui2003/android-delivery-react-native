@@ -30,7 +30,7 @@ type MyLocationScreenProps = {
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function MyLocationScreen({ navigation }: MyLocationScreenProps) {
+export default function MyLocationScreen({ navigation }: MyLocationScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [indexChecked, setIndexChecked] = React.useState<number>(0);
 	const myLocation = 0;

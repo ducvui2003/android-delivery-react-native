@@ -1,15 +1,7 @@
-/**
- * Author: Nguyen Dinh Lam
- * Email: kiminonawa1305@gmail.com
- * Phone number: +84 855354919
- * Create at: 1:19 PM - 28/08/2024
- *  User: lam-nguyen
- **/
-
 import React from "react";
 import Svg, { Path, SvgProps } from "react-native-svg";
 
-export default function SolarStarBold(props: SvgProps) {
+function SolarStarBold(props: SvgProps) {
   return (
     <Svg width={20} height={20} color={"black"} viewBox="0 0 24 24" {...props}>
       <Path
@@ -19,3 +11,5 @@ export default function SolarStarBold(props: SvgProps) {
     </Svg>
   );
 }
+
+export default SolarStarBold;

@@ -86,6 +86,10 @@ const darkTheme: ThemeType = {
 		background_button_add: ColorFactory.createSingleColor(neutral.getColor("700")),
 		color_button_add: ColorFactory.createSingleColor(neutral.getColor("50")),
 	},
+	review: {
+		backgroundButtonReview: ColorFactory.createSingleColor(neutral.getColor("500")),
+		colorRatingUnSelected: ColorFactory.createSingleColor("#252415"),
+	},
 };
 
 export default darkTheme;
