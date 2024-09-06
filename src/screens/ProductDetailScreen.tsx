@@ -67,8 +67,9 @@ export default function ProductDetailScreen({
 	}, []);
 
 	useEffect(() => {
+		if (!product) return;
 		firebaseStorage
-			.ref(product?.image)
+			.ref(product.image)
 			.getDownloadURL()
 			.then(setUrl)
 			.catch(error => {
