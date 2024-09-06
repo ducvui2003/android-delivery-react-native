@@ -25,6 +25,7 @@ import { ReviewType } from "../components/review/type/buttonReview.props";
 import ReviewDisplayItem from "../components/review/ReviewDisplayItem";
 import ReviewDisplayItemProps from "../components/review/type/reviewDisplayItem.props";
 import ButtonReview from "../components/review/ButtonReview";
+import Space from "../components/custom/Space";
 
 type ReviewScreenProps = {
 	route: RouteProp<RootStackParamList, "ReviewScreen">;
@@ -117,6 +118,7 @@ function ReviewScreen({
 					{dataDemo.map((item, index) => (
 						<ReviewDisplayItem key={index} {...item} />
 					))}
+					<Space height={20} />
 				</ScrollView>
 			</Col>
 		</SafeAreaView>
@@ -127,7 +129,6 @@ const styles = StyleSheet.create({
 	containerContent: {
 		paddingHorizontal: 25,
 		gap: 32,
-		marginBottom: 20,
 	},
 });
 

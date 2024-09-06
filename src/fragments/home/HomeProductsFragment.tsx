@@ -45,10 +45,15 @@ const HomeProductsFragment = ({ refresh, onRefresh }: { refresh?: number; onRefr
 	};
 
 	useEffect(() => {
-		axiosInstance.get<ApiResponse<ApiPagingType<ProductType>>>("/product").then(res => {
-			setProducts(res.data.data.content);
-			onRefresh?.(false);
-		});
+		axiosInstance
+			.get<ApiResponse<ApiPagingType<ProductType>>>("/product")
+			.then(res => {
+				setProducts(res.data.data.content);
+				onRefresh?.(false);
+			})
+			.catch(() => {
+				onRefresh?.(false);
+			});
 	}, [refresh, onRefresh]);
 
 	return (

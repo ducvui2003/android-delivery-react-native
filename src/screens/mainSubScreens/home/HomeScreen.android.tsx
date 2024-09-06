@@ -116,7 +116,7 @@ const makeStyled = (theme: ThemeType) =>
 	StyleSheet.create({
 		container: {
 			paddingHorizontal: 24,
-			paddingTop: 54,
+			paddingTop: 45,
 			flex: 1,
 			backgroundColor: theme.background.getColor(),
 		},
