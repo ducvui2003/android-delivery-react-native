@@ -11,11 +11,12 @@ import { View } from "react-native";
 import GradientProps from "./type/gradient.props";
 import GradientType from "./type/position.props";
 
-function GradientText({
-	style,
-	text,
+function GradientBorder({
+	children,
 	gradientColors,
-	textStyle,
+	borderWidth,
+	borderRadius,
+	backgroundColorContent,
 	start = { x: 0, y: 0 },
 	end = { x: 1, y: 1 },
 }: GradientProps) {
@@ -38,21 +39,7 @@ function GradientText({
 		if (comparePosition(start, bottomRight) && comparePosition(end, topLeft)) return "to left top";
 	};
 
-	return (
-		<View style={[style]}>
-			<div
-				style={{
-					...(textStyle as CSSProperties),
-					background: `linear-gradient(${toGradientText(start, end)}, ${gradientColors.join(",")})`,
-					backgroundClip: "text",
-					color: "transparent",
-					flex: 1,
-				}}
-			>
-				{text}
-			</div>
-		</View>
-	);
+	return <View />;
 }
 
-export default GradientText;
+export default GradientBorder;

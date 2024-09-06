@@ -24,6 +24,9 @@ export type RootStackParamList = {
 	ProductDetailScreen: {
 		id: string;
 	};
+	BasketScreen: {
+		id: string;
+	};
 };
 
 export type MainScreenStackParamList = {

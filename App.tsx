@@ -20,6 +20,7 @@ import { MyLocationScreen } from "./src/screens/MyLocationScreen";
 import { CategoriesScreen } from "./src/screens/CategoriesScreen";
 import { SearchScreen } from "./src/screens/SearchScreen";
 import { ProductDetailScreen } from "./src/screens/ProductDetailScreen";
+import BasketScreen from "./src/screens/BasketScreen";
 
 const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -56,12 +57,12 @@ function Root() {
 
     useEffect(() => {
         if (!colorScheme) return;
-        dispatch(setTheme(colorScheme))
+      dispatch(setTheme(colorScheme));
     }, []);
 
     return (
         <NavigationContainer>
-          <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{
+          <RootStack.Navigator initialRouteName="BasketScreen" screenOptions={{
                 headerShown: false,
             }}>
                 <RootStack.Screen name={"MainScreen"}
@@ -80,7 +81,8 @@ function Root() {
             <RootStack.Screen name={"MyLocationScreen"} component={MyLocationScreen} />
             <RootStack.Screen name={"CategoriesScreen"} component={CategoriesScreen} />
             <RootStack.Screen name={"SearchScreen"} component={SearchScreen} />
-            <RootStack.Screen name={"ProductDetailScreen"} component={ProductDetailScreen} initialParams={{id: ""}} />
+            <RootStack.Screen name={"ProductDetailScreen"} component={ProductDetailScreen} />
+            <RootStack.Screen name={"BasketScreen"} component={BasketScreen} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

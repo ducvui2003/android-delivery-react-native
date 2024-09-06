@@ -11,7 +11,7 @@ import { View } from "react-native";
 import GradientProps from "./type/gradient.props";
 import GradientView from "../gradientView/GradientView";
 
-function GradientText({
+function GradientBorder({
 	gradientColors,
 	children,
 	start = { x: 0, y: 0 },
@@ -78,4 +78,4 @@ function GradientText({
 	);
 }
 
-export default GradientText;
+export default GradientBorder;

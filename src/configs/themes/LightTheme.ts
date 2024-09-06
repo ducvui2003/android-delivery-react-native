@@ -86,6 +86,10 @@ const lightTheme: ThemeType = {
 		background_button_add: ColorFactory.createSingleColor(primary.getColor("50")),
 		color_button_add: ColorFactory.createSingleColor(primary.getColor("500")),
 	},
+	basket: {
+		background: ColorFactory.createSingleColor(white.getColor()),
+		backgroundFooter: ColorFactory.createSingleColor(white.getColor()),
+	},
 };
 
 export default lightTheme;
