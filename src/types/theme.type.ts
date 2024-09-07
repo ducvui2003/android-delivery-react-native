@@ -63,4 +63,7 @@ export type ThemeType = {
 		background: SingleColor;
 		backgroundFooter: SingleColor;
 	};
+	rating: {
+		backgroundInputReview: SingleColor;
+	};
 };
