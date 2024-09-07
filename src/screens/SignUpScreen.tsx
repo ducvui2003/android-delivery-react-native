@@ -35,7 +35,7 @@ import { Controller, useForm } from "react-hook-form";
 import InputPhoneNumber from "../components/input/InputPhoneNumber";
 import GradientText from "../components/gradientText/GradientText";
 import RegisterFormType from "../types/registerForm.type";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";

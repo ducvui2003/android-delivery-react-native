@@ -18,7 +18,7 @@ import GradientText from "../components/gradientText/GradientText";
 import { gradient } from "../configs/colors/color-template.config";
 import textStyle from "../configs/styles/textStyle.config";
 import { LatLng } from "react-native-maps/lib/sharedTypes";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import Col from "../components/custom/Col";
 import { Header } from "../components/header/Header";
 import { useSelector } from "react-redux";

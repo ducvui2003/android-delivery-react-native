@@ -11,7 +11,7 @@ import { Text } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import GradientText from "../gradientText/GradientText";
 import { gradient } from "../../configs/colors/color-template.config";
-import { formatCurrency } from "../../utils/formator";
+import Formater from "../../utils/formater";
 import Row from "../custom/Row";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
@@ -25,7 +25,7 @@ function OptionAdd({ price, name }: OptionAddProps) {
 			<Text style={[{ ...textStyle["12_regular"], color: theme.text_1.getColor() }]}>Add {name}</Text>
 			<GradientText
 				gradientColors={gradient.getColor()}
-				text={formatCurrency(price)}
+				text={Formater.formatCurrency(price)}
 				textStyle={[{ ...textStyle["12_regular"] }]}
 			/>
 		</Row>

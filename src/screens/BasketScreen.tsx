@@ -25,8 +25,8 @@ import Space from "../components/custom/Space";
 import Col from "../components/custom/Col";
 import BasketMenuFragment from "../fragments/basket/BasketMenuFragment";
 import BasketCalculator, { BasketCalculatorProps } from "../fragments/basket/BasketCalculator";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
-import { formatCurrency } from "../utils/formator";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
+import Formater from "../utils/formater";
 import NumberValue from "../configs/value/number.value";
 
 type BasketScreenProps = {
@@ -84,7 +84,7 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 			<Row style={[styles.footer, { backgroundColor: theme.basket.backgroundFooter.getColor() }]}>
 				<Row style={{ justifyContent: "center" }}>
 					<Text style={[{ ...textStyle["18_semibold"], color: theme.text_1.getColor() }]}>
-						{formatCurrency(dataDemo2.subTotal - dataDemo2.discount + dataDemo2.deliveryFee)}
+						{Formater.formatCurrency(dataDemo2.subTotal - dataDemo2.discount + dataDemo2.deliveryFee)}
 					</Text>
 				</Row>
 				<ButtonHasStatus

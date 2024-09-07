@@ -14,7 +14,7 @@ import { primary, white } from "../../configs/colors/color-template.config";
 import textStyle from "../../configs/styles/textStyle.config";
 import ButtonHasStatusProps from "./type/buttonHasStatus.props";
 
-export function ButtonHasStatus({
+function ButtonHasStatus({
 	title,
 	styleButtonNotActive,
 	styleButtonActive,
@@ -66,3 +66,5 @@ const styles = StyleSheet.create({
 		color: white.getColor(),
 	},
 });
+
+export default ButtonHasStatus;

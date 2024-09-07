@@ -17,7 +17,7 @@ import { InfoLocation } from "../components/location/InfoLocation";
 import Row from "../components/custom/Row";
 import SolarAddLinear from "../../assets/images/icons/SolarAddLinear";
 import textStyle from "../configs/styles/textStyle.config";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import { FlatList } from "react-native-gesture-handler";
 import Space from "../components/custom/Space";
 import { RootStackParamList } from "../navigations/stack.type";

@@ -29,7 +29,7 @@ import GoogleAuth from "../components/auth/GoogleAuth";
 import FacebookAuth from "../components/auth/FacebookAuth";
 import { Controller, useForm } from "react-hook-form";
 import LoginFormType from "../types/loginForm.type";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import InputPhoneNumber from "../components/input/InputPhoneNumber";
 import GradientText from "../components/gradientText/GradientText";
 import { FlatList } from "react-native-gesture-handler";

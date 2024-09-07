@@ -20,7 +20,7 @@ import {
 	TouchableWithoutFeedback,
 } from "react-native";
 import textStyle from "../configs/styles/textStyle.config";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import Col from "../components/custom/Col";
 import { useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";

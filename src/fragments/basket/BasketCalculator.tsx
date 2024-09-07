@@ -10,7 +10,7 @@ import React from "react";
 import Row from "../../components/custom/Row";
 import { Text } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
-import { formatCurrency } from "../../utils/formator";
+import Formater from "../../utils/formater";
 import { Divider } from "@rneui/themed";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
@@ -29,20 +29,19 @@ function BasketCalculator({ subTotal, deliveryFee, discount }: BasketCalculatorP
 			<Row style={{ justifyContent: "space-between" }}>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>Tổng thu</Text>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>
-					{formatCurrency(subTotal)}
+					{Formater.formatCurrency(subTotal)}
 				</Text>
 			</Row>
 			<Row style={{ justifyContent: "space-between" }}>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>Phí vận chuyển</Text>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>
-					{" "}
-					{formatCurrency(deliveryFee)}
+					{Formater.formatCurrency(deliveryFee)}
 				</Text>
 			</Row>
 			<Row style={{ justifyContent: "space-between" }}>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>Giảm giá</Text>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>
-					{formatCurrency(discount)}
+					{Formater.formatCurrency(discount)}
 				</Text>
 			</Row>
 			<Row style={{ alignItems: "center", height: 10 }}>
@@ -58,7 +57,9 @@ function BasketCalculator({ subTotal, deliveryFee, discount }: BasketCalculatorP
 			<Row style={{ justifyContent: "space-between" }}>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>Tổng</Text>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>
-					{formatCurrency(subTotal - discount + deliveryFee > 0 ? subTotal - discount + deliveryFee : 0)}
+					{Formater.formatCurrency(
+						subTotal - discount + deliveryFee > 0 ? subTotal - discount + deliveryFee : 0
+					)}
 				</Text>
 			</Row>
 		</Col>
