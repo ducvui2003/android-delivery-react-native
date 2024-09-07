@@ -90,6 +90,10 @@ const lightTheme: ThemeType = {
 		backgroundButtonReview: ColorFactory.createSingleColor(neutral.getColor("50")),
 		colorRatingUnSelected: ColorFactory.createSingleColor("#FFF5CF"),
 	},
+	basket: {
+		background: ColorFactory.createSingleColor(white.getColor()),
+		backgroundFooter: ColorFactory.createSingleColor(white.getColor()),
+	},
 };
 
 export default lightTheme;

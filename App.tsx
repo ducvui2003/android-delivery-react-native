@@ -4,13 +4,12 @@ import { RootStackParamList } from "./src/navigations/stack.type";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import store from "./src/configs/redux/store.config";
 import { NavigationContainer } from "@react-navigation/native";
-import { Platform, useColorScheme } from "react-native";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import React, { useEffect } from "react";
-import { setTheme } from "./src/hooks/redux/theme.slice";
 import MainScreen from "./src/screens/MainScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
+import { Platform, useColorScheme } from "react-native";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { setTheme } from "./src/hooks/redux/theme.slice";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import VerificationScreen from "./src/screens/VerificationScreen";
 import SettingPinSecurityScreen from "./src/screens/SettingPinSecurityScreen";
@@ -21,8 +20,10 @@ import CategoriesScreen from "./src/screens/CategoriesScreen";
 import SearchScreen from "./src/screens/SearchScreen";
 import ProductDetailScreen from "./src/screens/ProductDetailScreen";
 import ReviewScreen from "./src/screens/ReviewScreen";
+import BasketScreen from "./src/screens/BasketScreen";
+import { JSX, lazy, useEffect } from "react";
 
-const IntroduceScreen = React.lazy(() => import("./src/screens/IntroduceScreen"));
+const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
 const RootStack = createStackNavigator<RootStackParamList>()
 
@@ -31,7 +32,7 @@ const provider =
         <Root/>
   </ProviderRedux>
 
-const readerRoot: Record<typeof Platform.OS, React.JSX.Element> = {
+const readerRoot: Record<typeof Platform.OS, JSX.Element> = {
     web: <GoogleOAuthProvider clientId={process.env.EXPO_PUBLIC_WEB_CLIENT_ID as string}>
         {provider}
     </GoogleOAuthProvider>,
@@ -57,7 +58,7 @@ function Root() {
 
     useEffect(() => {
         if (!colorScheme) return;
-        dispatch(setTheme(colorScheme))
+      dispatch(setTheme(colorScheme));
     }, []);
 
     return (
@@ -76,7 +77,8 @@ function Root() {
             <RootStack.Screen name={"CategoriesScreen"} component={CategoriesScreen} />
             <RootStack.Screen name={"SearchScreen"} component={SearchScreen} />
             <RootStack.Screen name={"ProductDetailScreen"} component={ProductDetailScreen} />
-            <RootStack.Screen name={"ReviewScreen"} component={ReviewScreen} initialParams={{}} />
+            <RootStack.Screen name={"ReviewScreen"} component={ReviewScreen} />
+            <RootStack.Screen name={"BasketScreen"} component={BasketScreen} />
           </RootStack.Navigator>
         </NavigationContainer>
     );

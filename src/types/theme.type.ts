@@ -59,4 +59,8 @@ export type ThemeType = {
 		backgroundButtonReview: SingleColor;
 		colorRatingUnSelected: SingleColor;
 	};
+	basket: {
+		background: SingleColor;
+		backgroundFooter: SingleColor;
+	};
 };

@@ -22,3 +22,4 @@ type DiscountInfo = {
 };
 
 export default ProductType;
+export type { DiscountInfo };
