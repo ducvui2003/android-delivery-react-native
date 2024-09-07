@@ -6,6 +6,18 @@
  * User: lam-nguyen
  **/
 
-const paddingHorizontalScreen = 25;
+let paddingHorizontalScreen = 0;
+let paddingBottomScreen = 0;
+let paddingTopScreen = 0;
+const marginBottomScreen = (paddingBottomScreen = 25);
+const marginTopScreen = (paddingTopScreen = 55);
+const marginHorizontalScreen = (paddingHorizontalScreen = 25);
 
-export default { paddingHorizontalScreen };
+export default {
+	paddingHorizontalScreen,
+	marginHorizontalScreen,
+	marginBottomScreen,
+	paddingBottomScreen,
+	marginTopScreen,
+	paddingTopScreen,
+};

@@ -69,14 +69,12 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingBottom: 25,
 	},
 	containerContent: {
 		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 		gap: 50,
 	},
 	buttonFooter: {
-		marginBottom: 0,
 		flex: 1,
 	},
 });

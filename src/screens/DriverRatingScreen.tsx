@@ -176,7 +176,6 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingBottom: 25,
 	},
 	containerContent: {
 		gap: 50,
@@ -199,7 +198,6 @@ const styles = StyleSheet.create({
 		marginTop: 30,
 	},
 	buttonFooter: {
-		marginBottom: 0,
 		flex: 1,
 	},
 });

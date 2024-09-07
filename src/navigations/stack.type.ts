@@ -31,8 +31,9 @@ export type RootStackParamList = {
 	BasketScreen: {
 		id: string;
 	};
-	OrderRatingScreen: undefined;
-	DriverRatingScreen: undefined;
+	OrderRatingScreen: { id: string };
+	DriverRatingScreen: { id: string };
+	GiveThanksScreen: { id: string };
 };
 
 export type MainScreenStackParamList = {

@@ -25,7 +25,6 @@ import { ReviewType } from "../components/review/type/buttonReview.props";
 import ReviewDisplayItem from "../components/review/ReviewDisplayItem";
 import ReviewDisplayItemProps from "../components/review/type/reviewDisplayItem.props";
 import ButtonReview from "../components/review/ButtonReview";
-import Space from "../components/custom/Space";
 import NumberValue from "../configs/value/number.value";
 
 type ReviewScreenProps = {
@@ -115,11 +114,13 @@ function ReviewScreen({
 						))}
 					</ScrollView>
 				</Row>
-				<ScrollView contentContainerStyle={{ gap: 25 }} showsVerticalScrollIndicator={false}>
+				<ScrollView
+					contentContainerStyle={{ gap: 25, paddingBottom: NumberValue.paddingBottomScreen }}
+					showsVerticalScrollIndicator={false}
+				>
 					{dataDemo.map((item, index) => (
 						<ReviewDisplayItem key={index} {...item} />
 					))}
-					<Space height={20} />
 				</ScrollView>
 			</Col>
 		</SafeAreaView>
