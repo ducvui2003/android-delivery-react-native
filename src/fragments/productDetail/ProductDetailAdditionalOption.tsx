@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import { GroupOptionSelected } from "../../screens/ProductDetailScreen";
 import { GroupOptionType, OptionType } from "../../types/productDetail.type";
+import { formatCurrency } from "../../utils/formator";
 
 type ProductDetailAdditionalOptionProps = {
 	data: (OptionType | GroupOptionType)[];
@@ -45,7 +46,7 @@ export function ProductDetailAdditionalOption({ data, onAdditionalOption }: Prod
 					}}
 					icon={"square"}
 					name={option.name}
-					price={option.price.toString()}
+					price={"+ " + formatCurrency(option.price)}
 				/>
 			</View>
 		);
@@ -93,7 +94,7 @@ export function ProductDetailAdditionalOption({ data, onAdditionalOption }: Prod
 							}}
 							icon={"circle"}
 							name={option.name}
-							price={option.price.toString()}
+							price={"+ " + formatCurrency(option.price)}
 						/>
 					);
 				})}

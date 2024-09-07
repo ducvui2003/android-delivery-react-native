@@ -37,7 +37,7 @@ type AddNewLocationScreenProps = {
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function AddNewLocationScreen({ navigation }: AddNewLocationScreenProps) {
+export default function AddNewLocationScreen({ navigation }: AddNewLocationScreenProps) {
 	const [currentLocation, setCurrentLocation] = useState<LocationObjectCoords>();
 	const [pickedLocation, setPickedLocation] = useState<LatLng>({ latitude: 0, longitude: 0 });
 	const mapViewRef = useRef<MapView>(null);

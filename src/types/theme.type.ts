@@ -55,4 +55,8 @@ export type ThemeType = {
 		background_button_add: SingleColor;
 		color_button_add: SingleColor;
 	};
+	review: {
+		backgroundButtonReview: SingleColor;
+		colorRatingUnSelected: SingleColor;
+	};
 };
