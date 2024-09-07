@@ -9,7 +9,7 @@ import SolarStarBold from "../../../assets/images/icons/SolarStarBold";
 import IconRatingItemProps from "./type/iconRatingItem.props";
 import * as React from "react";
 import { useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 
 function IconRatingItem({
 	icon = <SolarStarBold />,
@@ -17,53 +17,61 @@ function IconRatingItem({
 	colorSelected = "yellow",
 	colorUnselected = "grey",
 	percent,
+	onSelect,
+	index,
 }: IconRatingItemProps) {
 	useEffect(() => {
 		if (percent < 0 || percent > 100) throw new Error("Percent must be in range [0, 100]");
 	}, [percent]);
 
 	return (
-		<View style={[styles.container, { width: iconSize, height: iconSize }]}>
-			<View
-				style={[
-					styles.left,
-					{
-						width: `${percent}%`,
-					},
-				]}
-			>
-				{React.cloneElement(icon, {
-					color: colorSelected,
-					width: iconSize,
-					height: iconSize,
-					style: {
+		<TouchableWithoutFeedback
+			onPress={() => {
+				onSelect?.(index);
+			}}
+		>
+			<View style={[styles.container, { width: iconSize, height: iconSize }]}>
+				<View
+					style={[
+						styles.left,
+						{
+							width: `${percent}%`,
+						},
+					]}
+				>
+					{React.cloneElement(icon, {
 						color: colorSelected,
 						width: iconSize,
 						height: iconSize,
-					},
-				})}
-			</View>
-			<View
-				style={[
-					{
-						width: `${100.001 - percent}%`,
-					},
-					styles.left,
-					styles.right,
-				]}
-			>
-				{React.cloneElement(icon, {
-					color: colorUnselected,
-					width: iconSize,
-					height: iconSize,
-					style: {
+						style: {
+							color: colorSelected,
+							width: iconSize,
+							height: iconSize,
+						},
+					})}
+				</View>
+				<View
+					style={[
+						{
+							width: `${100.001 - percent}%`,
+						},
+						styles.left,
+						styles.right,
+					]}
+				>
+					{React.cloneElement(icon, {
 						color: colorUnselected,
 						width: iconSize,
 						height: iconSize,
-					},
-				})}
+						style: {
+							color: colorUnselected,
+							width: iconSize,
+							height: iconSize,
+						},
+					})}
+				</View>
 			</View>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 }
 

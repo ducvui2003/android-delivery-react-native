@@ -13,6 +13,8 @@ type IconRatingItemProps = {
 	colorSelected?: string;
 	colorUnselected?: string;
 	percent: number;
+	onSelect?: (index: number) => void;
+	index: number;
 };
 
 export default IconRatingItemProps;
