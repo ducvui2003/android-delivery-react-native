@@ -29,7 +29,7 @@ type OrderRatingScreenProps = {
 
 function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
-	const [rating, setRating] = React.useState(5);
+	const [rating, setRating] = React.useState(0);
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
@@ -60,7 +60,7 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 					active={true}
 					styleButton={[styles.buttonFooter, { backgroundColor: undefined }]}
 				/>
-				<ButtonHasStatus title={"Submit"} active={true} styleButton={[styles.buttonFooter]} />
+				<ButtonHasStatus title={"Submit"} active={!!rating} styleButton={[styles.buttonFooter]} />
 			</Row>
 		</SafeAreaView>
 	);
