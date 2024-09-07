@@ -31,6 +31,7 @@ import SolarMapPointLinear from "../../assets/images/icons/SolarMapPointLinear";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
 import { RouteProp } from "@react-navigation/native";
+import NumberValue from "../configs/value/number.value";
 
 type AddNewLocationScreenProps = {
 	route: RouteProp<RootStackParamList, "AddNewLocationScreen">;
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
 		transform: [{ translateX: -30 }, { translateY: -60 }],
 	},
 	dropContainer: {
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 		flexDirection: "column",
 	},
 	dropButton: {

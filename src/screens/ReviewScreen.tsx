@@ -26,6 +26,7 @@ import ReviewDisplayItem from "../components/review/ReviewDisplayItem";
 import ReviewDisplayItemProps from "../components/review/type/reviewDisplayItem.props";
 import ButtonReview from "../components/review/ButtonReview";
 import Space from "../components/custom/Space";
+import NumberValue from "../configs/value/number.value";
 
 type ReviewScreenProps = {
 	route: RouteProp<RootStackParamList, "ReviewScreen">;
@@ -127,7 +128,7 @@ function ReviewScreen({
 
 const styles = StyleSheet.create({
 	containerContent: {
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 		gap: 32,
 	},
 });

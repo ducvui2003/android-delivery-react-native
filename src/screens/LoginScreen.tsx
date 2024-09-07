@@ -46,6 +46,7 @@ import { login } from "../hooks/redux/auth.slice";
 import { AxiosError } from "axios";
 import SolarEyeBold from "../../assets/images/icons/SolarEyeBold";
 import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
+import NumberValue from "../configs/value/number.value";
 
 function LoginScreen() {
 	const [checked, setChecked] = React.useState(false);
@@ -288,7 +289,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingTop: 78,
 		justifyContent: "space-between",
-		paddingHorizontal: 24,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 	},
 	titleContainer: {
 		marginBottom: 32,

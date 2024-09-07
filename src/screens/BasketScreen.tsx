@@ -27,6 +27,7 @@ import BasketMenuFragment from "../fragments/basket/BasketMenuFragment";
 import BasketCalculator, { BasketCalculatorProps } from "../fragments/basket/BasketCalculator";
 import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
 import { formatCurrency } from "../utils/formator";
+import NumberValue from "../configs/value/number.value";
 
 type BasketScreenProps = {
 	route: RouteProp<RootStackParamList, "BasketScreen">;
@@ -47,7 +48,10 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 				}}
 				onPressBack={() => navigation.pop()}
 			/>
-			<ScrollView style={{ paddingHorizontal: 25 }} contentContainerStyle={[{ gap: 25 }]}>
+			<ScrollView
+				style={{ paddingHorizontal: NumberValue.paddingHorizontalScreen }}
+				contentContainerStyle={[{ gap: 25 }]}
+			>
 				<Col style={{ gap: 10 }}>
 					<Row style={{ alignItems: "center", justifyContent: "space-between" }}>
 						<Text style={{ ...textStyle["16_regular"], color: theme.text_1.getColor() }}>

@@ -31,6 +31,7 @@ export type RootStackParamList = {
 	BasketScreen: {
 		id: string;
 	};
+	OrderRatingScreen: undefined;
 };
 
 export type MainScreenStackParamList = {

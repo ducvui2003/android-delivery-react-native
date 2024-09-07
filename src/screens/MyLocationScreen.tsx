@@ -24,6 +24,7 @@ import { RootStackParamList } from "../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
 import data from "../../assets/data/location/location";
+import NumberValue from "../configs/value/number.value";
 
 type MyLocationScreenProps = {
 	route: RouteProp<RootStackParamList, "MyLocationScreen">;
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: "center",
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 	},
 	buttonAdd: {
 		padding: 17,

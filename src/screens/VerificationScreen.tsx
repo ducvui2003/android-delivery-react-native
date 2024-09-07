@@ -39,6 +39,7 @@ import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import { firebaseAuth } from "../configs/firebase/firebase.config";
 import { AxiosError } from "axios";
 import { formatHiddenPhoneNumber } from "../utils/formator";
+import NumberValue from "../configs/value/number.value";
 
 type VerificationScreenProps = {
 	route: VerificationScreenRouteProp;
@@ -206,7 +207,7 @@ export default function VerificationScreen({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontal,
 		justifyContent: "space-between",
 	},
 	header: {
