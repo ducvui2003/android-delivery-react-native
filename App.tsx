@@ -22,6 +22,7 @@ import ProductDetailScreen from "./src/screens/ProductDetailScreen";
 import ReviewScreen from "./src/screens/ReviewScreen";
 import BasketScreen from "./src/screens/BasketScreen";
 import { JSX, lazy, useEffect } from "react";
+import OrderRatingScreen from "./src/screens/OrderRatingScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -63,7 +64,7 @@ function Root() {
 
     return (
         <NavigationContainer>
-          <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{ headerShown: false }}>
+          <RootStack.Navigator initialRouteName="OrderRatingScreen" screenOptions={{ headerShown: false }}>
             <RootStack.Screen name={"MainScreen"} component={MainScreen} />
             <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
             <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />
@@ -79,6 +80,7 @@ function Root() {
             <RootStack.Screen name={"ProductDetailScreen"} component={ProductDetailScreen} />
             <RootStack.Screen name={"ReviewScreen"} component={ReviewScreen} />
             <RootStack.Screen name={"BasketScreen"} component={BasketScreen} />
+            <RootStack.Screen name={"OrderRatingScreen"} component={OrderRatingScreen} />
           </RootStack.Navigator>
         </NavigationContainer>
     );
