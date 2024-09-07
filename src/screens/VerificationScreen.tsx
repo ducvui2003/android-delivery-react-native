@@ -45,7 +45,7 @@ type VerificationScreenProps = {
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function VerificationScreen({
+export default function VerificationScreen({
 	route: {
 		params: { dialCode, form },
 	},

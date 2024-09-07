@@ -30,7 +30,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
 
-export function SettingPinSecurityScreen() {
+export default function SettingPinSecurityScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [hidden, setHidden] = useState<boolean>(false);
 	const [code, setCode] = useState<string>("");

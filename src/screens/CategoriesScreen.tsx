@@ -25,7 +25,7 @@ type CategoriesScreenProps = {
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function CategoriesScreen({ navigation }: CategoriesScreenProps) {
+export default function CategoriesScreen({ navigation }: CategoriesScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	return (

@@ -38,7 +38,7 @@ type SearchScreenProps = {
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function SearchScreen({
+export default function SearchScreen({
 	route: {
 		params: { autoFocus, category },
 	},

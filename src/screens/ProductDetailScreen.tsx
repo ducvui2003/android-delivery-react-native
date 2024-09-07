@@ -39,7 +39,7 @@ type ProductDetailScreenProps = {
 
 export type GroupOptionSelected = Omit<GroupOptionType, "options"> & { option: OptionType };
 
-export function ProductDetailScreen({
+export default function ProductDetailScreen({
 	route: {
 		params: { id },
 	},
@@ -67,8 +67,9 @@ export function ProductDetailScreen({
 	}, []);
 
 	useEffect(() => {
+		if (!product) return;
 		firebaseStorage
-			.ref(product?.image)
+			.ref(product.image)
 			.getDownloadURL()
 			.then(setUrl)
 			.catch(error => {
@@ -130,7 +131,14 @@ export function ProductDetailScreen({
 							<Text style={[{ ...textStyle["16_regular"] }]}>{product?.rating}</Text>
 							<Text style={[styles.textDescribe]}>(1025)</Text>
 						</Row>
-						<TouchableOpacity>
+						<TouchableOpacity
+							onPress={() => {
+								navigation.navigate("ReviewScreen", {
+									id: product?.id ?? "",
+									name: product?.name ?? "",
+								});
+							}}
+						>
 							<Text style={[styles.textButtonSeeMore]}>See all review</Text>
 						</TouchableOpacity>
 					</Row>

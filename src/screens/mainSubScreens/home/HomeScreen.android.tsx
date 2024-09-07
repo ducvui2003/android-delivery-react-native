@@ -7,7 +7,7 @@
  **/
 
 import React, { useState } from "react";
-import { Image, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { Image, RefreshControl, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { useSelector } from "react-redux";
 import { banners, categories } from "../../../../assets/data/home/home";
 import Carousel from "../../../components/carousel/Carousel";
@@ -29,9 +29,19 @@ function HomeScreen() {
 	const styles = makeStyled(theme);
 	const [, setCurrentPageViewPager] = useState(0);
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+	const [refreshing, setRefreshing] = React.useState(false);
+	const [refresh, setRefresh] = useState(0);
+
+	const onRefresh = React.useCallback(() => {
+		setRefresh(prevState => prevState + 1);
+		setRefreshing(true);
+	}, []);
 
 	return (
-		<ScrollView style={styles.container}>
+		<ScrollView
+			style={styles.container}
+			refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+		>
 			<HomeHeaderFragment />
 
 			<View style={styles.bannerContainer}>
@@ -97,7 +107,7 @@ function HomeScreen() {
 					)}
 				/>
 			</View>
-			<HomeProductsFragment />
+			<HomeProductsFragment refresh={refresh} onRefresh={setRefreshing} />
 		</ScrollView>
 	);
 }
@@ -106,7 +116,7 @@ const makeStyled = (theme: ThemeType) =>
 	StyleSheet.create({
 		container: {
 			paddingHorizontal: 24,
-			paddingTop: 54,
+			paddingTop: 45,
 			flex: 1,
 			backgroundColor: theme.background.getColor(),
 		},

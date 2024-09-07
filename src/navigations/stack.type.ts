@@ -24,6 +24,10 @@ export type RootStackParamList = {
 	ProductDetailScreen: {
 		id: string;
 	};
+	ReviewScreen: {
+		id: string;
+		name: string;
+	};
 	BasketScreen: {
 		id: string;
 	};
