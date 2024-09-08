@@ -6,7 +6,7 @@
  *  User: lam-nguyen
  **/
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	Image,
 	Keyboard,
@@ -15,8 +15,6 @@ import {
 	ScrollView,
 	StyleSheet,
 	Text,
-	TextInput,
-	TouchableOpacity,
 	TouchableWithoutFeedback,
 	View,
 } from "react-native";
@@ -32,10 +30,9 @@ import IconRating from "../components/rating/IconRating";
 import Row from "../components/custom/Row";
 import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import textStyle from "../configs/styles/textStyle.config";
-import SolarCameraBold from "../../assets/images/icons/SolarCameraBold";
-import SolarGalleryBold from "../../assets/images/icons/SolarGalleryBold";
 import { neutral, secondary } from "../configs/colors/color-template.config";
 import Space from "../components/custom/Space";
+import InputReview from "../components/review/InputReview";
 
 type OrderRatingScreenProps = {
 	route: RouteProp<RootStackParamList, "DriverRatingScreen">;
@@ -46,6 +43,16 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [rating, setRating] = React.useState(0);
 	const [focus, setFocus] = React.useState(false);
+
+	useEffect(() => {
+		const keyboardHideListener = Keyboard.addListener("keyboardDidHide", () => {
+			setFocus(false);
+		});
+
+		return () => {
+			keyboardHideListener.remove();
+		};
+	}, []);
 
 	return (
 		<TouchableWithoutFeedback
@@ -67,6 +74,7 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 				<ScrollView
 					style={{ paddingHorizontal: NumberValue.paddingHorizontalScreen }}
 					contentContainerStyle={{ flexGrow: 1 }}
+					showsVerticalScrollIndicator={false}
 				>
 					<Col flex={1} style={styles.containerContent}>
 						<Text
@@ -111,7 +119,7 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 						</Col>
 					</Col>
 					<Col style={{ marginTop: 30 }}>
-						<Col style={{ paddingHorizontal: 10 }}>
+						<Col style={{ paddingHorizontal: 10, marginBottom: 25 }}>
 							<IconRating
 								total={5}
 								rating={rating}
@@ -123,39 +131,9 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 							/>
 						</Col>
 						{!!rating ? (
-							<Col
-								style={[
-									styles.containerInputReview,
-									{ backgroundColor: theme.rating.backgroundInputReview.getColor() },
-								]}
-							>
-								<TextInput
-									multiline
-									scrollEnabled
-									numberOfLines={4}
-									style={[
-										{
-											...textStyle["16_regular"],
-											color: theme.text_1.getColor(),
-										},
-									]}
-									onFocus={() => setFocus(true)}
-									onBlur={() => setFocus(false)}
-									placeholder={"Type your review ... "}
-									placeholderTextColor={theme.placeholder.getColor()}
-									textAlignVertical={"top"}
-								/>
-								<Row style={{ justifyContent: "flex-end", gap: 10 }} flex={0}>
-									<TouchableOpacity>
-										<SolarCameraBold width={27} height={27} color={neutral.getColor("100")} />
-									</TouchableOpacity>
-									<TouchableOpacity>
-										<SolarGalleryBold width={25} height={25} color={neutral.getColor("100")} />
-									</TouchableOpacity>
-								</Row>
-							</Col>
+							<InputReview onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />
 						) : (
-							<Space height={70} />
+							<Space height={45} />
 						)}
 					</Col>
 				</ScrollView>
