@@ -33,6 +33,7 @@ export type RootStackParamList = {
 	};
 	OrderRatingScreen: undefined;
 	DriverRatingScreen: undefined;
+	PromotionScreen: undefined;
 };
 
 export type MainScreenStackParamList = {

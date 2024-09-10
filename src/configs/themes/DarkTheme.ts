@@ -97,6 +97,9 @@ const darkTheme: ThemeType = {
 	rating: {
 		backgroundInputReview: ColorFactory.createSingleColor("#25292E"),
 	},
+	promotion: {
+		background: ColorFactory.createSingleColor(neutral.getColor("500")),
+	}
 };
 
 export default darkTheme;

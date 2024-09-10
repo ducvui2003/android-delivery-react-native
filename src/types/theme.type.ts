@@ -66,4 +66,7 @@ export type ThemeType = {
 	rating: {
 		backgroundInputReview: SingleColor;
 	};
+	promotion: {
+		background: SingleColor;
+	}
 };

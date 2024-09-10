@@ -97,6 +97,9 @@ const lightTheme: ThemeType = {
 	rating: {
 		backgroundInputReview: ColorFactory.createSingleColor("#F4F4F5"),
 	},
+	promotion: {
+		background: ColorFactory.createSingleColor(white.getColor()),
+	}
 };
 
 export default lightTheme;
