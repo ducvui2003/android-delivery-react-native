@@ -6,9 +6,9 @@
  *  User: lam-nguyen
  **/
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
 import { Header } from "../components/header/Header";
 import { RouteProp } from "@react-navigation/native";
@@ -21,15 +21,27 @@ import Row from "../components/custom/Row";
 import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import textStyle from "../configs/styles/textStyle.config";
 import diamond from "../../assets/images/icons/diamond.png";
+import { setIdDriverRating, setIdOderRating, setOderRating } from "../hooks/redux/rating.slice";
 
 type OrderRatingScreenProps = {
 	route: RouteProp<RootStackParamList, "OrderRatingScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
+function OrderRatingScreen({
+	route: {
+		params: { idOrder, idDriver },
+	},
+	navigation,
+}: OrderRatingScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
-	const [rating, setRating] = React.useState(0);
+	const rating = useSelector((state: RootState) => state.ratingState);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(setIdOderRating(idOrder));
+		dispatch(setIdDriverRating(idDriver));
+	}, []);
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
@@ -51,7 +63,13 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 				</Row>
 			</Col>
 			<View style={[{ paddingHorizontal: NumberValue.paddingHorizontalScreen }]}>
-				<IconRating total={5} rating={rating} iconSize={55} isChangeable={true} onChangeRating={setRating} />
+				<IconRating
+					total={5}
+					rating={rating?.oderRating?.rating ?? 0}
+					iconSize={55}
+					isChangeable={true}
+					onChangeRating={rating => dispatch(setOderRating(rating))}
+				/>
 			</View>
 			<Row flex={0} style={[{ paddingHorizontal: NumberValue.paddingHorizontalScreen, gap: 10, marginTop: 100 }]}>
 				<ButtonHasStatus
@@ -59,8 +77,19 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 					styleText={{ fontWeight: "regular", color: theme.text_3.getColor() }}
 					active={true}
 					styleButton={[styles.buttonFooter, { backgroundColor: undefined }]}
+					onPress={() => {
+						dispatch(setOderRating(0));
+						navigation.navigate("DriverRatingScreen", {});
+					}}
 				/>
-				<ButtonHasStatus title={"Submit"} active={!!rating} styleButton={[styles.buttonFooter]} />
+				<ButtonHasStatus
+					title={"Submit"}
+					active={!!rating.oderRating?.rating}
+					styleButton={[styles.buttonFooter]}
+					onPress={() => {
+						navigation.navigate("DriverRatingScreen", {});
+					}}
+				/>
 			</Row>
 		</SafeAreaView>
 	);

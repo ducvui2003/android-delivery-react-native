@@ -18,7 +18,7 @@ import {
 	TouchableWithoutFeedback,
 	View,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
 import { Header } from "../components/header/Header";
 import { RouteProp } from "@react-navigation/native";
@@ -33,18 +33,35 @@ import textStyle from "../configs/styles/textStyle.config";
 import { neutral, secondary } from "../configs/colors/color-template.config";
 import Space from "../components/custom/Space";
 import InputReview from "../components/review/InputReview";
+import ImagePicker from "../utils/imagePicker";
+import DriverInfoType from "../types/driverInfo.type";
+import { setDriverInfo, setDriverRating, skipDriverRating } from "../hooks/redux/rating.slice";
 
 type OrderRatingScreenProps = {
 	route: RouteProp<RootStackParamList, "DriverRatingScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
+function DriverRatingScreen({
+	route: {
+		params: { uri },
+	},
+	navigation,
+}: OrderRatingScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
-	const [rating, setRating] = React.useState(0);
+	const { driverRating, driverInfo } = useSelector((state: RootState) => state.ratingState);
+	const dispatch = useDispatch();
 	const [focus, setFocus] = React.useState(false);
 
 	useEffect(() => {
+		if (!driverInfo?.name) {
+			Promise.resolve(dataDemo).then(res => {
+				dispatch(setDriverInfo(res));
+			});
+		}
+
+		updateImage(uri);
+
 		const keyboardHideListener = Keyboard.addListener("keyboardDidHide", () => {
 			setFocus(false);
 		});
@@ -53,6 +70,17 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 			keyboardHideListener.remove();
 		};
 	}, []);
+
+	const updateImage = (uri: string | undefined) => {
+		if (uri && driverRating) {
+			dispatch(
+				setDriverRating({
+					...driverRating,
+					images: [...driverRating.images, uri],
+				})
+			);
+		}
+	};
 
 	return (
 		<TouchableWithoutFeedback
@@ -92,7 +120,7 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 							<View style={styles.frameAvatar}>
 								<Image
 									source={{
-										uri: "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+										uri: driverInfo?.image,
 									}}
 									style={{ width: "100%", height: "100%" }}
 									resizeMode={"cover"}
@@ -105,7 +133,7 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 									color: theme.text_1.getColor(),
 								}}
 							>
-								David Wayne
+								{driverInfo?.name}
 							</Text>
 							<Text
 								style={{
@@ -119,19 +147,48 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 						</Col>
 					</Col>
 					<Col style={{ marginTop: 30 }}>
-						<Col style={{ paddingHorizontal: 10, marginBottom: 25 }}>
-							<IconRating
-								total={5}
-								rating={rating}
-								iconSize={60}
-								isChangeable={true}
-								onChangeRating={setRating}
-								colorSelected={secondary.getColor("500")}
-								colorUnselected={neutral.getColor("50")}
+						{driverRating && (
+							<Col style={{ paddingHorizontal: 10, marginBottom: 25 }}>
+								<IconRating
+									total={5}
+									rating={driverRating.rating}
+									iconSize={60}
+									isChangeable={true}
+									onChangeRating={rating => {
+										dispatch(
+											setDriverRating({
+												...driverRating,
+												rating,
+											})
+										);
+									}}
+									colorSelected={secondary.getColor("500")}
+									colorUnselected={neutral.getColor("50")}
+								/>
+							</Col>
+						)}
+						{!!driverRating?.rating ? (
+							<InputReview
+								onFocus={() => setFocus(true)}
+								onBlur={() => setFocus(false)}
+								onPressCamera={() => {
+									navigation.replace("CameraScreen", {
+										prevScreen: "DriverRatingScreen",
+									});
+								}}
+								text={driverRating?.review}
+								onTextChange={text =>
+									dispatch(
+										setDriverRating({
+											...driverRating,
+											review: text,
+										})
+									)
+								}
+								onPressGallery={() => {
+									ImagePicker.pickImage().then(updateImage);
+								}}
 							/>
-						</Col>
-						{!!rating ? (
-							<InputReview onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />
 						) : (
 							<Space height={45} />
 						)}
@@ -143,8 +200,19 @@ function OrderRatingScreen({ navigation }: OrderRatingScreenProps) {
 						styleText={{ fontWeight: "regular", color: theme.text_3.getColor() }}
 						active={true}
 						styleButton={[styles.buttonFooter, { backgroundColor: undefined }]}
+						onPress={() => {
+							dispatch(skipDriverRating());
+							navigation.navigate("GiveThanksScreen");
+						}}
 					/>
-					<ButtonHasStatus title={"Submit"} active={!!rating} styleButton={[styles.buttonFooter]} />
+					<ButtonHasStatus
+						title={"Submit"}
+						active={!!driverRating?.rating}
+						styleButton={[styles.buttonFooter]}
+						onPress={() => {
+							navigation.navigate("GiveThanksScreen");
+						}}
+					/>
 				</Row>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
@@ -180,4 +248,10 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default OrderRatingScreen;
+export default DriverRatingScreen;
+
+const dataDemo: DriverInfoType = {
+	id: "0",
+	name: "David Wayne",
+	image: "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+};

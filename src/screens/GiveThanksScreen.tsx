@@ -23,7 +23,7 @@ import {
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
 import { Header } from "../components/header/Header";
 import Col from "../components/custom/Col";
@@ -35,6 +35,7 @@ import Grid from "../components/custom/Grid";
 import GradientView from "../components/gradientView/GradientView";
 import { gradient, neutral, white } from "../configs/colors/color-template.config";
 import GradientText from "../components/gradientText/GradientText";
+import { setTip } from "../hooks/redux/rating.slice";
 
 type GiveThanksScreenProps = {
 	route: RouteProp<RootStackParamList, "GiveThanksScreen">;
@@ -43,8 +44,9 @@ type GiveThanksScreenProps = {
 
 function GiveThanksScreen({ navigation }: GiveThanksScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const tip = useSelector((state: RootState) => state.ratingState.tip);
+	const dispatch = useDispatch();
 	const [focus, setFocus] = React.useState(false);
-	const [tip, setTip] = React.useState(0);
 	const inputRef = useRef<TextInput>(null);
 
 	return (
@@ -112,7 +114,7 @@ function GiveThanksScreen({ navigation }: GiveThanksScreenProps) {
 							renderItem={(item, index) => {
 								if (tip !== item) {
 									return (
-										<TouchableOpacity key={index} onPress={() => setTip(item)}>
+										<TouchableOpacity key={index} onPress={() => dispatch(setTip(item))}>
 											<View
 												style={[
 													styles.buttonTip,
@@ -161,11 +163,11 @@ function GiveThanksScreen({ navigation }: GiveThanksScreenProps) {
 								style={[styles.textButtonTip, { color: theme.text_1.getColor() }]}
 								textAlign={"right"}
 								onFocus={() => {
-									inputRef.current?.setSelection(0, tip.toString().length);
+									inputRef.current?.setSelection(0, tip?.toString().length ?? 0);
 									setFocus(true);
 								}}
 								onBlur={() => setFocus(false)}
-								onChange={event => setTip(Number(event.nativeEvent.text))}
+								onChange={event => dispatch(setTip(Number(event.nativeEvent.text)))}
 								keyboardType={"numeric"}
 							/>
 							<GradientText
@@ -182,8 +184,19 @@ function GiveThanksScreen({ navigation }: GiveThanksScreenProps) {
 						styleText={{ fontWeight: "regular", color: theme.text_3.getColor() }}
 						active={true}
 						styleButton={[styles.buttonFooter, { backgroundColor: undefined }]}
+						onPress={() => {
+							dispatch(setTip(0));
+							navigation.navigate("MeatRatingScreen", {});
+						}}
 					/>
-					<ButtonHasStatus title={"Pay Tip"} active={!!tip} styleButton={[styles.buttonFooter]} />
+					<ButtonHasStatus
+						title={"Pay Tip"}
+						active={!!tip}
+						styleButton={[styles.buttonFooter]}
+						onPress={() => {
+							navigation.navigate("MeatRatingScreen", {});
+						}}
+					/>
 				</Row>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>

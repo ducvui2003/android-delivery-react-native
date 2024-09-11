@@ -81,6 +81,7 @@ function ReviewScreen({
 							total={5}
 							rating={4.8}
 							iconSize={25}
+							isChangeable={true}
 						/>
 					</Col>
 					<Col flex={1}>

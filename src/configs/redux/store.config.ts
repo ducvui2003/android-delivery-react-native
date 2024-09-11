@@ -8,10 +8,14 @@
 import { useDispatch } from "react-redux";
 import themeSlice from "../../hooks/redux/theme.slice";
 import { configureStore } from "@reduxjs/toolkit";
+import authSlice from "../../hooks/redux/auth.slice";
+import ratingSlice from "../../hooks/redux/rating.slice";
 
 const store = configureStore({
 	reducer: {
 		themeState: themeSlice,
+		authState: authSlice,
+		ratingState: ratingSlice,
 	},
 	middleware: getDefaultMiddleware => {
 		return getDefaultMiddleware({
