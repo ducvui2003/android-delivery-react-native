@@ -13,6 +13,7 @@ type InputReviewProps = {
 	onPressCamera?: () => void;
 	onPressGallery?: () => void;
 	background?: string;
+	text?: string;
 };
 
 export default InputReviewProps;

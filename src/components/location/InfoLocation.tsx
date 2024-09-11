@@ -16,7 +16,7 @@ import { RootState } from "../../configs/redux/store.config";
 import { CheckBox } from "@rneui/themed";
 import { neutral, primary } from "../../configs/colors/color-template.config";
 import Row from "../custom/Row";
-import InfoLocationProps from "./type/infoLocation,props";
+import InfoLocationProps from "./type/infoLocation.props";
 
 export function InfoLocation({ name, address, checked = false, onCheck }: InfoLocationProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);

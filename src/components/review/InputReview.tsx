@@ -18,7 +18,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import InputReviewProps from "./type/inputReview.props";
 
-function InputReview({ onFocus, onBlur, onTextChange, onPressGallery, onPressCamera, background }: InputReviewProps) {
+function InputReview({
+	onFocus,
+	onBlur,
+	onTextChange,
+	onPressGallery,
+	onPressCamera,
+	background,
+	text,
+}: InputReviewProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	return (
@@ -46,6 +54,7 @@ function InputReview({ onFocus, onBlur, onTextChange, onPressGallery, onPressCam
 				onChange={event => {
 					onTextChange?.(event.nativeEvent.text);
 				}}
+				value={text}
 			/>
 			<Row style={{ justifyContent: "flex-end", gap: 10 }} flex={0}>
 				<TouchableOpacity onPress={onPressCamera}>
