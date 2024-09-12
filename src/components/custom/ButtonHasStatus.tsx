@@ -13,6 +13,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { primary, white } from "../../configs/colors/color-template.config";
 import textStyle from "../../configs/styles/textStyle.config";
 import ButtonHasStatusProps from "./type/buttonHasStatus.props";
+import NumberValue from "../../configs/value/number.value";
 
 function ButtonHasStatus({
 	title,
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
 		backgroundColor: primary.getColor("100"),
 		borderRadius: 999,
 		alignItems: "center",
-		marginBottom: 25,
+		marginBottom: NumberValue.marginBottomScreen,
 		flexDirection: "row",
 		justifyContent: "center",
 	},

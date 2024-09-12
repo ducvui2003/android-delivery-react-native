@@ -99,6 +99,7 @@ const lightTheme: ThemeType = {
 		backgroundFooter: ColorFactory.createSingleColor(white.getColor()),
 	},
 	rating: {
+		backgroundInputReviewFragment: ColorFactory.createSingleColor(white.getColor()),
 		backgroundInputReview: ColorFactory.createSingleColor("#F4F4F5"),
 	},
 	promotion: {

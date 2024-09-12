@@ -103,7 +103,6 @@ export const products: ProductType[] = [
     image:
       "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 100,
-    discount: 90,
     rating: 5,
   },
   {
@@ -112,7 +111,6 @@ export const products: ProductType[] = [
     image:
       "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 100,
-    discount: 90,
     rating: 5,
   },
   {
@@ -121,7 +119,6 @@ export const products: ProductType[] = [
     image:
       "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 100,
-    discount: 90,
     rating: 5,
   },
   {
@@ -130,7 +127,6 @@ export const products: ProductType[] = [
     image:
       "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 100,
-    discount: 90,
     rating: 5,
   },
   {
@@ -139,7 +135,6 @@ export const products: ProductType[] = [
     image:
       "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 100,
-    discount: 90,
     rating: 5,
   },
   {
@@ -148,7 +143,6 @@ export const products: ProductType[] = [
     image:
       "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 100,
-    discount: 90,
     rating: 5,
   },
   {
@@ -157,7 +151,6 @@ export const products: ProductType[] = [
     image:
       "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 100,
-    discount: 90,
     rating: 5,
   },
   {
@@ -166,7 +159,6 @@ export const products: ProductType[] = [
     image:
       "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 100,
-    discount: 90,
     rating: 5,
   },
   {
@@ -175,7 +167,6 @@ export const products: ProductType[] = [
     image:
       "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 100,
-    discount: 90,
     rating: 5,
   },
   {
@@ -184,7 +175,6 @@ export const products: ProductType[] = [
     image:
       "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 100,
-    discount: 90,
     rating: 5,
   },
 ];

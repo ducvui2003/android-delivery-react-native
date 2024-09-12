@@ -32,8 +32,11 @@ export type RootStackParamList = {
 	BasketScreen: {
 		id: string;
 	};
-	OrderRatingScreen: undefined;
-	DriverRatingScreen: undefined;
+	OrderRatingScreen: { idOrder: string; idDriver: string };
+	DriverRatingScreen: { uri?: string };
+	GiveThanksScreen: undefined;
+	MeatRatingScreen: { data?: any; uri?: string };
+	CameraScreen: { data?: any; prevScreen: keyof RootStackParamList };
 	PromotionScreen: undefined;
 	InformationPromotionScreen: {  promotion: PromotionType };
 };

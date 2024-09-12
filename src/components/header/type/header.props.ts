@@ -22,6 +22,7 @@ type HeaderProps = {
 	iconRight?: React.ReactNode;
 	styleIconRight?: StyleProp<ViewStyle>;
 	strokeWidth?: number;
+	onPressIconRight?: () => void;
 };
 
 export default HeaderProps;

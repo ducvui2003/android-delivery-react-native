@@ -123,7 +123,7 @@ function LoginScreen() {
 						return (
 							<>
 								<GradientText
-									style={{ marginBottom: 32 }}
+									style={{ marginBottom: 32, alignItems: "center" }}
 									textStyle={styles.title}
 									text={"Login"}
 									gradientColors={gradient.getColor()}

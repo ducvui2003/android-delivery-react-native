@@ -60,6 +60,15 @@
           "isAndroidBackgroundLocationEnabled": true,
           "isAndroidForegroundServiceEnabled": true
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-image-picker"
       ]
     ],
     "runtimeVersion": {

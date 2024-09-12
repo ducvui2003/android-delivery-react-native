@@ -24,6 +24,9 @@ import BasketScreen from "./src/screens/BasketScreen";
 import { JSX, lazy, useEffect } from "react";
 import OrderRatingScreen from "./src/screens/OrderRatingScreen";
 import DriverRatingScreen from "./src/screens/DriverRatingScreen";
+import GiveThanksScreen from "./src/screens/GiveThanksScreen";
+import MeatRatingScreen from "./src/screens/MeatRatingScreen";
+import CameraScreen from "./src/screens/CameraScreen";
 import PromotionScreen from "./src/screens/PromotionScreen";
 import InformationPromotionScreen from "./src/screens/InformationPromotionScreen";
 
@@ -61,13 +64,13 @@ function Root() {
     const colorScheme = useColorScheme();
 
     useEffect(() => {
-      if (!colorScheme) return;
+        if (!colorScheme) return;
       dispatch(setTheme(colorScheme));
     }, []);
 
     return (
         <NavigationContainer>
-          <RootStack.Navigator initialRouteName="PromotionScreen" screenOptions={{ headerShown: false }}>
+          <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{ headerShown: false }}>
             <RootStack.Screen name={"MainScreen"} component={MainScreen} />
             <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
             <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />
@@ -83,8 +86,11 @@ function Root() {
             <RootStack.Screen name={"ProductDetailScreen"} component={ProductDetailScreen} />
             <RootStack.Screen name={"ReviewScreen"} component={ReviewScreen} />
             <RootStack.Screen name={"BasketScreen"} component={BasketScreen} />
-            <RootStack.Screen name={"OrderRatingScreen"} component={OrderRatingScreen} />
+            <RootStack.Screen name={"OrderRatingScreen"} component={OrderRatingScreen} initialParams={{idDriver: "driver_1", idOrder: "SP 0023900"}} />
             <RootStack.Screen name={"DriverRatingScreen"} component={DriverRatingScreen} />
+            <RootStack.Screen name={"GiveThanksScreen"} component={GiveThanksScreen} />
+            <RootStack.Screen name={"MeatRatingScreen"} component={MeatRatingScreen} />
+            <RootStack.Screen name={"CameraScreen"} component={CameraScreen} />
             <RootStack.Screen name={"PromotionScreen"} component={PromotionScreen} />
             <RootStack.Screen name={"InformationPromotionScreen"} component={InformationPromotionScreen} />
           </RootStack.Navigator>

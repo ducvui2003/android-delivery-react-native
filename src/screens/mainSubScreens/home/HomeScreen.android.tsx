@@ -23,6 +23,7 @@ import HomeProductsFragment from "../../../fragments/home/HomeProductsFragment";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../navigations/stack.type";
+import NumberValue from "../../../configs/value/number.value";
 
 function HomeScreen() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
@@ -116,7 +117,7 @@ const makeStyled = (theme: ThemeType) =>
 	StyleSheet.create({
 		container: {
 			paddingHorizontal: 24,
-			paddingTop: 45,
+			paddingTop: NumberValue.paddingTopScreen,
 			flex: 1,
 			backgroundColor: theme.background.getColor(),
 		},
