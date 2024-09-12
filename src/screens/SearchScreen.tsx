@@ -26,19 +26,21 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
 import Col from "../components/custom/Col";
 import InputSearch from "../components/input/InputSearch";
-import { Product } from "../types/product.type";
+import ProductType from "../types/product.type";
 import { products } from "../../assets/data/home/home";
 import ProductHomeCard from "../components/card/product/ProductHomeCard";
 import Grid from "../components/custom/Grid";
 import Row from "../components/custom/Row";
 import textStyle from "../configs/styles/textStyle.config";
+import Space from "../components/custom/Space";
+import NumberValue from "../configs/value/number.value";
 
 type SearchScreenProps = {
 	route: RouteProp<RootStackParamList, "SearchScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function SearchScreen({
+export default function SearchScreen({
 	route: {
 		params: { autoFocus, category },
 	},
@@ -49,7 +51,7 @@ export function SearchScreen({
 	const renderTitle = () => {
 		if (category) {
 			return (
-				<Row style={{ alignItems: "center", gap: 10 }}>
+				<Row style={{ alignItems: "center", gap: 10, justifyContent: "center" }}>
 					<Image resizeMode={"cover"} style={{ width: 30, height: 30 }} source={category.image} />
 					<Text style={{ ...textStyle["22_semibold"], color: theme.text_1.getColor() }}>{category.name}</Text>
 				</Row>
@@ -79,7 +81,7 @@ export function SearchScreen({
 						navigation.pop();
 					}}
 				/>
-				<Col style={[styles.contentContainer]}>
+				<Col style={[styles.contentContainer]} flex={1}>
 					<InputSearch autoFocus={autoFocus} placeholder="Vui lòng nhập tên sản phẩm" />
 					<ScrollView
 						style={[styles.scrollContainer]}
@@ -87,7 +89,7 @@ export function SearchScreen({
 						showsHorizontalScrollIndicator={false}
 					>
 						{category && (
-							<Grid<Product>
+							<Grid<ProductType>
 								col={2}
 								data={products}
 								renderItem={(item, index) => {
@@ -104,6 +106,7 @@ export function SearchScreen({
 								gapRow={24}
 							/>
 						)}
+						<Space height={25} />
 					</ScrollView>
 				</Col>
 			</SafeAreaView>
@@ -116,11 +119,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	contentContainer: {
-		paddingHorizontal: 25,
-		flex: 1,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 	},
 	scrollContainer: {
 		flex: 1,
-		marginVertical: 25,
+		marginTop: 25,
 	},
 });

@@ -12,13 +12,13 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import axiosInstance, { ApiResponse } from "../../../configs/axios/axios.config";
 import { AxiosError } from "axios";
 import { Authentication } from "../../../types/authentication.type";
-import ButtonAuthProps from "../type/googleAuth.type";
+import ButtonAuthProps from "../type/buttonAuth.props";
 import { borderOthMethodSignIn } from "../../../configs/colors/color-template.config";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
 import LogosGoogleIcon from "../../../../assets/images/icons/LogosGoogleIcon";
 
-function GoogleSignInButtonWeb({ email, loginSuccess, logoutSuccess }: ButtonAuthProps) {
+function GoogleSignInButton({ email, loginSuccess, logoutSuccess }: ButtonAuthProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	const loginServerSide = async (accessToken: string) => {
@@ -87,5 +87,5 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default GoogleSignInButtonWeb;
+export default GoogleSignInButton;
 export const webGoogleSignOut = () => googleLogout();

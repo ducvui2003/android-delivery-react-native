@@ -5,29 +5,58 @@
  * Created at: 17/8/24 - 12:02 pm
  * User: ducvui2003
  **/
-import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ThemeType } from "../../../types/theme.type";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
-import { ProductHomeCardType } from "./type/productHomeCard.type";
+import { ProductHomeCardProps } from "./type/productHomeCard.props";
 import textStyle from "../../../configs/styles/textStyle.config";
-import React from "react";
+import React, { useEffect } from "react";
 import { gradient, neutral, primary, secondary } from "../../../configs/colors/color-template.config";
 import SolarStarOutline from "../../../../assets/images/icons/SolarStarOutline";
 import SolarHeartOutline from "../../../../assets/images/icons/SolarHeartOutline";
 import SolarHeartBold from "../../../../assets/images/icons/SolarHeartBold";
 import GradientIconSvg from "../../grandientIconSvg/GradientIconSvg";
+import Formater from "../../../utils/formater";
+import { firebaseStorage } from "../../../configs/firebase/firebase.config";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../navigations/stack.type";
+
 function ProductHomeCard({
-	product: { name, rating, basePrice, salePrice, image, isLiked = false },
+	product: { id, name, rating, price, discountInfo, image, isLiked = false },
 	onPress,
 	onPressHeart,
-}: ProductHomeCardType) {
+}: ProductHomeCardProps) {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
+	const [url, setUrl] = React.useState<string>("");
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "MainScreen">>();
+
+	useEffect(() => {
+		firebaseStorage
+			.ref(image)
+			.getDownloadURL()
+			.then(setUrl)
+			.catch(error => {
+				console.log("error", error);
+			});
+	}, []);
+
 	return (
-		<TouchableOpacity onPress={onPress} style={styles.container}>
+		<TouchableOpacity
+			onPress={() => {
+				onPress?.();
+				navigation.navigate("ProductDetailScreen", { id });
+			}}
+			style={styles.container}
+		>
 			<View style={{ position: "relative" }}>
-				<Image style={styles.thumbnail} src={image} />
+				{url ? (
+					<Image source={{ uri: url }} style={styles.thumbnail} />
+				) : (
+					<View style={[styles.thumbnail, { backgroundColor: "gray" }]} />
+				)}
 				<TouchableOpacity onPress={onPressHeart} style={styles.heartContainer}>
 					{!isLiked ? (
 						<SolarHeartOutline width={18} height={18} color={primary.getColor("500")} />
@@ -45,14 +74,16 @@ function ProductHomeCard({
 					<SolarStarOutline width={14} height={14} color={secondary.getColor("500")} />
 					<Text style={styles.star}>{rating}</Text>
 				</View>
-				<View style={styles.containerContent}>
-					{salePrice ? (
+				<View style={[styles.containerContent, { overflow: "hidden" }]}>
+					{discountInfo ? (
 						<>
-							<Text style={{ ...styles.oldPrice }}>{basePrice + " VND"}</Text>
-							<Text style={{ ...styles.currentPrice }}>{salePrice + " VND"}</Text>
+							<Text style={{ ...styles.oldPrice }}>{Formater.formatCurrency(price)}</Text>
+							<Text style={{ ...styles.currentPrice }}>
+								{Formater.formatCurrency((price * (100 - discountInfo.discount)) / 100)}
+							</Text>
 						</>
 					) : (
-						<Text style={{ ...styles.currentPrice }}>{basePrice + " VND"}</Text>
+						<Text style={{ ...styles.currentPrice }}>{Formater.formatCurrency(price)}</Text>
 					)}
 				</View>
 			</View>
@@ -70,7 +101,7 @@ const makeStyled = (theme: ThemeType) =>
 		},
 		thumbnail: {
 			width: "100%",
-			height: 100,
+			height: 120,
 			borderRadius: 8,
 		},
 		heartContainer: {

@@ -9,7 +9,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
-import GradientProps from "./type/gradient.type";
+import GradientProps from "./type/gradient.props";
 import { LinearGradient } from "react-native-linear-gradient";
 
 function GradientText({
@@ -26,7 +26,7 @@ function GradientText({
 	});
 
 	return (
-		<View style={[style]}>
+		<View style={[{ position: "relative" }, style]}>
 			<Text
 				style={[textStyle, { opacity: 0, position: "absolute" }]}
 				onLayout={event => {

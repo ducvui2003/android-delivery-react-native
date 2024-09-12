@@ -10,7 +10,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { borderOthMethodSignIn } from "../../../configs/colors/color-template.config";
 import { RootState } from "../../../configs/redux/store.config";
 import { useSelector } from "react-redux";
-import ButtonAuthProps from "../type/googleAuth.type";
+import ButtonAuthProps from "../type/buttonAuth.props";
 import * as React from "react";
 import { useEffect } from "react";
 import { AccessToken, LoginManager, Settings } from "react-native-fbsdk-next";
@@ -18,7 +18,7 @@ import LogosFacebookIcon from "../../../../assets/images/icons/LogosFacebookIcon
 
 Settings.initializeSDK();
 
-function FacebookSignInButtonAndroid({ loginSuccess, loginFail }: ButtonAuthProps) {
+function FacebookSignInButton({ loginSuccess, loginFail }: ButtonAuthProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const signIn = async () => {
 		LoginManager.logInWithPermissions(["public_profile", "email"])
@@ -62,5 +62,5 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default FacebookSignInButtonAndroid;
+export default FacebookSignInButton;
 export const androidFacebookSignOut = () => LoginManager.logOut();

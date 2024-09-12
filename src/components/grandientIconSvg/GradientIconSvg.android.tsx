@@ -8,7 +8,7 @@
 
 import React from "react";
 import MaskedView from "@react-native-masked-view/masked-view";
-import GradientProps from "./type/gradient.type";
+import GradientProps from "./type/gradient.props";
 import { LinearGradient } from "expo-linear-gradient";
 import { View } from "react-native";
 

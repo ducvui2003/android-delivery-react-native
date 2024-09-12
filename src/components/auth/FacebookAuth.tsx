@@ -8,7 +8,7 @@
 
 import { Platform, Text } from "react-native";
 import React from "react";
-import ButtonAuthProps from "./type/googleAuth.type";
+import ButtonAuthProps from "./type/buttonAuth.props";
 
 let FacebookSignInButton: React.ComponentType<ButtonAuthProps>;
 

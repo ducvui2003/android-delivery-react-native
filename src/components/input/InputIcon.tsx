@@ -11,7 +11,7 @@ import Row from "../custom/Row";
 import { TextInput, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
-import InputIconProps from "./type/InpuIcontProps";
+import InputIconProps from "./type/inputIcon.props";
 import InputStyles from "./style/input.styles";
 import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
 
@@ -60,6 +60,7 @@ function InputIcon({
 				},
 				{ width, height },
 			]}
+			flex={0}
 		>
 			{iconLeft && <TouchableOpacity onPress={onPressIconLeft}>{iconLeft}</TouchableOpacity>}
 			<TextInput

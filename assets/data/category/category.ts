@@ -5,7 +5,7 @@
  * Create at: 2:25 AM - 27/08/2024
  * User: lam-nguyen
  **/
-import { Category } from "../../../src/types/category.type";
+import CategoryType from "../../../src/types/category.type";
 import {
   banh_mi,
   burger,
@@ -29,7 +29,7 @@ import {
   takoyaki,
 } from "../../images/category/category.icon";
 
-const data: Category[] = [
+const data: CategoryType[] = [
   {
     id: 1,
     image: burger,

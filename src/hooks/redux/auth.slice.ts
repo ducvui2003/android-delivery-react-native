@@ -15,8 +15,8 @@ type AuthState = {
 
 const initialState: AuthState = {};
 
-const themeSlice = createSlice({
-	name: "theme",
+const authSlice = createSlice({
+	name: "authentication",
 	initialState: initialState,
 	reducers: {
 		login: (state, action: PayloadAction<User>) => {
@@ -28,5 +28,5 @@ const themeSlice = createSlice({
 	},
 });
 
-export const { login } = themeSlice.actions;
-export default themeSlice.reducer;
+export const { login } = authSlice.actions;
+export default authSlice.reducer;

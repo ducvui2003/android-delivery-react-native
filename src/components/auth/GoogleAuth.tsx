@@ -8,15 +8,8 @@
 
 import React from "react";
 import { Platform, Text } from "react-native";
-import ButtonAuthProps from "./type/googleAuth.type";
-
-let GoogleSignInButton: React.ComponentType<ButtonAuthProps>;
-
-if (Platform.OS === "android") {
-	GoogleSignInButton = require("./google/GoogleSignInButton.android").default;
-} else if (Platform.OS === "web") {
-	GoogleSignInButton = require("./google/GoogleSignInButton.web").default;
-}
+import ButtonAuthProps from "./type/buttonAuth.props";
+import GoogleSignInButton from "./google/GoogleSignInButton";
 
 const GoogleAuth = ({ loginSuccess, logoutSuccess, email }: ButtonAuthProps) => {
 	const renderComponent: Record<typeof Platform.OS, React.JSX.Element> = {

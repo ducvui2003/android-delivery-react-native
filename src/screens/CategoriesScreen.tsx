@@ -18,14 +18,15 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Grid from "../components/custom/Grid";
 import CategoryItem from "../components/category/CategoryItem";
 import data from "../../assets/data/category/category";
-import { Category } from "../types/category.type";
+import CategoryType from "../types/category.type";
+import NumberValue from "../configs/value/number.value";
 
 type CategoriesScreenProps = {
 	route: RouteProp<RootStackParamList, "CategoriesScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function CategoriesScreen({ navigation }: CategoriesScreenProps) {
+export default function CategoriesScreen({ navigation }: CategoriesScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	return (
@@ -41,8 +42,8 @@ export function CategoriesScreen({ navigation }: CategoriesScreenProps) {
 					navigation.pop();
 				}}
 			/>
-			<View style={{ paddingHorizontal: 25 }}>
-				<Grid<Category>
+			<View style={{ paddingHorizontal: NumberValue.paddingHorizontalScreen }}>
+				<Grid<CategoryType>
 					col={4}
 					data={data}
 					renderItem={(item, index) => {

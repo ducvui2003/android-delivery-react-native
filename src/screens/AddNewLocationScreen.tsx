@@ -18,7 +18,7 @@ import GradientText from "../components/gradientText/GradientText";
 import { gradient } from "../configs/colors/color-template.config";
 import textStyle from "../configs/styles/textStyle.config";
 import { LatLng } from "react-native-maps/lib/sharedTypes";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import Col from "../components/custom/Col";
 import { Header } from "../components/header/Header";
 import { useSelector } from "react-redux";
@@ -31,13 +31,14 @@ import SolarMapPointLinear from "../../assets/images/icons/SolarMapPointLinear";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
 import { RouteProp } from "@react-navigation/native";
+import NumberValue from "../configs/value/number.value";
 
 type AddNewLocationScreenProps = {
 	route: RouteProp<RootStackParamList, "AddNewLocationScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function AddNewLocationScreen({ navigation }: AddNewLocationScreenProps) {
+export default function AddNewLocationScreen({ navigation }: AddNewLocationScreenProps) {
 	const [currentLocation, setCurrentLocation] = useState<LocationObjectCoords>();
 	const [pickedLocation, setPickedLocation] = useState<LatLng>({ latitude: 0, longitude: 0 });
 	const mapViewRef = useRef<MapView>(null);
@@ -125,10 +126,10 @@ export function AddNewLocationScreen({ navigation }: AddNewLocationScreenProps) 
 						<PanGestureHandler
 							onGestureEvent={event => {
 								const { translationY } = event.nativeEvent;
-								if (translationY < -40) {
+								if (translationY < -20) {
 									dropAnimHandler("up");
 								}
-								if (translationY > 40) {
+								if (translationY > 20) {
 									Keyboard.dismiss();
 									dropAnimHandler("down");
 								}
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
 		transform: [{ translateX: -30 }, { translateY: -60 }],
 	},
 	dropContainer: {
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 		flexDirection: "column",
 	},
 	dropButton: {
@@ -208,7 +209,6 @@ const styles = StyleSheet.create({
 		left: "30%",
 	},
 	buttonApply: {
-		marginVertical: 40,
 		width: "100%",
 	},
 });

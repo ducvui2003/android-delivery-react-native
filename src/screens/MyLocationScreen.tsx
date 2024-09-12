@@ -17,20 +17,21 @@ import { InfoLocation } from "../components/location/InfoLocation";
 import Row from "../components/custom/Row";
 import SolarAddLinear from "../../assets/images/icons/SolarAddLinear";
 import textStyle from "../configs/styles/textStyle.config";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import { FlatList } from "react-native-gesture-handler";
 import Space from "../components/custom/Space";
 import { RootStackParamList } from "../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
 import data from "../../assets/data/location/location";
+import NumberValue from "../configs/value/number.value";
 
 type MyLocationScreenProps = {
 	route: RouteProp<RootStackParamList, "MyLocationScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function MyLocationScreen({ navigation }: MyLocationScreenProps) {
+export default function MyLocationScreen({ navigation }: MyLocationScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [indexChecked, setIndexChecked] = React.useState<number>(0);
 	const myLocation = 0;
@@ -46,7 +47,7 @@ export function MyLocationScreen({ navigation }: MyLocationScreenProps) {
 				}}
 				onPressBack={() => navigation.pop()}
 			/>
-			<Col style={styles.container}>
+			<Col style={styles.container} flex={1}>
 				<FlatList
 					style={styles.flatList}
 					data={data}
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: "center",
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 	},
 	buttonAdd: {
 		padding: 17,

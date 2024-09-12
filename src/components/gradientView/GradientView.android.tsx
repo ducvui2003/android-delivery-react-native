@@ -7,7 +7,7 @@
  **/
 
 import React from "react";
-import GradientProps from "./type/gradient.type";
+import GradientProps from "./type/gradient.props";
 import { LinearGradient } from "expo-linear-gradient";
 
 function GradientView({

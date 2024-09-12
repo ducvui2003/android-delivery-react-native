@@ -6,8 +6,10 @@
  * User: ducvui2003
  **/
 
-export type Category = {
+type CategoryType = {
 	id: number;
 	name: string;
 	image: {};
 };
+
+export default CategoryType;

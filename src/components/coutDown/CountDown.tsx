@@ -11,18 +11,11 @@ import * as React from "react";
 import { useEffect } from "react";
 import Row from "../custom/Row";
 import SolarClockCircleLinear from "../../../assets/images/icons/SolarClockCircleLinear";
-import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
+import CountDownProps from "./type/countDown.props";
 
-type Props = {
-	icon?: React.ReactNode;
-	time: number;
-	style?: StyleProp<ViewStyle>;
-	textStyle?: StyleProp<TextStyle>;
-	onEnd?: () => void;
-};
-
-export function CountDown({ icon, time, style, textStyle, onEnd }: Props) {
+export function CountDown({ icon, time, style, textStyle, onEnd }: CountDownProps) {
 	const [count, setCount] = React.useState<number>(time);
 
 	const formatTime = () => {

@@ -86,6 +86,18 @@ const darkTheme: ThemeType = {
 		background_button_add: ColorFactory.createSingleColor(neutral.getColor("700")),
 		color_button_add: ColorFactory.createSingleColor(neutral.getColor("50")),
 	},
+	basket: {
+		background: ColorFactory.createSingleColor(neutral.getColor("600")),
+		backgroundFooter: ColorFactory.createSingleColor(neutral.getColor("400")),
+	},
+	review: {
+		backgroundButtonReview: ColorFactory.createSingleColor(neutral.getColor("500")),
+		colorRatingUnSelected: ColorFactory.createSingleColor("#252415"),
+	},
+	rating: {
+		backgroundInputReviewFragment: ColorFactory.createSingleColor("#25292E"),
+		backgroundInputReview: ColorFactory.createSingleColor("#323B46"),
+	},
 };
 
 export default darkTheme;

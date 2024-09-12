@@ -7,7 +7,7 @@
  **/
 
 import React, { useState } from "react";
-import { Dimensions, Image, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { Image, RefreshControl, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { useSelector } from "react-redux";
 import { banners, categories } from "../../../../assets/data/home/home";
 import Carousel from "../../../components/carousel/Carousel";
@@ -17,21 +17,32 @@ import Grid from "../../../components/custom/Grid";
 import { neutral } from "../../../configs/colors/color-template.config";
 import { RootState } from "../../../configs/redux/store.config";
 import HomeHeaderFragment from "../../../fragments/home/HomeHeaderFragment";
-import { Category } from "../../../types/category.type";
+import CategoryType from "../../../types/category.type";
 import { ThemeType } from "../../../types/theme.type";
 import HomeProductsFragment from "../../../fragments/home/HomeProductsFragment";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../navigations/stack.type";
+import NumberValue from "../../../configs/value/number.value";
 
 function HomeScreen() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
 	const [, setCurrentPageViewPager] = useState(0);
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+	const [refreshing, setRefreshing] = React.useState(false);
+	const [refresh, setRefresh] = useState(0);
+
+	const onRefresh = React.useCallback(() => {
+		setRefresh(prevState => prevState + 1);
+		setRefreshing(true);
+	}, []);
 
 	return (
-		<ScrollView style={styles.container}>
+		<ScrollView
+			style={styles.container}
+			refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+		>
 			<HomeHeaderFragment />
 
 			<View style={styles.bannerContainer}>
@@ -76,7 +87,7 @@ function HomeScreen() {
 			</View>
 
 			<View style={styles.categoryGridContainer}>
-				<Grid<Category>
+				<Grid<CategoryType>
 					col={4}
 					data={categories}
 					gapRow={24}
@@ -97,7 +108,7 @@ function HomeScreen() {
 					)}
 				/>
 			</View>
-			<HomeProductsFragment />
+			<HomeProductsFragment refresh={refresh} onRefresh={setRefreshing} />
 		</ScrollView>
 	);
 }
@@ -106,7 +117,7 @@ const makeStyled = (theme: ThemeType) =>
 	StyleSheet.create({
 		container: {
 			paddingHorizontal: 24,
-			paddingTop: 54,
+			paddingTop: NumberValue.paddingTopScreen,
 			flex: 1,
 			backgroundColor: theme.background.getColor(),
 		},
@@ -122,11 +133,11 @@ const makeStyled = (theme: ThemeType) =>
 		},
 		bannerContainer: {
 			marginVertical: 24,
+			width: "100%",
 			height: 220,
 		},
 		banner: {
-			width: Dimensions.get("window").width + 10,
-			marginHorizontal: -10,
+			width: "100%",
 			height: "100%",
 		},
 		categoryGridContainer: {

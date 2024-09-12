@@ -7,23 +7,17 @@
  **/
 
 import React from "react";
-import { StyleProp, View, ViewStyle } from "react-native";
+import { View } from "react-native";
+import RowProps from "./type/row.props";
 
-function Row({
-	children,
-	style,
-	ref,
-}: {
-	children: React.ReactNode;
-	style?: StyleProp<ViewStyle>;
-	ref?: React.LegacyRef<View>;
-}) {
+function Row({ children, style, ref, flex = 1 }: RowProps) {
 	return (
 		<View
 			style={[
 				style,
 				{
 					flexDirection: "row",
+					flex,
 				},
 			]}
 			ref={ref}

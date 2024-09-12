@@ -7,11 +7,10 @@
  **/
 
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { useSelector } from "react-redux";
-import { products } from "../../../assets/data/home/home";
 import SolarAltArrowRightOutline from "../../../assets/images/icons/SolarArrowRightOutline";
 import ProductHomeCard from "../../components/card/product/ProductHomeCard";
 import Col from "../../components/custom/Col";
@@ -22,12 +21,17 @@ import { gradient, primary } from "../../configs/colors/color-template.config";
 import { RootState } from "../../configs/redux/store.config";
 import textStyle from "../../configs/styles/textStyle.config";
 import { RootStackParamList } from "../../navigations/stack.type";
-import { Product } from "../../types/product.type";
+import ProductType from "../../types/product.type";
 import { ThemeType } from "../../types/theme.type";
-import { Category } from "../../types/category.type";
+import CategoryType from "../../types/category.type";
+import axiosInstance, { ApiResponse } from "../../configs/axios/axios.config";
+import ApiPagingType from "../../types/apiPaging.type";
 
-const HomeProductsFragment = () => {
+const HomeProductsFragment = ({ refresh, onRefresh }: { refresh?: number; onRefresh?: (result: boolean) => void }) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
+	const styles = styled(theme);
+	const [products, setProducts] = React.useState<ProductType[]>([]);
 
 	const onClickViewAll = () => {
 		navigation.navigate("SearchScreen", {
@@ -36,12 +40,22 @@ const HomeProductsFragment = () => {
 				id: 1,
 				name: "Special Offers",
 				image: {},
-			} as Category,
+			} as CategoryType,
 		});
 	};
 
-	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
-	const styles = styled(theme);
+	useEffect(() => {
+		axiosInstance
+			.get<ApiResponse<ApiPagingType<ProductType>>>("/product")
+			.then(res => {
+				setProducts(res.data.data.content);
+				onRefresh?.(false);
+			})
+			.catch(() => {
+				onRefresh?.(false);
+			});
+	}, [refresh, onRefresh]);
+
 	return (
 		<Col style={styles.productList}>
 			<Row style={styles.productGridContainerHeading}>
@@ -55,7 +69,7 @@ const HomeProductsFragment = () => {
 				</TouchableOpacity>
 			</Row>
 			<View style={styles.productGridContainer}>
-				<Grid<Product>
+				<Grid<ProductType>
 					col={2}
 					data={products}
 					renderItem={(item, index) => {

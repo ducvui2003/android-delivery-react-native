@@ -24,7 +24,7 @@ import { gradient, neutral, primary } from "../configs/colors/color-template.con
 import textStyle from "../configs/styles/textStyle.config";
 import Row from "../components/custom/Row";
 import SolarClockCircleLinear from "../../assets/images/icons/SolarClockCircleLinear";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import Col from "../components/custom/Col";
 import { useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
@@ -38,14 +38,15 @@ import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import { firebaseAuth } from "../configs/firebase/firebase.config";
 import { AxiosError } from "axios";
-import { formatHiddenPhoneNumber } from "../utils/formator";
+import Formater from "../utils/formater";
+import NumberValue from "../configs/value/number.value";
 
 type VerificationScreenProps = {
 	route: VerificationScreenRouteProp;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export function VerificationScreen({
+export default function VerificationScreen({
 	route: {
 		params: { dialCode, form },
 	},
@@ -152,13 +153,13 @@ export function VerificationScreen({
 					}}
 				/>
 				<ScrollView
-					style={{ flexDirection: "column" }}
+					style={{ flexDirection: "column", paddingHorizontal: 25 }}
 					showsVerticalScrollIndicator={false}
 					showsHorizontalScrollIndicator={false}
 					onResponderRelease={onBlurInput}
 				>
 					<Text style={[styles.text, styles.textNotification, { color: theme.text_1.getColor() }]}>
-						Code has been send to ({dialCode}) {formatHiddenPhoneNumber(form.phoneNumber)}
+						Code has been send to ({dialCode}) {Formater.formatHiddenPhoneNumber(form.phoneNumber)}
 					</Text>
 					<InputCodeFragment
 						numberOfInput={6}
@@ -185,7 +186,7 @@ export function VerificationScreen({
 					/>
 					{componentResend[(time === 0).toString() as "true" | "false"]}
 				</ScrollView>
-				<Col style={[styles.footerContainer]}>
+				<Col style={[styles.footerContainer, { paddingHorizontal: 25 }]} flex={1}>
 					<ButtonHasStatus title={"Verify"} active={errorVerify} styleButton={[styles.buttonVerify]} />
 					<Row style={[{ display: hidden ? "none" : "flex" }, styles.containerCanHidden]}>
 						<Text style={[styles.text, { color: theme.text_1.getColor() }]}>Back to </Text>
@@ -206,7 +207,7 @@ export function VerificationScreen({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 		justifyContent: "space-between",
 	},
 	header: {
