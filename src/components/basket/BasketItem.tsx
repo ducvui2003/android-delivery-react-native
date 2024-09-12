@@ -11,7 +11,7 @@ import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Col from "../custom/Col";
 import textStyle from "../../configs/styles/textStyle.config";
 import Row from "../custom/Row";
-import { formatCurrency } from "../../utils/formator";
+import Formater from "../../utils/formater";
 import InputNumberButton from "../input/InputNumberButton";
 import { neutral, primary } from "../../configs/colors/color-template.config";
 import { useSelector } from "react-redux";
@@ -46,13 +46,13 @@ function ProductItem({ id, name, discount, price, options, quantity, image }: Ba
 					<Text style={[{ ...textStyle["12_medium"], color: theme.text_1.getColor() }]}>{name}</Text>
 					{discount ? (
 						<Row style={{ gap: 10 }}>
-							<Text style={{ ...styles.oldPrice }}>{formatCurrency(price)}</Text>
+							<Text style={{ ...styles.oldPrice }}>{Formater.formatCurrency(price)}</Text>
 							<Text style={{ ...styles.currentPrice }}>
-								{formatCurrency((price * (100 - discount)) / 100)}
+								{Formater.formatCurrency((price * (100 - discount)) / 100)}
 							</Text>
 						</Row>
 					) : (
-						<Text style={{ ...styles.currentPrice }}>{formatCurrency(price)}</Text>
+						<Text style={{ ...styles.currentPrice }}>{Formater.formatCurrency(price)}</Text>
 					)}
 					<InputNumberButton
 						totalAmount={10}

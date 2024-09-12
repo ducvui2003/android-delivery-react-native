@@ -16,6 +16,7 @@ import GradientText from "../gradientText/GradientText";
 import GradientIconSvg from "../grandientIconSvg/GradientIconSvg";
 import HeaderProps from "./type/header.props";
 import textStyle from "../../configs/styles/textStyle.config";
+import NumberValue from "../../configs/value/number.value";
 
 export function Header({
 	showIconBack = true,
@@ -30,6 +31,7 @@ export function Header({
 	iconRight,
 	styleIconRight,
 	strokeWidth = 2,
+	onPressIconRight,
 }: HeaderProps) {
 	const colorTitleArr: string[] = typeof colorTitle === "string" ? [colorTitle, colorTitle] : colorTitle;
 	const colorIconArr: string[] = typeof colorIconBack === "string" ? [colorIconBack, colorIconBack] : colorIconBack;
@@ -65,12 +67,9 @@ export function Header({
 				title
 			)}
 			{iconRight ? (
-				<TouchableOpacity
-					style={[styles.defaultStyleIconBack, styleIconRight, { width: sizeIcon, height: sizeIcon }]}
-					onPress={onPressBack}
-				>
-					{iconRight}
-				</TouchableOpacity>
+				<View style={[styles.defaultStyleIconBack, styleIconRight]}>
+					<TouchableOpacity onPress={onPressIconRight}>{iconRight}</TouchableOpacity>
+				</View>
 			) : (
 				<View style={[{ opacity: 0, width: sizeIcon, height: sizeIcon }]} />
 			)}
@@ -81,9 +80,9 @@ export function Header({
 const styles = StyleSheet.create({
 	defaultStyleContainer: {
 		justifyContent: "space-between",
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 		alignItems: "center",
-		marginTop: 55,
+		marginTop: NumberValue.marginTopScreen,
 		marginBottom: 15,
 	},
 	defaultStyleIconBack: {

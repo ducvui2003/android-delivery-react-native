@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import Row from "../../components/custom/Row";
 import { StyleSheet } from "react-native";
-import { ButtonHasStatus } from "../../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../../components/custom/ButtonHasStatus";
 import SolarBag5Bold from "../../../assets/images/icons/SolarBag5Bold";
 import { white } from "../../configs/colors/color-template.config";
 import InputNumberButton from "../../components/input/InputNumberButton";

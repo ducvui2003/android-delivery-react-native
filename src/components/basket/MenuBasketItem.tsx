@@ -6,11 +6,11 @@
  *  User: lam-nguyen
  **/
 
-import React, { ReactNode } from "react";
+import React from "react";
 import Row from "../custom/Row";
 import Col from "../custom/Col";
 import GradientIconSvg from "../grandientIconSvg/GradientIconSvg";
-import { gradient, neutral } from "../../configs/colors/color-template.config";
+import { gradient } from "../../configs/colors/color-template.config";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import SolarAltArrowRightOutline from "../../../assets/images/icons/SolarArrowRightOutline";

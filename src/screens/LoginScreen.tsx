@@ -29,7 +29,7 @@ import GoogleAuth from "../components/auth/GoogleAuth";
 import FacebookAuth from "../components/auth/FacebookAuth";
 import { Controller, useForm } from "react-hook-form";
 import LoginFormType from "../types/loginForm.type";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import InputPhoneNumber from "../components/input/InputPhoneNumber";
 import GradientText from "../components/gradientText/GradientText";
 import { FlatList } from "react-native-gesture-handler";
@@ -46,6 +46,7 @@ import { login } from "../hooks/redux/auth.slice";
 import { AxiosError } from "axios";
 import SolarEyeBold from "../../assets/images/icons/SolarEyeBold";
 import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
+import NumberValue from "../configs/value/number.value";
 
 function LoginScreen() {
 	const [checked, setChecked] = React.useState(false);
@@ -122,7 +123,7 @@ function LoginScreen() {
 						return (
 							<>
 								<GradientText
-									style={{ marginBottom: 32 }}
+									style={{ marginBottom: 32, alignItems: "center" }}
 									textStyle={styles.title}
 									text={"Login"}
 									gradientColors={gradient.getColor()}
@@ -288,7 +289,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingTop: 78,
 		justifyContent: "space-between",
-		paddingHorizontal: 24,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 	},
 	titleContainer: {
 		marginBottom: 32,

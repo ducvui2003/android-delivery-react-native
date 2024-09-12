@@ -32,6 +32,8 @@ import ProductHomeCard from "../components/card/product/ProductHomeCard";
 import Grid from "../components/custom/Grid";
 import Row from "../components/custom/Row";
 import textStyle from "../configs/styles/textStyle.config";
+import Space from "../components/custom/Space";
+import NumberValue from "../configs/value/number.value";
 
 type SearchScreenProps = {
 	route: RouteProp<RootStackParamList, "SearchScreen">;
@@ -104,6 +106,7 @@ export default function SearchScreen({
 								gapRow={24}
 							/>
 						)}
+						<Space height={25} />
 					</ScrollView>
 				</Col>
 			</SafeAreaView>
@@ -116,10 +119,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	contentContainer: {
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 	},
 	scrollContainer: {
 		flex: 1,
-		marginVertical: 25,
+		marginTop: 25,
 	},
 });

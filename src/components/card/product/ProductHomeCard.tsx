@@ -17,7 +17,7 @@ import SolarStarOutline from "../../../../assets/images/icons/SolarStarOutline";
 import SolarHeartOutline from "../../../../assets/images/icons/SolarHeartOutline";
 import SolarHeartBold from "../../../../assets/images/icons/SolarHeartBold";
 import GradientIconSvg from "../../grandientIconSvg/GradientIconSvg";
-import { formatCurrency } from "../../../utils/formator";
+import Formater from "../../../utils/formater";
 import { firebaseStorage } from "../../../configs/firebase/firebase.config";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -77,13 +77,13 @@ function ProductHomeCard({
 				<View style={[styles.containerContent, { overflow: "hidden" }]}>
 					{discountInfo ? (
 						<>
-							<Text style={{ ...styles.oldPrice }}>{formatCurrency(price)}</Text>
+							<Text style={{ ...styles.oldPrice }}>{Formater.formatCurrency(price)}</Text>
 							<Text style={{ ...styles.currentPrice }}>
-								{formatCurrency((price * (100 - discountInfo.discount)) / 100)}
+								{Formater.formatCurrency((price * (100 - discountInfo.discount)) / 100)}
 							</Text>
 						</>
 					) : (
-						<Text style={{ ...styles.currentPrice }}>{formatCurrency(price)}</Text>
+						<Text style={{ ...styles.currentPrice }}>{Formater.formatCurrency(price)}</Text>
 					)}
 				</View>
 			</View>

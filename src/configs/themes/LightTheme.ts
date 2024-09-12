@@ -94,6 +94,10 @@ const lightTheme: ThemeType = {
 		background: ColorFactory.createSingleColor(white.getColor()),
 		backgroundFooter: ColorFactory.createSingleColor(white.getColor()),
 	},
+	rating: {
+		backgroundInputReviewFragment: ColorFactory.createSingleColor(white.getColor()),
+		backgroundInputReview: ColorFactory.createSingleColor("#F4F4F5"),
+	},
 };
 
 export default lightTheme;

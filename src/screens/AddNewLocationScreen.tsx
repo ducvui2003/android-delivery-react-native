@@ -18,7 +18,7 @@ import GradientText from "../components/gradientText/GradientText";
 import { gradient } from "../configs/colors/color-template.config";
 import textStyle from "../configs/styles/textStyle.config";
 import { LatLng } from "react-native-maps/lib/sharedTypes";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import Col from "../components/custom/Col";
 import { Header } from "../components/header/Header";
 import { useSelector } from "react-redux";
@@ -31,6 +31,7 @@ import SolarMapPointLinear from "../../assets/images/icons/SolarMapPointLinear";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
 import { RouteProp } from "@react-navigation/native";
+import NumberValue from "../configs/value/number.value";
 
 type AddNewLocationScreenProps = {
 	route: RouteProp<RootStackParamList, "AddNewLocationScreen">;
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
 		transform: [{ translateX: -30 }, { translateY: -60 }],
 	},
 	dropContainer: {
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 		flexDirection: "column",
 	},
 	dropButton: {

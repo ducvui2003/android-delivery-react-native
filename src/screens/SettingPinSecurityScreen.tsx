@@ -20,7 +20,7 @@ import {
 	TouchableWithoutFeedback,
 } from "react-native";
 import textStyle from "../configs/styles/textStyle.config";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import Col from "../components/custom/Col";
 import { useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
@@ -29,6 +29,7 @@ import { Header } from "../components/header/Header";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
+import NumberValue from "../configs/value/number.value";
 
 export default function SettingPinSecurityScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
@@ -105,7 +106,7 @@ export default function SettingPinSecurityScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 		justifyContent: "space-between",
 	},
 	header: {

@@ -7,10 +7,12 @@
  **/
 import IconRatingItemProps from "./iconRatingItem.props";
 
-type IconRatingProps = Omit<IconRatingItemProps, "percent"> & {
+type IconRatingProps = Omit<IconRatingItemProps, "percent" | "index" | "onSelect"> & {
 	total: number;
 	rating: number;
 	gap?: number;
+	isChangeable?: boolean;
+	onChangeRating?: (rating: number) => void;
 };
 
 export default IconRatingProps;

@@ -19,6 +19,7 @@ import Grid from "../components/custom/Grid";
 import CategoryItem from "../components/category/CategoryItem";
 import data from "../../assets/data/category/category";
 import CategoryType from "../types/category.type";
+import NumberValue from "../configs/value/number.value";
 
 type CategoriesScreenProps = {
 	route: RouteProp<RootStackParamList, "CategoriesScreen">;
@@ -41,7 +42,7 @@ export default function CategoriesScreen({ navigation }: CategoriesScreenProps) 
 					navigation.pop();
 				}}
 			/>
-			<View style={{ paddingHorizontal: 25 }}>
+			<View style={{ paddingHorizontal: NumberValue.paddingHorizontalScreen }}>
 				<Grid<CategoryType>
 					col={4}
 					data={data}
