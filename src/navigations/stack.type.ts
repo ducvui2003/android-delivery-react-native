@@ -38,7 +38,6 @@ export type RootStackParamList = {
 	MeatRatingScreen: { data?: any; uri?: string };
 	CameraScreen: { data?: any; prevScreen: keyof RootStackParamList };
 	PromotionScreen: undefined;
-	InformationPromotionScreen: {  promotion: PromotionType };
 };
 
 export type MainScreenStackParamList = {
