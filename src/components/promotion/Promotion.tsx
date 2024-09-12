@@ -17,7 +17,7 @@ import PromotionProps from "./type/promotion.props";
 import SolarTicketSaleBold from "../../../assets/images/icons/SolarTicketSaleBold";
 import { SolarQuestionCircleBold } from "../../../assets/images/icons/SolarQuestionCircleBold";
 
-export function Promotion({ name, checked = false, onCheck }: PromotionProps) {
+export function Promotion({ name, checked = false, onCheck, onInfoPress}: PromotionProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	return (
@@ -31,10 +31,10 @@ export function Promotion({ name, checked = false, onCheck }: PromotionProps) {
 				styles.container,
 			]}
 		>
-			<SolarTicketSaleBold style={{ marginRight: 15 }} />
+			<SolarTicketSaleBold style={{ marginRight: 15 }}/>
 			<Row style={{ gap: 5, width: "70%", alignItems: "center" }}>
 				<Text style={[{ ...textStyle["18_semibold"], color: theme.text_1.getColor() }]}>{name}</Text>
-				<SolarQuestionCircleBold style={{ marginLeft: 5 }} />
+				<SolarQuestionCircleBold style={{ marginLeft: 5 }} onPress={onInfoPress}/>
 			</Row>
 			<CheckBox
 				checked={checked}

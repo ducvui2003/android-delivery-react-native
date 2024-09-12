@@ -86,6 +86,10 @@ const lightTheme: ThemeType = {
 		background_button_add: ColorFactory.createSingleColor(primary.getColor("50")),
 		color_button_add: ColorFactory.createSingleColor(primary.getColor("500")),
 	},
+	apply_promotion:{
+		background_button_add: ColorFactory.createSingleColor(primary.getColor("50")),
+		color_button_add: ColorFactory.createSingleColor(primary.getColor("500")),
+	},
 	review: {
 		backgroundButtonReview: ColorFactory.createSingleColor(neutral.getColor("50")),
 		colorRatingUnSelected: ColorFactory.createSingleColor("#FFF5CF"),

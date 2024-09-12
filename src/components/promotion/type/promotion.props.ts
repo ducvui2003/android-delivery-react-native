@@ -10,6 +10,7 @@ type PromotionProps = {
 	name: string;
 	onCheck?: () => void;
 	checked?: boolean;
+	onInfoPress: () => void;
 };
 
 export default PromotionProps;

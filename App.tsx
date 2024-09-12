@@ -25,6 +25,7 @@ import { JSX, lazy, useEffect } from "react";
 import OrderRatingScreen from "./src/screens/OrderRatingScreen";
 import DriverRatingScreen from "./src/screens/DriverRatingScreen";
 import PromotionScreen from "./src/screens/PromotionScreen";
+import InformationPromotionScreen from "./src/screens/InformationPromotionScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -85,6 +86,7 @@ function Root() {
             <RootStack.Screen name={"OrderRatingScreen"} component={OrderRatingScreen} />
             <RootStack.Screen name={"DriverRatingScreen"} component={DriverRatingScreen} />
             <RootStack.Screen name={"PromotionScreen"} component={PromotionScreen} />
+            <RootStack.Screen name={"InformationPromotionScreen"} component={InformationPromotionScreen} />
           </RootStack.Navigator>
         </NavigationContainer>
     );

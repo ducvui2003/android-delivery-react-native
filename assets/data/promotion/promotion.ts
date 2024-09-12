@@ -5,19 +5,9 @@
  * Create at: 12:54 PM - 10/09/2024
  * User: Binnguci
  **/
+import PromotionType from "../../../src/types/promotion.type";
 
-type Promotion = {
-  id: string;
-  name: string;
-  description?: string;
-  duration?: string;
-  promotionCode?: string;
-  applicableScope?: string;
-  discountAmount?: number;
-  termsAndConditions?: string;
-};
-
-const dataShippingOffer: Promotion[] = [
+const dataShippingOffer: PromotionType[] = [
   {
     id: "1",
     name: "FREE SHIPPING",
@@ -29,7 +19,7 @@ const dataShippingOffer: Promotion[] = [
     termsAndConditions: "This promotion is only applicable to orders placed on the website",
   },
   {
-    id: "1",
+    id: "2",
     name: "20% OFF",
     description: "Get 20% off on all orders above $100",
     duration: "01/05/2024 - 31/05/2024",
@@ -38,12 +28,47 @@ const dataShippingOffer: Promotion[] = [
     discountAmount: 20,
     termsAndConditions: "This promotion is only applicable to orders placed on the website",
   },
-];
-const dataOrderOffer: Promotion[] = [
   {
-    id: "1",
-    name: "20% OFF",
+    id: "3",
+    name: "10% OFF",
+    description: "Get 10% off on all orders above $50",
+    duration: "01/05/2024 - 31/05/2024",
+    promotionCode: "10OFF",
+    applicableScope: "All products",
+    discountAmount: 10,
+    termsAndConditions: "This promotion is only applicable to orders placed on the website",
   },
-  { id: "1", name: "10% OFF" },
+  {
+    id: "4",
+    name: "50% OFF",
+    description: "Get 50% off on all orders above $200",
+    duration: "01/05/2024 - 31/05/2024",
+    promotionCode: "50OFF",
+    applicableScope: "All products",
+    discountAmount: 50,
+    termsAndConditions: "This promotion is only applicable to orders placed on the website",
+  },
+];
+const dataOrderOffer: PromotionType[] = [
+  {
+    id: "5",
+    name: "20% OFF",
+    description: "Get 20% off on all orders above $100",
+    duration: "01/05/2024 - 31/05/2024",
+    promotionCode: "20OFF",
+    applicableScope: "All products",
+    discountAmount: 20,
+    termsAndConditions: "This promotion is only applicable to orders placed on the website",
+  },
+  {
+    id: "6",
+    name: "10% OFF",
+    description: "Get 10% off on all orders above $50",
+    duration: "01/05/2024 - 31/05/2024",
+    promotionCode: "10OFF",
+    applicableScope: "All products",
+    discountAmount: 10,
+    termsAndConditions: "This promotion is only applicable to orders placed on the website",
+  },
 ];
 export { dataShippingOffer, dataOrderOffer };
