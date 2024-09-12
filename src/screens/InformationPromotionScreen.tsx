@@ -13,23 +13,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Space from "../components/custom/Space";
 import React from "react";
 import NumberValue from "../configs/value/number.value";
-import { RouteProp } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../navigations/stack.type";
+import PromotionType from "../types/promotion.type";
 
-type InformationPromotionScreenProps = {
-	route: RouteProp<RootStackParamList, "InformationPromotionScreen">;
-	navigation: NativeStackNavigationProp<RootStackParamList>;
-};
-
-function InformationPromotionScreen({
-	route: {
-		params: { promotion },
-	},
-	navigation,
-}: InformationPromotionScreenProps) {
+function InformationPromotionScreen(promotion: PromotionType) {
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView>
 			<Col style={styles.format_position}>
 				<Text style={styles.title}>Promotion Information</Text>
 				<SolarTicketSaleBold width={100} height={100} />
@@ -66,10 +54,7 @@ function InformationPromotionScreen({
 
 export default InformationPromotionScreen;
 const styles = StyleSheet.create({
-	container: {
-		borderTopLeftRadius: 50,
-		borderTopRightRadius: 50,
-	},
+
 	title: {
 		fontSize: 18,
 		fontWeight: "bold",
@@ -82,7 +67,6 @@ const styles = StyleSheet.create({
 	},
 	format_position: {
 		flex: 1,
-		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 		alignItems: "center",
 		justifyContent: "center",
 	},

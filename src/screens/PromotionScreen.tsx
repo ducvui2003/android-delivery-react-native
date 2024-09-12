@@ -27,6 +27,8 @@ import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import { Header } from "../components/header/Header";
 import { Promotion } from "../components/promotion/Promotion";
 import PromotionType from "../types/promotion.type";
+import PopUp from "../components/popUp/PopUp";
+import InformationPromotionScreen from "./InformationPromotionScreen";
 
 type PromotionScreenProps = {
 	route: RouteProp<RootStackParamList, "PromotionScreen">;
@@ -52,16 +54,10 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 		setIndexCheckedOrder(index);
 	}, []);
 
-	const handleViewInformationPromotion = useCallback((promotion: PromotionType) => {
-		if (promotion) {
-			navigation.navigate("InformationPromotionScreen", {
-				promotion: promotion,
-			});
-		} else {
-			console.warn("Không có thông tin khuyến mãi!");
-		}
-	}, [navigation]);
-
+	// const handleViewInformationPromotion = useCallback((promotion: PromotionType) => {
+	// 	const [, set] = useState();
+	// }, [navigation]);
+	const [promotion, setPromotion] = useState<PromotionType>();
 
 
 
@@ -101,7 +97,7 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 													name={item.name}
 													checked={indexCheckedShipping === index}
 													onCheck={() => handleCheckShipping(index)}
-													onInfoPress={() => handleViewInformationPromotion(item)}
+													onInfoPress={() => setPromotion(item)}
 												/>
 											</Row>
 											<Space height={15} />
@@ -127,7 +123,7 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 													name={item.name}
 													checked={indexCheckedOrder === index}
 													onCheck={() => handleCheckOrder(index)}
-													onInfoPress={() => handleViewInformationPromotion(item)}
+													onInfoPress={() => setPromotion(item)}
 												/>
 											</Row>
 											<Space height={15} />
@@ -147,6 +143,13 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 					styleButton={styles.buttonApply}
 				/>
 			</View>
+			{promotion &&
+			<PopUp
+				body={<InformationPromotionScreen {...promotion}/>}
+				onEndHide={() => setPromotion(undefined)}
+				showed={!!promotion}
+				/>
+			}
 		</SafeAreaView>
 	);
 };

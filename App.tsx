@@ -70,7 +70,7 @@ function Root() {
 
     return (
         <NavigationContainer>
-          <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{ headerShown: false }}>
+          <RootStack.Navigator initialRouteName="PromotionScreen" screenOptions={{ headerShown: false }}>
             <RootStack.Screen name={"MainScreen"} component={MainScreen} />
             <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
             <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />
@@ -92,7 +92,6 @@ function Root() {
             <RootStack.Screen name={"MeatRatingScreen"} component={MeatRatingScreen} />
             <RootStack.Screen name={"CameraScreen"} component={CameraScreen} />
             <RootStack.Screen name={"PromotionScreen"} component={PromotionScreen} />
-            <RootStack.Screen name={"InformationPromotionScreen"} component={InformationPromotionScreen} />
           </RootStack.Navigator>
         </NavigationContainer>
     );

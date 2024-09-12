@@ -86,6 +86,10 @@ const darkTheme: ThemeType = {
 		background_button_add: ColorFactory.createSingleColor(neutral.getColor("700")),
 		color_button_add: ColorFactory.createSingleColor(neutral.getColor("50")),
 	},
+	apply_promotion: {
+		background_button_add: ColorFactory.createSingleColor(neutral.getColor("700")),
+		color_button_add: ColorFactory.createSingleColor(neutral.getColor("50")),
+	},
 	basket: {
 		background: ColorFactory.createSingleColor(neutral.getColor("600")),
 		backgroundFooter: ColorFactory.createSingleColor(neutral.getColor("400")),
