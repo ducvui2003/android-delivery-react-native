@@ -28,7 +28,7 @@ import GiveThanksScreen from "./src/screens/GiveThanksScreen";
 import MeatRatingScreen from "./src/screens/MeatRatingScreen";
 import CameraScreen from "./src/screens/CameraScreen";
 import PromotionScreen from "./src/screens/PromotionScreen";
-import InformationPromotionScreen from "./src/screens/InformationPromotionScreen";
+import PaymentMethodScreen from "./src/screens/PaymentMethodScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -65,12 +65,12 @@ function Root() {
 
     useEffect(() => {
         if (!colorScheme) return;
-      dispatch(setTheme(colorScheme));
+      dispatch(setTheme("light"));
     }, []);
 
     return (
         <NavigationContainer>
-          <RootStack.Navigator initialRouteName="PromotionScreen" screenOptions={{ headerShown: false }}>
+          <RootStack.Navigator initialRouteName="PaymentMethodScreen" screenOptions={{ headerShown: false }}>
             <RootStack.Screen name={"MainScreen"} component={MainScreen} />
             <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
             <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />
@@ -92,6 +92,7 @@ function Root() {
             <RootStack.Screen name={"MeatRatingScreen"} component={MeatRatingScreen} />
             <RootStack.Screen name={"CameraScreen"} component={CameraScreen} />
             <RootStack.Screen name={"PromotionScreen"} component={PromotionScreen} />
+            <RootStack.Screen name={"PaymentMethodScreen"} component={PaymentMethodScreen} />
           </RootStack.Navigator>
         </NavigationContainer>
     );

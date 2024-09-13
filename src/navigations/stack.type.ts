@@ -38,6 +38,7 @@ export type RootStackParamList = {
 	MeatRatingScreen: { data?: any; uri?: string };
 	CameraScreen: { data?: any; prevScreen: keyof RootStackParamList };
 	PromotionScreen: undefined;
+	PaymentMethodScreen: undefined;
 };
 
 export type MainScreenStackParamList = {

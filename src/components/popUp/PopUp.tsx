@@ -6,10 +6,10 @@
  *  User: lam-nguyen
  **/
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { Dimensions, Keyboard, ScrollView, StyleSheet, View } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { neutral } from "../../configs/colors/color-template.config";
@@ -28,20 +28,20 @@ function PopUp({
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const popUpAnim = useSharedValue(0);
 	const heightContendPopUp = Dimensions.get("screen").height * 0.95;
-	const [visible, setVisible] = useState(false);
+	const [visible, setVisible] = useState(showed);
+
+	const onEndHideHandle = useCallback(() => {
+		setVisible(false);
+		onEndHide?.();
+	}, []);
 
 	const dropAnimHandler = (value: "down" | "up") => {
-		if (value === "down") {
-			Keyboard.dismiss();
-			setTimeout(() => {
-				setVisible(false);
-				onEndHide?.();
-			}, 750);
-		} else {
-			setVisible(true);
-		}
+		if (value === "down") Keyboard.dismiss();
+		else setVisible(true);
 
-		popUpAnim.value = withTiming(value === "down" ? -heightContendPopUp : 0, { duration: 750 });
+		popUpAnim.value = withTiming(value === "down" ? -heightContendPopUp : 0, { duration: 750 }, finished => {
+			if (value === "down" && finished) runOnJS(onEndHideHandle)();
+		});
 	};
 
 	const animatePopUp = useAnimatedStyle(() => ({
@@ -94,7 +94,8 @@ function PopUp({
 				</PanGestureHandler>
 				{!hideHeader && header}
 				<ScrollView
-					style={{ width: "100%" }}
+					showsVerticalScrollIndicator={false}
+					style={{ width: "100%", backgroundColor: undefined }}
 					contentContainerStyle={[{ flexGrow: 1, justifyContent: "space-between" }]}
 				>
 					{body}
