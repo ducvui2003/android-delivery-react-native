@@ -14,10 +14,13 @@ type ModalProps = {
 	contentStyle?: StyleProp<ViewStyle>;
 	containerStyle?: StyleProp<ViewStyle>;
 	active: boolean;
-	backgroundColor?: string;
-	opacityBackground?: number;
 	width?: DimensionValue;
 	durationAnimation?: number;
+	background?: {
+		backgroundColor?: string;
+		opacity?: number;
+	};
+	onEndHide?: () => void;
 };
 
 export default ModalProps;

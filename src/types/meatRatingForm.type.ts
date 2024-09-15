@@ -5,7 +5,7 @@
  * Create at: 1:58 PM - 10/09/2024
  * User: lam-nguyen
  **/
-import RatingFormType from "./ratingFormType";
+import RatingFormType from "./ratingForm.type";
 
 type MeatRatingFormType = {
 	id: string;
