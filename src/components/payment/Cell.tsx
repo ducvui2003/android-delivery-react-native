@@ -25,7 +25,7 @@ import { white } from "../../configs/colors/color-template.config";
 const width = 14;
 const height = 35;
 
-function Cell({ value, focus }: CellProps) {
+function Cell({ value, focus, color = white.getColor() }: CellProps) {
 	const opacityAnim = useSharedValue(0);
 	const topAmin = useSharedValue(0);
 
@@ -64,25 +64,27 @@ function Cell({ value, focus }: CellProps) {
 		<Row flex={0}>
 			{focus ? (
 				<>
-					<Animated.Text style={[styles.text, animatedOpacity1]}>_</Animated.Text>
-					<Animated.Text style={[styles.text, { fontSize: 25, position: "absolute" }, animatedOpacity2]}>
+					<Animated.Text style={[styles.text, animatedOpacity1, { color }]}>_</Animated.Text>
+					<Animated.Text
+						style={[styles.text, { fontSize: 25, position: "absolute", color }, animatedOpacity2]}
+					>
 						*
 					</Animated.Text>
 				</>
 			) : (
 				<Col style={{ width, height, overflow: "hidden" }}>
 					<Animated.View style={[{ flexDirection: "column" }, animatedTop]}>
-						<Text style={[styles.text, { fontSize: 25 }]}>*</Text>
-						<Text style={[styles.text]}>0</Text>
-						<Text style={[styles.text]}>1</Text>
-						<Text style={[styles.text]}>2</Text>
-						<Text style={[styles.text]}>3</Text>
-						<Text style={[styles.text]}>4</Text>
-						<Text style={[styles.text]}>5</Text>
-						<Text style={[styles.text]}>6</Text>
-						<Text style={[styles.text]}>7</Text>
-						<Text style={[styles.text]}>8</Text>
-						<Text style={[styles.text]}>9</Text>
+						<Text style={[styles.text, { fontSize: 25, color }]}>*</Text>
+						<Text style={[styles.text, { color }]}>0</Text>
+						<Text style={[styles.text, { color }]}>1</Text>
+						<Text style={[styles.text, { color }]}>2</Text>
+						<Text style={[styles.text, { color }]}>3</Text>
+						<Text style={[styles.text, { color }]}>4</Text>
+						<Text style={[styles.text, { color }]}>5</Text>
+						<Text style={[styles.text, { color }]}>6</Text>
+						<Text style={[styles.text, { color }]}>7</Text>
+						<Text style={[styles.text, { color }]}>8</Text>
+						<Text style={[styles.text, { color }]}>9</Text>
 					</Animated.View>
 				</Col>
 			)}
@@ -91,7 +93,7 @@ function Cell({ value, focus }: CellProps) {
 }
 
 const styles = StyleSheet.create({
-	text: { ...textStyle["22_semibold"], color: white.getColor(), width, height },
+	text: { ...textStyle["22_semibold"], width, height },
 });
 
 export default Cell;

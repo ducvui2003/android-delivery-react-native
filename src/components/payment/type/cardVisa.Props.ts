@@ -7,10 +7,11 @@
  **/
 import CardVisaType from "../../../types/cardVisa.type";
 
-type CardVisaProps = Omit<CardVisaType, "cvv"> & {
+type CardVisaProps = CardVisaType & {
 	focusCardNumber?: boolean;
 	focusName?: boolean;
 	focusExpired?: boolean;
+	focusCvv?: boolean;
 };
 
 export default CardVisaProps;
