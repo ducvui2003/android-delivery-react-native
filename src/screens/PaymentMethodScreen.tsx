@@ -81,8 +81,9 @@ function PaymentMethodScreen({ navigation }: PaymentMethodScreenProps) {
 	}, []);
 
 	const submitAddNewCard = useCallback((card: CardVisaType) => {
+		// Call API add new card
 		Promise.all([card]).then(([value]) => {
-			setCards([...cards, value]);
+			setCards(prev => [...prev, value]);
 			setShowModal(true);
 		});
 	}, []);
