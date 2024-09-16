@@ -5,7 +5,7 @@
  * Create at: 8:16 PM - 21/08/2024
  *  User: lam-nguyen
  **/
-import {SafeAreaView, ScrollView, StyleSheet, View} from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet} from "react-native";
 import * as React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../configs/redux/store.config";
@@ -19,21 +19,32 @@ import ButtonFilter from "../../../components/orders/ButtonFilter";
 import {FlatList} from "react-native-gesture-handler";
 import {OrderProps} from "../../../components/orders/type/order.props";
 import {statusLabel} from "../../../components/orders/type/statusLabel.props";
-import {useState} from "react";
 import Order from "../../../components/orders/Order";
 import {burger, burrito, sandwich} from "../../../../assets/images/category/category.icon";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../../navigations/stack.type";
+import {ORDER_STATUS_ACTIVE, ORDER_STATUS_CANCELLED} from "../../../types/order.type";
+
 
 const ButtonFilterTypeArray: ButtonFilterType[] = ["All", "Active", "Completed", "Cancelled", "5", "4", "3", "2", "1"];
+
 function OrderScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme)
 	const styles = makeStyled(theme)
 	const [ButtonFilterType, setButtonFilterType] = React.useState<ButtonFilterType>("All");
-	const [selectedId, setSelectedId] = useState<string>();
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "MainScreen">>();
 
-	const renderItem = ({item}: {item: OrderProps}) => {
 
+	const renderItem = ({item}: { item: OrderProps }) => {
 		return (
-				<Order {...item} />
+			<Order
+				{...item}
+				onPress={() => {
+					navigation.navigate("OrderDetailScreen", {id: item.id});
+				}}
+
+			/>
 		);
 	};
 	return (
@@ -56,7 +67,7 @@ function OrderScreen() {
 					<ScrollView
 						horizontal={true}
 						showsHorizontalScrollIndicator={false}
-						contentContainerStyle={[{ gap: 10 }]}
+						contentContainerStyle={[{gap: 10}]}
 					>
 						{ButtonFilterTypeArray.map((value, index) => (
 							<ButtonFilter
@@ -78,7 +89,6 @@ function OrderScreen() {
 				data={DATA}
 				renderItem={renderItem}
 				keyExtractor={(item) => item.id}
-				extraData={selectedId}
 				showsVerticalScrollIndicator={false}
 			/>
 		</SafeAreaView>
@@ -111,11 +121,9 @@ const DATA: OrderProps[] = [
 			sandwich
 		],
 		starReview: 5,
-		status: {
-			title: statusLabel.Active.title,
-			color: statusLabel.Active.color
-		},
-		onPress: () => {}
+		status: ORDER_STATUS_ACTIVE,
+		onPress: () => {
+		}
 	},
 	{
 		id: "SP2",
@@ -125,11 +133,9 @@ const DATA: OrderProps[] = [
 			burrito,
 		],
 		starReview: 4,
-		status: {
-			title: statusLabel.Cancelled.title,
-			color: statusLabel.Cancelled.color
-		},
-		onPress: () => {}
+		status: ORDER_STATUS_CANCELLED,
+		onPress: () => {
+		}
 	},
 	{
 		id: "SP3",
@@ -139,11 +145,9 @@ const DATA: OrderProps[] = [
 			sandwich
 		],
 		starReview: 3,
-		status: {
-			title: statusLabel.Completed.title,
-			color: statusLabel.Completed.color
-		},
-		onPress: () => {}
+		status: ORDER_STATUS_ACTIVE,
+		onPress: () => {
+		}
 	},
 	{
 		id: "SP4",
@@ -152,11 +156,9 @@ const DATA: OrderProps[] = [
 			burger
 		],
 		starReview: 2,
-		status: {
-			title: statusLabel.Active.title,
-			color: statusLabel.Active.color
-		},
-		onPress: () => {}
+		status: ORDER_STATUS_CANCELLED,
+		onPress: () => {
+		}
 	},
 	{
 		id: "SP5",
@@ -166,11 +168,9 @@ const DATA: OrderProps[] = [
 			burrito,
 		],
 		starReview: 4,
-		status: {
-			title: statusLabel.Cancelled.title,
-			color: statusLabel.Cancelled.color
-		},
-		onPress: () => {}
+		status: "Cancelled",
+		onPress: () => {
+		}
 	},
 	{
 		id: "SP6",
@@ -180,11 +180,9 @@ const DATA: OrderProps[] = [
 			sandwich
 		],
 		starReview: 3,
-		status: {
-			title: statusLabel.Completed.title,
-			color: statusLabel.Completed.color
-		},
-		onPress: () => {}
+		status: "Completed",
+		onPress: () => {
+		}
 	},
 	{
 		id: "SP7",
@@ -193,11 +191,9 @@ const DATA: OrderProps[] = [
 			burger
 		],
 		starReview: 2,
-		status: {
-			title: statusLabel.Active.title,
-			color: statusLabel.Active.color
-		},
-		onPress: () => {}
+		status: "Active",
+		onPress: () => {
+		}
 	},
 
 ]

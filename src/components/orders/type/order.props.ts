@@ -1,11 +1,6 @@
-import {StatusProps} from "./statusLabel.props";
+import OrderType from "../../../types/order.type";
 
-type OrderProps = {
-	id: string;
-	price: number;
-	images: {}[];
-	starReview: number;
-	status: StatusProps;
+type OrderProps = OrderType & {
 	onPress?: () => void;
 }
 

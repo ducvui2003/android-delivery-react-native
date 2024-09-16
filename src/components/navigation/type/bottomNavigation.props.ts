@@ -9,8 +9,9 @@ import BottomNavigationItemInputProps from "./bottomNavigationItemInput.props";
 import BottomNavigationItemProps from "./bottomNavigationItem.props";
 import { DimensionValue } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
+import BottomNavigationItemType from "./BottomNavigationItem.type";
 
-type BottomNavigationProps = BottomNavigationItemProps & {
+type BottomNavigationProps = BottomNavigationItemType & {
 	items: BottomNavigationItemInputProps[];
 	backgroundColor?: string;
 	position?: "relative" | "static" | undefined;

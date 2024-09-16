@@ -11,14 +11,15 @@ import IconRating from "../rating/IconRating";
 import StatusLabel from "./StatusLabel";
 import {neutral, primary} from "../../configs/colors/color-template.config";
 import {formatCurrency} from "../../utils/formator";
+import {ORDER_STATUS_ACTIVE} from "../../types/order.type";
 
 function Order({id, price, images, starReview, status, onPress}: OrderProps) {
 	const theme = useSelector((root: RootState) => root.themeState.theme);
 	const styles = makeStyled(theme);
 
 	return (
-		<TouchableOpacity onPress={onPress} >
-			<Row  style={styles.container}>
+		<TouchableOpacity style={styles.container} onPress={onPress}>
+			<Row style={styles.content}>
 				<View>
 					<OverlappingImages images={images}/>
 				</View>
@@ -29,7 +30,7 @@ function Order({id, price, images, starReview, status, onPress}: OrderProps) {
 					<IconRating total={5} rating={starReview}/>
 				</Col>
 				<Col style={{justifyContent: "center"}}>
-					<StatusLabel {...status}/>
+					<StatusLabel status={status}/>
 				</Col>
 			</Row>
 
@@ -43,14 +44,17 @@ const makeStyled = (theme: ThemeType) =>
 		container: {
 			backgroundColor: theme.background.getColor(),
 			borderRadius: 12,
-			justifyContent: "space-between",
 			marginHorizontal: 25,
 			marginVertical: 5,
 			padding: 10,
 			shadowColor: "#0D0A2C",
-			shadowOffset: { width: -50, height: 5 },
+			shadowOffset: {width: -50, height: 5},
 			shadowOpacity: 0.2,
 			shadowRadius: 10,
+			elevation: 2
+		},
+		content :{
+			justifyContent: "space-between",
 		},
 		oderIdText: {
 			...textStyle["12_medium"],
