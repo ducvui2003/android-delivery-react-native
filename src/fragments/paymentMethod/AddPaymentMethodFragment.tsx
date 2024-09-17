@@ -77,9 +77,11 @@ function AddPaymentMethodFragment({ focus, onDataChange, onDoneInput, clearData 
 				cardNumber={cardNumber}
 				name={name}
 				expired={expired}
+				cvv={cvv}
 				focusCardNumber={focusCardNumber}
 				focusName={focusName}
 				focusExpired={focusExpired}
+				focusCvv={focusCVV}
 			/>
 
 			<Col style={[styles.inputContainer]}>
