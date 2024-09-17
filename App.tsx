@@ -64,8 +64,8 @@ function Root() {
     const colorScheme = useColorScheme();
 
     useEffect(() => {
-        if (!colorScheme) return;
-      dispatch(setTheme("light"));
+      if (!colorScheme) return;
+      dispatch(setTheme(colorScheme));
     }, []);
 
     return (

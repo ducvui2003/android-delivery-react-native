@@ -10,7 +10,7 @@ import Svg, { Path, Defs, LinearGradient, Stop, SvgProps } from "react-native-sv
 
 export default function SolarTicketSaleBold(props: SvgProps) {
   return (
-    <Svg width={30} height={30} viewBox="0 0 24 24" {...props}>
+    <Svg width={20} height={20} viewBox="0 0 24 24" {...props}>
       <Defs>
         <LinearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <Stop offset="100%" stopColor="#FAB53C" />

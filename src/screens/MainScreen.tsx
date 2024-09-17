@@ -46,7 +46,7 @@ function MainScreen() {
 				screenOptions={{
 					headerShown: false,
 				}}
-				initialRouteName={"HomeScreen"}
+				initialRouteName={"NotificationScreen"}
 			>
 				<MainScreenStack.Screen name="TestThemeScreen" component={TestThemeScreen} />
 				<MainScreenStack.Screen name="HomeScreen" component={HomeScreen} />

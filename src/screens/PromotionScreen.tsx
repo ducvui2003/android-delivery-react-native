@@ -54,9 +54,6 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 		setIndexCheckedOrder(index);
 	}, []);
 
-	// const handleViewInformationPromotion = useCallback((promotion: PromotionType) => {
-	// 	const [, set] = useState();
-	// }, [navigation]);
 	const [promotion, setPromotion] = useState<PromotionType>();
 
 
