@@ -2,6 +2,7 @@ package com.lamnguyen1305.deliveryreactnativeapp.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.lamnguyen1305.deliveryreactnativeapp.R
 
@@ -29,9 +30,9 @@ class AfterCardVisaFragment : Fragment(R.layout.fragment_after_card_visa) {
 
     private fun init() {
         this.childFragmentManager.beginTransaction().apply {
-            replace(R.id.cell_1, CellFragment.newInstance(100))
-            replace(R.id.cell_2, CellFragment.newInstance(101))
-            replace(R.id.cell_3, CellFragment.newInstance(102))
+            replace(R.id.cell_1, CellFragment.newInstanceHasColor(100, "#000000"))
+            replace(R.id.cell_2, CellFragment.newInstanceHasColor(101, "#000000"))
+            replace(R.id.cell_3, CellFragment.newInstanceHasColor(102, "#000000"))
         }.commitNow()
     }
 

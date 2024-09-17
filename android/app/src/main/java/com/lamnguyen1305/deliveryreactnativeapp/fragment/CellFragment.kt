@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
@@ -15,6 +16,7 @@ import com.lamnguyen1305.deliveryreactnativeapp.R
 import com.lamnguyen1305.deliveryreactnativeapp.utils.toDp
 
 private const val ARG_PARAM1 = "index"
+private const val ARG_PARAM2 = "color"
 
 class CellFragment : Fragment(R.layout.fragment_cell) {
     private var index: Int = 0
@@ -27,11 +29,13 @@ class CellFragment : Fragment(R.layout.fragment_cell) {
     private var animatorSet: AnimatorSet? = null
     private lateinit var tvStar: TextView
     private lateinit var tvMinus: TextView
+    private var color: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             index = it.getInt(ARG_PARAM1)
+            color = it.getString(ARG_PARAM2)
         }
         this.parentFragmentManager.apply {
             setFragmentResultListener(
@@ -58,6 +62,7 @@ class CellFragment : Fragment(R.layout.fragment_cell) {
         super.onViewCreated(view, savedInstanceState)
         this.init(view)
         tvMinus.alpha = 0f
+        if (color != null) changeColor(Color.parseColor(color))
     }
 
     private fun init(view: View) {
@@ -76,6 +81,10 @@ class CellFragment : Fragment(R.layout.fragment_cell) {
                 tvMinus.alpha = it.animatedValue as Float
             }
         }
+    }
+
+    private fun changeColor(color: Int) {
+        for (i in 1..13) this.view?.findViewWithTag<TextView>("text_$i")?.setTextColor(color)
     }
 
     private fun focus() {
@@ -128,5 +137,12 @@ class CellFragment : Fragment(R.layout.fragment_cell) {
                 }
             }
 
+        fun newInstanceHasColor(index: Int, color: String) =
+            CellFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_PARAM1, index)
+                    putString(ARG_PARAM2, color)
+                }
+            }
     }
 }

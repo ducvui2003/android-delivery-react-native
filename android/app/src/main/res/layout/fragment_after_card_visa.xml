@@ -3,12 +3,12 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="match_parent"
 		android:orientation="horizontal"
-		android:alpha="0"
 		android:layout_height="50dp"
 		android:background="@drawable/bg_gradient_2"
 		android:gravity="right|center_vertical"
 		android:layout_marginTop="35dp"
 		android:paddingHorizontal="25dp"
+		android:alpha="0"
 		>
 	<androidx.fragment.app.FragmentContainerView
 			android:id="@+id/cell_1"

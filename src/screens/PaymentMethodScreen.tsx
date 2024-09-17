@@ -61,7 +61,6 @@ const payments: PaymentMethodType[] = [
 function PaymentMethodScreen({ navigation }: PaymentMethodScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [showPopUp, setShowPopUp] = useState<boolean>(false);
-	const [hideFooterPopUp, setHideFooterPopUp] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [cards, setCards] = useState<CardVisaType[]>([]);
 	const [card, setCard] = useState<CardVisaType>();
@@ -138,13 +137,10 @@ function PaymentMethodScreen({ navigation }: PaymentMethodScreenProps) {
 			<PopUp
 				showed={showPopUp}
 				onEndHide={() => setShowPopUp(false)}
-				hideFooter={hideFooterPopUp}
 				header={
 					<Text style={[styles.titleAddPaymentMethod, { color: theme.text_1.getColor() }]}>Add New Card</Text>
 				}
-				body={
-					<AddPaymentMethodFragment onDoneInput={setCard} clearData={!showPopUp} focus={setHideFooterPopUp} />
-				}
+				body={<AddPaymentMethodFragment onDoneInput={setCard} clearData={!showPopUp} />}
 				footer={
 					<ButtonHasStatus
 						title={"Save"}
@@ -152,6 +148,7 @@ function PaymentMethodScreen({ navigation }: PaymentMethodScreenProps) {
 							if (card) submitAddNewCard(card);
 						}}
 						active={!!card}
+						styleButton={{ marginTop: spacing["spaced-5"] }}
 					/>
 				}
 			/>

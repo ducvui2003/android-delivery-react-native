@@ -18,52 +18,64 @@
 					android:text="*"
 					android:textSize="31sp"
 					style="@style/CardNumber.Cell.TextView"
+					android:tag="text_1"
 					/>
 			<TextView
 					android:id="@+id/text_view_minus"
 					android:text="_"
 					style="@style/CardNumber.Cell.TextView"
+					android:tag="text_2"
 					/>
 		</RelativeLayout>
 		<TextView
 				android:text="0"
 				style="@style/CardNumber.Cell.TextView"
+				android:tag="text_3"
 				/>
 		<TextView
 				android:text="1"
 				style="@style/CardNumber.Cell.TextView"
+				android:tag="text_4"
 				/>
 		<TextView
 				android:text="2"
 				style="@style/CardNumber.Cell.TextView"
+				android:tag="text_5"
 				/>
 		<TextView
 				android:text="3"
 				style="@style/CardNumber.Cell.TextView"
+				android:tag="text_6"
 				/>
 		<TextView
 				android:text="4"
 				style="@style/CardNumber.Cell.TextView"
+				android:tag="text_7"
 				/>
 		<TextView
 				android:text="5"
 				style="@style/CardNumber.Cell.TextView"
+				android:tag="text_8"
 				/>
 		<TextView
 				android:text="6"
 				style="@style/CardNumber.Cell.TextView"
+				android:tag="text_9"
 				/>
 		<TextView
 				android:text="7"
 				style="@style/CardNumber.Cell.TextView"
+				android:tag="text_10"
 				/>
 		<TextView
 				android:text="8"
 				style="@style/CardNumber.Cell.TextView"
+				android:tag="text_11"
 				/>
 		<TextView
 				android:text="9"
 				style="@style/CardNumber.Cell.TextView"
+				android:tag="text_12"
 				/>
 	</LinearLayout>
 </RelativeLayout>
