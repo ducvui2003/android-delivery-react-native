@@ -13,7 +13,7 @@ export class CodeColor {
 	}
 
 	public getCodeColor(alpha?: number): string {
-		if (!alpha) return this.codeColor.toString();
+		if (alpha !== 0 && !alpha) return this.codeColor.toString();
 
 		if (this.codeColor.toString().startsWith("#")) {
 			const code = hexRgb(this.codeColor.toString(), {
@@ -27,7 +27,10 @@ export class CodeColor {
 		if (this.codeColor.toString().split(",").length === 4)
 			return this.codeColor.toString().substring(0, this.codeColor.toString().lastIndexOf(",")) + alpha + ")";
 
-		return this.codeColor.toString().substring(0, this.codeColor.toString().length - 1) + alpha + ")";
+		if (this.codeColor.toString().split(",").length === 3)
+			return this.codeColor.toString().substring(0, this.codeColor.toString().length - 1) + `, ${alpha}` + ")";
+
+		throw new Error("Code color is invalid");
 	}
 
 	public setCodeColor(codeColor: string): void {
