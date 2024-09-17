@@ -17,13 +17,14 @@ import { InfoLocation } from "../components/location/InfoLocation";
 import Row from "../components/custom/Row";
 import SolarAddLinear from "../../assets/images/icons/SolarAddLinear";
 import textStyle from "../configs/styles/textStyle.config";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import { FlatList } from "react-native-gesture-handler";
 import Space from "../components/custom/Space";
 import { RootStackParamList } from "../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
 import data from "../../assets/data/location/location";
+import NumberValue from "../configs/value/number.value";
 
 type MyLocationScreenProps = {
 	route: RouteProp<RootStackParamList, "MyLocationScreen">;
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: "center",
-		paddingHorizontal: 25,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 	},
 	buttonAdd: {
 		padding: 17,

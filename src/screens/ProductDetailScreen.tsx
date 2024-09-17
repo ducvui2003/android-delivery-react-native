@@ -31,6 +31,7 @@ import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from 
 import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import { firebaseStorage } from "../configs/firebase/firebase.config";
+import NumberValue from "../configs/value/number.value";
 
 type ProductDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "ProductDetailScreen">;
@@ -121,7 +122,7 @@ export default function ProductDetailScreen({
 						/>
 					</TouchableOpacity>
 				</View>
-				<Col style={[{ paddingHorizontal: 25, marginTop: 20 }, styles.gap]}>
+				<Col style={[styles.containerContent, styles.gap]}>
 					<Text style={[{ ...textStyle["22_semibold"], color: theme.text_1.getColor() }]}>
 						{product?.name}
 					</Text>
@@ -176,6 +177,10 @@ export default function ProductDetailScreen({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+	},
+	containerContent: {
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
+		marginTop: 20,
 	},
 	containerRating: {
 		justifyContent: "space-between",

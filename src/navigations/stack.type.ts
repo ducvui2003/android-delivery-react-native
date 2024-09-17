@@ -1,6 +1,7 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 import RegisterFormType from "../types/registerForm.type";
 import CategoryType from "../types/category.type";
+import PromotionType from "../types/promotion.type";
 
 export type RootStackParamList = {
 	MainScreen: NavigatorScreenParams<MainScreenStackParamList>;
@@ -31,6 +32,13 @@ export type RootStackParamList = {
 	BasketScreen: {
 		id: string;
 	};
+	OrderRatingScreen: { idOrder: string; idDriver: string };
+	DriverRatingScreen: { uri?: string };
+	GiveThanksScreen: undefined;
+	MeatRatingScreen: { data?: any; uri?: string };
+	CameraScreen: { data?: any; prevScreen: keyof RootStackParamList };
+	PromotionScreen: undefined;
+	PaymentMethodScreen: undefined;
 	// order detail
 	OrderDetailScreen: {
 		id: string

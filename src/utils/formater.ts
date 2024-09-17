@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-const formator = Intl.NumberFormat("vi-VN");
+const formater = Intl.NumberFormat("vi-VN");
 
 const formatHiddenPhoneNumber = (phoneNumber: string) => {
 	const length = phoneNumber.length;
@@ -20,7 +20,7 @@ const formatHiddenPhoneNumber = (phoneNumber: string) => {
 };
 
 const formatCurrency = (value: number) => {
-	return formator.format(value) + " ₫";
+	return formater.format(value) + " ₫";
 };
 
-export { formatHiddenPhoneNumber, formatCurrency };
+export default { formatHiddenPhoneNumber, formatCurrency };

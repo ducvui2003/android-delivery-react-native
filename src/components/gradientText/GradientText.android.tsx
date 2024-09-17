@@ -26,7 +26,7 @@ function GradientText({
 	});
 
 	return (
-		<View style={[style]}>
+		<View style={[{ position: "relative" }, style]}>
 			<Text
 				style={[textStyle, { opacity: 0, position: "absolute" }]}
 				onLayout={event => {

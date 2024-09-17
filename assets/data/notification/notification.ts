@@ -1,0 +1,86 @@
+import NotificationType from "../../../src/types/notification.type";
+
+const dataNotification: NotificationType[] = [
+  {
+    id: "1",
+    name: "Get 20% Discount Coden",
+    variant: "Discount",
+    content: "Get discount codes from sharing with friends.",
+    time: "12:20  10/05/2024",
+    isRead: false,
+  },
+  {
+    id: "2",
+    name: "Get 10% Discount Code",
+    variant: "Discount",
+    content: "Holiday discount code.",
+    time: "11:10  10/05/2024",
+    isRead: true,
+  },
+  {
+    id: "3",
+    name: "Order Received",
+    variant: "Order Received",
+    content: "Order #SP_0023900 has been delivered successfully.",
+    time: "10:15  10/05/2024",
+    isRead: false,
+  },
+  {
+    id: "4",
+    name: "Order on the Way",
+    variant: "Order On Way",
+    content: "Your delivery driver is on the way with your order.",
+    time: "10:10  10/05/2024",
+    isRead: true,
+  },
+  {
+    id: "5",
+    name: "Your Order is Confirmed",
+    variant: "Order Confirmed",
+    content: "Your order #SP_0023900 has been confirmed. ",
+    time: "12:20  10/05/2024",
+    isRead: false,
+  },
+  {
+    id: "6",
+    name: "Order Successful",
+    variant: "Order Successful",
+    content: "Order #SP_0023900 has been placed successfully.",
+    time: "09:56  10/05/2024",
+    isRead: true,
+  },
+  {
+    id: "7",
+    name: "Order Cancelled",
+    variant: "Cancelled",
+    content: "Order #SP_0023450 has been cancelled.",
+    time: "22:40  09/05/2024",
+    isRead: false,
+  },
+  {
+    id: "8",
+    name: "Account Setup Successful",
+    variant: "Account Success",
+    content: "Congratulations! Your account setup was successful.",
+    time: "20:15  09/05/2024",
+    isRead: true,
+  },
+  {
+    id: "9",
+    name: "Credit Card Connected",
+    variant: "Credit Connect",
+    content: "Congratulations! Your credit card has been successfully added. ",
+    time: "20:20  09/05/2024",
+    isRead: false,
+  },
+  {
+    id: "10",
+    name: "Get 5% Discount Code",
+    variant: "Discount",
+    content: "Discount code for new users.",
+    time: "11:10  10/05/2024",
+    isRead: true,
+  },
+
+];
+export default dataNotification;

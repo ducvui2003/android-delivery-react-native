@@ -35,7 +35,7 @@ import { Controller, useForm } from "react-hook-form";
 import InputPhoneNumber from "../components/input/InputPhoneNumber";
 import GradientText from "../components/gradientText/GradientText";
 import RegisterFormType from "../types/registerForm.type";
-import { ButtonHasStatus } from "../components/custom/ButtonHasStatus";
+import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -46,6 +46,7 @@ import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import { AxiosError } from "axios";
 import SolarEyeBold from "../../assets/images/icons/SolarEyeBold";
 import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
+import NumberValue from "../configs/value/number.value";
 
 function SignUpScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
@@ -391,7 +392,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingTop: 78,
 		justifyContent: "space-between",
-		paddingHorizontal: 24,
+		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 	},
 	titleContainer: {
 		justifyContent: "center",

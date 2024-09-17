@@ -21,6 +21,7 @@ export type ThemeType = {
 	text_1: SingleColor;
 	text_2: SingleColor;
 	text_3: SingleColor;
+	text_4: SingleColor;
 	textSkip: SingleColor;
 	dialCode: SingleColor;
 	arrowSelector: SingleColor;
@@ -55,6 +56,10 @@ export type ThemeType = {
 		background_button_add: SingleColor;
 		color_button_add: SingleColor;
 	};
+	apply_promotion: {
+		background_button_add: SingleColor;
+		color_button_add: SingleColor;
+	};
 	review: {
 		backgroundButtonReview: SingleColor;
 		colorRatingUnSelected: SingleColor;
@@ -62,5 +67,16 @@ export type ThemeType = {
 	basket: {
 		background: SingleColor;
 		backgroundFooter: SingleColor;
+	};
+	rating: {
+		backgroundInputReviewFragment: SingleColor;
+		backgroundInputReview: SingleColor;
+	};
+	promotion: {
+		background: SingleColor;
+	};
+	paymentMethod: {
+		backgroundButtonAdd: SingleColor;
+		colorButtonAdd: SingleColor;
 	};
 };

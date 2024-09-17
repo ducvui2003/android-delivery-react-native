@@ -6,7 +6,6 @@
  * User: lam-nguyen
  **/
 import BottomNavigationItemInputProps from "./bottomNavigationItemInput.props";
-import BottomNavigationItemProps from "./bottomNavigationItem.props";
 import { DimensionValue } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
 import BottomNavigationItemType from "./BottomNavigationItem.type";
