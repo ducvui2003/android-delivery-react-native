@@ -9,7 +9,7 @@
 type CategoryType = {
 	id: number;
 	name: string;
-	image: {};
+	image?: {};
 };
 
 export default CategoryType;

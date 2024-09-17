@@ -6,7 +6,7 @@
  *  User: lam-nguyen
  **/
 
-import React, { useEffect } from "react";
+import React from "react";
 import Row from "../custom/Row";
 import CardNumberProps from "./type/cardNumber.props";
 import Cell from "./Cell";
