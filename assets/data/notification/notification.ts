@@ -4,7 +4,7 @@ const dataNotification: NotificationType[] = [
   {
     id: "1",
     name: "Get 20% Discount Coden",
-    typeNotification: "Discount",
+    variant: "Discount",
     content: "Get discount codes from sharing with friends.",
     time: "12:20  10/05/2024",
     isRead: false,
@@ -12,7 +12,7 @@ const dataNotification: NotificationType[] = [
   {
     id: "2",
     name: "Get 10% Discount Code",
-    typeNotification: "Discount",
+    variant: "Discount",
     content: "Holiday discount code.",
     time: "11:10  10/05/2024",
     isRead: true,
@@ -20,7 +20,7 @@ const dataNotification: NotificationType[] = [
   {
     id: "3",
     name: "Order Received",
-    typeNotification: "Order Received",
+    variant: "Order Received",
     content: "Order #SP_0023900 has been delivered successfully.",
     time: "10:15  10/05/2024",
     isRead: false,
@@ -28,7 +28,7 @@ const dataNotification: NotificationType[] = [
   {
     id: "4",
     name: "Order on the Way",
-    typeNotification: "Order On Way",
+    variant: "Order On Way",
     content: "Your delivery driver is on the way with your order.",
     time: "10:10  10/05/2024",
     isRead: true,
@@ -36,7 +36,7 @@ const dataNotification: NotificationType[] = [
   {
     id: "5",
     name: "Your Order is Confirmed",
-    typeNotification: "Order Confirmed",
+    variant: "Order Confirmed",
     content: "Your order #SP_0023900 has been confirmed. ",
     time: "12:20  10/05/2024",
     isRead: false,
@@ -44,7 +44,7 @@ const dataNotification: NotificationType[] = [
   {
     id: "6",
     name: "Order Successful",
-    typeNotification: "Order Successful",
+    variant: "Order Successful",
     content: "Order #SP_0023900 has been placed successfully.",
     time: "09:56  10/05/2024",
     isRead: true,
@@ -52,7 +52,7 @@ const dataNotification: NotificationType[] = [
   {
     id: "7",
     name: "Order Cancelled",
-    typeNotification: "Cancelled",
+    variant: "Cancelled",
     content: "Order #SP_0023450 has been cancelled.",
     time: "22:40  09/05/2024",
     isRead: false,
@@ -60,7 +60,7 @@ const dataNotification: NotificationType[] = [
   {
     id: "8",
     name: "Account Setup Successful",
-    typeNotification: "Account Success",
+    variant: "Account Success",
     content: "Congratulations! Your account setup was successful.",
     time: "20:15  09/05/2024",
     isRead: true,
@@ -68,7 +68,7 @@ const dataNotification: NotificationType[] = [
   {
     id: "9",
     name: "Credit Card Connected",
-    typeNotification: "Credit Connect",
+    variant: "Credit Connect",
     content: "Congratulations! Your credit card has been successfully added. ",
     time: "20:20  09/05/2024",
     isRead: false,
@@ -76,7 +76,7 @@ const dataNotification: NotificationType[] = [
   {
     id: "10",
     name: "Get 5% Discount Code",
-    typeNotification: "Discount",
+    variant: "Discount",
     content: "Discount code for new users.",
     time: "11:10  10/05/2024",
     isRead: true,

@@ -7,9 +7,18 @@ Cancelled, Account Success, Credit Connect
 type NotificationType = {
 	id: string;
 	name: string;
-	typeNotification: string;
+	variant: Variant;
 	content: string;
 	time: string;
 	isRead: boolean;
 };
+type Variant =
+	"Discount"
+	| "Order Received"
+	| "Order On Way"
+	| "Order Confirmed"
+	| "Order Successful"
+	| "Cancelled"
+	| "Account Success"
+	| "Credit Connect";
 export default NotificationType;

@@ -1,4 +1,4 @@
-import NotificationProps from "./type/notifications.props";
+import NotificationProps, {Variant} from "./type/notifications.props";
 import { StyleSheet, Text, View } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import Col from "../custom/Col";
@@ -26,7 +26,8 @@ const COLORS = {
 	cancelledIcon: "#FF6347",
 };
 
-const renderIcon = (typeNotification: string) => {
+const renderIcon = (typeNotification: Variant) => {
+
 	switch (typeNotification) {
 		case "Discount":
 			return <SolarTicketSaleBold color={COLORS.discountIcon} />;
@@ -49,7 +50,7 @@ const renderIcon = (typeNotification: string) => {
 	}
 };
 
-const getBackgroundColor = (typeNotification: string) => {
+const getBackgroundColor = (typeNotification: Variant) => {
 	if (typeNotification.startsWith("Order")) return COLORS.success;
 	switch (typeNotification) {
 		case "Discount":
@@ -65,7 +66,7 @@ const getBackgroundColor = (typeNotification: string) => {
 	}
 };
 
-function NotificationCard({ name, content, time, typeNotification, isRead, onInfoPress }: NotificationProps) {
+function NotificationCard({ name, content, time, variant, isRead, onInfoPress }: NotificationProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	return (
@@ -73,8 +74,8 @@ function NotificationCard({ name, content, time, typeNotification, isRead, onInf
 			<Col style={styles.container}>
 				<View style={styles.wrapper}>
 					<Row style={styles.row}>
-						<View style={[styles.iconContainer, { backgroundColor: getBackgroundColor(typeNotification) }]}>
-							{renderIcon(typeNotification)}
+						<View style={[styles.iconContainer, { backgroundColor: getBackgroundColor(variant) }]}>
+							{renderIcon(variant)}
 						</View>
 						<Col>
 							<Text style={[styles.nameText, { color: theme.text_1.getColor() }]}>{name}</Text>

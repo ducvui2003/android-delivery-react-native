@@ -34,6 +34,8 @@ function NotificationScreen({ navigation }: NotificationScreenProps) {
 		Keyboard.dismiss();
 		navigation.pop();
 	}, [navigation]);
+
+	console.log(dataNotification.map((item) => item.variant));
 	return (
 		<SafeAreaView style={styles.container}>
 			<Header
@@ -59,7 +61,7 @@ function NotificationScreen({ navigation }: NotificationScreenProps) {
 											name={item.name}
 											content={item.content}
 											time={item.time}
-											typeNotification={item.typeNotification}
+											variant={item.variant}
 											isRead={item.isRead}
 											onInfoPress={() => {}}
 										/>
