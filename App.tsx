@@ -29,6 +29,7 @@ import MeatRatingScreen from "./src/screens/MeatRatingScreen";
 import CameraScreen from "./src/screens/CameraScreen";
 import PromotionScreen from "./src/screens/PromotionScreen";
 import PaymentMethodScreen from "./src/screens/PaymentMethodScreen";
+import OrderTrackingScreen from "./src/screens/OrderTrackingScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -70,7 +71,7 @@ function Root() {
 
     return (
         <NavigationContainer>
-          <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{ headerShown: false }}>
+          <RootStack.Navigator initialRouteName="OrderTrackingScreen" screenOptions={{ headerShown: false }}>
             <RootStack.Screen name={"MainScreen"} component={MainScreen} />
             <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
             <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />
@@ -93,6 +94,7 @@ function Root() {
             <RootStack.Screen name={"CameraScreen"} component={CameraScreen} />
             <RootStack.Screen name={"PromotionScreen"} component={PromotionScreen} />
             <RootStack.Screen name={"PaymentMethodScreen"} component={PaymentMethodScreen} />
+            <RootStack.Screen name={"OrderTrackingScreen"} component={OrderTrackingScreen} />
           </RootStack.Navigator>
         </NavigationContainer>
     );
