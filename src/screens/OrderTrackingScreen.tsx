@@ -8,40 +8,35 @@
 
 // @flow
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { Alert, Keyboard, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import * as Location from "expo-location";
+import { useState } from "react";
+import { Keyboard, SafeAreaView, StyleSheet, View } from "react-native";
 import { LocationObjectCoords } from "expo-location/src/Location.types";
-import { Picker } from "../components/location/Picker";
-import textStyle from "../configs/styles/textStyle.config";
-import { LatLng } from "react-native-maps/lib/sharedTypes";
-import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import Col from "../components/custom/Col";
 import { Header } from "../components/header/Header";
 import { useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
-import InputIcon from "../components/input/InputIcon";
-import Space from "../components/custom/Space";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import SolarMapPointLinear from "../../assets/images/icons/SolarMapPointLinear";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
 import { RouteProp } from "@react-navigation/native";
 import NumberValue from "../configs/value/number.value";
-import GoogleMapView from "../fragments/GoogleMapView";
 import spacing from "../configs/styles/space.config";
+import GoogleMapView from "../fragments/GoogleMapView";
+import { Picker } from "../components/location/Picker";
+import DriverInfoType from "../types/driverInfo.type";
+import OrderTrackingFragment from "../fragments/OrderTrackingFragment";
 
-type AddNewLocationScreenProps = {
-	route: RouteProp<RootStackParamList, "AddNewLocationScreen">;
+type OrderTrackingScreenProps = {
+	route: RouteProp<RootStackParamList, "OrderTrackingScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export default function AddNewLocationScreen({ navigation }: AddNewLocationScreenProps) {
+export default function OrderTrackingScreen({ navigation }: OrderTrackingScreenProps) {
 	const [currentLocation, setCurrentLocation] = useState<LocationObjectCoords>();
-	const [pickedLocation, setPickedLocation] = useState<LatLng>({ latitude: 0, longitude: 0 });
-	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const dropAnim = useSharedValue(340);
+	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const [driver, setDriver] = useState<DriverInfoType>();
 
 	const dropAnimHandler = (value: "down" | "up") => {
 		dropAnim.value = withTiming(value === "down" ? 45 : 340, { duration: 500 });
@@ -51,24 +46,11 @@ export default function AddNewLocationScreen({ navigation }: AddNewLocationScree
 		height: dropAnim.value,
 	}));
 
-	useEffect(() => {
-		(async () => {
-			let { status } = await Location.requestForegroundPermissionsAsync();
-			if (status !== "granted") {
-				Alert.alert("Permission to access location was denied");
-				return;
-			}
-
-			const location = await Location.getCurrentPositionAsync({});
-			setCurrentLocation(location.coords);
-		})();
-	}, []);
-
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 			<Col style={{ width: "100%", height: "100%" }}>
 				<Header
-					title={"Add new location"}
+					title={"Order Tracking"}
 					colorTitle={theme.text_1.getColor()}
 					colorIconBack={theme.text_1.getColor()}
 					styleIconBack={{
@@ -76,14 +58,7 @@ export default function AddNewLocationScreen({ navigation }: AddNewLocationScree
 					}}
 					onPressBack={() => navigation.pop()}
 				/>
-				<GoogleMapView
-					currentLocation={setCurrentLocation}
-					onRegionChange={region => {
-						setPickedLocation({ latitude: region.latitude, longitude: region.longitude });
-						console.log(pickedLocation);
-					}}
-					markers={currentLocation && [{ coordinate: currentLocation, title: "my location" }]}
-				>
+				<GoogleMapView currentLocation={setCurrentLocation}>
 					<View style={styles.pickerContainer}>
 						<Picker />
 					</View>
@@ -116,21 +91,7 @@ export default function AddNewLocationScreen({ navigation }: AddNewLocationScree
 							]}
 						/>
 					</PanGestureHandler>
-					<Text
-						style={[{ ...textStyle["18_semibold"], color: theme.text_1.getColor(), textAlign: "center" }]}
-					>
-						Location
-					</Text>
-					<Space height={16} />
-					<InputIcon
-						height={54}
-						placeholder={"Your Location"}
-						iconRight={<SolarMapPointLinear width={24} height={24} color={theme.text_1.getColor()} />}
-					/>
-					<Space height={16} />
-					<InputIcon height={54} placeholder={"Location name"} />
-					<Space height={32} />
-					<ButtonHasStatus title={"Apply"} onPress={() => {}} styleButton={styles.buttonApply} />
+					<OrderTrackingFragment driver={setDriver} />
 				</Animated.View>
 			</Col>
 		</SafeAreaView>
@@ -161,8 +122,5 @@ const styles = StyleSheet.create({
 		marginBottom: 18,
 		width: "40%",
 		left: "30%",
-	},
-	buttonApply: {
-		width: "100%",
 	},
 });

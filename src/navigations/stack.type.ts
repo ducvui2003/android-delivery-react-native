@@ -40,6 +40,7 @@ export type RootStackParamList = {
 	PaymentMethodScreen: undefined;
 	FaceIDScreen: undefined;
 	TouchIDScreen: undefined;
+	OrderTrackingScreen: undefined;
 };
 
 export type MainScreenStackParamList = {
