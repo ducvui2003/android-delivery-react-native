@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		app:cardCornerRadius="12dp"
+		>
+	<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="240dp"
+			tools:context=".fragment.CardVisaFragment"
+			android:id="@+id/main_layout"
+			>
+		<androidx.fragment.app.FragmentContainerView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/fragment_before_card_visa"
+				android:background="@drawable/bg_gradient_1"
+				android:name="com.lamnguyen1305.deliveryreactnativeapp.fragment.BeforeCardVisaFragment"/>
+		<androidx.fragment.app.FragmentContainerView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/fragment_after_card_visa"
+				android:rotationY="180"
+				android:name="com.lamnguyen1305.deliveryreactnativeapp.fragment.AfterCardVisaFragment"
+				/>
+	</RelativeLayout>
+</androidx.cardview.widget.CardView>

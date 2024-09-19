@@ -1,7 +1,6 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 import RegisterFormType from "../types/registerForm.type";
 import CategoryType from "../types/category.type";
-import PromotionType from "../types/promotion.type";
 
 export type RootStackParamList = {
 	MainScreen: NavigatorScreenParams<MainScreenStackParamList>;
@@ -39,6 +38,8 @@ export type RootStackParamList = {
 	CameraScreen: { data?: any; prevScreen: keyof RootStackParamList };
 	PromotionScreen: undefined;
 	PaymentMethodScreen: undefined;
+	FaceIDScreen: undefined;
+	TouchIDScreen: undefined;
 	OrderTrackingScreen: undefined;
 };
 

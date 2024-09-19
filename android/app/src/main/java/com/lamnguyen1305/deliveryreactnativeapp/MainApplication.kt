@@ -16,6 +16,7 @@ import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
 
 import com.facebook.FacebookSdk;
+import com.lamnguyen1305.deliveryreactnativeapp.packages.CardVisaPackage;
 
 class MainApplication : Application(), ReactApplication {
 
@@ -23,9 +24,9 @@ class MainApplication : Application(), ReactApplication {
         this,
         object : DefaultReactNativeHost(this) {
           override fun getPackages(): List<ReactPackage> {
-            // Packages that cannot be autolinked yet can be added manually here, for example:
-            // packages.add(new MyReactNativePackage());
-            return PackageList(this).packages
+            return PackageList(this).packages.apply {
+              add(CardVisaPackage())
+            }
           }
 
           override fun getJSMainModuleName(): String = ".expo/.virtual-metro-entry"
