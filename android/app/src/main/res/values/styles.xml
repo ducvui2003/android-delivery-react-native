@@ -14,4 +14,12 @@
   <style name="Theme.App.SplashScreen" parent="AppTheme">
     <item name="android:windowBackground">@drawable/splashscreen</item>
   </style>
+  <style name="CardNumber.Cell.TextView"
+         parent="android:Widget.TextView">
+    <item name="android:textSize">28sp</item>
+    <item name="android:textColor">#fff</item>
+    <item name="android:fontWeight">600</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">35dp</item>
+  </style>
 </resources>

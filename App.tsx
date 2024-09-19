@@ -66,13 +66,13 @@ function Root() {
     const colorScheme = useColorScheme();
 
     useEffect(() => {
-        if (!colorScheme) return;
+      if (!colorScheme) return;
       dispatch(setTheme(colorScheme));
     }, []);
 
     return (
         <NavigationContainer>
-          <RootStack.Navigator initialRouteName="TouchIDScreen" screenOptions={{ headerShown: false }}>
+          <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{ headerShown: false }}>
             <RootStack.Screen name={"MainScreen"} component={MainScreen} />
             <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
             <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />
