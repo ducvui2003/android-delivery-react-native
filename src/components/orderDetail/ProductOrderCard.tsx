@@ -2,7 +2,7 @@ import ProductOrderCardProps from "./type/productOrderCard.props";
 import {useSelector} from "react-redux";
 import {RootState} from "../../configs/redux/store.config";
 import {ThemeType} from "../../types/theme.type";
-import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Image, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import Row from "../custom/Row";
 import Col from "../custom/Col";
@@ -16,6 +16,7 @@ import {SolarMageImageFill} from "../../../assets/images/icons/SolarMageImageFil
 import OptionsProductCard from "./OptionsProductCard";
 import SolarCameraBold from "../../../assets/images/icons/SolarCameraBold";
 import {Input} from "@rneui/base";
+import InputReviewArea from "./InputReviewArea";
 
 function ProductOrderCard({
 							  name,
@@ -82,27 +83,34 @@ function ProductOrderCard({
 				</Col>
 
 			}
-			{!(status === ORDER_STATUS_ACTIVE) &&
+			{status === ORDER_STATUS_COMPLETED &&
+				<InputReviewArea
+					placeholder={"Type your review ..."}
+					value={description}
+					styleInput={styles.styleInput}
+					onPressIconLeft={cameraOnPress}
+					onPressIconRight={insertPictureOnPress}
 
-			<Col style={styles.reviewArea}>
-				<Col>
-					<TextInput
-						placeholder="Type your review ..."
-						multiline={true}
-						style={styles.styleInput}
-						defaultValue={description}/>
-				</Col>
-				<Col >
-					<Row style={styles.iconReviewArea}>
-						<TouchableOpacity onPress={cameraOnPress}>
-							<SolarCameraBold width={30} height={30} style={{right: 10}} color={neutral.getColor("100")}/>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={insertPictureOnPress}>
-							<SolarMageImageFill width={30} height={30} color={neutral.getColor("100")}/>
-						</TouchableOpacity>
-					</Row>
-				</Col>
-			</Col>
+					/>
+			// <Col style={styles.reviewArea}>
+			// 	<Col>
+			// 		<TextInput
+			// 			placeholder="Type your review ..."
+			// 			multiline={true}
+			// 			style={styles.styleInput}
+			// 			defaultValue={description}/>
+			// 	</Col>
+			// 	<Col >
+			// 		<Row style={styles.iconReviewArea}>
+			// 			<TouchableOpacity onPress={cameraOnPress}>
+			// 				<SolarCameraBold width={30} height={30} style={{right: 10}} color={neutral.getColor("100")}/>
+			// 			</TouchableOpacity>
+			// 			<TouchableOpacity onPress={insertPictureOnPress}>
+			// 				<SolarMageImageFill width={30} height={30} color={neutral.getColor("100")}/>
+			// 			</TouchableOpacity>
+			// 		</Row>
+			// 	</Col>
+			// </Col>
 			}
 
 		</View>
@@ -118,7 +126,12 @@ const makeStyled = (theme: ThemeType) =>
 			backgroundColor: "white",
 			borderRadius: 10,
 			marginVertical: 10,
-			justifyContent: "space-between"
+			justifyContent: "space-between",
+			shadowColor: "#0D0A2C",
+			shadowOffset: {width: 0, height: 2},
+			shadowOpacity: 0.5,
+			shadowRadius: 10,
+			elevation: 5,
 		},
 		headerCard: {
 			justifyContent: "space-between",
@@ -149,8 +162,7 @@ const makeStyled = (theme: ThemeType) =>
 		iconReviewArea: {
 			padding: 10,
 			justifyContent: "flex-end",
-		}
-
+		},
 	})
 
 export default ProductOrderCard;

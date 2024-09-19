@@ -9,29 +9,59 @@ import Row from "../custom/Row";
 import SolarArrowRightOutline from "../../../assets/images/icons/SolarArrowRightOutline";
 import GradientIconSvg from "../grandientIconSvg/GradientIconSvg";
 import {primary} from "../../configs/colors/color-template.config";
-import {FluentLocation16Filled} from "../../../assets/images/icons/FluentLocation16Filled";
+import PromotionType from "../../types/promotion.type";
+import PaymentMethodType from "../../types/paymentMethod.type";
+import {MyLocation} from "../../../assets/data/location/location";
 
-function BoxInfoNecessary({styleDescriptionInfo, descriptionInfo, titleInfo}: BoxInfoNecessaryProps) {
+function BoxInfoNecessary({styleDescriptionInfo, descriptionInfo, titleInfo, iconTopRight}: BoxInfoNecessaryProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme)
 	const styles = makeStyled(theme)
 	return (
 		<Col style={styles.container}>
-			<Row style={{justifyContent: "space-around"}}>
-				<GradientIconSvg icon={<FluentLocation16Filled/>}
-								 gradientColors={[primary.getColor("500"), primary.getColor("50")]}/>
-				<Text>{titleInfo}</Text>
-				<SolarArrowRightOutline/>
-				<Text>Home</Text>
+			<Row>
+				<GradientIconSvg icon={iconTopRight}
+								 gradientColors={[primary.getColor("500"), primary.getColor("300")]}/>
+				<Text style={{left: 10, marginBottom: 8}}>{titleInfo}</Text>
+				{checkDescriptionInfo(descriptionInfo) === 2 &&
+					<Row style={{left: 10}}><SolarArrowRightOutline/><Text
+						style={[textStyle["16_semibold"], styleDescriptionInfo]}>{(descriptionInfo as MyLocation).name}</Text></Row>
+
+				}
 			</Row>
 
 			<Row>
-				{descriptionInfo instanceof Array ? descriptionInfo.map((description, index) => (
-					<Text key={index} style={[textStyle["16_semibold"], styleDescriptionInfo]}>{description}</Text>
-				)) : <Text style={[textStyle["16_semibold"], styleDescriptionInfo]}>{descriptionInfo}</Text>
+				{checkDescriptionInfo(descriptionInfo) === 0 && (descriptionInfo as Pick<PromotionType, "name">[]).map((description, index) => (
+					<Text key={index} style={[textStyle["16_semibold"], styleDescriptionInfo]}>{description.name}</Text>
+				))}
+
+				{checkDescriptionInfo(descriptionInfo) === 2 ?
+					<Text
+						style={[textStyle["16_semibold"], styleDescriptionInfo]}>{(descriptionInfo as MyLocation).address}</Text>
+					:
+					<Text
+						style={[textStyle["16_semibold"], styleDescriptionInfo]}>{(descriptionInfo as Pick<PaymentMethodType, "type">).type}</Text>
 				}
 			</Row>
 		</Col>
 	)
+}
+
+/*
+	return 0 if descriptionInfo is array of string (Pick<PromotionType, "name">[])
+	return 1 if descriptionInfo is PaymentMethodType
+	return 2 if descriptionInfo is MyLocation
+ */
+function checkDescriptionInfo(descriptionInfo: Pick<PromotionType, "name">[] | Pick<PaymentMethodType, "type"> | MyLocation ): number {
+	if(descriptionInfo instanceof Array) {
+		return 0
+	}
+	if ('type' in descriptionInfo) {
+		return 1
+	}
+	if ('address' in descriptionInfo) {
+		return 2
+	}
+	return 0
 }
 
 const makeStyled = (theme: ThemeType) =>
@@ -40,12 +70,11 @@ const makeStyled = (theme: ThemeType) =>
 			flex: 1,
 			...textStyle["16_regular"],
 			backgroundColor: theme.background.getColor(),
-			padding: 10,
+			padding: 16,
 			marginVertical: 10,
 			borderRadius: 10,
 			borderColor: theme.border.getColor(),
 			borderWidth: 1,
-
 		},
 
 	})

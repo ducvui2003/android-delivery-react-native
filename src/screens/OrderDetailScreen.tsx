@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, Text, View} from "react-native";
+import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {RouteProp} from "@react-navigation/native";
 import {RootStackParamList} from "../navigations/stack.type";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
@@ -18,20 +18,47 @@ import ProductOrderCard from "../components/orderDetail/ProductOrderCard";
 import {banh_mi, burger, burrito, donut_1, lemonade, pasta} from "../../assets/images/category/category.icon";
 import BoxInfoNecessary from "../components/orderDetail/BoxInfoNecessary";
 import {FluentLocation16Filled} from "../../assets/images/icons/FluentLocation16Filled";
-import {SolarCardBold} from "../../assets/images/icons/SolarCardBold";
 import SolarTicketSaleBold from "../../assets/images/icons/SolarTicketSaleBold";
-import {secondary} from "../configs/colors/color-template.config";
+import {gradient, neutral, primary, secondary, white} from "../configs/colors/color-template.config";
 import Col from "../components/custom/Col";
+import SolarWalletBold from "../../assets/images/icons/SolarWalletBold";
+import formater from "../utils/formater";
+import IconRating from "../components/rating/IconRating";
+import InputReviewArea from "../components/orderDetail/InputReviewArea";
+import SolarPenBold from "../../assets/images/icons/SolarPenBold";
+import GradientView from "../components/gradientView/GradientView";
+import BottomNavigation from "../components/navigation/BottomNavigation";
+import SolarHomeSmileLinear from "../../assets/images/icons/SolarHomeSmileLinear";
+import SolarHomeSmileBold from "../../assets/images/icons/SolarHomeSmileBold";
+import SolarClipboardListLinear from "../../assets/images/icons/SolarClipboardListLinear";
+import SolarClipboardListBold from "../../assets/images/icons/SolarClipboardListBold";
+import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
+import SolarHeartBold from "../../assets/images/icons/SolarHeartBold";
+import SolarBellLinear from "../../assets/images/icons/SolarBellLinear";
+import SolarBellBold from "../../assets/images/icons/SolarBellBold";
+import SolarUserCircleLinear from "../../assets/images/icons/SolarUserCircleLinear";
+import SolarUserCircleBold from "../../assets/images/icons/SolarUserCircleBold";
+import SolarBag5Bold from "../../assets/images/icons/SolarBag5Bold";
 
 type OrderDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "OrderDetailScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
+	onPressCamera?: () => void;
+	onPressInsertPicture?: () => void;
+	onPressCancelOrder?: () => void;
+	onPressReorder?: () => void;
+	onPressTrackOrder?: () => void;
 };
 export default function OrderDetailScreen({
 											  route: {
 												  params: {id},
 											  },
 											  navigation,
+											  onPressCamera,
+											  onPressInsertPicture,
+											  onPressCancelOrder,
+											  onPressReorder,
+											  onPressTrackOrder,
 										  }: OrderDetailScreenProps) {
 
 	const theme = useSelector((state: RootState) => state.themeState.theme)
@@ -40,9 +67,8 @@ export default function OrderDetailScreen({
 
 	React.useEffect(() => {
 		const order = orders.find((order) => order.id === id)
-		if (order) {
-			setOrderDetail(order)
-		}
+		if (order) setOrderDetail(order)
+
 	}, [])
 	return (
 		<SafeAreaView style={styles.container}>
@@ -55,8 +81,8 @@ export default function OrderDetailScreen({
 				}}
 				iconRight={<View style={styles.styleBackgroundIconRight}><SolarMenuDotsLinear/></View>}
 			/>
-			<ScrollView style={{paddingHorizontal: 25}}>
-				<View>
+			<ScrollView>
+				<View style={{paddingHorizontal: 25}}>
 					<Row style={styles.orderSummary}>
 						<Text>Order Summary</Text>
 						<StatusLabel status={orderDetail?.status ? orderDetail?.status : ORDER_STATUS_ACTIVE}/>
@@ -68,33 +94,102 @@ export default function OrderDetailScreen({
 						)
 					})}
 
+
 					<BoxInfoNecessary iconTopRight={<FluentLocation16Filled/>} titleInfo={"Deliver to"}
-									  descriptionInfo={orderDetail?.address ? orderDetail?.address : ""}/>
+									  descriptionInfo={orderDetail?.address ? orderDetail?.address : {
+										  name: "",
+										  address: ""
+									  }}/>
 
-					<BoxInfoNecessary iconTopRight={<SolarCardBold/>} titleInfo={"Payment Method"}
-									  descriptionInfo={orderDetail?.paymentMethod ? orderDetail?.paymentMethod : ""}/>
+					<BoxInfoNecessary iconTopRight={<SolarWalletBold/>} titleInfo={"Payment Method"}
+									  descriptionInfo={orderDetail?.paymentMethod ? orderDetail?.paymentMethod : {type: ""}}/>
 
-					<BoxInfoNecessary iconTopRight={<SolarTicketSaleBold/>} styleDescriptionInfo={styles.promotionStyle} titleInfo={"Promotions"} descriptionInfo={orderDetail?.promotions ? orderDetail?.promotions : ""}/>
+					<BoxInfoNecessary iconTopRight={<SolarTicketSaleBold/>} styleDescriptionInfo={styles.promotionStyle}
+									  titleInfo={"Promotions"}
+									  descriptionInfo={orderDetail?.promotions ? orderDetail?.promotions : [{name: ""}]}/>
 
-				<Col >
-					<Row style={styles.summaryArea}>
-						<Text style={styles.summaryTitleArea}>Subtotal</Text>
-						<Text style={styles.summaryNumberArea}>{orderDetail?.subTotal}</Text>
-					</Row>
-					<Row style={styles.summaryArea}>
-						<Text style={styles.summaryTitleArea}>Delivery Fee</Text>
-						<Text style={styles.summaryNumberArea}>{orderDetail?.deliveryFee}</Text>
-					</Row>
-					<Row style={styles.summaryArea}>
-						<Text style={styles.summaryTitleArea}>Discount</Text>
-						<Text style={styles.summaryNumberArea}>{orderDetail?.discount}</Text>
-					</Row>
-					<View style={{borderWidth: 1, borderColor: theme.border.getColor()}}/>
-					<Row style={styles.summaryArea}>
-						<Text style={styles.summaryTitleArea}>Total</Text>
-						<Text style={styles.summaryNumberArea}>{orderDetail?.price}</Text>
-					</Row>
-				</Col>
+					<Col>
+						<Row style={styles.summaryArea}>
+							<Text style={styles.summaryTitleArea}>Subtotal</Text>
+							<Text
+								style={styles.summaryNumberArea}>{formater.formatCurrency(orderDetail?.subTotal ? orderDetail.subTotal : 0)}</Text>
+						</Row>
+						<Row style={styles.summaryArea}>
+							<Text style={styles.summaryTitleArea}>Delivery Fee</Text>
+							<Text style={styles.summaryNumberArea}>{orderDetail?.deliveryFee}</Text>
+						</Row>
+						<Row style={styles.summaryArea}>
+							<Text style={styles.summaryTitleArea}>Discount</Text>
+							<Text
+								style={styles.summaryNumberArea}>{formater.formatCurrency(orderDetail?.discount ? orderDetail?.discount : 0)}</Text>
+						</Row>
+						<View style={{borderWidth: 1, borderColor: theme.text_1.getColor()}}/>
+						<Row style={styles.summaryArea}>
+							<Text style={styles.summaryTitleArea}>Total</Text>
+							<Text
+								style={styles.summaryNumberArea}>{formater.formatCurrency(orderDetail?.price ? orderDetail?.price : 0)}</Text>
+						</Row>
+					</Col>
+
+					{orderDetail?.status === ORDER_STATUS_COMPLETED &&
+						<Col style={{paddingBottom: 24}}><IconRating iconSize={60} total={5}
+																	 rating={orderDetail.starReview}/></Col>
+					}
+					{orderDetail?.status === ORDER_STATUS_COMPLETED &&
+						<InputReviewArea
+							placeholder={"Type your review ..."}
+							value={orderDetail.description}
+							styleInput={styles.inputReview}
+							onPressIconLeft={onPressCamera}
+							onPressIconRight={onPressInsertPicture}
+
+						/>
+					}
+
+					{orderDetail?.status === ORDER_STATUS_CANCELLED &&
+						<Row style={{justifyContent: "space-between"}}>
+							<Text>{orderDetail.description}</Text>
+							<GradientView gradientColors={[primary.getColor("500"), primary.getColor("300")]}
+										  style={{padding: 10, borderRadius: 10}}>
+								<SolarPenBold width={26} height={26} color={"white"}/>
+							</GradientView>
+
+						</Row>
+					}
+
+					<Col style={styles.bottomNavigate}>
+						{orderDetail?.status === ORDER_STATUS_ACTIVE ?
+							<Row style={{justifyContent: "center"}}>
+								<TouchableOpacity style={{
+									paddingHorizontal: 26,
+									paddingVertical: 16,
+									borderRadius: 30,
+									backgroundColor: theme.background.getColor()
+								}} onPress={onPressCancelOrder}>
+									<Text style={styles.buttonNotFocusNavigate}>Cancel Order</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={{
+									paddingHorizontal: 26,
+									paddingVertical: 16,
+									borderRadius: 30,
+									backgroundColor: primary.getColor("500"),
+								}} onPress={onPressTrackOrder}>
+									<Text style={styles.buttonFocusNavigate}>Track Order</Text>
+								</TouchableOpacity>
+							</Row>
+							:
+							<TouchableOpacity
+								style={{padding: 16, borderRadius: 30, backgroundColor: primary.getColor("500")}}
+								onPress={onPressReorder}>
+								<Row style={{justifyContent: "center"}}>
+									<SolarBag5Bold height={24} width={24} style={{marginEnd: 10}} color={"white"}/>
+									<Text style={styles.buttonFocusNavigate}>Reorder</Text>
+								</Row>
+
+							</TouchableOpacity>
+						}
+					</Col>
+
 				</View>
 			</ScrollView>
 
@@ -107,26 +202,29 @@ const makeStyled = (theme: ThemeType) =>
 		container: {
 			flex: 1,
 			...textStyle["16_regular"],
+			backgroundColor: theme.background.getColor(),
 		},
 		styleBackgroundIconRight: {
-			backgroundColor: theme.background.getColor(),
+			backgroundColor: theme.background_1.getColor(),
 			padding: 8,
 			borderRadius: 50,
 			shadowColor: "#0D0A2C",
 			shadowOffset: {width: -50, height: 5},
 			shadowOpacity: 0.2,
 			shadowRadius: 10,
+			elevation: 3,
 		},
 		orderSummary: {
 			justifyContent: "space-between"
 		},
 		promotionStyle: {
-			padding: 5,
+			paddingHorizontal: 4,
+			paddingVertical: 2.5,
 			borderRadius: 5,
 			backgroundColor: secondary.getColor("500"),
 			color: "white",
 			textTransform: "uppercase",
-
+			marginEnd: 10
 		},
 		summaryArea: {
 			paddingVertical: 10,
@@ -138,7 +236,33 @@ const makeStyled = (theme: ThemeType) =>
 		summaryTitleArea: {
 			...textStyle["16_regular"],
 		},
-
+		inputReview: {
+			padding: 15,
+			paddingBottom: 30,
+			borderBottomWidth: 0,
+			...textStyle["16_regular"],
+		},
+		bottomNavigate: {
+			borderRadius: 20,
+			padding: 10,
+			marginVertical: 24,
+			backgroundColor: theme.background.getColor(),
+			shadowColor: "#0D0A2C",
+			shadowOffset: {width: 0, height: 2},
+			shadowOpacity: 0.5,
+			shadowRadius: 10,
+			elevation: 10,
+		},
+		buttonFocusNavigate: {
+			...textStyle["18_semibold"],
+			color: "white",
+		},
+		buttonNotFocusNavigate: {
+			backgroundColor: theme.background.getColor(),
+			...textStyle["18_regular"],
+			color: neutral.getColor("900"),
+			opacity: 0.4
+		},
 
 	})
 
@@ -186,18 +310,22 @@ const orders: OrderDetailType[] = [
 				description: '',
 			},
 		],
-		address: '123 Main St',
-		paymentMethod: 'Credit Card',
-		promotions: ['PROMO10'],
+		address: {
+			name: 'Home',
+			address: '123 Main St',
+		},
+		paymentMethod: {type: 'Credit Card'},
+		promotions: [{name: 'PROMO10'}, {name: 'PREE'}],
 		subTotal: 4.5,
 		deliveryFee: 2.0,
 		discount: 0.5,
+		description: '',
 	},
 	{
 		id: 'SP2',
 		price: 2000,
 		starReview: 4,
-		status: ORDER_STATUS_COMPLETED,
+		status: ORDER_STATUS_CANCELLED,
 		products: [
 			{
 				id: 'prod2',
@@ -226,12 +354,16 @@ const orders: OrderDetailType[] = [
 				options: [{id: 'opt4', name: 'Organic', price: 1}],
 			},
 		],
-		address: '456 Another St',
-		paymentMethod: 'PayPal',
-		promotions: ['PROMO20'],
+		address: {
+			name: 'Home',
+			address: '123 Main St',
+		},
+		paymentMethod: {type: 'Credit Card'},
+		promotions: [{name: 'PROMO10'}, {name: 'PREE DELIVERY'}],
 		subTotal: 5.5,
 		deliveryFee: 1.5,
 		discount: 1.0,
+		description: 'This is a very good product',
 	},
 	{
 		id: 'SP3',
@@ -256,11 +388,15 @@ const orders: OrderDetailType[] = [
 				description: 'Freshly squeezed orange juice',
 			},
 		],
-		address: '789 Third St',
-		paymentMethod: 'Cash',
-		promotions: ['PROMO5'],
+		address: {
+			name: 'Home',
+			address: '123 Main St',
+		},
+		paymentMethod: {type: 'Credit Card'},
+		promotions: [{name: 'PROMO10'}, {name: 'PREE DELIVERY'}],
 		subTotal: 6.0,
 		deliveryFee: 1.0,
 		discount: 0.5,
+		description: 'This is a very good product',
 	},
 ];
