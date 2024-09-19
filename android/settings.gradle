@@ -1,4 +1,4 @@
-rootProject.name = 'delivery-react-native-app'
+rootProject.name = 'Delivery React Native App'
 
 dependencyResolutionManagement {
   versionCatalogs {

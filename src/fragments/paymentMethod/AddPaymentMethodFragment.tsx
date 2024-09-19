@@ -8,7 +8,6 @@
 
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text } from "react-native";
-import CardVisa from "../../components/payment/CardVisa";
 import CardVisaType from "../../types/cardVisa.type";
 import InputIcon from "../../components/input/InputIcon";
 import Col from "../../components/custom/Col";
@@ -19,6 +18,7 @@ import textStyle from "../../configs/styles/textStyle.config";
 import Row from "../../components/custom/Row";
 import SolarCalendar from "../../../assets/images/icons/SolarCalendar";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { NativeCardVisaView } from "../../components/payment/NativeCardVisaView";
 
 type AddPaymentMethodProps = {
 	focus?: (values: boolean) => void;
@@ -73,7 +73,7 @@ function AddPaymentMethodFragment({ focus, onDataChange, onDoneInput, clearData 
 
 	return (
 		<Col>
-			<CardVisa
+			<NativeCardVisaView
 				cardNumber={cardNumber}
 				name={name}
 				expired={expired}
@@ -81,7 +81,7 @@ function AddPaymentMethodFragment({ focus, onDataChange, onDoneInput, clearData 
 				focusCardNumber={focusCardNumber}
 				focusName={focusName}
 				focusExpired={focusExpired}
-				focusCvv={focusCVV}
+				focusCVV={focusCVV}
 			/>
 
 			<Col style={[styles.inputContainer]}>

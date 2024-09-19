@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:orientation="horizontal"
+		android:layout_height="50dp"
+		android:background="@drawable/bg_gradient_2"
+		android:gravity="right|center_vertical"
+		android:layout_marginTop="35dp"
+		android:paddingHorizontal="25dp"
+		android:alpha="0"
+		>
+	<androidx.fragment.app.FragmentContainerView
+			android:id="@+id/cell_1"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			/>
+	<androidx.fragment.app.FragmentContainerView
+			android:id="@+id/cell_2"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			/>
+	<androidx.fragment.app.FragmentContainerView
+			android:id="@+id/cell_3"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			/>
+</LinearLayout>

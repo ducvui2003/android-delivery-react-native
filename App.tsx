@@ -30,6 +30,9 @@ import CameraScreen from "./src/screens/CameraScreen";
 import PromotionScreen from "./src/screens/PromotionScreen";
 import PaymentMethodScreen from "./src/screens/PaymentMethodScreen";
 import OrderDetailScreen from "./src/screens/OrderDetailScreen";
+import OrderTrackingScreen from "./src/screens/OrderTrackingScreen";
+import FaceIDScreen from "./src/screens/FaceIDScreen";
+import TouchIDScreen from "./src/screens/TouchIDScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -94,6 +97,9 @@ function Root() {
             <RootStack.Screen name={"CameraScreen"} component={CameraScreen} />
             <RootStack.Screen name={"PromotionScreen"} component={PromotionScreen} />
             <RootStack.Screen name={"PaymentMethodScreen"} component={PaymentMethodScreen} />
+            <RootStack.Screen name={"OrderTrackingScreen"} component={OrderTrackingScreen} />
+            <RootStack.Screen name={"FaceIDScreen"} component={FaceIDScreen} />
+            <RootStack.Screen name={"TouchIDScreen"} component={TouchIDScreen} />
               <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen} />
           </RootStack.Navigator>
         </NavigationContainer>
