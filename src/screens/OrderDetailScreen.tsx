@@ -19,7 +19,7 @@ import {banh_mi, burger, burrito, donut_1, lemonade, pasta} from "../../assets/i
 import BoxInfoNecessary from "../components/orderDetail/BoxInfoNecessary";
 import {FluentLocation16Filled} from "../../assets/images/icons/FluentLocation16Filled";
 import SolarTicketSaleBold from "../../assets/images/icons/SolarTicketSaleBold";
-import {gradient, neutral, primary, secondary, white} from "../configs/colors/color-template.config";
+import {neutral, primary, secondary, white} from "../configs/colors/color-template.config";
 import Col from "../components/custom/Col";
 import SolarWalletBold from "../../assets/images/icons/SolarWalletBold";
 import formater from "../utils/formater";
@@ -27,18 +27,8 @@ import IconRating from "../components/rating/IconRating";
 import InputReviewArea from "../components/orderDetail/InputReviewArea";
 import SolarPenBold from "../../assets/images/icons/SolarPenBold";
 import GradientView from "../components/gradientView/GradientView";
-import BottomNavigation from "../components/navigation/BottomNavigation";
-import SolarHomeSmileLinear from "../../assets/images/icons/SolarHomeSmileLinear";
-import SolarHomeSmileBold from "../../assets/images/icons/SolarHomeSmileBold";
-import SolarClipboardListLinear from "../../assets/images/icons/SolarClipboardListLinear";
-import SolarClipboardListBold from "../../assets/images/icons/SolarClipboardListBold";
-import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
-import SolarHeartBold from "../../assets/images/icons/SolarHeartBold";
-import SolarBellLinear from "../../assets/images/icons/SolarBellLinear";
-import SolarBellBold from "../../assets/images/icons/SolarBellBold";
-import SolarUserCircleLinear from "../../assets/images/icons/SolarUserCircleLinear";
-import SolarUserCircleBold from "../../assets/images/icons/SolarUserCircleBold";
 import SolarBag5Bold from "../../assets/images/icons/SolarBag5Bold";
+import numberValue from "../configs/value/number.value";
 
 type OrderDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "OrderDetailScreen">;
@@ -71,7 +61,7 @@ export default function OrderDetailScreen({
 
 	}, [])
 	return (
-		<SafeAreaView style={styles.container}>
+		<View style={styles.container}>
 			<Header
 				title={id}
 				colorTitle={theme.text_1.getColor()}
@@ -147,12 +137,14 @@ export default function OrderDetailScreen({
 					}
 
 					{orderDetail?.status === ORDER_STATUS_CANCELLED &&
-						<Row style={{justifyContent: "space-between"}}>
+						<Row style={{justifyContent: "space-between", paddingVertical: 20}}>
 							<Text>{orderDetail.description}</Text>
-							<GradientView gradientColors={[primary.getColor("500"), primary.getColor("300")]}
-										  style={{padding: 10, borderRadius: 10}}>
-								<SolarPenBold width={26} height={26} color={"white"}/>
-							</GradientView>
+							<TouchableOpacity style={{borderRadius: 50}}>
+								<GradientView  gradientColors={[primary.getColor("500"), primary.getColor("300")]}
+											   style={{padding: 10, borderRadius: 50}}>
+									<SolarPenBold width={26} height={26} color={"white"}/>
+								</GradientView>
+							</TouchableOpacity>
 
 						</Row>
 					}
@@ -192,9 +184,7 @@ export default function OrderDetailScreen({
 
 				</View>
 			</ScrollView>
-
-
-		</SafeAreaView>
+		</View>
 	)
 }
 const makeStyled = (theme: ThemeType) =>

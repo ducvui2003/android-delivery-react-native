@@ -53,6 +53,7 @@ const makeStyled = (theme: ThemeType) =>
 			shadowOffset: {width: -50, height: 5},
 			shadowOpacity: 0.2,
 			shadowRadius: 10,
+			elevation: 5,
 		},
 		content :{
 			justifyContent: "space-between",

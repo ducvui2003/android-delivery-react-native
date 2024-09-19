@@ -99,6 +99,7 @@ const makeStyled = (theme: ThemeType) =>
 	StyleSheet.create({
 		container: {
 			flex: 1,
+			backgroundColor: theme.background.getColor()
 		},
 		inputSearchCustom: {
 			color: neutral.getColor("100"),
