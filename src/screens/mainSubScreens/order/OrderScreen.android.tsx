@@ -5,7 +5,7 @@
  * Create at: 8:16 PM - 21/08/2024
  *  User: lam-nguyen
  **/
-import {SafeAreaView, ScrollView, StyleSheet} from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet, View} from "react-native";
 import * as React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../configs/redux/store.config";
@@ -18,13 +18,12 @@ import {ButtonFilterType} from "../../../components/orders/type/buttonFilter.pro
 import ButtonFilter from "../../../components/orders/ButtonFilter";
 import {FlatList} from "react-native-gesture-handler";
 import {OrderProps} from "../../../components/orders/type/order.props";
-import {statusLabel} from "../../../components/orders/type/statusLabel.props";
 import Order from "../../../components/orders/Order";
 import {burger, burrito, sandwich} from "../../../../assets/images/category/category.icon";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../../navigations/stack.type";
-import {ORDER_STATUS_ACTIVE, ORDER_STATUS_CANCELLED} from "../../../types/order.type";
+import {ORDER_STATUS_ACTIVE, ORDER_STATUS_CANCELLED, ORDER_STATUS_COMPLETED} from "../../../types/order.type";
 
 
 const ButtonFilterTypeArray: ButtonFilterType[] = ["All", "Active", "Completed", "Cancelled", "5", "4", "3", "2", "1"];
@@ -38,13 +37,13 @@ function OrderScreen() {
 
 	const renderItem = ({item}: { item: OrderProps }) => {
 		return (
-			<Order
-				{...item}
-				onPress={() => {
-					navigation.navigate("OrderDetailScreen", {id: item.id});
-				}}
+				<Order
+					{...item}
+					onPress={() => {
+						navigation.navigate("OrderDetailScreen", {id: item.id});
+					}}
+				/>
 
-			/>
 		);
 	};
 	return (
@@ -121,7 +120,7 @@ const DATA: OrderProps[] = [
 			sandwich
 		],
 		starReview: 5,
-		status: ORDER_STATUS_ACTIVE,
+		status: ORDER_STATUS_COMPLETED,
 		onPress: () => {
 		}
 	},

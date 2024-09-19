@@ -10,8 +10,7 @@ import textStyle from "../../configs/styles/textStyle.config";
 import IconRating from "../rating/IconRating";
 import StatusLabel from "./StatusLabel";
 import {neutral, primary} from "../../configs/colors/color-template.config";
-import {formatCurrency} from "../../utils/formator";
-import {ORDER_STATUS_ACTIVE} from "../../types/order.type";
+import formater from "../../utils/formater";
 
 function Order({id, price, images, starReview, status, onPress}: OrderProps) {
 	const theme = useSelector((root: RootState) => root.themeState.theme);
@@ -20,18 +19,21 @@ function Order({id, price, images, starReview, status, onPress}: OrderProps) {
 	return (
 		<TouchableOpacity style={styles.container} onPress={onPress}>
 			<Row style={styles.content}>
-				<View>
+				<View style={{flex: 0.7}}>
 					<OverlappingImages images={images}/>
 				</View>
 
-				<Col style={{justifyContent: "space-between"}}>
-					<Text>Order ID: <Text style={styles.oderIdText}>{id}</Text></Text>
-					<Text style={styles.priceText}>{formatCurrency(price)}</Text>
-					<IconRating total={5} rating={starReview}/>
-				</Col>
-				<Col style={{justifyContent: "center"}}>
-					<StatusLabel status={status}/>
-				</Col>
+				<Row style={styles.content}>
+					<Col style={{justifyContent: "space-between"}}>
+						<Text>Order ID: <Text style={styles.oderIdText}>{id}</Text></Text>
+						<Text style={styles.priceText}>{formater.formatCurrency(price)}</Text>
+						<IconRating total={5} rating={starReview}/>
+					</Col>
+					<Col style={{justifyContent: "center"}}>
+						<StatusLabel status={status}/>
+					</Col>
+				</Row>
+
 			</Row>
 
 		</TouchableOpacity>
@@ -51,7 +53,6 @@ const makeStyled = (theme: ThemeType) =>
 			shadowOffset: {width: -50, height: 5},
 			shadowOpacity: 0.2,
 			shadowRadius: 10,
-			elevation: 2
 		},
 		content :{
 			justifyContent: "space-between",

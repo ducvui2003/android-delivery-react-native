@@ -8,11 +8,6 @@ function OverlappingImages({images, limitShow = 3}: OverlappingImagesProps) {
 		<View style={{
 			width: 80,
 			height: 80,
-			shadowColor: "#0D0A2C",
-			shadowOffset: { width: -50, height: 15 },
-			shadowOpacity: 0.2,
-			shadowRadius: 10,
-			elevation: 10
 		}}>
 			{images.slice(0, limitShow).map((url, index) => (
 				<Image
