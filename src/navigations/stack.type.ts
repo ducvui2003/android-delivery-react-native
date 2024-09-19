@@ -38,6 +38,8 @@ export type RootStackParamList = {
 	CameraScreen: { data?: any; prevScreen: keyof RootStackParamList };
 	PromotionScreen: undefined;
 	PaymentMethodScreen: undefined;
+	FaceIDScreen: undefined;
+	TouchIDScreen: undefined;
 };
 
 export type MainScreenStackParamList = {
