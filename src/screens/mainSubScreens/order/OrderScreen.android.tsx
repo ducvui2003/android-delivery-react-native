@@ -24,6 +24,7 @@ import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../../navigations/stack.type";
 import {ORDER_STATUS_ACTIVE, ORDER_STATUS_CANCELLED, ORDER_STATUS_COMPLETED} from "../../../types/order.type";
+import {DATA} from "../../../../assets/data/order/order";
 
 
 const ButtonFilterTypeArray: ButtonFilterType[] = ["All", "Active", "Completed", "Cancelled", "5", "4", "3", "2", "1"];
@@ -111,90 +112,5 @@ const makeStyled = (theme: ThemeType) =>
 		}
 
 	})
-const DATA: OrderProps[] = [
-	{
-		id: "SP1",
-		price: 1000,
-		images: [
-			burger,
-			burrito,
-			sandwich
-		],
-		starReview: 5,
-		status: ORDER_STATUS_COMPLETED,
-		onPress: () => {
-		}
-	},
-	{
-		id: "SP2",
-		price: 2000,
-		images: [
-			burger,
-			burrito,
-		],
-		starReview: 4,
-		status: ORDER_STATUS_CANCELLED,
-		onPress: () => {
-		}
-	},
-	{
-		id: "SP3",
-		price: 3000,
-		images: [
-			burrito,
-			sandwich
-		],
-		starReview: 3,
-		status: ORDER_STATUS_ACTIVE,
-		onPress: () => {
-		}
-	},
-	{
-		id: "SP4",
-		price: 4000,
-		images: [
-			burger
-		],
-		starReview: 2,
-		status: ORDER_STATUS_CANCELLED,
-		onPress: () => {
-		}
-	},
-	{
-		id: "SP5",
-		price: 2000,
-		images: [
-			burger,
-			burrito,
-		],
-		starReview: 4,
-		status: "Cancelled",
-		onPress: () => {
-		}
-	},
-	{
-		id: "SP6",
-		price: 3000,
-		images: [
-			burrito,
-			sandwich
-		],
-		starReview: 3,
-		status: "Completed",
-		onPress: () => {
-		}
-	},
-	{
-		id: "SP7",
-		price: 4000,
-		images: [
-			burger
-		],
-		starReview: 2,
-		status: "Active",
-		onPress: () => {
-		}
-	},
 
-]
 export default OrderScreen;
