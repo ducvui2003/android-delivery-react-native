@@ -17,7 +17,7 @@ export default function OptionsProductCard({options}: { options: (OptionType | G
 			{options.map((option, index) => {
 				if (isOptionType(option)) {
 					return (
-						<Row style={styles.container} key={index}>
+						<Row style={styles.container} key={index + option.name}>
 							<Text style={{...textStyle["12_regular"]}}>{option.name}</Text>
 							<Text style={{
 								...textStyle["12_medium"],

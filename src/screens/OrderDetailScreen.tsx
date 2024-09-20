@@ -10,7 +10,6 @@ import * as React from "react";
 import SolarMenuDotsLinear from "../../assets/images/icons/SolarMenuDotLinear";
 import StatusLabel from "../components/orders/StatusLabel";
 import OrderDetailType from "../types/orderDetail.type";
-import {SafeAreaView} from "react-native-safe-area-context";
 import Row from "../components/custom/Row";
 import {ORDER_STATUS_ACTIVE, ORDER_STATUS_CANCELLED, ORDER_STATUS_COMPLETED} from "../types/order.type";
 import textStyle from "../configs/styles/textStyle.config";
@@ -28,7 +27,6 @@ import InputReviewArea from "../components/orderDetail/InputReviewArea";
 import SolarPenBold from "../../assets/images/icons/SolarPenBold";
 import GradientView from "../components/gradientView/GradientView";
 import SolarBag5Bold from "../../assets/images/icons/SolarBag5Bold";
-import numberValue from "../configs/value/number.value";
 
 type OrderDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "OrderDetailScreen">;
@@ -94,9 +92,9 @@ export default function OrderDetailScreen({
 					<BoxInfoNecessary iconTopRight={<SolarWalletBold/>} titleInfo={"Payment Method"}
 									  descriptionInfo={orderDetail?.paymentMethod ? orderDetail?.paymentMethod : {type: ""}}/>
 
-					<BoxInfoNecessary iconTopRight={<SolarTicketSaleBold/>} styleDescriptionInfo={styles.promotionStyle}
+					<BoxInfoNecessary iconTopRight={<SolarTicketSaleBold/>}
 									  titleInfo={"Promotions"}
-									  descriptionInfo={orderDetail?.promotions ? orderDetail?.promotions : [{name: ""}]}/>
+									  descriptionInfo={orderDetail?.promotions ? orderDetail?.promotions : []}/>
 
 					<Col>
 						<Row style={styles.summaryArea}>
@@ -113,7 +111,7 @@ export default function OrderDetailScreen({
 							<Text
 								style={styles.summaryNumberArea}>{formater.formatCurrency(orderDetail?.discount ? orderDetail?.discount : 0)}</Text>
 						</Row>
-						<View style={{borderWidth: 1, borderColor: theme.text_1.getColor()}}/>
+						<View style={{borderWidth: 1, borderColor: "black", backgroundColor: "black"}}/>
 						<Row style={styles.summaryArea}>
 							<Text style={styles.summaryTitleArea}>Total</Text>
 							<Text
@@ -138,7 +136,7 @@ export default function OrderDetailScreen({
 
 					{orderDetail?.status === ORDER_STATUS_CANCELLED &&
 						<Row style={{justifyContent: "space-between", paddingVertical: 20}}>
-							<Text>{orderDetail.description}</Text>
+							<Text style={{...textStyle["16_semibold"]}}>{orderDetail.description}</Text>
 							<TouchableOpacity style={{borderRadius: 50}}>
 								<GradientView  gradientColors={[primary.getColor("500"), primary.getColor("300")]}
 											   style={{padding: 10, borderRadius: 50}}>
@@ -206,15 +204,6 @@ const makeStyled = (theme: ThemeType) =>
 		},
 		orderSummary: {
 			justifyContent: "space-between"
-		},
-		promotionStyle: {
-			paddingHorizontal: 4,
-			paddingVertical: 2.5,
-			borderRadius: 5,
-			backgroundColor: secondary.getColor("500"),
-			color: "white",
-			textTransform: "uppercase",
-			marginEnd: 10
 		},
 		summaryArea: {
 			paddingVertical: 10,
@@ -331,7 +320,7 @@ const orders: OrderDetailType[] = [
 				options: [{id: 'opt4', name: 'Organic', price: 1}],
 			},
 			{
-				id: 'prod2',
+				id: 'prod22',
 				image: donut_1,
 				name: 'Banana',
 				rating: 4,

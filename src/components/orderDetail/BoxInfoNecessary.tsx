@@ -3,12 +3,12 @@ import Col from "../custom/Col";
 import {useSelector} from "react-redux";
 import {RootState} from "../../configs/redux/store.config";
 import {ThemeType} from "../../types/theme.type";
-import {StyleSheet, Text} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import Row from "../custom/Row";
 import SolarArrowRightOutline from "../../../assets/images/icons/SolarArrowRightOutline";
 import GradientIconSvg from "../grandientIconSvg/GradientIconSvg";
-import {primary} from "../../configs/colors/color-template.config";
+import {primary, secondary} from "../../configs/colors/color-template.config";
 import PromotionType from "../../types/promotion.type";
 import PaymentMethodType from "../../types/paymentMethod.type";
 import {MyLocation} from "../../../assets/data/location/location";
@@ -30,8 +30,11 @@ function BoxInfoNecessary({styleDescriptionInfo, descriptionInfo, titleInfo, ico
 			</Row>
 
 			<Row>
-				{checkDescriptionInfo(descriptionInfo) === 0 && (descriptionInfo as Pick<PromotionType, "name">[]).map((description, index) => (
-					<Text key={index} style={[textStyle["16_semibold"], styleDescriptionInfo]}>{description.name}</Text>
+				{checkDescriptionInfo(descriptionInfo) === 0  && (descriptionInfo as Pick<PromotionType, "name">[]).map((description, index) => (
+					<View key={index + description.name} style={{padding: 5, backgroundColor: secondary.getColor("500"),  marginEnd: 10, borderRadius: 5}}>
+						<Text  style={{ ...textStyle["12_medium"], color: "white",}}>{description.name}</Text>
+					</View>
+
 				))}
 
 				{checkDescriptionInfo(descriptionInfo) === 2 ?
@@ -67,7 +70,6 @@ function checkDescriptionInfo(descriptionInfo: Pick<PromotionType, "name">[] | P
 const makeStyled = (theme: ThemeType) =>
 	StyleSheet.create({
 		container: {
-			flex: 1,
 			...textStyle["16_regular"],
 			backgroundColor: theme.background.getColor(),
 			padding: 16,
