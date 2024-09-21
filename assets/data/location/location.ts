@@ -55,3 +55,4 @@ const data: MyLocation[] = [
 ];
 
 export default data;
+export {MyLocation};
