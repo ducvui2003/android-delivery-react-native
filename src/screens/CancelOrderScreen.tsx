@@ -9,23 +9,27 @@ import {Header} from "../components/header/Header";
 import {useSelector} from "react-redux";
 import {RootState} from "../configs/redux/store.config";
 import {ThemeType} from "../types/theme.type";
-import {ScrollView, StyleSheet, TextInput, View} from "react-native";
+import {Image, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import {OptionItem} from "../components/optionItem/OptionItem";
 import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import numberValue from "../configs/value/number.value";
 import {neutral} from "../configs/colors/color-template.config";
 import Row from "../components/custom/Row";
 import React, {useState} from "react";
+import heart from "../../assets/images/heart.png";
+import Modal from "../components/modal/Modal";
+import textStyle from "../configs/styles/textStyle.config";
+import {modalStyle} from "./PaymentMethodScreen";
 
-type CancelOrderFragmentProps = {};
 const reasons = ["Change of mind", "Found better price elsewhere", "Delivery delay", "Incorrect item selected", "Duplicate order", "Unable to fulfill order", "Other reasons"];
 
-function CancelOrderScreen({}: {}) {
+function CancelOrderScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme)
 	const styles = makeStyled(theme)
 	const [checked, setChecked] = React.useState<boolean[]>(Array(reasons.length).fill(false));
-
 	const hasChecked: boolean = checked.filter(item => item).length > 0;
+	const [showPopUp, setShowPopUp] = useState<boolean>(false);
+	const [showModal, setShowModal] = useState<boolean>(false);
 
 	return (
 		<View style={styles.container}>
@@ -54,8 +58,29 @@ function CancelOrderScreen({}: {}) {
 							   }}/>
 				}
 					</ScrollView>
+					<ButtonHasStatus title={"Submit"} active={hasChecked} onPress={() => setShowModal(true)}/>
 
-					<ButtonHasStatus title={"Submit"} active={hasChecked}/>
+			<Modal
+				active={showModal}
+				onEndHide={() => {
+					setShowPopUp(false);
+					setShowModal(false);
+				}}
+			>
+				<Text style={[modalStyle.title]}>Your Order Canceled</Text>
+				<Image source={heart} style={modalStyle.image} resizeMode={"cover"} />
+				<Text style={{color: neutral.getColor("900"), ...textStyle["16_semibold"]}}>We're sorry to see your order go. 😔</Text>
+				<Text style={[modalStyle.text]}>We're always striving to improve, and we hope to serve you better next time!</Text>
+				<ButtonHasStatus
+					styleButton={[modalStyle.button]}
+					title={"Ok"}
+					active={true}
+					onPress={() => {
+						setShowPopUp(false);
+						setShowModal(false);
+					}}
+				/>
+			</Modal>
 		</View>
 	)
 }
