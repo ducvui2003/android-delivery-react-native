@@ -20,10 +20,17 @@ import heart from "../../assets/images/heart.png";
 import Modal from "../components/modal/Modal";
 import textStyle from "../configs/styles/textStyle.config";
 import {modalStyle} from "./PaymentMethodScreen";
+import {RouteProp} from "@react-navigation/native";
+import {RootStackParamList} from "../navigations/stack.type";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
+type CancelOrderScreenProps = {
+	route: RouteProp<RootStackParamList, "CancelOrderScreen">;
+	navigation: NativeStackNavigationProp<RootStackParamList>;
+}
 const reasons = ["Change of mind", "Found better price elsewhere", "Delivery delay", "Incorrect item selected", "Duplicate order", "Unable to fulfill order", "Other reasons"];
 
-function CancelOrderScreen() {
+function CancelOrderScreen({ navigation }: CancelOrderScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme)
 	const styles = makeStyled(theme)
 	const [checked, setChecked] = React.useState<boolean[]>(Array(reasons.length).fill(false));
@@ -38,7 +45,8 @@ function CancelOrderScreen() {
 					styleIconBack={{
 						backgroundColor: theme.header.backgroundIconBack.getColor(),
 						elevation: 5
-					}}/>
+					}}
+			onPressBack={() => navigation.pop()}/>
 			<ScrollView style={{flex: 1}}>
 				{reasons.map((reason, index) =>
 					<Row style={styles.reason}>
