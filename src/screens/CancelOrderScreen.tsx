@@ -15,6 +15,7 @@ import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import numberValue from "../configs/value/number.value";
 import {neutral} from "../configs/colors/color-template.config";
 import Row from "../components/custom/Row";
+import React, {useState} from "react";
 
 type CancelOrderFragmentProps = {};
 const reasons = ["Change of mind", "Found better price elsewhere", "Delivery delay", "Incorrect item selected", "Duplicate order", "Unable to fulfill order", "Other reasons"];
@@ -22,6 +23,10 @@ const reasons = ["Change of mind", "Found better price elsewhere", "Delivery del
 function CancelOrderScreen({}: {}) {
 	const theme = useSelector((state: RootState) => state.themeState.theme)
 	const styles = makeStyled(theme)
+	const [checked, setChecked] = React.useState<boolean[]>(Array(reasons.length).fill(false));
+
+	const hasChecked: boolean = checked.filter(item => item).length > 0;
+
 	return (
 		<View style={styles.container}>
 			<Header title={"Cancel Order"} colorTitle={theme.text_1.getColor()}
@@ -33,15 +38,24 @@ function CancelOrderScreen({}: {}) {
 			<ScrollView style={{flex: 1}}>
 				{reasons.map((reason, index) =>
 					<Row style={styles.reason}>
-						<OptionItem key={index} selected={false} onPress={() => {}} name={reason} icon={"circle"}/>
+						<OptionItem key={index}  selected={checked[index]} onPress={() => {
+							setChecked([...checked.map((item, i) => i === index ? !item : false)]);
+						}} name={reason} icon={"circle"}/>
 					</Row>
-
 				)}
-				<TextInput placeholder={"Other reason..."} textAlignVertical={"top"} multiline
-						   style={{padding: 16, borderRadius: 10, height: 90, backgroundColor: theme.background_input.getColor(), marginBottom: 10}}/>
-			</ScrollView>
+				{checked[reasons.length - 1] &&
+					<TextInput placeholder={"Other reason..."} textAlignVertical={"top"} multiline
+							   style={{
+								   padding: 16,
+								   borderRadius: 10,
+								   height: 90,
+								   backgroundColor: theme.background_input.getColor(),
+								   marginBottom: 10
+							   }}/>
+				}
+					</ScrollView>
 
-			<ButtonHasStatus title={"Submit"}/>
+					<ButtonHasStatus title={"Submit"} active={hasChecked}/>
 		</View>
 	)
 }

@@ -19,7 +19,6 @@ import BoxInfoNecessary from "../components/orderDetail/BoxInfoNecessary";
 import {FluentLocation16Filled} from "../../assets/images/icons/FluentLocation16Filled";
 import SolarTicketSaleBold from "../../assets/images/icons/SolarTicketSaleBold";
 import {neutral, primary, white} from "../configs/colors/color-template.config";
-import {neutral, primary, secondary, white} from "../configs/colors/color-template.config";
 import Col from "../components/custom/Col";
 import SolarWalletBold from "../../assets/images/icons/SolarWalletBold";
 import formater from "../utils/formater";
