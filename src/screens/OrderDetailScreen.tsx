@@ -44,7 +44,6 @@ export default function OrderDetailScreen({
 											  navigation,
 											  onPressCamera,
 											  onPressInsertPicture,
-											  onPressCancelOrder,
 											  onPressReorder,
 											  onPressTrackOrder,
 										  }: OrderDetailScreenProps) {
@@ -66,7 +65,9 @@ export default function OrderDetailScreen({
 				colorIconBack={theme.text_1.getColor()}
 				styleIconBack={{
 					backgroundColor: theme.header.backgroundIconBack.getColor(),
+					elevation: 5
 				}}
+				onPressBack={() => navigation.pop()}
 				iconRight={<View style={styles.styleBackgroundIconRight}><SolarMenuDotsLinear/></View>}
 			/>
 			<ScrollView>
