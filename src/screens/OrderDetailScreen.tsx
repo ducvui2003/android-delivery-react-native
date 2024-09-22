@@ -14,7 +14,6 @@ import Row from "../components/custom/Row";
 import {ORDER_STATUS_ACTIVE, ORDER_STATUS_CANCELLED, ORDER_STATUS_COMPLETED} from "../types/order.type";
 import textStyle from "../configs/styles/textStyle.config";
 import ProductOrderCard from "../components/orderDetail/ProductOrderCard";
-import {banh_mi, burger, burrito, donut_1, lemonade, pasta} from "../../assets/images/category/category.icon";
 import BoxInfoNecessary from "../components/orderDetail/BoxInfoNecessary";
 import {FluentLocation16Filled} from "../../assets/images/icons/FluentLocation16Filled";
 import SolarTicketSaleBold from "../../assets/images/icons/SolarTicketSaleBold";

@@ -115,7 +115,7 @@ const orders: OrderDetailType[] = [
                         name: 'Chan Chau',
                         options: [
                             {id: 'opt2', name: 'den', price: 0.5},
-                            {id: 'opt3', name: 'trang', price: 0},
+                            {id: 'opt3', name: 'trang', price: 0.3},
                         ],
                     },
                 ],
