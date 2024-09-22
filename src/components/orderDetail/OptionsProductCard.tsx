@@ -7,6 +7,8 @@ import {ThemeType} from "../../types/theme.type";
 import textStyle from "../../configs/styles/textStyle.config";
 import {primary} from "../../configs/colors/color-template.config";
 import formater from "../../utils/formater";
+import Col from "../custom/Col";
+import SolarDot from "../../../assets/images/icons/SolarDot";
 
 export default function OptionsProductCard({options}: { options: (OptionType | GroupOptionType)[] }) {
 	const theme = useSelector((state: RootState) => state.themeState.theme)
@@ -28,7 +30,15 @@ export default function OptionsProductCard({options}: { options: (OptionType | G
 				}
 				if (isGroupOptionType(option)) {
 					return (
-							<OptionsProductCard options={option.options}/>
+						<Col>
+							<Text style={{...textStyle["12_regular"]}}>{option.name}</Text>
+							<Row style={{paddingHorizontal: 5, justifyContent: "space-between"}}>
+								<SolarDot/>
+								<OptionsProductCard options={option.options}/>
+							</Row>
+
+						</Col>
+
 					)
 				}
 			})}

@@ -186,7 +186,7 @@ const orders: OrderDetailType[] = [
         subTotal: 5.5,
         deliveryFee: 1.5,
         discount: 1.0,
-        description: 'This is a very good product',
+        reasonForCancellation: 'This is a very good product',
     },
     {
         id: 'SP3',

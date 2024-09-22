@@ -12,6 +12,7 @@ type OrderDetailType = Omit<OrderType, "images"> & {
 	subTotal: number;
 	deliveryFee: number;
 	discount: number;
-	description: string;
+	description?: string;
+	reasonForCancellation?: string;
 }
 export default OrderDetailType;
