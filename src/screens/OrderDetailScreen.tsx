@@ -14,11 +14,10 @@ import Row from "../components/custom/Row";
 import {ORDER_STATUS_ACTIVE, ORDER_STATUS_CANCELLED, ORDER_STATUS_COMPLETED} from "../types/order.type";
 import textStyle from "../configs/styles/textStyle.config";
 import ProductOrderCard from "../components/orderDetail/ProductOrderCard";
-import {banh_mi, burger, burrito, donut_1, lemonade, pasta} from "../../assets/images/category/category.icon";
 import BoxInfoNecessary from "../components/orderDetail/BoxInfoNecessary";
 import {FluentLocation16Filled} from "../../assets/images/icons/FluentLocation16Filled";
 import SolarTicketSaleBold from "../../assets/images/icons/SolarTicketSaleBold";
-import {neutral, primary, secondary, white} from "../configs/colors/color-template.config";
+import {neutral, primary, white} from "../configs/colors/color-template.config";
 import Col from "../components/custom/Col";
 import SolarWalletBold from "../../assets/images/icons/SolarWalletBold";
 import formater from "../utils/formater";
@@ -45,7 +44,6 @@ export default function OrderDetailScreen({
 											  navigation,
 											  onPressCamera,
 											  onPressInsertPicture,
-											  onPressCancelOrder,
 											  onPressReorder,
 											  onPressTrackOrder,
 										  }: OrderDetailScreenProps) {
@@ -67,7 +65,9 @@ export default function OrderDetailScreen({
 				colorIconBack={theme.text_1.getColor()}
 				styleIconBack={{
 					backgroundColor: theme.header.backgroundIconBack.getColor(),
+					elevation: 5
 				}}
+				onPressBack={() => navigation.pop()}
 				iconRight={<View style={styles.styleBackgroundIconRight}><SolarMenuDotsLinear/></View>}
 			/>
 			<ScrollView>
@@ -137,7 +137,10 @@ export default function OrderDetailScreen({
 
 					{orderDetail?.status === ORDER_STATUS_CANCELLED &&
 						<Row style={{justifyContent: "space-between", paddingVertical: 20}}>
-							<Text style={{...textStyle["16_semibold"]}}>{orderDetail.description}</Text>
+							<Col>
+								<Text style={{...textStyle["16_regular"]}}>Reason for cancellation</Text>
+								<Text style={{...textStyle["16_semibold"]}}>{orderDetail.reasonForCancellation}</Text>
+							</Col>
 							<TouchableOpacity style={{borderRadius: 50}}>
 								<GradientView  gradientColors={[primary.getColor("500"), primary.getColor("300")]}
 											   style={{padding: 10, borderRadius: 50}}>
@@ -156,7 +159,7 @@ export default function OrderDetailScreen({
 									paddingVertical: 16,
 									borderRadius: 30,
 									backgroundColor: theme.background.getColor()
-								}} onPress={onPressCancelOrder}>
+								}} onPress={() =>{navigation.navigate("CancelOrderScreen")}}>
 									<Text style={styles.buttonNotFocusNavigate}>Cancel Order</Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{

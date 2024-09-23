@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const modalStyle = StyleSheet.create({
+export const modalStyle = StyleSheet.create({
 	title: {
 		...textStyle["22_semibold"],
 		color: neutral.getColor("900"),

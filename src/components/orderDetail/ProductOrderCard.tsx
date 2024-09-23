@@ -2,20 +2,17 @@ import ProductOrderCardProps from "./type/productOrderCard.props";
 import {useSelector} from "react-redux";
 import {RootState} from "../../configs/redux/store.config";
 import {ThemeType} from "../../types/theme.type";
-import {Image, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import Row from "../custom/Row";
 import Col from "../custom/Col";
 import SolarBag5Bold from "../../../assets/images/icons/SolarBag5Bold";
 import {ORDER_STATUS_ACTIVE, ORDER_STATUS_COMPLETED} from "../../types/order.type";
-import {neutral, primary, secondary} from "../../configs/colors/color-template.config";
+import {neutral, primary} from "../../configs/colors/color-template.config";
 import IconRating from "../rating/IconRating";
 import {DiscountInfo} from "../../types/product.type";
 import formater from "../../utils/formater";
-import {SolarMageImageFill} from "../../../assets/images/icons/SolarMageImageFill";
 import OptionsProductCard from "./OptionsProductCard";
-import SolarCameraBold from "../../../assets/images/icons/SolarCameraBold";
-import {Input} from "@rneui/base";
 import InputReviewArea from "./InputReviewArea";
 
 function ProductOrderCard({
@@ -92,25 +89,6 @@ function ProductOrderCard({
 					onPressIconRight={insertPictureOnPress}
 
 					/>
-			// <Col style={styles.reviewArea}>
-			// 	<Col>
-			// 		<TextInput
-			// 			placeholder="Type your review ..."
-			// 			multiline={true}
-			// 			style={styles.styleInput}
-			// 			defaultValue={description}/>
-			// 	</Col>
-			// 	<Col >
-			// 		<Row style={styles.iconReviewArea}>
-			// 			<TouchableOpacity onPress={cameraOnPress}>
-			// 				<SolarCameraBold width={30} height={30} style={{right: 10}} color={neutral.getColor("100")}/>
-			// 			</TouchableOpacity>
-			// 			<TouchableOpacity onPress={insertPictureOnPress}>
-			// 				<SolarMageImageFill width={30} height={30} color={neutral.getColor("100")}/>
-			// 			</TouchableOpacity>
-			// 		</Row>
-			// 	</Col>
-			// </Col>
 			}
 
 		</View>

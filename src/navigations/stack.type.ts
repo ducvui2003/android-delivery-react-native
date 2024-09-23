@@ -45,6 +45,7 @@ export type RootStackParamList = {
 	OrderDetailScreen: {
 		id: string
 	}
+	CancelOrderScreen: undefined
 };
 
 export type MainScreenStackParamList = {

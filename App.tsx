@@ -1,15 +1,15 @@
-import { Provider as ProviderRedux, useDispatch } from "react-redux";
-import { createStackNavigator } from "@react-navigation/stack";
-import { RootStackParamList } from "./src/navigations/stack.type";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import {Provider as ProviderRedux, useDispatch} from "react-redux";
+import {createStackNavigator} from "@react-navigation/stack";
+import {RootStackParamList} from "./src/navigations/stack.type";
+import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import store from "./src/configs/redux/store.config";
-import { NavigationContainer } from "@react-navigation/native";
+import {NavigationContainer} from "@react-navigation/native";
 import MainScreen from "./src/screens/MainScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
-import { Platform, useColorScheme } from "react-native";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { setTheme } from "./src/hooks/redux/theme.slice";
+import {Platform, useColorScheme} from "react-native";
+import {GoogleOAuthProvider} from "@react-oauth/google";
+import {setTheme} from "./src/hooks/redux/theme.slice";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import VerificationScreen from "./src/screens/VerificationScreen";
 import SettingPinSecurityScreen from "./src/screens/SettingPinSecurityScreen";
@@ -21,7 +21,7 @@ import SearchScreen from "./src/screens/SearchScreen";
 import ProductDetailScreen from "./src/screens/ProductDetailScreen";
 import ReviewScreen from "./src/screens/ReviewScreen";
 import BasketScreen from "./src/screens/BasketScreen";
-import { JSX, lazy, useEffect } from "react";
+import {JSX, lazy, useEffect} from "react";
 import OrderRatingScreen from "./src/screens/OrderRatingScreen";
 import DriverRatingScreen from "./src/screens/DriverRatingScreen";
 import GiveThanksScreen from "./src/screens/GiveThanksScreen";
@@ -33,15 +33,16 @@ import OrderDetailScreen from "./src/screens/OrderDetailScreen";
 import OrderTrackingScreen from "./src/screens/OrderTrackingScreen";
 import FaceIDScreen from "./src/screens/FaceIDScreen";
 import TouchIDScreen from "./src/screens/TouchIDScreen";
+import CancelOrderScreen from "./src/screens/CancelOrderScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
 const RootStack = createStackNavigator<RootStackParamList>()
 
 const provider =
-  <ProviderRedux store={store}>
+    <ProviderRedux store={store}>
         <Root/>
-  </ProviderRedux>
+    </ProviderRedux>
 
 const readerRoot: Record<typeof Platform.OS, JSX.Element> = {
     web: <GoogleOAuthProvider clientId={process.env.EXPO_PUBLIC_WEB_CLIENT_ID as string}>
@@ -68,40 +69,42 @@ function Root() {
     const colorScheme = useColorScheme();
 
     useEffect(() => {
-      if (!colorScheme) return;
-      dispatch(setTheme(colorScheme));
+        if (!colorScheme) return;
+        dispatch(setTheme(colorScheme));
     }, []);
 
     return (
         <NavigationContainer>
-          <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{ headerShown: false }}>
-            <RootStack.Screen name={"MainScreen"} component={MainScreen} />
-            <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
-            <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />
-            <RootStack.Screen name={"IntroduceScreen"} component={IntroduceScreen} />
-            <RootStack.Screen name={"SignUpScreen"} component={SignUpScreen} />
-            <RootStack.Screen name={"LoginScreen"} component={LoginScreen} />
-            <RootStack.Screen name={"VerificationScreen"} component={VerificationScreen} />
-            <RootStack.Screen name={"SettingPinSecurityScreen"} component={SettingPinSecurityScreen} />
-            <RootStack.Screen name={"AddNewLocationScreen"} component={AddNewLocationScreen} />
-            <RootStack.Screen name={"MyLocationScreen"} component={MyLocationScreen} />
-            <RootStack.Screen name={"CategoriesScreen"} component={CategoriesScreen} />
-            <RootStack.Screen name={"SearchScreen"} component={SearchScreen} />
-            <RootStack.Screen name={"ProductDetailScreen"} component={ProductDetailScreen} />
-            <RootStack.Screen name={"ReviewScreen"} component={ReviewScreen} />
-            <RootStack.Screen name={"BasketScreen"} component={BasketScreen} />
-            <RootStack.Screen name={"OrderRatingScreen"} component={OrderRatingScreen} initialParams={{idDriver: "driver_1", idOrder: "SP 0023900"}} />
-            <RootStack.Screen name={"DriverRatingScreen"} component={DriverRatingScreen} />
-            <RootStack.Screen name={"GiveThanksScreen"} component={GiveThanksScreen} />
-            <RootStack.Screen name={"MeatRatingScreen"} component={MeatRatingScreen} />
-            <RootStack.Screen name={"CameraScreen"} component={CameraScreen} />
-            <RootStack.Screen name={"PromotionScreen"} component={PromotionScreen} />
-            <RootStack.Screen name={"PaymentMethodScreen"} component={PaymentMethodScreen} />
-            <RootStack.Screen name={"OrderTrackingScreen"} component={OrderTrackingScreen} />
-            <RootStack.Screen name={"FaceIDScreen"} component={FaceIDScreen} />
-            <RootStack.Screen name={"TouchIDScreen"} component={TouchIDScreen} />
-              <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen} />
-          </RootStack.Navigator>
+            <RootStack.Navigator initialRouteName="CancelOrderScreen" screenOptions={{headerShown: false}}>
+                <RootStack.Screen name={"MainScreen"} component={MainScreen}/>
+                <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen}/>
+                <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen}/>
+                <RootStack.Screen name={"IntroduceScreen"} component={IntroduceScreen}/>
+                <RootStack.Screen name={"SignUpScreen"} component={SignUpScreen}/>
+                <RootStack.Screen name={"LoginScreen"} component={LoginScreen}/>
+                <RootStack.Screen name={"VerificationScreen"} component={VerificationScreen}/>
+                <RootStack.Screen name={"SettingPinSecurityScreen"} component={SettingPinSecurityScreen}/>
+                <RootStack.Screen name={"AddNewLocationScreen"} component={AddNewLocationScreen}/>
+                <RootStack.Screen name={"MyLocationScreen"} component={MyLocationScreen}/>
+                <RootStack.Screen name={"CategoriesScreen"} component={CategoriesScreen}/>
+                <RootStack.Screen name={"SearchScreen"} component={SearchScreen}/>
+                <RootStack.Screen name={"ProductDetailScreen"} component={ProductDetailScreen}/>
+                <RootStack.Screen name={"ReviewScreen"} component={ReviewScreen}/>
+                <RootStack.Screen name={"BasketScreen"} component={BasketScreen}/>
+                <RootStack.Screen name={"OrderRatingScreen"} component={OrderRatingScreen}
+                                  initialParams={{idDriver: "driver_1", idOrder: "SP 0023900"}}/>
+                <RootStack.Screen name={"DriverRatingScreen"} component={DriverRatingScreen}/>
+                <RootStack.Screen name={"GiveThanksScreen"} component={GiveThanksScreen}/>
+                <RootStack.Screen name={"MeatRatingScreen"} component={MeatRatingScreen}/>
+                <RootStack.Screen name={"CameraScreen"} component={CameraScreen}/>
+                <RootStack.Screen name={"PromotionScreen"} component={PromotionScreen}/>
+                <RootStack.Screen name={"PaymentMethodScreen"} component={PaymentMethodScreen}/>
+                <RootStack.Screen name={"OrderTrackingScreen"} component={OrderTrackingScreen}/>
+                <RootStack.Screen name={"FaceIDScreen"} component={FaceIDScreen}/>
+                <RootStack.Screen name={"TouchIDScreen"} component={TouchIDScreen}/>
+                <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen}/>
+                <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen}/>
+            </RootStack.Navigator>
         </NavigationContainer>
     );
 }

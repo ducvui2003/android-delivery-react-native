@@ -115,7 +115,7 @@ const orders: OrderDetailType[] = [
                         name: 'Chan Chau',
                         options: [
                             {id: 'opt2', name: 'den', price: 0.5},
-                            {id: 'opt3', name: 'trang', price: 0},
+                            {id: 'opt3', name: 'trang', price: 0.3},
                         ],
                     },
                 ],
@@ -186,7 +186,7 @@ const orders: OrderDetailType[] = [
         subTotal: 5.5,
         deliveryFee: 1.5,
         discount: 1.0,
-        description: 'This is a very good product',
+        reasonForCancellation: 'This is a very good product',
     },
     {
         id: 'SP3',

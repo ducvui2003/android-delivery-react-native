@@ -5,7 +5,7 @@
  * Create at: 8:16 PM - 21/08/2024
  *  User: lam-nguyen
  **/
-import {SafeAreaView, ScrollView, StyleSheet, View} from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet} from "react-native";
 import * as React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../configs/redux/store.config";
@@ -19,11 +19,9 @@ import ButtonFilter from "../../../components/orders/ButtonFilter";
 import {FlatList} from "react-native-gesture-handler";
 import {OrderProps} from "../../../components/orders/type/order.props";
 import Order from "../../../components/orders/Order";
-import {burger, burrito, sandwich} from "../../../../assets/images/category/category.icon";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../../navigations/stack.type";
-import {ORDER_STATUS_ACTIVE, ORDER_STATUS_CANCELLED, ORDER_STATUS_COMPLETED} from "../../../types/order.type";
 import {DATA} from "../../../../assets/data/order/order";
 
 
