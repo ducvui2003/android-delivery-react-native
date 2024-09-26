@@ -7,7 +7,7 @@
  **/
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import RatingFormType from "../../types/ratingFormType";
+import RatingFormType from "../../types/ratingForm.type";
 import DriverInfoType from "../../types/driverInfo.type";
 import MeatInfoType from "../../types/meatInfo.type";
 

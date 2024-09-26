@@ -15,7 +15,6 @@ import {
 	ScrollView,
 	StyleSheet,
 	Text,
-	TouchableOpacity,
 	TouchableWithoutFeedback,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,13 +31,11 @@ import InputReviewFragment from "../fragments/InputReviewFragment";
 import MeatInfoType from "../types/meatInfo.type";
 import ImagePicker from "../utils/imagePicker";
 import { setMeatRating, setMeats, skipMeatRating } from "../hooks/redux/rating.slice";
-import RatingFormType from "../types/ratingFormType";
+import RatingFormType from "../types/ratingForm.type";
 import Modal from "../components/modal/Modal";
 import spacing from "../configs/styles/space.config";
-import borderConfig from "../configs/styles/border.config";
-import heart from "../../assets/images/icons/heart.png";
-import { neutral, white } from "../configs/colors/color-template.config";
-import SolarDismiss from "../../assets/images/icons/SolarDismiss";
+import heart from "../../assets/images/heart.png";
+import { neutral } from "../configs/colors/color-template.config";
 
 type MeatRatingScreenProps = {
 	route: RouteProp<RootStackParamList, "MeatRatingScreen">;
@@ -104,10 +101,7 @@ function MeatRatingScreen({
 			}}
 		>
 			<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
-				<Modal active={activeModal} containerStyle={modalStyle.container} contentStyle={[modalStyle.content]}>
-					<TouchableOpacity style={[modalStyle.buttonDismiss]} onPress={() => setActiveModel(false)}>
-						<SolarDismiss color={neutral.getColor("100")} width={25} height={25} />
-					</TouchableOpacity>
+				<Modal active={activeModal}>
 					<Text style={[modalStyle.title]}>Thanks for rating your meal</Text>
 					<Image source={heart} style={modalStyle.image} resizeMode={"cover"} />
 					<Text style={[modalStyle.subTitle]}>Thank you for rating your meal!</Text>
@@ -235,18 +229,6 @@ const styles = StyleSheet.create({
 });
 
 const modalStyle = StyleSheet.create({
-	container: {
-		backgroundColor: neutral.getColor("900"),
-		opacity: 0.2,
-	},
-	content: {
-		borderRadius: borderConfig.radius["rounded-2"],
-		padding: spacing["spaced-5"],
-		gap: spacing["spaced-5"],
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: white.getColor(),
-	},
 	title: {
 		...textStyle["22_semibold"],
 		color: neutral.getColor("900"),

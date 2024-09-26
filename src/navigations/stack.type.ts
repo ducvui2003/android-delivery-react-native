@@ -36,6 +36,16 @@ export type RootStackParamList = {
 	GiveThanksScreen: undefined;
 	MeatRatingScreen: { data?: any; uri?: string };
 	CameraScreen: { data?: any; prevScreen: keyof RootStackParamList };
+	PromotionScreen: undefined;
+	PaymentMethodScreen: undefined;
+	FaceIDScreen: undefined;
+	TouchIDScreen: undefined;
+	OrderTrackingScreen: undefined;
+	// order detail
+	OrderDetailScreen: {
+		id: string
+	}
+	CancelOrderScreen: undefined
 };
 
 export type MainScreenStackParamList = {

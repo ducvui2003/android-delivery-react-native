@@ -19,6 +19,7 @@ const border_hover = ColorFactory.createSingleColor(neutral.getColor("400"));
 const text_1 = ColorFactory.createSingleColor(neutral.getColor("100"));
 const text_2 = ColorFactory.createSingleColor(neutral.getColor("300"));
 const text_3 = ColorFactory.createSingleColor(neutral.getColor("50"));
+const text_4 = ColorFactory.createSingleColor(neutral.getColor("100"));
 const textSkip = ColorFactory.createSingleColor("#65696C");
 const background = ColorFactory.createSingleColor(neutral.getColor("900"));
 const dialCode = ColorFactory.createSingleColor("#898B8E");
@@ -52,6 +53,7 @@ const darkTheme: ThemeType = {
 	text_1: text_1,
 	text_2: text_2,
 	text_3: text_3,
+	text_4: text_4,
 	textSkip: textSkip,
 	dialCode: dialCode,
 	arrowSelector: arrowSelector,
@@ -86,6 +88,10 @@ const darkTheme: ThemeType = {
 		background_button_add: ColorFactory.createSingleColor(neutral.getColor("700")),
 		color_button_add: ColorFactory.createSingleColor(neutral.getColor("50")),
 	},
+	apply_promotion: {
+		background_button_add: ColorFactory.createSingleColor(neutral.getColor("700")),
+		color_button_add: ColorFactory.createSingleColor(neutral.getColor("50")),
+	},
 	basket: {
 		background: ColorFactory.createSingleColor(neutral.getColor("600")),
 		backgroundFooter: ColorFactory.createSingleColor(neutral.getColor("400")),
@@ -97,6 +103,13 @@ const darkTheme: ThemeType = {
 	rating: {
 		backgroundInputReviewFragment: ColorFactory.createSingleColor("#25292E"),
 		backgroundInputReview: ColorFactory.createSingleColor("#323B46"),
+	},
+	promotion: {
+		background: ColorFactory.createSingleColor(neutral.getColor("500")),
+	},
+	paymentMethod: {
+		backgroundButtonAdd: ColorFactory.createSingleColor(neutral.getColor("700")),
+		colorButtonAdd: ColorFactory.createSingleColor(neutral.getColor("50")),
 	},
 };
 

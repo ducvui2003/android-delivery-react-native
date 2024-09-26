@@ -11,7 +11,7 @@ import Svg, { Circle, G, Path, SvgProps } from "react-native-svg";
 
 export default function SolarUserCircleLinear(props: SvgProps) {
   return (
-    <Svg width={20} height={20} viewBox="0 0 24 24" {...props}>
+    <Svg width={20} height={20} color={"black"} viewBox="0 0 24 24" {...props}>
       <G fill="none" stroke="currentColor" strokeWidth={props.strokeWidth}>
         <Circle cx={12} cy={9} r={3}></Circle>
         <Circle cx={12} cy={12} r={10}></Circle>
