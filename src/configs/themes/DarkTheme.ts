@@ -111,6 +111,9 @@ const darkTheme: ThemeType = {
 		backgroundButtonAdd: ColorFactory.createSingleColor(neutral.getColor("700")),
 		colorButtonAdd: ColorFactory.createSingleColor(neutral.getColor("50")),
 	},
+	chat: {
+		background: ColorFactory.createSingleColor("#25282E"),
+	},
 };
 
 export default darkTheme;

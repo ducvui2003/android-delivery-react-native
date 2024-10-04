@@ -111,6 +111,9 @@ const lightTheme: ThemeType = {
 		backgroundButtonAdd: ColorFactory.createSingleColor(primary.getColor("50")),
 		colorButtonAdd: ColorFactory.createSingleColor(primary.getColor("500")),
 	},
+	chat: {
+		background: ColorFactory.createSingleColor("#F3F3F3"),
+	},
 };
 
 export default lightTheme;

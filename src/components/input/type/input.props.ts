@@ -31,6 +31,8 @@ type InputProps = {
 	focus?: boolean;
 	secureTextEntry?: boolean;
 	autoFocus?: boolean;
+	multiline?: boolean;
+	numberOfLines?: number;
 };
 
 export default InputProps;

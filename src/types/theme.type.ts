@@ -79,4 +79,7 @@ export type ThemeType = {
 		backgroundButtonAdd: SingleColor;
 		colorButtonAdd: SingleColor;
 	};
+	chat: {
+		background: SingleColor;
+	};
 };
