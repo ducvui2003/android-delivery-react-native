@@ -35,6 +35,7 @@ import FaceIDScreen from "./src/screens/FaceIDScreen";
 import TouchIDScreen from "./src/screens/TouchIDScreen";
 import CancelOrderScreen from "./src/screens/CancelOrderScreen";
 import ChatScreen from "./src/screens/ChatScreen";
+import ProfileScreen from "./src/screens/mainSubScreens/profile/ProfileScreen.android";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -76,7 +77,7 @@ function Root() {
 
     return (
         <NavigationContainer>
-            <RootStack.Navigator initialRouteName="ChatScreen" screenOptions={{headerShown: false}}>
+            <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{headerShown: false}}>
                 <RootStack.Screen name={"MainScreen"} component={MainScreen}/>
                 <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen}/>
                 <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen}/>
@@ -106,6 +107,7 @@ function Root() {
                 <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen}/>
                 <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen}/>
                 <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
+                {/*<RootStack.Screen name={"ProfileScreen"} component={ProfileScreen}/>*/}
             </RootStack.Navigator>
         </NavigationContainer>
     );

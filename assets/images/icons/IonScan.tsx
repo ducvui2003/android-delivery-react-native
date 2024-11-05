@@ -6,7 +6,6 @@
  *  User: lam-nguyen
  **/
 
-import React from "react";
 import Svg, { Path, SvgProps } from "react-native-svg";
 
 export default function IonScan(props: SvgProps) {
