@@ -12,3 +12,8 @@ export type User = {
 	phoneNumber: string;
 	fullName: string;
 };
+
+export type ResponseAuthentication = {
+	access_token: string;
+	user: User;
+}

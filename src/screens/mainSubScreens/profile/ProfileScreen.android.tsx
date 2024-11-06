@@ -1,5 +1,9 @@
-import { Text, View } from "react-native";
+import {Button, Text, View} from "react-native";
 import * as React from "react";
+import ButtonHasStatus from "../../../components/custom/ButtonHasStatus";
+import {logout} from "../../../services/auth.service";
+import {getFromStorage, KEY_SECURE} from "../../../services/secureStore.service";
+import {useEffect} from "react";
 
 /**
  * Author: Nguyen Dinh Lam
@@ -9,9 +13,21 @@ import * as React from "react";
  *  User: lam-nguyen
  **/
 function ProfileScreen() {
+	const [accessToken, setAccessToken] = React.useState<string | null>(null);
+	const onClick = () => {
+		logout().then(() => {
+			console.log("Logout success");
+		});
+	}
+	useEffect(() => {
+		getFromStorage(KEY_SECURE.ACCESS_TOKEN).then((value) => {
+			setAccessToken(value);
+		});
+	}, []);
 	return (
 		<View>
-			<Text>Android Profile Screen</Text>
+			<Text>{accessToken}</Text>
+			<ButtonHasStatus title={"Logout"} active={true} onPress={onClick}/>
 		</View>
 	);
 }
