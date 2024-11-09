@@ -5,8 +5,8 @@
  * Created at: 8/8/24 - 11:33am
  * User: ducvui2003
  **/
-import axios, {AxiosError, AxiosInstance, AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig} from "axios";
-import {getFromStorage, KEY_SECURE, setToStorage} from "../../services/secureStore.service";
+import axios, { AxiosError, AxiosInstance, AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig } from "axios";
+import { getFromStorage, KEY_SECURE, setToStorage } from "../../services/secureStore.service";
 
 const axiosInstance: AxiosInstance = axios.create({
 	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END,
@@ -30,6 +30,12 @@ interface ApiResponseError {
 
 axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
 	try {
+		// Log the URL before the request is sent
+		console.log("Request URL:", config.url);
+
+		// You can log other details here if needed
+		console.log("Request Method:", config.method);
+
 		const token = await getFromStorage(KEY_SECURE.ACCESS_TOKEN);
 		if (token != null) config.headers.Authorization = `Bearer ${token}`;
 	} catch (error) {
@@ -40,7 +46,7 @@ axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig
 
 axiosInstance.interceptors.response.use(
 	(response: AxiosResponse) => {
-		switch (response.data.statusCode) {
+		switch (response.status) {
 			case HttpStatusCode.Ok:
 				const cookies = response.headers["set-cookie"];
 				cookies?.forEach((cookies: string) => {
@@ -51,10 +57,10 @@ axiosInstance.interceptors.response.use(
 				});
 				break;
 			case HttpStatusCode.BadRequest:
-				console.error("Bad request", response.data.data);
+				console.error("Bad request", response);
 				break;
 			default:
-				console.warn(response.data);
+				console.warn(response);
 				break;
 		}
 		return response;
@@ -69,11 +75,10 @@ axiosInstance.interceptors.response.use(
 					console.error("Forbidden");
 					break;
 			}
-		} else
-			console.log("Unexpected error:", error);
+		} else console.log("Unexpected error:", error);
 		return Promise.reject(error);
 	}
 );
 
 export default axiosInstance;
-export {ApiResponse};
+export { ApiResponse };

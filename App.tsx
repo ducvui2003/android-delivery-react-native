@@ -35,6 +35,7 @@ import FaceIDScreen from "./src/screens/FaceIDScreen";
 import TouchIDScreen from "./src/screens/TouchIDScreen";
 import CancelOrderScreen from "./src/screens/CancelOrderScreen";
 import ChatScreen from "./src/screens/ChatScreen";
+import React from "react";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 

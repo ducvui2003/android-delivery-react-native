@@ -6,27 +6,81 @@
  * User: lam-nguyen
  **/
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "../../types/user.type";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axiosInstance, { ApiResponse } from "../../configs/axios/axios.config";
+import { KEY_SECURE, removeFromStorage, setToStorage } from "../../services/secureStore.service";
+import LoginFormType from "../../types/loginForm.type";
+import { ResponseAuthentication, User } from "../../types/user.type";
+import { EndPoint } from "../../utils/EndPoint";
+import { setLoading } from "./modal.slice";
 
 type AuthState = {
-	user?: User;
+	user: User | null;
+	accessToken: string | null;
+	error: string | null;
 };
 
-const initialState: AuthState = {};
+const initialState: AuthState = {
+	user: null,
+	accessToken: null,
+	error: null,
+};
+
+enum AuthType {
+	ROOT = "auth",
+	LOGIN = "auth/login",
+	LOGIN_PENDING = "auth/login/pending",
+	LOGIN_FULFILLED = "auth/login/fulfilled",
+	LOGIN_REJECTED = "auth/login/rejected",
+	LOGOUT = "auth/logout",
+}
+
+// Async Thunks for login, token refresh, and logout
+export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType, thunkAPI) => {
+	const { dispatch, rejectWithValue } = thunkAPI;
+	try {
+		dispatch(setLoading(true)); // Gọi action setLoading với giá trị true
+		const result = await axiosInstance.post<ApiResponse<ResponseAuthentication>>(EndPoint.LOGIN, data);
+
+		const { user, accessToken } = result.data.data;
+		await setToStorage(KEY_SECURE.ACCESS_TOKEN, accessToken);
+		console.log(result.headers["refresh-token"]);
+
+		return {
+			user,
+			accessToken,
+		};
+	} catch (error: any) {
+		return rejectWithValue(error.response.data);
+	} finally {
+		dispatch(setLoading(false)); // Gọi action setLoading với giá trị false
+	}
+});
+
+export const logout = createAsyncThunk(AuthType.LOGOUT, async () => {
+	await removeFromStorage(KEY_SECURE.ACCESS_TOKEN);
+	await removeFromStorage(KEY_SECURE.REFRESH_TOKEN);
+});
 
 const authSlice = createSlice({
-	name: "authentication",
+	name: AuthType.ROOT,
 	initialState: initialState,
-	reducers: {
-		login: (state, action: PayloadAction<User>) => {
-			state.user = action.payload;
-		},
-		logout: state => {
-			state.user = undefined;
-		},
+	reducers: {},
+	extraReducers: builder => {
+		builder
+			.addCase(login.fulfilled, (state, action) => {
+				state.user = action.payload.user;
+				state.accessToken = action.payload.accessToken;
+				state.error = null;
+			})
+			.addCase(logout.fulfilled, state => {
+				state.user = null;
+				state.accessToken = null;
+			});
 	},
 });
 
-export const { login } = authSlice.actions;
+// export const {login} = authSlice.actions;
 export default authSlice.reducer;
+
+export { AuthType };

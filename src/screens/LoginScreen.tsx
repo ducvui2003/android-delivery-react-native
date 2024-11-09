@@ -17,8 +17,8 @@ import {
 	TouchableWithoutFeedback,
 	View,
 } from "react-native";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../configs/redux/store.config";
+import {useSelector} from "react-redux";
+import {RootState, useAppDispatch} from "../configs/redux/store.config";
 import textStyle from "../configs/styles/textStyle.config";
 import {gradient, neutral, otherMethodSignIn, primary} from "../configs/colors/color-template.config";
 import {CheckBox, Divider} from "@rneui/themed";
@@ -42,8 +42,7 @@ import CountryPhoneNumberType from "../types/countryPhoneNumber.type";
 import SolarEyeBold from "../../assets/images/icons/SolarEyeBold";
 import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
 import NumberValue from "../configs/value/number.value";
-import {loginApi} from "../services/auth.service";
-import {login as loginRedux} from "../hooks/redux/auth.slice";
+import {AuthType, login} from "../hooks/redux/auth.slice";
 
 function LoginScreen() {
 	const [checked, setChecked] = React.useState(false);
@@ -54,7 +53,7 @@ function LoginScreen() {
 	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>();
 	const [showPassword, setShowPassword] = useState(false);
 	const sizeIcon = 25;
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const {
 		control,
@@ -81,10 +80,13 @@ function LoginScreen() {
 	const onSubmit = (data: LoginFormType) => {
 		if (!isValid || !countryPhoneNumber) return;
 		data.region = countryPhoneNumber?.code;
-		loginApi(data).then(user => {
-			dispatch(loginRedux(user));
-			navigation.navigate("SettingPinSecurityScreen");
-		}).catch();
+		console.log(data);
+		dispatch(login(data))
+			.then(action => {
+				console.log(action);
+				if (action.type === AuthType.LOGIN_FULFILLED) navigation.navigate("SettingPinSecurityScreen");
+			})
+			.catch();
 	};
 
 	const renderIconShowPassword: Record<"true" | "false", ReactNode> = {

@@ -1,10 +1,9 @@
-import {Button, Text, View} from "react-native";
 import * as React from "react";
+import { Text, View } from "react-native";
+import { useSelector } from "react-redux";
 import ButtonHasStatus from "../../../components/custom/ButtonHasStatus";
-import {logout} from "../../../services/auth.service";
-import {getFromStorage, KEY_SECURE} from "../../../services/secureStore.service";
-import {useEffect} from "react";
-
+import { RootState, useAppDispatch } from "../../../configs/redux/store.config";
+import { logout } from "../../../hooks/redux/auth.slice";
 /**
  * Author: Nguyen Dinh Lam
  * Email: kiminonawa1305@gmail.com
@@ -13,21 +12,16 @@ import {useEffect} from "react";
  *  User: lam-nguyen
  **/
 function ProfileScreen() {
-	const [accessToken, setAccessToken] = React.useState<string | null>(null);
+	const accessToken = useSelector((state: RootState) => state.authState.accessToken);
+	const dispatch = useAppDispatch();
 	const onClick = () => {
-		logout().then(() => {
-			console.log("Logout success");
-		});
-	}
-	useEffect(() => {
-		getFromStorage(KEY_SECURE.ACCESS_TOKEN).then((value) => {
-			setAccessToken(value);
-		});
-	}, []);
+		dispatch(logout()).then(() => {});
+	};
+
 	return (
 		<View>
 			<Text>{accessToken}</Text>
-			<ButtonHasStatus title={"Logout"} active={true} onPress={onClick}/>
+			{accessToken && <ButtonHasStatus title={"Logout"} active={true} onPress={onClick} />}
 		</View>
 	);
 }
