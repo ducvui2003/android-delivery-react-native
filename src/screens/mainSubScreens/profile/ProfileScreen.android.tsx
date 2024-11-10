@@ -17,6 +17,7 @@ import { MaterialSymbolsMail } from "../../../../assets/images/icons/MaterialSym
 import SolarPenBold from "../../../../assets/images/icons/SolarPenBold";
 import ButtonHasStatus from "../../../components/custom/ButtonHasStatus";
 import { SolarLogout3Linear } from "../../../../assets/images/icons/SolarLogout3Linear";
+import ProfileOption from "../../../components/profile/ProfileOption";
 
 /**
  * Author: Nguyen Dinh Lam
@@ -47,7 +48,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 				styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor() }}
 				onPressBack={handleBackPress}
 			/>
-			<Col style={styles.content}>
+			<Col flex={0} style={styles.content}>
 				<Row flex={0} style={styles.infoUser}>
 					<Image
 						source={{ uri: "https://i.pinimg.com/originals/5c/fc/32/5cfc32131a83bbe03da98c55b3dc02fe.jpg" }}
@@ -76,6 +77,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 						icon={<SolarLogout3Linear color={primary.getColor("500")} />}
 					/>
 				</TouchableOpacity>
+				<ProfileOption />
 			</Col>
 		</SafeAreaView>
 	);
