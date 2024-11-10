@@ -8,13 +8,13 @@ import { RootState } from "../../configs/redux/store.config";
 import Row from "../custom/Row";
 import SolarTicketSaleBold from "../../../assets/images/icons/SolarTicketSaleBold";
 import { MdiTickCircle } from "../../../assets/images/icons/MdiTickCircle";
-import { SolarScooterBold } from "../../../assets/images/icons/SolarScooterBold";
-import { SolarShopBold } from "../../../assets/images/icons/SolarShopBold";
 import SolarBag5Bold from "../../../assets/images/icons/SolarBag5Bold";
 import { MdiUserCircle } from "../../../assets/images/icons/MdiUserCircle";
 import { SolarCloseCircleBold } from "../../../assets/images/icons/SolarCloseCircleBold";
 import { SolarCardBold } from "../../../assets/images/icons/SolarCardBold";
 import MdiDot from "../../../assets/images/icons/MdiDot";
+import SolarScooterBold from "../../../assets/images/icons/SolarScooterBold";
+import SolarShopBold from "../../../assets/images/icons/SolarShopBold";
 
 const COLORS = {
 	success: "#E7F9F5",
