@@ -11,9 +11,10 @@ export type User = {
 	email: string;
 	phoneNumber: string;
 	fullName: string;
+	role: string;
 };
 
 export type ResponseAuthentication = {
 	accessToken: string;
 	user: User;
-}
+};

@@ -17,13 +17,11 @@ import { setLoading } from "./modal.slice";
 type AuthState = {
 	user: User | null;
 	accessToken: string | null;
-	error: string | null;
 };
 
 const initialState: AuthState = {
 	user: null,
 	accessToken: null,
-	error: null,
 };
 
 enum AuthType {
@@ -44,7 +42,6 @@ export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType
 
 		const { user, accessToken } = result.data.data;
 		await setToStorage(KEY_SECURE.ACCESS_TOKEN, accessToken);
-		console.log(result.headers["refresh-token"]);
 
 		return {
 			user,
@@ -71,7 +68,6 @@ const authSlice = createSlice({
 			.addCase(login.fulfilled, (state, action) => {
 				state.user = action.payload.user;
 				state.accessToken = action.payload.accessToken;
-				state.error = null;
 			})
 			.addCase(logout.fulfilled, state => {
 				state.user = null;
