@@ -1,23 +1,23 @@
-import {Image, Keyboard, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import { Image, Keyboard, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as React from "react";
-import {useCallback} from "react";
-import {Header} from "../../../components/header/Header";
-import {useSelector} from "react-redux";
-import {RootState, useAppDispatch} from "../../../configs/redux/store.config";
-import {RouteProp} from "@react-navigation/native";
-import {MainScreenStackParamList} from "../../../navigations/stack.type";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import { useCallback, useState } from "react";
+import { Header } from "../../../components/header/Header";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../configs/redux/store.config";
+import { RouteProp } from "@react-navigation/native";
+import { MainScreenStackParamList } from "../../../navigations/stack.type";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Row from "../../../components/custom/Row";
 import NumberValue from "../../../configs/value/number.value";
 import Col from "../../../components/custom/Col";
 import textStyle from "../../../configs/styles/textStyle.config";
-import {neutral, primary, white} from "../../../configs/colors/color-template.config";
-import {IRoundPhone} from "../../../../assets/images/icons/IRoundPhone";
-import {MaterialSymbolsMail} from "../../../../assets/images/icons/MaterialSymbolsMail";
+import { neutral, primary, white } from "../../../configs/colors/color-template.config";
+import { IRoundPhone } from "../../../../assets/images/icons/IRoundPhone";
+import { MaterialSymbolsMail } from "../../../../assets/images/icons/MaterialSymbolsMail";
 import SolarPenBold from "../../../../assets/images/icons/SolarPenBold";
 import ButtonHasStatus from "../../../components/custom/ButtonHasStatus";
-import {SolarLogout3Linear} from "../../../../assets/images/icons/SolarLogout3Linear";
-import {logout} from "../../../hooks/redux/auth.slice";
+import { SolarLogout3Linear } from "../../../../assets/images/icons/SolarLogout3Linear";
+import ProfileOption from "../../../components/profile/ProfileOption";
 
 /**
  * Author: Nguyen Dinh Lam
@@ -31,18 +31,18 @@ type ProfileScreenProps = {
 	navigation: NativeStackNavigationProp<MainScreenStackParamList>;
 };
 
-function ProfileScreen({navigation}: ProfileScreenProps) {
+function ProfileScreen({ navigation }: ProfileScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const [isLogoutActive, setLogoutActive] = useState(true);
+
 
 	const handleBackPress = useCallback(() => {
 		Keyboard.dismiss();
 		navigation.pop();
 	}, [navigation]);
 
-	const dispatch = useAppDispatch();
-	const onClick = () => {
-		dispatch(logout()).then(() => {
-		});
+	const handleLogoutPress = () => {
+		setLogoutActive(!isLogoutActive);
 	};
 
 	return (
@@ -51,39 +51,43 @@ function ProfileScreen({navigation}: ProfileScreenProps) {
 				title="Profile"
 				colorTitle={theme.text_1.getColor()}
 				colorIconBack={theme.text_1.getColor()}
-				styleIconBack={{backgroundColor: theme.header.backgroundIconBack.getColor()}}
+				styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor() }}
 				onPressBack={handleBackPress}
 			/>
-			<Col style={styles.content}>
+			<Col flex={0} style={styles.content}>
 				<Row flex={0} style={styles.infoUser}>
 					<Image
-						source={{uri: "https://i.pinimg.com/originals/5c/fc/32/5cfc32131a83bbe03da98c55b3dc02fe.jpg"}}
+						source={{ uri: "https://i.pinimg.com/originals/5c/fc/32/5cfc32131a83bbe03da98c55b3dc02fe.jpg" }}
 						style={styles.circularImage}
 					/>
 					<Col flex={0} style={styles.infoBasic}>
-						<Text style={[styles.fullName, {color: primary.getColor("500")}]}>Nguyễn Thanh Bình</Text>
+						<Text style={[styles.fullName, { color: primary.getColor("500") }]}>Nguyễn Thanh Bình</Text>
 						<Row>
-							<IRoundPhone width={14} color={neutral.getColor("100")} height={14}/>
-							<Text style={[textStyle["12_medium"], {marginLeft: 5}]}>(+84) 123 456 789</Text>
+							<IRoundPhone width={14} color={neutral.getColor("100")} height={14} />
+							<Text style={[textStyle["12_medium"], { marginLeft: 5 }]}>(+84) 123 456 789</Text>
 						</Row>
 						<Row>
-							<MaterialSymbolsMail width={14} color={neutral.getColor("100")} height={14}/>
-							<Text style={[textStyle["12_medium"], {marginLeft: 5}]}>dongtrinh@gmail.com</Text>
+							<MaterialSymbolsMail width={14} color={neutral.getColor("100")} height={14} />
+							<Text style={[textStyle["12_medium"], { marginLeft: 5 }]}>dongtrinh@gmail.com</Text>
 						</Row>
 					</Col>
 					<View style={styles.buttonEdit}>
-						<SolarPenBold width={26} height={26} color={white.getColor()}/>
+						<SolarPenBold width={26} height={26} color={white.getColor()} />
 					</View>
 				</Row>
 				<TouchableOpacity>
 					<ButtonHasStatus
+						onPress={handleLogoutPress}
+						active={isLogoutActive}
 						title={"Logout"}
-						styleText={{color: primary.getColor("500"), marginLeft: 10}}
-						styleButton={styles.buttonLogoutNotActive}
-						onPress={onClick}
-						icon={<SolarLogout3Linear color={primary.getColor("500")}/>}
+						styleText={isLogoutActive ? styles.textStyleActive : styles.textStyleNonActive}
+						styleButton={isLogoutActive ? styles.buttonLogoutActive : styles.buttonLogoutNotActive}
+						icon={<SolarLogout3Linear
+							color={isLogoutActive ? white.getColor() : primary.getColor("500")}
+						/>}
 					/>
 				</TouchableOpacity>
+				<ProfileOption />
 			</Col>
 		</SafeAreaView>
 	);
@@ -125,5 +129,16 @@ const styles = StyleSheet.create({
 	},
 	buttonLogoutNotActive: {
 		marginTop: 20,
+	},
+	buttonLogoutActive: {
+		marginTop: 20,
+	},
+	textStyleActive:{
+		color: white.getColor(),
+		marginLeft: 10,
+	},
+	textStyleNonActive:{
+		color: primary.getColor("500"),
+		marginLeft: 10,
 	},
 });
