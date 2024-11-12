@@ -1,15 +1,15 @@
-import {Provider as ProviderRedux, useDispatch} from "react-redux";
-import {createStackNavigator} from "@react-navigation/stack";
-import {RootStackParamList} from "./src/navigations/stack.type";
-import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
+import { Provider as ProviderRedux, useDispatch } from "react-redux";
+import { createStackNavigator } from "@react-navigation/stack";
+import { RootStackParamList } from "./src/navigations/stack.type";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import store from "./src/configs/redux/store.config";
-import {NavigationContainer} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import MainScreen from "./src/screens/MainScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
-import {Platform, useColorScheme} from "react-native";
-import {GoogleOAuthProvider} from "@react-oauth/google";
-import {setTheme} from "./src/hooks/redux/theme.slice";
+import { Platform, useColorScheme } from "react-native";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { setTheme } from "./src/hooks/redux/theme.slice";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import VerificationScreen from "./src/screens/VerificationScreen";
 import SettingPinSecurityScreen from "./src/screens/SettingPinSecurityScreen";
@@ -21,7 +21,7 @@ import SearchScreen from "./src/screens/SearchScreen";
 import ProductDetailScreen from "./src/screens/ProductDetailScreen";
 import ReviewScreen from "./src/screens/ReviewScreen";
 import BasketScreen from "./src/screens/BasketScreen";
-import {JSX, lazy, useEffect} from "react";
+import { JSX, lazy, useEffect } from "react";
 import OrderRatingScreen from "./src/screens/OrderRatingScreen";
 import DriverRatingScreen from "./src/screens/DriverRatingScreen";
 import GiveThanksScreen from "./src/screens/GiveThanksScreen";
@@ -34,6 +34,7 @@ import OrderTrackingScreen from "./src/screens/OrderTrackingScreen";
 import FaceIDScreen from "./src/screens/FaceIDScreen";
 import TouchIDScreen from "./src/screens/TouchIDScreen";
 import CancelOrderScreen from "./src/screens/CancelOrderScreen";
+import ChatScreen from "./src/screens/ChatScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -75,7 +76,7 @@ function Root() {
 
     return (
         <NavigationContainer>
-            <RootStack.Navigator initialRouteName="CancelOrderScreen" screenOptions={{headerShown: false}}>
+            <RootStack.Navigator initialRouteName="ChatScreen" screenOptions={{headerShown: false}}>
                 <RootStack.Screen name={"MainScreen"} component={MainScreen}/>
                 <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen}/>
                 <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen}/>
@@ -104,6 +105,7 @@ function Root() {
                 <RootStack.Screen name={"TouchIDScreen"} component={TouchIDScreen}/>
                 <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen}/>
                 <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen}/>
+                <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
             </RootStack.Navigator>
         </NavigationContainer>
     );
