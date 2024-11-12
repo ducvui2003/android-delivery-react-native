@@ -35,7 +35,7 @@ function NotificationScreen({ navigation }: NotificationScreenProps) {
 		navigation.pop();
 	}, [navigation]);
 
-	console.log(dataNotification.map((item) => item.variant));
+	console.log(dataNotification.map(item => item.variant));
 	return (
 		<SafeAreaView style={styles.container}>
 			<Header
@@ -76,8 +76,8 @@ function NotificationScreen({ navigation }: NotificationScreenProps) {
 		</SafeAreaView>
 	);
 }
-
 export default NotificationScreen;
+
 
 const styles = StyleSheet.create({
 	container: {
