@@ -57,10 +57,10 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 		setLogoutActive(!isLogoutActive);
 		appDispatch(logout()).then(() => {
 			setShowModal(false);
-			// nhớ set lại user trong redux thành null
 			navigation.replace("HomeScreen");
 		});
 	};
+
 
 	//press button option
 	const handleOptionPress = () => {};

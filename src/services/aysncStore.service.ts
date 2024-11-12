@@ -1,11 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-enum KEY_ASYNC {
+export enum KEY_ASYNC {
 	SET_PIN = "set_pin",
+	USER = "user",
 }
 
-const saveToStorage = async (key: KEY_ASYNC, value: string) => {
+export const saveToStorage = async (key: KEY_ASYNC, value: string) => {
 	try {
 		await AsyncStorage.setItem(key.toString(), value);
 	} catch (error) {
@@ -13,7 +14,7 @@ const saveToStorage = async (key: KEY_ASYNC, value: string) => {
 	}
 };
 
-const getFromStorage = async (key: KEY_ASYNC): Promise<string | null> => {
+export const getFromStorage = async (key: KEY_ASYNC): Promise<string | null> => {
 	try {
 		return await AsyncStorage.getItem(key.toString());
 	} catch (error) {
@@ -22,7 +23,7 @@ const getFromStorage = async (key: KEY_ASYNC): Promise<string | null> => {
 	}
 };
 
-const removeFromStorage = async (key: KEY_ASYNC) => {
+export const removeFromStorage = async (key: KEY_ASYNC) => {
 	try {
 		await AsyncStorage.removeItem(key.toString());
 	} catch (error) {

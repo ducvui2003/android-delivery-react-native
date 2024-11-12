@@ -7,28 +7,25 @@
  **/
 
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axiosInstance, {ApiResponse} from "../../configs/axios/axios.config";
-import {KEY_SECURE, removeFromStorage, setToStorage} from "../../services/secureStore.service";
 import LoginFormType from "../../types/loginForm.type";
-import {ResponseAuthentication, User} from "../../types/user.type";
-import {EndPoint} from "../../utils/EndPoint";
+import {User} from "../../types/user.type";
 import {setLoading} from "./modal.slice";
+import {getUserInfoApi, loginApi, logoutApi} from "../../services/auth.service";
 
 type AuthState = {
 	user: User | null;
-	accessToken: string | null;
 	error: string | null;
 };
 
 const initialState: AuthState = {
 	user: null,
-	accessToken: null,
 	error: null,
 };
 
 enum AuthType {
 	ROOT = "auth",
 	LOGIN = "auth/login",
+	ACCOUNT = "auth/account",
 	LOGIN_PENDING = "auth/login/pending",
 	LOGIN_FULFILLED = "auth/login/fulfilled",
 	LOGIN_REJECTED = "auth/login/rejected",
@@ -40,13 +37,8 @@ export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType
 	const {dispatch, rejectWithValue} = thunkAPI;
 	try {
 		dispatch(setLoading(true)); // Gọi action setLoading với giá trị true
-		const result = await axiosInstance.post<ApiResponse<ResponseAuthentication>>(EndPoint.LOGIN, data);
-		const {user, access_token} = result.data.data;
-		await setToStorage(KEY_SECURE.ACCESS_TOKEN, access_token);
-		return {
-			user,
-			access_token,
-		};
+		const {user} = await loginApi(data);
+		return {user};
 	} catch (error: any) {
 		return rejectWithValue(error.response.data);
 	} finally {
@@ -54,9 +46,17 @@ export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType
 	}
 });
 
-export const logout = createAsyncThunk(AuthType.LOGOUT, async () => {
-	await removeFromStorage(KEY_SECURE.ACCESS_TOKEN);
-	await removeFromStorage(KEY_SECURE.REFRESH_TOKEN);
+export const getAccount = createAsyncThunk(AuthType.ACCOUNT, async (_) => {
+	try {
+		const user = await getUserInfoApi();
+		return {user};
+	} catch (error: any) {
+		return error.response.data;
+	}
+});
+
+export const logout = createAsyncThunk(AuthType.LOGOUT, async (_) => {
+	await logoutApi();
 });
 
 const authSlice = createSlice({
@@ -67,17 +67,17 @@ const authSlice = createSlice({
 		builder
 			.addCase(login.fulfilled, (state, action) => {
 				state.user = action.payload.user;
-				state.accessToken = action.payload.access_token;
 				state.error = null;
 			})
 			.addCase(logout.fulfilled, state => {
 				state.user = null;
-				state.accessToken = null;
+			})
+			.addCase(getAccount.fulfilled, (state, action) => {
+				state.user = action.payload.user;
 			});
 	},
 });
 
-// export const {login} = authSlice.actions;
 export default authSlice.reducer;
 
 export {AuthType};
