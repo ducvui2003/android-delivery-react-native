@@ -47,20 +47,22 @@ type VerificationScreenProps = {
 };
 
 export default function VerificationScreen({
-	route: {
-		params: { dialCode, form },
-	},
-	navigation,
-}: VerificationScreenProps) {
+											   route: {
+												   params: { dialCode, form },
+											   },
+											   navigation,
+										   }: VerificationScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [hidden, setHidden] = useState<boolean>(false);
 	const [time, setTime] = useState(0);
 	const [errorVerify, setErrorVerify] = useState<boolean>(false);
 	const [confirmation, setConfirmation] = useState<FirebaseAuthTypes.ConfirmationResult>();
+	const [codeVerify, setCodeVerify] = useState<string>("");
 
 	useEffect(() => {
-		// signInWithPhoneNumber(form.phoneNumber);
+		signInWithPhoneNumber(dialCode, form.phoneNumber);
 
+		/*Bắt sự kiện khi đã xác thực thành công.*/
 		return firebaseAuth.onAuthStateChanged(user => {
 			if (!user) return;
 
@@ -72,7 +74,7 @@ export default function VerificationScreen({
 
 	const componentResend: Record<"true" | "false", ReactNode> = {
 		true: (
-			<TouchableOpacity onPress={() => signInWithPhoneNumber(form.phoneNumber)}>
+			<TouchableOpacity onPress={() => signInWithPhoneNumber(dialCode, form.phoneNumber)}>
 				<Text style={[styles.text, styles.textSimiBold, { color: primary.getColor("500") }]}>Resend Code</Text>
 			</TouchableOpacity>
 		),
@@ -84,7 +86,7 @@ export default function VerificationScreen({
 		Keyboard.dismiss();
 	};
 
-	const signInWithPhoneNumber = (phoneNumber: string) => {
+	const signInWithPhoneNumber = (dialCode: string, phoneNumber: string) => {
 		if (time !== 0 || firebaseAuth.currentUser) return;
 		setTime(60 * 5);
 		firebaseAuth
@@ -103,7 +105,7 @@ export default function VerificationScreen({
 	};
 
 	const verifyCode = (code: string) => {
-		if (!confirmation) {
+		if (!confirmation || code.length != 6) {
 			setErrorVerify(true);
 			return;
 		}
@@ -126,6 +128,7 @@ export default function VerificationScreen({
 		axiosInstance
 			.post("/auth/register", form)
 			.then(() => {
+				firebaseAuth.signOut().then();
 				navigation.navigate("LoginScreen");
 			})
 			.catch((error: AxiosError<ApiResponse<string>>) => {
@@ -170,6 +173,7 @@ export default function VerificationScreen({
 						onBlur={onBlurInput}
 						setError={errorVerify}
 						onChangeCode={code => {
+							setCodeVerify(code);
 							if (code.length !== 6) return;
 							verifyCode(code);
 						}}
@@ -187,7 +191,8 @@ export default function VerificationScreen({
 					{componentResend[(time === 0).toString() as "true" | "false"]}
 				</ScrollView>
 				<Col style={[styles.footerContainer, { paddingHorizontal: 25 }]} flex={1}>
-					<ButtonHasStatus title={"Verify"} active={errorVerify} styleButton={[styles.buttonVerify]} />
+					<ButtonHasStatus title={"Verify"} onPress={() => verifyCode(codeVerify)} active={!!confirmation}
+									 styleButton={[styles.buttonVerify]} />
 					<Row style={[{ display: hidden ? "none" : "flex" }, styles.containerCanHidden]}>
 						<Text style={[styles.text, { color: theme.text_1.getColor() }]}>Back to </Text>
 						<TouchableOpacity
