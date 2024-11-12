@@ -6,13 +6,13 @@
  * User: lam-nguyen
  **/
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosInstance, { ApiResponse } from "../../configs/axios/axios.config";
-import { KEY_SECURE, removeFromStorage, setToStorage } from "../../services/secureStore.service";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import axiosInstance, {ApiResponse} from "../../configs/axios/axios.config";
+import {KEY_SECURE, removeFromStorage, setToStorage} from "../../services/secureStore.service";
 import LoginFormType from "../../types/loginForm.type";
-import { ResponseAuthentication, User } from "../../types/user.type";
-import { EndPoint } from "../../utils/EndPoint";
-import { setLoading } from "./modal.slice";
+import {ResponseAuthentication, User} from "../../types/user.type";
+import {EndPoint} from "../../utils/EndPoint";
+import {setLoading} from "./modal.slice";
 
 type AuthState = {
 	user: User | null;
@@ -37,18 +37,15 @@ enum AuthType {
 
 // Async Thunks for login, token refresh, and logout
 export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType, thunkAPI) => {
-	const { dispatch, rejectWithValue } = thunkAPI;
+	const {dispatch, rejectWithValue} = thunkAPI;
 	try {
 		dispatch(setLoading(true)); // Gọi action setLoading với giá trị true
 		const result = await axiosInstance.post<ApiResponse<ResponseAuthentication>>(EndPoint.LOGIN, data);
-
-		const { user, accessToken } = result.data.data;
-		await setToStorage(KEY_SECURE.ACCESS_TOKEN, accessToken);
-		console.log(result.headers["refresh-token"]);
-
+		const {user, access_token} = result.data.data;
+		await setToStorage(KEY_SECURE.ACCESS_TOKEN, access_token);
 		return {
 			user,
-			accessToken,
+			access_token,
 		};
 	} catch (error: any) {
 		return rejectWithValue(error.response.data);
@@ -70,7 +67,7 @@ const authSlice = createSlice({
 		builder
 			.addCase(login.fulfilled, (state, action) => {
 				state.user = action.payload.user;
-				state.accessToken = action.payload.accessToken;
+				state.accessToken = action.payload.access_token;
 				state.error = null;
 			})
 			.addCase(logout.fulfilled, state => {
@@ -83,4 +80,4 @@ const authSlice = createSlice({
 // export const {login} = authSlice.actions;
 export default authSlice.reducer;
 
-export { AuthType };
+export {AuthType};

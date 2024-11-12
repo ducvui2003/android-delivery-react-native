@@ -83,8 +83,9 @@ function LoginScreen() {
 		console.log(data);
 		dispatch(login(data))
 			.then(action => {
-				console.log(action);
-				if (action.type === AuthType.LOGIN_FULFILLED) navigation.navigate("SettingPinSecurityScreen");
+				console.log("action" + action.type);
+				if (action.type === AuthType.LOGIN_FULFILLED)
+					navigation.replace("MainScreen", {screen: "HomeScreen"})
 			})
 			.catch();
 	};
