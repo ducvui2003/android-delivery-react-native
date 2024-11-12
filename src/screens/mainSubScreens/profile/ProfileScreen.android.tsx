@@ -52,6 +52,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 		navigation.pop();
 	}, [navigation]);
 
+	//press button logout
 	const handleLogoutPress = () => {
 		setLogoutActive(!isLogoutActive);
 		appDispatch(logout()).then(() => {
@@ -61,6 +62,10 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 		});
 	};
 
+	//press button option
+	const handleOptionPress = () => {};
+
+	//press button save change profile
 	const handlePressSaveChangeProfile = async (data: ChangeProfile) => {};
 
 	return (
@@ -72,15 +77,15 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 				styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor() }}
 				styleIconRight={{ backgroundColor: theme.header.backgroundIconBack.getColor() }}
 				onPressBack={handleBackPress}
-				iconRight={user && <SolarOption width={30} height={30} color={theme.text_1.getColor()} />}
-				onPressIconRight={() => setShowPopUp(true)}
+				iconRight={<SolarOption width={30} height={30} color={theme.text_1.getColor()} />}
+				onPressIconRight={() => handleOptionPress}
 			/>
 			<ScrollView>
 				<Col flex={0} style={styles.content}>
 					{user == null ? (
 						<ProfileHasNotUser onPress={() => nav.replace("LoginScreen")} />
 					) : (
-						<ProfileHasUser logout={() => setShowModal(true)} />
+						<ProfileHasUser onChangeProfile={() => setShowPopUp(true)} logout={() => setShowModal(true)} />
 					)}
 					<ProfileOption />
 				</Col>

@@ -20,7 +20,7 @@ import { SolarLogout3Linear } from "../../../assets/images/icons/SolarLogout3Lin
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 
-function ProfileHasUser({ logout }: { logout: () => void }) {
+function ProfileHasUser({ logout, onChangeProfile }: { logout: () => void, onChangeProfile?: () => void }) {
 	const user = useSelector((state: RootState) => state.authState.user);
 
 	return (
@@ -41,9 +41,11 @@ function ProfileHasUser({ logout }: { logout: () => void }) {
 						<Text style={[textStyle["12_medium"], { marginLeft: 5 }]}>{user?.email || ""}</Text>
 					</Row>
 				</Col>
-				<View style={styles.buttonEdit}>
-					<SolarPenBold width={26} height={26} color={white.getColor()} />
-				</View>
+				<TouchableOpacity onPress={onChangeProfile}>
+					<View style={styles.buttonEdit}>
+						<SolarPenBold width={26} height={26} color={white.getColor()} />
+					</View>
+				</TouchableOpacity>
 			</Row>
 			<TouchableOpacity>
 				<ButtonHasStatus
