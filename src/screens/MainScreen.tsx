@@ -6,9 +6,8 @@
  * User: lam-nguyen
  **/
 
-import React from "react";
+import React, { createContext, useContext } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
-import TestThemeScreen from "./mainSubScreens/TestThemeScreen";
 import { MainScreenStackParamList } from "../navigations/stack.type";
 import { useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
@@ -39,6 +38,7 @@ const MainScreenStack = createStackNavigator<MainScreenStackParamList>();
 function MainScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const navigation = useNavigation<NativeStackNavigationProp<MainScreenStackParamList>>();
+	const user = useSelector((state: RootState) => state.authState.user);
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
@@ -48,7 +48,6 @@ function MainScreen() {
 				}}
 				initialRouteName={"HomeScreen"}
 			>
-				<MainScreenStack.Screen name="TestThemeScreen" component={TestThemeScreen} />
 				<MainScreenStack.Screen name="HomeScreen" component={HomeScreen} />
 				<MainScreenStack.Screen name="OrderScreen" component={OrderScreen} />
 				<MainScreenStack.Screen name="LikedScreen" component={LikedScreen} />
@@ -57,7 +56,7 @@ function MainScreen() {
 			</MainScreenStack.Navigator>
 
 			<BottomNavigation
-				initialItem={0}
+				initialItem={user == null && 0}
 				position={"static"}
 				bottom={15}
 				sizeIcon={60}
@@ -75,7 +74,14 @@ function MainScreen() {
 				}}
 				items={[
 					{
-						icon: <SolarHomeSmileLinear color={neutral.getColor("100")} height={30} width={30} />,
+						icon: (
+							<SolarHomeSmileLinear
+								strokeWidth={1.5}
+								color={neutral.getColor("100")}
+								height={30}
+								width={30}
+							/>
+						),
 						iconActive: <SolarHomeSmileBold color={white.getColor()} height={30} width={30} />,
 						title: "Home",
 						onPress: () => {
@@ -83,7 +89,14 @@ function MainScreen() {
 						},
 					},
 					{
-						icon: <SolarClipboardListLinear color={neutral.getColor("100")} height={30} width={30} />,
+						icon: (
+							<SolarClipboardListLinear
+								strokeWidth={1.5}
+								color={neutral.getColor("100")}
+								height={30}
+								width={30}
+							/>
+						),
 						iconActive: <SolarClipboardListBold color={white.getColor()} height={30} width={30} />,
 						title: "Orders",
 						onPress: () => {
@@ -91,7 +104,9 @@ function MainScreen() {
 						},
 					},
 					{
-						icon: <SolarHeartLinear color={neutral.getColor("100")} height={30} width={30} />,
+						icon: (
+							<SolarHeartLinear strokeWidth={2} color={neutral.getColor("100")} height={30} width={30} />
+						),
 						iconActive: <SolarHeartBold color={white.getColor()} height={30} width={30} />,
 						title: "Liked",
 						onPress: () => {
@@ -99,7 +114,9 @@ function MainScreen() {
 						},
 					},
 					{
-						icon: <SolarBellLinear color={neutral.getColor("100")} height={30} width={30} />,
+						icon: (
+							<SolarBellLinear strokeWidth={1.5} color={neutral.getColor("100")} height={30} width={30} />
+						),
 						iconActive: <SolarBellBold color={white.getColor()} height={30} width={30} />,
 						title: "Notification",
 						onPress: () => {
@@ -107,7 +124,14 @@ function MainScreen() {
 						},
 					},
 					{
-						icon: <SolarUserCircleLinear color={neutral.getColor("100")} height={30} width={30} />,
+						icon: (
+							<SolarUserCircleLinear
+								strokeWidth={1.5}
+								color={neutral.getColor("100")}
+								height={30}
+								width={30}
+							/>
+						),
 						iconActive: <SolarUserCircleBold color={white.getColor()} height={30} width={30} />,
 						title: "Profile",
 						onPress: () => {

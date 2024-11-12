@@ -6,6 +6,7 @@
  * User: lam-nguyen
  **/
 import { ReactNode } from "react";
+import { StyleProp, ViewStyle } from "react-native";
 
 type PopUpProps = {
 	header?: ReactNode;
@@ -15,6 +16,8 @@ type PopUpProps = {
 	onEndHide?: () => void;
 	hideHeader?: boolean;
 	hideFooter?: boolean;
+	height?: number;
+	contentStyle?: StyleProp<ViewStyle>;
 };
 
 export default PopUpProps;

@@ -15,22 +15,22 @@ import GradientText from "../gradientText/GradientText";
 import GradientView from "../gradientView/GradientView";
 
 const BottomNavigationItem = ({
-	icon,
-	iconActive,
-	backgroundIcon,
-	backgroundIconActive,
-	colorTitle,
-	onPress,
-	sizeIcon = 50,
-	title,
-	fontSize,
-	transformTop = 5,
-	durationAnimation = 500,
-	status,
-	onActive,
-	index,
-	onDisabled,
-}: BottomNavigationItemProps) => {
+								  icon,
+								  iconActive,
+								  backgroundIcon,
+								  backgroundIconActive,
+								  colorTitle,
+								  onPress,
+								  sizeIcon = 50,
+								  title,
+								  fontSize,
+								  transformTop = 5,
+								  durationAnimation = 500,
+								  status,
+								  onActive,
+								  index,
+								  onDisabled,
+							  }: BottomNavigationItemProps) => {
 	const transformIconAnim = useSharedValue(0);
 	const iconActiveAnim = useSharedValue(0);
 	const iconAmin = useSharedValue(100);
@@ -106,11 +106,11 @@ const BottomNavigationItem = ({
 							/>
 						</Animated.View>
 						<Animated.View
-							style={[animatedIconActive, styles.containerIcon, { position: "absolute", zIndex: 2 }]}
+							style={[styles.containerIcon, animatedIconActive, { position: "absolute", zIndex: 2 }]}
 						>
 							{iconActive}
 						</Animated.View>
-						<Animated.View style={[animatedIcon, styles.containerIcon, { position: "absolute" }]}>
+						<Animated.View style={[styles.containerIcon, animatedIcon, { position: "absolute" }]}>
 							{icon}
 						</Animated.View>
 					</GradientView>

@@ -24,11 +24,17 @@ function PopUp({
 	onEndHide,
 	hideHeader = false,
 	hideFooter = false,
+	height = 0.95,
+	contentStyle,
 }: PopUpProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const popUpAnim = useSharedValue(0);
-	const heightContendPopUp = Dimensions.get("screen").height * 0.95;
+	const heightContendPopUp = Dimensions.get("screen").height * height;
 	const [visible, setVisible] = useState(showed);
+
+	useEffect(() => {
+		if (height < 0 || height > 1) throw Error("height is between 0 to 1!");
+	}, []);
 
 	const onEndHideHandle = useCallback(() => {
 		setVisible(false);
@@ -67,8 +73,10 @@ function PopUp({
 					styles.contentContainer,
 					{
 						backgroundColor: theme.add_new_location.background.getColor(),
+						height: `${height * 100}%`,
 					},
 					animatePopUp,
+					contentStyle,
 				]}
 			>
 				<PanGestureHandler

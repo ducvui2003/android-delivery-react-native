@@ -114,6 +114,12 @@ const darkTheme: ThemeType = {
 	chat: {
 		background: ColorFactory.createSingleColor("#25282E"),
 	},
+	profile: {
+		switch: ColorFactory.createSingleColor("#25292E"),
+	},
+	order: {
+		orderStatusCancel: ColorFactory.createSingleColor(neutral.getColor("100")),
+	},
 };
 
 export default darkTheme;

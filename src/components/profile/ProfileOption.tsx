@@ -1,7 +1,7 @@
-import React from "react";
+import React, { cloneElement, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Row from "../custom/Row";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import themes from "../../configs/themes/theme.config";
 import { SolarTicketSaleOutline } from "../../../assets/images/icons/TicketSaleOutline";
@@ -14,6 +14,11 @@ import SolarChatDotsLinear from "../../../assets/images/icons/SolarChatDotsLinea
 import { SolarUsersGroupTwoRoundedLinear } from "../../../assets/images/icons/SolarUserGroupTwoRoundedLinear";
 import { SolarShieldUserOutline } from "../../../assets/images/icons/SolarShieldUserOutline";
 import { FluentQuestionCircle48Regular } from "../../../assets/images/icons/FluentQuestionCircle48Regular";
+import { Switch } from "@rneui/base";
+import { primary, white } from "../../configs/colors/color-template.config";
+import Col from "../custom/Col";
+import { setTheme } from "../../hooks/redux/theme.slice";
+import Space from "../custom/Space";
 
 const ProfileOptionData = [
 	{
@@ -37,43 +42,72 @@ const ProfileOptionData = [
 		name: "Invite Friends",
 	},
 	{
-		icon: <SolarShieldUserOutline/>,
+		icon: <SolarShieldUserOutline />,
 		name: "Security",
 	},
 	{
-		icon: <FluentQuestionCircle48Regular/>,
+		icon: <FluentQuestionCircle48Regular />,
 		name: "Help Center",
 	},
 ];
 
 function ProfileOption() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const textTheme = useSelector((state: RootState) => state.themeState.textTheme);
+	const [isDark, setDark] = useState(textTheme === "dark");
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(setTheme(isDark ? "dark" : "light"));
+	}, [isDark]);
+
 	return (
-		<View style={{ flex: 0}}>
+		<Col>
 			<FlatList
 				data={ProfileOptionData}
 				showsHorizontalScrollIndicator={false}
 				showsVerticalScrollIndicator={false}
 				renderItem={({ item, index }) => (
-					<TouchableOpacity>
-						<Row style={styles.row}>
-							<Row style={styles.container}>
-								<Row style={{ gap: 20 }}>
-									<Text style={{ color: theme.text_1.getColor() }}>{item.icon}</Text>
-									<Text style={styles.option}>{item.name}</Text>
-								</Row>
-								<View>
-									<SolarAltArrowRightOutline />
-								</View>
-							</Row>
+					<TouchableOpacity style={[styles.container]}>
+						<Row style={{ gap: 20 }}>
+							{cloneElement(item.icon, {
+								color: theme.text_1.getColor(),
+							})}
+							<Text style={[styles.option, { color: theme.text_1.getColor() }]}>{item.name}</Text>
 						</Row>
+						<View>
+							<SolarAltArrowRightOutline color={theme.text_1.getColor()} />
+						</View>
 					</TouchableOpacity>
 				)}
-				ListFooterComponent={
-					<View style={styles.footerBorder} />
-				}
+				ListFooterComponent={<View style={styles.footerBorder} />}
 			/>
-		</View>
+
+			<Space height={20}/>
+
+			<Row flex={0} style={[{ paddingVertical: 10, justifyContent: "space-between" }]}>
+				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>Dark Mode</Text>
+				<Switch
+					trackColor={{ false: theme.profile.switch.getColor(), true: primary.getColor("500") }}
+					thumbColor={white.getColor()}
+					ios_backgroundColor="#3e3e3e"
+					onValueChange={setDark}
+					value={isDark}
+				/>
+			</Row>
+			<TouchableOpacity style={[styles.container, { justifyContent: "space-between", paddingVertical: 10 }]}>
+				<Text style={[styles.option, { color: theme.text_1.getColor() }]}>Term of Service</Text>
+				<SolarAltArrowRightOutline color={theme.text_1.getColor()} />
+			</TouchableOpacity>
+			<TouchableOpacity style={[styles.container, { justifyContent: "space-between", paddingVertical: 10 }]}>
+				<Text style={[styles.option, { color: theme.text_1.getColor() }]}>Privacy Policy</Text>
+				<SolarAltArrowRightOutline color={theme.text_1.getColor()} />
+			</TouchableOpacity>
+			<TouchableOpacity style={[styles.container, { justifyContent: "space-between", paddingVertical: 10 }]}>
+				<Text style={[styles.option, { color: theme.text_1.getColor() }]}>About App</Text>
+				<SolarAltArrowRightOutline color={theme.text_1.getColor()} />
+			</TouchableOpacity>
+		</Col>
 	);
 }
 
@@ -81,13 +115,10 @@ export default ProfileOption;
 const styles = StyleSheet.create({
 	container: {
 		flex: 0,
-		gap: 5,
 		width: "100%",
 		position: "relative",
 		paddingVertical: 15,
-	},
-	row: {
-		gap: 10,
+		flexDirection: "row",
 	},
 	option: {
 		...textStyle["16_regular"],

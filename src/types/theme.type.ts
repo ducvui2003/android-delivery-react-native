@@ -5,7 +5,7 @@
  * Create at: 2:34 PM - 06/08/2024
  * User: lam-nguyen
  **/
-import { SingleColor } from "../utils/Color";
+import ColorFactory, { SingleColor } from "../utils/Color";
 
 export type NameTheme = "light" | "dark";
 
@@ -81,5 +81,11 @@ export type ThemeType = {
 	};
 	chat: {
 		background: SingleColor;
+	};
+	profile: {
+		switch: SingleColor;
+	};
+	order: {
+		orderStatusCancel: SingleColor;
 	};
 };
