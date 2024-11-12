@@ -1,6 +1,6 @@
 import { Image, Keyboard, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as React from "react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Header } from "../../../components/header/Header";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
@@ -33,11 +33,17 @@ type ProfileScreenProps = {
 
 function ProfileScreen({ navigation }: ProfileScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const [isLogoutActive, setLogoutActive] = useState(true);
+
 
 	const handleBackPress = useCallback(() => {
 		Keyboard.dismiss();
 		navigation.pop();
 	}, [navigation]);
+
+	const handleLogoutPress = () => {
+		setLogoutActive(!isLogoutActive);
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -71,10 +77,14 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 				</Row>
 				<TouchableOpacity>
 					<ButtonHasStatus
+						onPress={handleLogoutPress}
+						active={isLogoutActive}
 						title={"Logout"}
-						styleText={{ color: primary.getColor("500"), marginLeft: 10 }}
-						styleButton={styles.buttonLogoutNotActive}
-						icon={<SolarLogout3Linear color={primary.getColor("500")} />}
+						styleText={isLogoutActive ? styles.textStyleActive : styles.textStyleNonActive}
+						styleButton={isLogoutActive ? styles.buttonLogoutActive : styles.buttonLogoutNotActive}
+						icon={<SolarLogout3Linear
+							color={isLogoutActive ? white.getColor() : primary.getColor("500")}
+						/>}
 					/>
 				</TouchableOpacity>
 				<ProfileOption />
@@ -119,5 +129,16 @@ const styles = StyleSheet.create({
 	},
 	buttonLogoutNotActive: {
 		marginTop: 20,
+	},
+	buttonLogoutActive: {
+		marginTop: 20,
+	},
+	textStyleActive:{
+		color: white.getColor(),
+		marginLeft: 10,
+	},
+	textStyleNonActive:{
+		color: primary.getColor("500"),
+		marginLeft: 10,
 	},
 });
