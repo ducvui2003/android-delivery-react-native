@@ -15,43 +15,45 @@ import { SolarUsersGroupTwoRoundedLinear } from "../../../assets/images/icons/So
 import { SolarShieldUserOutline } from "../../../assets/images/icons/SolarShieldUserOutline";
 import { FluentQuestionCircle48Regular } from "../../../assets/images/icons/FluentQuestionCircle48Regular";
 
-const ProfileOptionData = [
+const ProfileOptionData= (themeColor: string) => [
 	{
-		icon: <SolarMapPointLinear />,
+		icon: <SolarMapPointLinear color={themeColor}/>,
 		name: "My Locations",
 	},
 	{
-		icon: <SolarTicketSaleOutline />,
+		icon: <SolarTicketSaleOutline color={themeColor}/>,
 		name: "My Promotions",
 	},
 	{
-		icon: <SolarWalletOutline />,
+		icon: <SolarWalletOutline color={themeColor}/>,
 		name: "Payment Methods",
 	},
 	{
-		icon: <SolarChatDotsLinear />,
+		icon: <SolarChatDotsLinear color={themeColor}/>,
 		name: "Messages",
 	},
 	{
-		icon: <SolarUsersGroupTwoRoundedLinear />,
+		icon: <SolarUsersGroupTwoRoundedLinear color={themeColor}/>,
 		name: "Invite Friends",
 	},
 	{
-		icon: <SolarShieldUserOutline/>,
+		icon: <SolarShieldUserOutline color={themeColor}/>,
 		name: "Security",
 	},
 	{
-		icon: <FluentQuestionCircle48Regular/>,
+		icon: <FluentQuestionCircle48Regular color={themeColor}/>,
 		name: "Help Center",
 	},
 ];
 
 function ProfileOption() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const profileOptions = ProfileOptionData(theme.text_1.getColor());
+
 	return (
 		<View style={{ flex: 0}}>
 			<FlatList
-				data={ProfileOptionData}
+				data={profileOptions}
 				showsHorizontalScrollIndicator={false}
 				showsVerticalScrollIndicator={false}
 				renderItem={({ item, index }) => (
@@ -59,11 +61,11 @@ function ProfileOption() {
 						<Row style={styles.row}>
 							<Row style={styles.container}>
 								<Row style={{ gap: 20 }}>
-									<Text style={{ color: theme.text_1.getColor() }}>{item.icon}</Text>
-									<Text style={styles.option}>{item.name}</Text>
+									<Text>{item.icon}</Text>
+									<Text style={[styles.option, {color: theme.text_1.getColor()}]}>{item.name}</Text>
 								</Row>
 								<View>
-									<SolarAltArrowRightOutline />
+									<SolarAltArrowRightOutline color={theme.text_1.getColor()}/>
 								</View>
 							</Row>
 						</Row>

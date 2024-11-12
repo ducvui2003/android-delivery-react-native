@@ -89,7 +89,7 @@ function NotificationCard({ name, content, time, variant, isRead, onInfoPress }:
 					)}
 				</View>
 				<Row style={styles.timeContainer}>
-					<Text>{time}</Text>
+					<Text style={{color: theme.text_1.getColor()}}>{time}</Text>
 				</Row>
 			</Col>
 		</Row>

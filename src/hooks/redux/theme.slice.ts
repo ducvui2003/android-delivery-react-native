@@ -12,10 +12,12 @@ import themes from "../../configs/themes/theme.config";
 
 type ThemeState = {
 	theme: ThemeType;
+	isDarkModeEnabled: boolean;
 };
 
 const initialState: ThemeState = {
 	theme: themes.light,
+	isDarkModeEnabled: false,
 };
 
 const themeSlice = createSlice({
@@ -25,8 +27,12 @@ const themeSlice = createSlice({
 		setTheme: (state, action: PayloadAction<NameTheme>) => {
 			state.theme = themes[action.payload];
 		},
+		toggleDarkMode: (state) => {
+			state.isDarkModeEnabled = !state.isDarkModeEnabled;
+			state.theme = state.isDarkModeEnabled ? themes.dark : themes.light;
+		},
 	},
 });
 
-export const { setTheme } = themeSlice.actions;
+export const { setTheme, toggleDarkMode } = themeSlice.actions;
 export default themeSlice.reducer;
