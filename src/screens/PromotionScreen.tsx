@@ -6,7 +6,7 @@
  * User: Binnguci
  **/
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -20,7 +20,6 @@ import InputIcon from "../components/input/InputIcon";
 import GradientText from "../components/gradientText/GradientText";
 import textStyle from "../configs/styles/textStyle.config";
 import { gradient } from "../configs/colors/color-template.config";
-import { dataOrderOffer, dataShippingOffer } from "../../assets/data/promotion/promotion";
 import Row from "../components/custom/Row";
 import Space from "../components/custom/Space";
 import ButtonHasStatus from "../components/custom/ButtonHasStatus";
@@ -29,12 +28,13 @@ import { Promotion } from "../components/promotion/Promotion";
 import PromotionType from "../types/promotion.type";
 import PopUp from "../components/popUp/PopUp";
 import InformationPromotionScreen from "./InformationPromotionScreen";
+import PromotionBaseInfoType from "../types/promotionBaseInfo.type";
+import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 
 type PromotionScreenProps = {
 	route: RouteProp<RootStackParamList, "PromotionScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
-
 
 const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
@@ -56,8 +56,17 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 
 	const [promotion, setPromotion] = useState<PromotionType>();
 
-
-
+	const [promotions, setPromotions] = useState<PromotionBaseInfoType[]>([]);
+	useEffect(() => {
+		axiosInstance
+			.get<ApiResponse<PromotionBaseInfoType[]>>("/promotion/")
+			.then(response => {
+				setPromotions(response.data.data);
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	}, []);
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
@@ -79,38 +88,35 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 				/>
 				<ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
 					<View style={{ flex: 0 }}>
-						{dataShippingOffer.length > 0 && (
-							<>
-								<Text style={styles.offerText}>Shipping Offers</Text>
-								<FlatList
-									style={styles.flatList}
-									data={dataShippingOffer}
-									showsHorizontalScrollIndicator={false}
-									showsVerticalScrollIndicator={false}
-									renderItem={({ item, index }) => (
-										<TouchableOpacity onPress={() => handleCheckShipping(index)}>
-											<Row style={styles.row}>
-												<Promotion
-													name={item.name}
-													checked={indexCheckedShipping === index}
-													onCheck={() => handleCheckShipping(index)}
-													onInfoPress={() => setPromotion(item)}
-												/>
-											</Row>
-											<Space height={15} />
-										</TouchableOpacity>
-									)}
-								/>
-							</>
-						)}
+						<>
+							<Text style={styles.offerText}>Shipping Offers</Text>
+							<FlatList
+								style={styles.flatList}
+								data={promotions.filter(item => item.type !== "ORDER")}
+								showsHorizontalScrollIndicator={false}
+								showsVerticalScrollIndicator={false}
+								renderItem={({ item, index }) => (
+									<TouchableOpacity onPress={() => handleCheckShipping(index)}>
+										<Row style={styles.row}>
+											<Promotion
+												name={item.name}
+												checked={indexCheckedShipping === index}
+												onCheck={() => handleCheckShipping(index)}
+												onInfoPress={() => setPromotion(item)}
+											/>
+										</Row>
+										<Space height={15} />
+									</TouchableOpacity>
+								)}
+							/>
+						</>
 					</View>
 					<View style={{ flex: 0 }}>
-						{dataOrderOffer.length > 0 && (
 							<>
 								<Text style={styles.offerText}>Order Offers</Text>
 								<FlatList
 									style={styles.flatList}
-									data={dataOrderOffer}
+									data={promotions.filter(item => item.type !== "SHIPPING")}
 									showsHorizontalScrollIndicator={false}
 									showsVerticalScrollIndicator={false}
 									renderItem={({ item, index }) => (
@@ -128,7 +134,6 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 									)}
 								/>
 							</>
-						)}
 					</View>
 				</ScrollView>
 			</View>
@@ -140,13 +145,13 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 					styleButton={styles.buttonApply}
 				/>
 			</View>
-			{promotion &&
-			<PopUp
-				body={<InformationPromotionScreen {...promotion}/>}
-				onEndHide={() => setPromotion(undefined)}
-				showed={!!promotion}
+			{promotion && (
+				<PopUp
+					body={<InformationPromotionScreen {...promotion} />}
+					onEndHide={() => setPromotion(undefined)}
+					showed={!!promotion}
 				/>
-			}
+			)}
 		</SafeAreaView>
 	);
 };
