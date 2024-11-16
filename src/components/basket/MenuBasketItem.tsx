@@ -38,7 +38,8 @@ function MenuBasketItem({ icon, title, footer, onPress, childRightTitle }: MenuI
 						<Text style={[{ ...textStyle["16_regular"], color: theme.text_1.getColor() }]}>{title}</Text>
 						{childRightTitle}
 					</Row>
-					{footer}
+					<Row style={{gap: 10}}>{footer}</Row>
+
 				</Col>
 				<SolarAltArrowRightOutline width={35} height={35} color={theme.text_1.getColor()} />
 			</Row>

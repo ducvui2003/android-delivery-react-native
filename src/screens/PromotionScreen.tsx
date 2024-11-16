@@ -13,7 +13,7 @@ import { Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity,
 import { FlatList } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 
-import { RootState } from "../configs/redux/store.config";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
 import { RootStackParamList } from "../navigations/stack.type";
 import NumberValue from "../configs/value/number.value";
 import InputIcon from "../components/input/InputIcon";
@@ -30,6 +30,7 @@ import InformationPromotionScreen from "./InformationPromotionScreen";
 import PromotionBaseInfoType from "../types/promotionBaseInfo.type";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import PromotionType from "../types/promotion.type";
+import { setOrderPromotion, setShippingPromotion } from "../hooks/redux/promotionOffer.slice";
 
 type PromotionScreenProps = {
 	route: RouteProp<RootStackParamList, "PromotionScreen">;
@@ -38,6 +39,8 @@ type PromotionScreenProps = {
 
 const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const appDispatch = useAppDispatch();
+
 	const [indexCheckedShipping, setIndexCheckedShipping] = useState<number | null>(null);
 	const [indexCheckedOrder, setIndexCheckedOrder] = useState<number | null>(null);
 
@@ -71,8 +74,18 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 		const promotion = await axiosInstance.get<ApiResponse<PromotionType>>(`/promotion/get?id=${id}`);
 		return promotion.data;
 	};
-	const shippingOffers = promotions !== undefined? promotions.filter(item => item.type !== "SHIPPING") : []
-	const orderOffers = promotions !== undefined? promotions.filter(item => item.type !== "ORDER") : []
+	const shippingOffers = promotions !== undefined ? promotions.filter(item => item.type !== "ORDER") : [];
+	const orderOffers = promotions !== undefined ? promotions.filter(item => item.type !== "SHIPPING") : [];
+
+	const submit = () => {
+		if (indexCheckedOrder)
+			fetchPromotion(orderOffers[indexCheckedOrder].id).then(res => appDispatch(setOrderPromotion(res.data)));
+
+		if (indexCheckedShipping || indexCheckedShipping === 0)
+			fetchPromotion(shippingOffers[indexCheckedShipping].id).then(res => appDispatch(setShippingPromotion(res.data)));
+
+		handleBackPress();
+	};
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 			<Header
@@ -97,9 +110,7 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 							<Text style={styles.offerText}>Shipping Offers</Text>
 							<FlatList
 								style={styles.flatList}
-								data={
-									shippingOffers
-								}
+								data={shippingOffers}
 								showsHorizontalScrollIndicator={false}
 								showsVerticalScrollIndicator={false}
 								renderItem={({ item, index }) => (
@@ -152,7 +163,7 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 				<ButtonHasStatus
 					active={indexCheckedShipping != null || indexCheckedOrder != null}
 					title="Apply"
-					onPress={() => {}}
+					onPress={submit}
 					styleButton={styles.buttonApply}
 				/>
 			</View>
@@ -167,7 +178,6 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 		</SafeAreaView>
 	);
 };
-
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
