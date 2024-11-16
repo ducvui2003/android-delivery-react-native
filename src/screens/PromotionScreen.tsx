@@ -25,11 +25,11 @@ import Space from "../components/custom/Space";
 import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import { Header } from "../components/header/Header";
 import { Promotion } from "../components/promotion/Promotion";
-import PromotionType from "../types/promotion.type";
 import PopUp from "../components/popUp/PopUp";
 import InformationPromotionScreen from "./InformationPromotionScreen";
 import PromotionBaseInfoType from "../types/promotionBaseInfo.type";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
+import PromotionType from "../types/promotion.type";
 
 type PromotionScreenProps = {
 	route: RouteProp<RootStackParamList, "PromotionScreen">;
@@ -67,7 +67,12 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 				console.log(error);
 			});
 	}, []);
-
+	const fetchPromotion = async (id: String): Promise<ApiResponse<PromotionType>> => {
+		const promotion = await axiosInstance.get<ApiResponse<PromotionType>>(`/promotion/get?id=${id}`);
+		return promotion.data;
+	};
+	const shippingOffers = promotions !== undefined? promotions.filter(item => item.type !== "SHIPPING") : []
+	const orderOffers = promotions !== undefined? promotions.filter(item => item.type !== "ORDER") : []
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 			<Header
@@ -92,7 +97,9 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 							<Text style={styles.offerText}>Shipping Offers</Text>
 							<FlatList
 								style={styles.flatList}
-								data={promotions.filter(item => item.type !== "ORDER")}
+								data={
+									shippingOffers
+								}
 								showsHorizontalScrollIndicator={false}
 								showsVerticalScrollIndicator={false}
 								renderItem={({ item, index }) => (
@@ -102,7 +109,9 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 												name={item.name}
 												checked={indexCheckedShipping === index}
 												onCheck={() => handleCheckShipping(index)}
-												onInfoPress={() => setPromotion(item)}
+												onInfoPress={() =>
+													fetchPromotion(item.id).then(res => setPromotion(res.data))
+												}
 											/>
 										</Row>
 										<Space height={15} />
@@ -112,28 +121,30 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 						</>
 					</View>
 					<View style={{ flex: 0 }}>
-							<>
-								<Text style={styles.offerText}>Order Offers</Text>
-								<FlatList
-									style={styles.flatList}
-									data={promotions.filter(item => item.type !== "SHIPPING")}
-									showsHorizontalScrollIndicator={false}
-									showsVerticalScrollIndicator={false}
-									renderItem={({ item, index }) => (
-										<TouchableOpacity onPress={() => handleCheckOrder(index)}>
-											<Row style={styles.row}>
-												<Promotion
-													name={item.name}
-													checked={indexCheckedOrder === index}
-													onCheck={() => handleCheckOrder(index)}
-													onInfoPress={() => setPromotion(item)}
-												/>
-											</Row>
-											<Space height={15} />
-										</TouchableOpacity>
-									)}
-								/>
-							</>
+						<>
+							<Text style={styles.offerText}>Order Offers</Text>
+							<FlatList
+								style={styles.flatList}
+								data={orderOffers}
+								showsHorizontalScrollIndicator={false}
+								showsVerticalScrollIndicator={false}
+								renderItem={({ item, index }) => (
+									<TouchableOpacity onPress={() => handleCheckOrder(index)}>
+										<Row style={styles.row}>
+											<Promotion
+												name={item.name}
+												checked={indexCheckedOrder === index}
+												onCheck={() => handleCheckOrder(index)}
+												onInfoPress={() =>
+													fetchPromotion(item.id).then(res => setPromotion(res.data))
+												}
+											/>
+										</Row>
+										<Space height={15} />
+									</TouchableOpacity>
+								)}
+							/>
+						</>
 					</View>
 				</ScrollView>
 			</View>
@@ -145,6 +156,7 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 					styleButton={styles.buttonApply}
 				/>
 			</View>
+
 			{promotion && (
 				<PopUp
 					body={<InformationPromotionScreen {...promotion} />}

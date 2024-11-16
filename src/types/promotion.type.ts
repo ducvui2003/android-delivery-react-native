@@ -5,15 +5,19 @@
  * Create at: 3:04 PM - 12/09/2024
  * User: Binnguci
  **/
+type DiscountPromotionInfoType = {
+	discount: number,
+	startDate: Date,
+	expired: Date,
+}
 
 type PromotionType = {
 	id: string;
 	name: string;
 	description?: string;
-	duration?: string;
+	discountPromotionInfo: DiscountPromotionInfoType,
 	promotionCode?: string;
 	applicableScope?: string;
-	discountAmount?: number;
 	termsAndConditions?: string;
 }
 export default PromotionType;

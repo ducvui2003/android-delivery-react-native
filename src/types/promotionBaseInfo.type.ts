@@ -7,3 +7,4 @@ type PromotionBaseInfoType = Pick<PromotionType, "id" | "name"> & {
 }
 
 export default PromotionBaseInfoType;
+export { PromotionOfferType };
