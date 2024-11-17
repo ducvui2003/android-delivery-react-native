@@ -10,8 +10,6 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { gradient, primary, white } from "../../configs/colors/color-template.config";
 import textStyle from "../../configs/styles/textStyle.config";
-import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
 import { SolarLogin3Broken } from "../../../assets/images/icons/SolarLogin3Broken";
 import GradientView from "../../components/gradientView/GradientView";
 

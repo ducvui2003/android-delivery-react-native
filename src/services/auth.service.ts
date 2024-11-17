@@ -1,16 +1,16 @@
 import axios from "axios";
-import {Alert} from "react-native";
-import axiosInstance, {ApiResponse} from "../configs/axios/axios.config";
+import { Alert } from "react-native";
+import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import RegisterFormType from "../types/registerForm.type";
-import {EndPoint} from "../utils/EndPoint";
-import {getFromStorage, KEY_SECURE, removeFromStorage, setToStorage} from "./secureStore.service";
-import {ResponseAuthentication, User} from "../types/user.type";
+import { EndPoint } from "../utils/EndPoint";
+import { getFromStorage, KEY_SECURE, removeFromStorage, setToStorage } from "./secureStore.service";
+import { ResponseAuthentication, User } from "../types/user.type";
 import LoginFormType from "../types/loginForm.type";
 import {
+	getFromStorage as asyncGetFromStorage,
 	KEY_ASYNC,
 	removeFromStorage as asyncRemoveFromStorage,
 	saveToStorage as asyncSetToStorage,
-	getFromStorage as asyncGetFromStorage,
 } from "./aysncStore.service";
 
 export const isLogin = async (): Promise<void> => {
@@ -19,9 +19,9 @@ export const isLogin = async (): Promise<void> => {
 	throw new Error("Not logged in");
 };
 
-export const loginApi = async (data: LoginFormType): Promise<{ user: User, accessToken: string }> => {
+export const loginApi = async (data: LoginFormType): Promise<{ user: User; accessToken: string }> => {
 	const result = await axiosInstance.post<ApiResponse<ResponseAuthentication>>(EndPoint.LOGIN, data);
-	const {user, access_token} = result.data.data;
+	const { user, access_token } = result.data.data;
 	await setToStorage(KEY_SECURE.ACCESS_TOKEN, access_token);
 	await asyncSetToStorage(KEY_ASYNC.USER, JSON.stringify(user));
 	return {
@@ -62,4 +62,4 @@ export const getUserInfoApi = async (): Promise<User> => {
 	const key = await asyncGetFromStorage(KEY_ASYNC.USER);
 	if (key === null) throw new Error("User not found");
 	return JSON.parse(key);
-}
+};

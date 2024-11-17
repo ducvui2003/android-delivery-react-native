@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React, { createContext, useContext } from "react";
+import React, { useContext } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { MainScreenStackParamList } from "../navigations/stack.type";
 import { useSelector } from "react-redux";
@@ -38,25 +38,11 @@ const MainScreenStack = createStackNavigator<MainScreenStackParamList>();
 function MainScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const navigation = useNavigation<NativeStackNavigationProp<MainScreenStackParamList>>();
-	const user = useSelector((state: RootState) => state.authState.user);
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
-			<MainScreenStack.Navigator
-				screenOptions={{
-					headerShown: false,
-				}}
-				initialRouteName={"HomeScreen"}
-			>
-				<MainScreenStack.Screen name="HomeScreen" component={HomeScreen} />
-				<MainScreenStack.Screen name="OrderScreen" component={OrderScreen} />
-				<MainScreenStack.Screen name="LikedScreen" component={LikedScreen} />
-				<MainScreenStack.Screen name="NotificationScreen" component={NotificationScreen} />
-				<MainScreenStack.Screen name="ProfileScreen" component={ProfileScreen} />
-			</MainScreenStack.Navigator>
-
 			<BottomNavigation
-				initialItem={user == null && 0}
+				initialItem={0}
 				position={"static"}
 				bottom={15}
 				sizeIcon={60}
@@ -139,7 +125,20 @@ function MainScreen() {
 						},
 					},
 				]}
-			/>
+			>
+				<MainScreenStack.Navigator
+					screenOptions={{
+						headerShown: false,
+					}}
+					initialRouteName={"HomeScreen"}
+				>
+					<MainScreenStack.Screen name="HomeScreen" component={HomeScreen} />
+					<MainScreenStack.Screen name="OrderScreen" component={OrderScreen} />
+					<MainScreenStack.Screen name="LikedScreen" component={LikedScreen} />
+					<MainScreenStack.Screen name="NotificationScreen" component={NotificationScreen} />
+					<MainScreenStack.Screen name="ProfileScreen" component={ProfileScreen} />
+				</MainScreenStack.Navigator>
+			</BottomNavigation>
 		</SafeAreaView>
 	);
 }
