@@ -24,6 +24,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../navigations/stack.type";
 import NumberValue from "../../../configs/value/number.value";
+import Space from "../../../components/custom/Space";
 
 function HomeScreen() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
@@ -41,6 +42,7 @@ function HomeScreen() {
 	return (
 		<ScrollView
 			style={styles.container}
+			showsVerticalScrollIndicator={false}
 			refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 		>
 			<HomeHeaderFragment />
@@ -108,7 +110,10 @@ function HomeScreen() {
 					)}
 				/>
 			</View>
+
 			<HomeProductsFragment refresh={refresh} onRefresh={setRefreshing} />
+
+			<Space height={80} />
 		</ScrollView>
 	);
 }

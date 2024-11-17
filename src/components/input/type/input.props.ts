@@ -24,8 +24,8 @@ type InputProps = {
 	onFocus?: () => void;
 	borderColor?: ColorValue;
 	borderColorFocus?: ColorValue;
-	width?: DimensionValue | undefined;
-	height?: DimensionValue | undefined;
+	width?: number | undefined;
+	height?: number | undefined;
 	backgroundColor?: ColorValue;
 	styleInput?: StyleProp<TextStyle>;
 	focus?: boolean;

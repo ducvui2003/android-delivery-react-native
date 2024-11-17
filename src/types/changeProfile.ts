@@ -2,18 +2,14 @@
  * Author: Nguyen Dinh Lam
  * Email: kiminonawa1305@gmail.com
  * Phone number: +84 855354919
- * Create at: 2:54 PM - 13/08/2024
+ * Create at: 10:34 PM - 12/11/2024
  * User: lam-nguyen
  **/
-
-export type User = {
-	id: number;
-	email: string;
+type ChangeProfile = {
 	phoneNumber: string;
+	region: string;
+	email: string;
 	fullName: string;
 };
 
-export type ResponseAuthentication = {
-	access_token: string;
-	user: User;
-}
+export default ChangeProfile;

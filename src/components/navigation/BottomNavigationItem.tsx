@@ -75,8 +75,6 @@ const BottomNavigationItem = ({
 	};
 
 	const disabled = () => {
-		if (status) return;
-
 		transformIconAnim.value = withTiming(0, { duration: (durationAnimation * 3) / 5 });
 		iconAmin.value = withTiming(100, { duration: durationAnimation });
 		iconActiveAnim.value = withTiming(0, { duration: durationAnimation });
@@ -90,8 +88,8 @@ const BottomNavigationItem = ({
 	}, [transformIcon]);
 
 	useEffect(() => {
-		if (status) return;
-		disabled();
+		if (status) runActive();
+		else disabled();
 	}, [status]);
 
 	return (
@@ -106,11 +104,11 @@ const BottomNavigationItem = ({
 							/>
 						</Animated.View>
 						<Animated.View
-							style={[animatedIconActive, styles.containerIcon, { position: "absolute", zIndex: 2 }]}
+							style={[styles.containerIcon, animatedIconActive, { position: "absolute", zIndex: 2 }]}
 						>
 							{iconActive}
 						</Animated.View>
-						<Animated.View style={[animatedIcon, styles.containerIcon, { position: "absolute" }]}>
+						<Animated.View style={[styles.containerIcon, animatedIcon, { position: "absolute" }]}>
 							{icon}
 						</Animated.View>
 					</GradientView>

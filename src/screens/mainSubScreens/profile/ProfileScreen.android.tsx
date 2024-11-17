@@ -1,22 +1,25 @@
-import { Image, Keyboard, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Keyboard, SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import * as React from "react";
-import { useCallback } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Header } from "../../../components/header/Header";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../configs/redux/store.config";
-import { RouteProp } from "@react-navigation/native";
-import { MainScreenStackParamList } from "../../../navigations/stack.type";
+import { RootState, useAppDispatch } from "../../../configs/redux/store.config";
+import { RouteProp, useNavigation } from "@react-navigation/native";
+import { MainScreenStackParamList, RootStackParamList } from "../../../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Row from "../../../components/custom/Row";
 import NumberValue from "../../../configs/value/number.value";
 import Col from "../../../components/custom/Col";
-import textStyle from "../../../configs/styles/textStyle.config";
-import { neutral, primary, white } from "../../../configs/colors/color-template.config";
-import { IRoundPhone } from "../../../../assets/images/icons/IRoundPhone";
-import { MaterialSymbolsMail } from "../../../../assets/images/icons/MaterialSymbolsMail";
-import SolarPenBold from "../../../../assets/images/icons/SolarPenBold";
-import ButtonHasStatus from "../../../components/custom/ButtonHasStatus";
-import { SolarLogout3Linear } from "../../../../assets/images/icons/SolarLogout3Linear";
+import ProfileOption from "../../../components/profile/ProfileOption";
+import { logout } from "../../../hooks/redux/auth.slice";
+import SolarOption from "../../../../assets/images/icons/SolarOption";
+import ProfileHasNotUser from "../../../fragments/profile/ProfileHasNotUser";
+import ProfileHasUser from "../../../fragments/profile/ProfileHasUser";
+import ChangeProfile from "../../../types/changeProfile";
+import ProfilePopUp from "../../../fragments/profile/ProfilePopUp";
+import ProfileModel from "../../../fragments/profile/ProfileModel";
+import spacing from "../../../configs/styles/space.config";
+import Space from "../../../components/custom/Space";
+import { BottomNavigationContext } from "../../../components/navigation/BottomNavigation";
 
 /**
  * Author: Nguyen Dinh Lam
@@ -32,51 +35,61 @@ type ProfileScreenProps = {
 
 function ProfileScreen({ navigation }: ProfileScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const user = useSelector((state: RootState) => state.authState.user);
+	const [isLogoutActive, setLogoutActive] = useState(true);
+	const appDispatch = useAppDispatch();
+	const bottomNavigation = useContext(BottomNavigationContext);
+
+	const [showModal, setShowModal] = useState<boolean>(false);
+	const [showPopUp, setShowPopUp] = useState<boolean>(false);
+	const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	const handleBackPress = useCallback(() => {
 		Keyboard.dismiss();
 		navigation.pop();
 	}, [navigation]);
 
+	//press button logout
+	const handleLogoutPress = () => {
+		setLogoutActive(!isLogoutActive);
+		appDispatch(logout()).then(() => {
+			setShowModal(false);
+			bottomNavigation?.setMenu(0);
+			navigation.replace("HomeScreen");
+		});
+	};
+
+	//press button option
+	const handleOptionPress = () => {};
+
+	//press button save change profile
+	const handlePressSaveChangeProfile = async (data: ChangeProfile) => {};
+
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 			<Header
 				title="Profile"
 				colorTitle={theme.text_1.getColor()}
 				colorIconBack={theme.text_1.getColor()}
 				styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor() }}
+				styleIconRight={{ backgroundColor: theme.header.backgroundIconBack.getColor() }}
 				onPressBack={handleBackPress}
+				iconRight={<SolarOption width={30} height={30} color={theme.text_1.getColor()} />}
+				onPressIconRight={() => handleOptionPress}
 			/>
-			<Col style={styles.content}>
-				<Row flex={0} style={styles.infoUser}>
-					<Image
-						source={{ uri: "https://i.pinimg.com/originals/5c/fc/32/5cfc32131a83bbe03da98c55b3dc02fe.jpg" }}
-						style={styles.circularImage}
-					/>
-					<Col flex={0} style={styles.infoBasic}>
-						<Text style={[styles.fullName, { color: primary.getColor("500") }]}>Nguyễn Thanh Bình</Text>
-						<Row>
-							<IRoundPhone width={14} color={neutral.getColor("100")} height={14} />
-							<Text style={[textStyle["12_medium"], { marginLeft: 5 }]}>(+84) 123 456 789</Text>
-						</Row>
-						<Row>
-							<MaterialSymbolsMail width={14} color={neutral.getColor("100")} height={14} />
-							<Text style={[textStyle["12_medium"], { marginLeft: 5 }]}>dongtrinh@gmail.com</Text>
-						</Row>
-					</Col>
-					<View style={styles.buttonEdit}>
-						<SolarPenBold width={26} height={26} color={white.getColor()} />
-					</View>
-				</Row>
-				<TouchableOpacity>
-					<ButtonHasStatus
-						title={"Logout"}
-						styleText={{ color: primary.getColor("500"), marginLeft: 10 }}
-						styleButton={styles.buttonLogoutNotActive}
-						icon={<SolarLogout3Linear color={primary.getColor("500")} />}
-					/>
-				</TouchableOpacity>
-			</Col>
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<Col flex={0} style={styles.content}>
+					{user == null ? (
+						<ProfileHasNotUser onPress={() => nav.replace("LoginScreen")} />
+					) : (
+						<ProfileHasUser onChangeProfile={() => setShowPopUp(true)} logout={() => setShowModal(true)} />
+					)}
+					<ProfileOption />
+				</Col>
+				<Space height={spacing["spaced-7"]} />
+			</ScrollView>
+			<ProfileModel onYes={handleLogoutPress} onShowed={setShowModal} showed={showModal} />
+			<ProfilePopUp onSave={handlePressSaveChangeProfile} onShowed={setShowPopUp} showed={showPopUp} />
 		</SafeAreaView>
 	);
 }
@@ -84,38 +97,14 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 export default ProfileScreen;
 const styles = StyleSheet.create({
 	container: {
-		flex: 0,
+		flex: 1,
 	},
 	content: {
 		paddingHorizontal: NumberValue.paddingHorizontalScreen,
 		justifyContent: "center",
 	},
-	circularImage: {
-		width: 60,
-		height: 60,
-		borderRadius: 50,
-	},
-	infoUser: {
-		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	infoBasic: {
-		paddingHorizontal: 10,
-		width: "70%",
-	},
-	fullName: {
-		...textStyle["18_semibold"],
-	},
-	buttonEdit: {
-		width: 42,
-		backgroundColor: primary.getColor("500"),
-		height: 42,
-		borderRadius: 21,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	buttonLogoutNotActive: {
-		marginTop: 20,
+	buttonModal: {
+		marginBottom: 0,
+		width: "47%",
 	},
 });

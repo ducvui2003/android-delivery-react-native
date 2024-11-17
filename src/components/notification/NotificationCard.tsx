@@ -1,4 +1,4 @@
-import NotificationProps, {Variant} from "./type/notifications.props";
+import NotificationProps, { Variant } from "./type/notifications.props";
 import { StyleSheet, Text, View } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import Col from "../custom/Col";
@@ -27,7 +27,6 @@ const COLORS = {
 };
 
 const renderIcon = (typeNotification: Variant) => {
-
 	switch (typeNotification) {
 		case "Discount":
 			return <SolarTicketSaleBold color={COLORS.discountIcon} />;
@@ -84,12 +83,12 @@ function NotificationCard({ name, content, time, variant, isRead, onInfoPress }:
 					</Row>
 					{!isRead && (
 						<View style={styles.dotContainer}>
-							<MdiDot/>
+							<MdiDot />
 						</View>
 					)}
 				</View>
 				<Row style={styles.timeContainer}>
-					<Text>{time}</Text>
+					<Text style={{ color: theme.text_1.getColor() }}>{time}</Text>
 				</Row>
 			</Col>
 		</Row>

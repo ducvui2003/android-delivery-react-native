@@ -1,8 +1,8 @@
-import {Provider as ProviderRedux, useDispatch} from "react-redux";
+import {Provider as ProviderRedux, useDispatch, useSelector} from "react-redux";
 import {createStackNavigator} from "@react-navigation/stack";
 import {RootStackParamList} from "./src/navigations/stack.type";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
-import store from "./src/configs/redux/store.config";
+import store, {RootState, useAppDispatch} from "./src/configs/redux/store.config";
 import {NavigationContainer} from "@react-navigation/native";
 import MainScreen from "./src/screens/MainScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
@@ -35,15 +35,18 @@ import FaceIDScreen from "./src/screens/FaceIDScreen";
 import TouchIDScreen from "./src/screens/TouchIDScreen";
 import CancelOrderScreen from "./src/screens/CancelOrderScreen";
 import ChatScreen from "./src/screens/ChatScreen";
+import {NameTheme} from "./src/types/theme.type";
+import {getAccount} from "./src/hooks/redux/auth.slice";
+import {getFromStorage} from "./src/services/secureStore.service";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
-const RootStack = createStackNavigator<RootStackParamList>()
+const RootStack = createStackNavigator<RootStackParamList>();
 
 const provider =
     <ProviderRedux store={store}>
         <Root/>
-    </ProviderRedux>
+    </ProviderRedux>;
 
 const readerRoot: Record<typeof Platform.OS, JSX.Element> = {
     web: <GoogleOAuthProvider clientId={process.env.EXPO_PUBLIC_WEB_CLIENT_ID as string}>
@@ -53,7 +56,7 @@ const readerRoot: Record<typeof Platform.OS, JSX.Element> = {
     macos: provider,
     android: provider,
     windows: provider,
-}
+};
 
 export default function App() {
     return (
@@ -67,16 +70,31 @@ export default function App() {
 
 function Root() {
     const dispatch = useDispatch();
+    const authSelector = useSelector((state: RootState) => state.authState);
+    const appDispatch = useAppDispatch();
+
     const colorScheme = useColorScheme();
 
+
     useEffect(() => {
-        if (!colorScheme) return;
-        dispatch(setTheme(colorScheme));
+        getFromStorage("theme").then(value => {
+            if (!value) {
+                if (!colorScheme) return;
+                dispatch(setTheme(colorScheme));
+                return;
+            }
+            dispatch(setTheme(value as NameTheme));
+        });
+        console.log("auth selector", authSelector.user);
+        if (authSelector.user == null) {
+            appDispatch(getAccount());
+        }
     }, []);
+
 
     return (
         <NavigationContainer>
-            <RootStack.Navigator initialRouteName="MainScreen" screenOptions={{headerShown: false}}>
+            <RootStack.Navigator initialRouteName="WelcomeScreen" screenOptions={{headerShown: false}}>
                 <RootStack.Screen name={"MainScreen"} component={MainScreen}/>
                 <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen}/>
                 <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen}/>
@@ -105,7 +123,7 @@ function Root() {
                 <RootStack.Screen name={"TouchIDScreen"} component={TouchIDScreen}/>
                 <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen}/>
                 <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen}/>
-                <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
+                <RootStack.Screen name={"ChatScreen"} component={ChatScreen}/>
             </RootStack.Navigator>
         </NavigationContainer>
     );

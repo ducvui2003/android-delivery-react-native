@@ -94,7 +94,6 @@ const styled = (theme: ThemeType) =>
 	StyleSheet.create({
 		productList: {
 			marginTop: 32,
-			marginBottom: 100,
 		},
 		productGridContainer: {
 			marginTop: 24,
