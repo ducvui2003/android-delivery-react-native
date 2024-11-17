@@ -27,10 +27,9 @@ import { Header } from "../components/header/Header";
 import { Promotion } from "../components/promotion/Promotion";
 import PopUp from "../components/popUp/PopUp";
 import InformationPromotionScreen from "./InformationPromotionScreen";
-import PromotionBaseInfoType from "../types/promotionBaseInfo.type";
-import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import PromotionType from "../types/promotion.type";
-import { setOrderPromotion, setShippingPromotion } from "../hooks/redux/promotionOffer.slice";
+import { EndPointPromotion, getPromotions, promotionOffer } from "../hooks/redux/promotionOffer.slice";
+import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 
 type PromotionScreenProps = {
 	route: RouteProp<RootStackParamList, "PromotionScreen">;
@@ -39,6 +38,11 @@ type PromotionScreenProps = {
 
 const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const user = useSelector((state: RootState) => state.authState.user);
+
+	const userId = user ? user.id : 4;
+	const { promotions, shipping, order } = useSelector((state: RootState) => state.promotionOffer);
+
 	const appDispatch = useAppDispatch();
 
 	const [indexCheckedShipping, setIndexCheckedShipping] = useState<number | null>(null);
@@ -59,30 +63,26 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 
 	const [promotion, setPromotion] = useState<PromotionType>();
 
-	const [promotions, setPromotions] = useState<PromotionBaseInfoType[]>([]);
 	useEffect(() => {
-		axiosInstance
-			.get<ApiResponse<PromotionBaseInfoType[]>>("/promotion/")
-			.then(response => {
-				setPromotions(response.data.data);
-			})
-			.catch(error => {
-				console.log(error);
-			});
+		appDispatch(getPromotions(userId));
 	}, []);
+
 	const fetchPromotion = async (id: String): Promise<ApiResponse<PromotionType>> => {
-		const promotion = await axiosInstance.get<ApiResponse<PromotionType>>(`/promotion/get?id=${id}`);
+		const promotion = await axiosInstance.get<ApiResponse<PromotionType>>(
+			`${EndPointPromotion.DETAIL_PROMOTION}/${id}`
+		);
 		return promotion.data;
 	};
 	const shippingOffers = promotions !== undefined ? promotions.filter(item => item.type !== "ORDER") : [];
 	const orderOffers = promotions !== undefined ? promotions.filter(item => item.type !== "SHIPPING") : [];
 
+	
 	const submit = () => {
-		if (indexCheckedOrder)
-			fetchPromotion(orderOffers[indexCheckedOrder].id).then(res => appDispatch(setOrderPromotion(res.data)));
+		if ((indexCheckedOrder || indexCheckedOrder === 0) && orderOffers)
+			appDispatch(promotionOffer(orderOffers[indexCheckedOrder].id));
 
-		if (indexCheckedShipping || indexCheckedShipping === 0)
-			fetchPromotion(shippingOffers[indexCheckedShipping].id).then(res => appDispatch(setShippingPromotion(res.data)));
+		if (shippingOffers && (indexCheckedShipping || indexCheckedShipping === 0))
+			appDispatch(promotionOffer(shippingOffers[indexCheckedShipping].id));
 
 		handleBackPress();
 	};
@@ -118,8 +118,11 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 										<Row style={styles.row}>
 											<Promotion
 												name={item.name}
-												checked={indexCheckedShipping === index}
-												onCheck={() => handleCheckShipping(index)}
+												checked={indexCheckedShipping === index || shipping?.id === item.id}
+												onCheck={() => {
+													appDispatch(promotionOffer(item.id))
+													handleCheckShipping(index);
+												}}
 												onInfoPress={() =>
 													fetchPromotion(item.id).then(res => setPromotion(res.data))
 												}
@@ -144,8 +147,11 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 										<Row style={styles.row}>
 											<Promotion
 												name={item.name}
-												checked={indexCheckedOrder === index}
-												onCheck={() => handleCheckOrder(index)}
+												checked={indexCheckedOrder === index || order?.id === item.id}
+												onCheck={() => {
+													appDispatch(promotionOffer(item.id));
+													handleCheckOrder(index);
+												}}
 												onInfoPress={() =>
 													fetchPromotion(item.id).then(res => setPromotion(res.data))
 												}
@@ -171,7 +177,9 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 			{promotion && (
 				<PopUp
 					body={<InformationPromotionScreen {...promotion} />}
-					onEndHide={() => setPromotion(undefined)}
+					onEndHide={() => {
+						setPromotion(undefined);
+					}}
 					showed={!!promotion}
 				/>
 			)}

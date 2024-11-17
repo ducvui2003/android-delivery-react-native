@@ -9,7 +9,7 @@
 import React from "react";
 import MenuBasketItem from "../../components/basket/MenuBasketItem";
 import SolarMapPointBold from "../../../assets/images/icons/SolarMapPointBold";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import { neutral, secondary } from "../../configs/colors/color-template.config";
 import SolarWalletBold from "../../../assets/images/icons/SolarWalletBold";
@@ -23,7 +23,7 @@ import PromotionType from "../../types/promotion.type";
 
 function BasketMenuFragment() {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "BasketScreen">>();
-	const promotionOffer = useSelector((state: RootState) => state.promotionOffer);
+	const { shipping, order } = useSelector((state: RootState) => state.promotionOffer);
 	return (
 		<>
 			<MenuBasketItem
@@ -48,23 +48,14 @@ function BasketMenuFragment() {
 				icon={<SolarTicketSaleBold />}
 				title={"Promotions"}
 				footer={
-					!promotionOffer ? (
+					(!shipping && !order && (
 						<Text style={[{ ...textStyle["16_semibold"], color: neutral.getColor("400") }]}>
 							Select Your Discounts
 						</Text>
-					) : (
-						Object.values(promotionOffer).map((promotion: PromotionType, index: number) => {
-							return (
-								<Text key={index + promotion.name} style={{ ...textStyle["12_medium"],
-									color: "white",
-									padding: 5,
-									textAlign: "center",
-									borderRadius: 5,
-									backgroundColor: secondary.getColor("500")
-								}}>{promotion.name}</Text>
-							);
-						})
-					)
+					)) ||
+					(shipping && order && Object.values([order, shipping]).map(item => promotionLabel(item))) ||
+					(shipping && promotionLabel(shipping)) ||
+					(order && promotionLabel(order))
 				}
 				onPress={() => navigation.navigate("PromotionScreen")}
 			/>
@@ -72,4 +63,21 @@ function BasketMenuFragment() {
 	);
 }
 
+const promotionLabel = (pros: PromotionType) => {
+	return (
+		<Text
+			key={pros.id}
+			style={{
+				...textStyle["12_medium"],
+				color: "white",
+				padding: 5,
+				textAlign: "center",
+				borderRadius: 5,
+				backgroundColor: secondary.getColor("500"),
+			}}
+		>
+			{pros.name}
+		</Text>
+	);
+};
 export default BasketMenuFragment;

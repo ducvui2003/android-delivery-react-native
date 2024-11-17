@@ -1,10 +1,3 @@
 import PromotionType from "./promotion.type";
-
-type PromotionOfferType = "SHIPPING" | "ORDER";
-type PromotionBaseInfoType = Pick<PromotionType, "id" | "name"> & {
-	userId: number[];
-	type : PromotionOfferType;
-}
-
+type PromotionBaseInfoType = Pick<PromotionType, "id" | "name" | "type">
 export default PromotionBaseInfoType;
-export { PromotionOfferType };

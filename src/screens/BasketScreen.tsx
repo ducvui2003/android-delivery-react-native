@@ -89,7 +89,7 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 				<Row style={{ justifyContent: "center" }}>
 					<Text style={[{ ...textStyle["18_semibold"], color: theme.text_1.getColor() }]}>
 
-						{Formater.formatCurrency(dataDemo2.subTotal - dataDemo2.discount + dataDemo2.deliveryFee)}
+						{Formater.formatCurrency(dataDemo2.subTotal - discount*dataDemo2.subTotal + deliveryFee)}
 					</Text>
 				</Row>
 				<ButtonHasStatus

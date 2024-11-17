@@ -10,10 +10,12 @@ type DiscountPromotionInfoType = {
 	startDate: Date,
 	expired: Date,
 }
+type PromotionOfferType = "SHIPPING" | "ORDER";
 
 type PromotionType = {
 	id: string;
 	name: string;
+	type: PromotionOfferType;
 	description?: string;
 	discountPromotionInfo: DiscountPromotionInfoType,
 	promotionCode?: string;
@@ -21,3 +23,4 @@ type PromotionType = {
 	termsAndConditions?: string;
 }
 export default PromotionType;
+export { PromotionOfferType, DiscountPromotionInfoType };
