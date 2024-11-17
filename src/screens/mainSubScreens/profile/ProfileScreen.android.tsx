@@ -1,6 +1,6 @@
 import { Keyboard, SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import * as React from "react";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Header } from "../../../components/header/Header";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../configs/redux/store.config";
@@ -54,7 +54,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 		setLogoutActive(!isLogoutActive);
 		appDispatch(logout()).then(() => {
 			setShowModal(false);
-			bottomNavigation?.setMenu(0)
+			bottomNavigation?.setMenu(0);
 			navigation.replace("HomeScreen");
 		});
 	};
@@ -86,7 +86,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 					)}
 					<ProfileOption />
 				</Col>
-				<Space height={spacing['spaced-7']}/>
+				<Space height={spacing["spaced-7"]} />
 			</ScrollView>
 			<ProfileModel onYes={handleLogoutPress} onShowed={setShowModal} showed={showModal} />
 			<ProfilePopUp onSave={handlePressSaveChangeProfile} onShowed={setShowPopUp} showed={showPopUp} />
