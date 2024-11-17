@@ -37,7 +37,7 @@ function NotificationScreen({ navigation }: NotificationScreenProps) {
 
 	console.log(dataNotification.map(item => item.variant));
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 			<Header
 				title="Notifications"
 				colorTitle={theme.text_1.getColor()}
@@ -76,8 +76,8 @@ function NotificationScreen({ navigation }: NotificationScreenProps) {
 		</SafeAreaView>
 	);
 }
-export default NotificationScreen;
 
+export default NotificationScreen;
 
 const styles = StyleSheet.create({
 	container: {

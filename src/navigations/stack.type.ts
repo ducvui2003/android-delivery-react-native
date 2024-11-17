@@ -50,7 +50,6 @@ export type RootStackParamList = {
 };
 
 export type MainScreenStackParamList = {
-	TestThemeScreen: undefined;
 	HomeScreen: undefined;
 	OrderScreen: undefined;
 	LikedScreen: undefined;

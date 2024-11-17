@@ -5,8 +5,8 @@
  * Created at: 8/8/24 - 11:33am
  * User: ducvui2003
  **/
-import axios, { AxiosInstance, AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig } from "axios";
-import { getToken, setItem } from "../../services/secureStore.service";
+import axios, { AxiosError, AxiosInstance, AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig } from "axios";
+import { getFromStorage, KEY_SECURE, setToStorage } from "../../services/secureStore.service";
 
 const axiosInstance: AxiosInstance = axios.create({
 	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END,
@@ -22,50 +22,60 @@ interface ApiResponse<T> {
 	data: T;
 }
 
+interface ApiResponseError {
+	statusCode: number;
+	error?: string;
+	message: string;
+}
+
 axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
 	try {
-		console.log(`Enter to: ${config.baseURL}${config.url}`);
-		const token = await getToken("ACCESS_TOKEN");
+		// Log the URL before the request is sent
+		console.log("Request URL:", config.url);
+
+		// You can log other details here if needed
+		console.log("Request Method:", config.method);
+
+		const token = await getFromStorage(KEY_SECURE.ACCESS_TOKEN);
 		if (token != null) config.headers.Authorization = `Bearer ${token}`;
-		return config;
 	} catch (error) {
-		// Network Error
 		console.error("API request error:", error);
-		return Promise.reject(error);
 	}
+	return config;
 });
 
 axiosInstance.interceptors.response.use(
 	(response: AxiosResponse) => {
-		switch (response.data.statusCode) {
+		switch (response.status) {
 			case HttpStatusCode.Ok:
 				const cookies = response.headers["set-cookie"];
 				cookies?.forEach((cookies: string) => {
-					if (cookies.startsWith("refresh_token")) {
+					if (cookies.startsWith(KEY_SECURE.REFRESH_TOKEN)) {
 						const refreshToken = cookies.substring("refresh_token".length + 1);
-						setItem("REFRESH_TOKEN", refreshToken);
+						setToStorage(KEY_SECURE.REFRESH_TOKEN, refreshToken).then();
 					}
 				});
 				break;
 			case HttpStatusCode.BadRequest:
-				console.error("Bad request", response.data.data);
+				console.error("Bad request", response);
 				break;
 			default:
-				console.warn(response.data);
+				console.warn(response);
 				break;
 		}
-
 		return response;
 	},
-	error => {
-		//Network
-		if (!error.response) {
-			console.log("Network Error:", error.message);
-		}
-		// Timeout
-		if (error.code === "ECONNABORTED") console.log("Request timed out:", error.message);
-		//Error from server
-		if (error.response && error.response.status >= 400) console.error("API response error:", error);
+	(error: AxiosError<ApiResponseError>) => {
+		if (axios.isAxiosError(error)) {
+			switch (error.response?.status) {
+				case HttpStatusCode.Unauthorized:
+					console.error("Unauthorized");
+					break;
+				case HttpStatusCode.Forbidden:
+					console.error("Forbidden");
+					break;
+			}
+		} else console.log("Unexpected error:", error);
 		return Promise.reject(error);
 	}
 );
