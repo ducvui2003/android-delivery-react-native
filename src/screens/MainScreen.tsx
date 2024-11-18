@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React, { useContext } from "react";
+import React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { MainScreenStackParamList } from "../navigations/stack.type";
 import { useSelector } from "react-redux";
