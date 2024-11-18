@@ -15,22 +15,22 @@ import GradientText from "../gradientText/GradientText";
 import GradientView from "../gradientView/GradientView";
 
 const BottomNavigationItem = ({
-								  icon,
-								  iconActive,
-								  backgroundIcon,
-								  backgroundIconActive,
-								  colorTitle,
-								  onPress,
-								  sizeIcon = 50,
-								  title,
-								  fontSize,
-								  transformTop = 5,
-								  durationAnimation = 500,
-								  status,
-								  onActive,
-								  index,
-								  onDisabled,
-							  }: BottomNavigationItemProps) => {
+	icon,
+	iconActive,
+	backgroundIcon,
+	backgroundIconActive,
+	colorTitle,
+	onPress,
+	sizeIcon = 50,
+	title,
+	fontSize,
+	transformTop = 5,
+	durationAnimation = 500,
+	status,
+	onActive,
+	index,
+	onDisabled,
+}: BottomNavigationItemProps) => {
 	const transformIconAnim = useSharedValue(0);
 	const iconActiveAnim = useSharedValue(0);
 	const iconAmin = useSharedValue(100);
