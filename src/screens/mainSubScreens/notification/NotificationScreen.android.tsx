@@ -22,6 +22,7 @@ import { FlatList } from "react-native-gesture-handler";
 import Row from "../../../components/custom/Row";
 import Space from "../../../components/custom/Space";
 import dataNotification from "../../../../assets/data/notification/notification";
+import spacing from "../../../configs/styles/space.config";
 
 type NotificationScreenProps = {
 	route: RouteProp<MainScreenStackParamList, "NotificationScreen">;
@@ -48,29 +49,28 @@ function NotificationScreen({ navigation }: NotificationScreenProps) {
 			<View style={styles.contentContainer}>
 				<InputSearch placeholder="Search" />
 				<Text style={styles.textTime}>Today</Text>
-				{dataNotification.length > 0 && (
-					<>
-						<FlatList
-							data={dataNotification}
-							showsHorizontalScrollIndicator={false}
-							showsVerticalScrollIndicator={false}
-							renderItem={({ item, index }) => (
-								<TouchableOpacity>
-									<Row>
-										<NotificationCard
-											name={item.name}
-											content={item.content}
-											time={item.time}
-											variant={item.variant}
-											isRead={item.isRead}
-											onInfoPress={() => {}}
-										/>
-									</Row>
-									<Space height={15} />
-								</TouchableOpacity>
-							)}
-						/>
-					</>
+				{dataNotification.length && (
+					<FlatList
+						data={dataNotification}
+						showsHorizontalScrollIndicator={false}
+						showsVerticalScrollIndicator={false}
+						contentContainerStyle={{paddingBottom: spacing['spaced-7']}}
+						renderItem={({ item,  }) => (
+							<TouchableOpacity>
+								<Row>
+									<NotificationCard
+										name={item.name}
+										content={item.content}
+										time={item.time}
+										variant={item.variant}
+										isRead={item.isRead}
+										onInfoPress={() => {}}
+									/>
+								</Row>
+								<Space height={15} />
+							</TouchableOpacity>
+						)}
+					/>
 				)}
 			</View>
 		</SafeAreaView>

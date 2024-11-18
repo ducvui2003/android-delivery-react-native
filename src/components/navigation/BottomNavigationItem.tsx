@@ -75,8 +75,6 @@ const BottomNavigationItem = ({
 	};
 
 	const disabled = () => {
-		if (status) return;
-
 		transformIconAnim.value = withTiming(0, { duration: (durationAnimation * 3) / 5 });
 		iconAmin.value = withTiming(100, { duration: durationAnimation });
 		iconActiveAnim.value = withTiming(0, { duration: durationAnimation });
@@ -90,8 +88,8 @@ const BottomNavigationItem = ({
 	}, [transformIcon]);
 
 	useEffect(() => {
-		if (status) return;
-		disabled();
+		if (status) runActive();
+		else disabled();
 	}, [status]);
 
 	return (

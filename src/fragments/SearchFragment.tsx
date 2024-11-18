@@ -33,6 +33,7 @@ import Space from "../components/custom/Space";
 import NumberValue from "../configs/value/number.value";
 import CategoryType from "../types/category.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import spacing from "../configs/styles/space.config";
 
 type SearchScreenProps = { autoFocus: boolean; category?: CategoryType; navigation: NativeStackNavigationProp<any> };
 
@@ -99,7 +100,7 @@ export default function SearchFragment({ autoFocus, category, navigation }: Sear
 								gapRow={24}
 							/>
 						)}
-						<Space height={25} />
+						<Space height={spacing['spaced-7']}/>
 					</ScrollView>
 				</Col>
 			</SafeAreaView>

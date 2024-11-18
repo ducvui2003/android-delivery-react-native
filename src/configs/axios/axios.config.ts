@@ -31,7 +31,7 @@ interface ApiResponseError {
 axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
 	try {
 		// Log the URL before the request is sent
-		console.log("Request URL:", config.url);
+		console.log("Request URL:", (config.baseURL ?? "") + config.url);
 
 		// You can log other details here if needed
 		console.log("Request Method:", config.method);
@@ -69,7 +69,7 @@ axiosInstance.interceptors.response.use(
 		if (axios.isAxiosError(error)) {
 			switch (error.response?.status) {
 				case HttpStatusCode.Unauthorized:
-					console.error("Unauthorized");
+					// console.error("Unauthorized");
 					break;
 				case HttpStatusCode.Forbidden:
 					console.error("Forbidden");

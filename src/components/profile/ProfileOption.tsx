@@ -63,12 +63,9 @@ function ProfileOption() {
 
 	return (
 		<Col>
-			<FlatList
-				data={ProfileOptionData}
-				showsHorizontalScrollIndicator={false}
-				showsVerticalScrollIndicator={false}
-				renderItem={({ item, index }) => (
-					<TouchableOpacity style={[styles.container]}>
+			{ProfileOptionData.map((item, index) => {
+				return (
+					<TouchableOpacity style={[styles.container]} key={`profile_men_option_${index}`}>
 						<Row style={{ gap: 20 }}>
 							{cloneElement(item.icon, {
 								color: theme.text_1.getColor(),
@@ -79,11 +76,11 @@ function ProfileOption() {
 							<SolarAltArrowRightOutline color={theme.text_1.getColor()} />
 						</View>
 					</TouchableOpacity>
-				)}
-				ListFooterComponent={<View style={styles.footerBorder} />}
-			/>
+				);
+			})}
+			<View style={styles.footerBorder} />
 
-			<Space height={20}/>
+			<Space height={20} />
 
 			<Row flex={0} style={[{ paddingVertical: 10, justifyContent: "space-between" }]}>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>Dark Mode</Text>

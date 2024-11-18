@@ -62,4 +62,4 @@ export const getUserInfoApi = async (): Promise<User> => {
 	const key = await asyncGetFromStorage(KEY_ASYNC.USER);
 	if (key === null) throw new Error("User not found");
 	return JSON.parse(key);
-}
+};
