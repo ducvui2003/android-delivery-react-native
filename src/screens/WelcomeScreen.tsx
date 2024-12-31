@@ -7,26 +7,28 @@
  **/
 
 import * as React from "react";
-import {useEffect} from "react";
-import {ImageBackground, Platform, SafeAreaView, StyleSheet, Text, View} from "react-native";
+import { useEffect } from "react";
+import { ImageBackground, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import background from "../../assets/images/introduce/welcome.png";
 import textStyle from "../configs/styles/textStyle.config";
-import {white} from "../configs/colors/color-template.config";
-import {useNavigation} from "@react-navigation/native";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-import {RootStackParamList} from "../navigations/stack.type";
-import {isLogin} from "../services/auth.service";
+import { white } from "../configs/colors/color-template.config";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigations/stack.type";
+import { isLogin } from "../services/auth.service";
 
 export default function WelcomeScreen() {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "WelcomeScreen">>();
 
 	useEffect(() => {
 		const timeOut = setTimeout(() => {
-			isLogin().then(() => {
-				navigation.replace("MainScreen", {screen: "HomeScreen"})
-			}).catch((error) => {
-				navigation.replace("IntroduceScreen");
-			});
+			isLogin()
+				.then(() => {
+					navigation.replace("MainScreen", { screen: "HomeScreen" });
+				})
+				.catch(() => {
+					navigation.replace("IntroduceScreen");
+				});
 		}, 2000);
 
 		return () => clearTimeout(timeOut);

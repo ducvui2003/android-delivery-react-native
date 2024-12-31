@@ -10,7 +10,7 @@ type ProductType = {
 	id: string;
 	image: string;
 	name: string;
-	rating: number;
+	avgRating: number;
 	price: number;
 	discountInfo?: DiscountInfo;
 	isLiked?: boolean;

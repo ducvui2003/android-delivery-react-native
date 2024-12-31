@@ -6,16 +6,16 @@
  * User: ducvui2003
  **/
 
-import React, { useState } from "react";
-import { Image, RefreshControl, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Image, RefreshControl, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import { useSelector } from "react-redux";
-import { banners, categories } from "../../../../assets/data/home/home";
+import { banners } from "../../../../assets/data/home/home";
 import Carousel from "../../../components/carousel/Carousel";
 import CategoryItem from "../../../components/category/CategoryItem";
 import InputSearch from "../../../components/input/InputSearch";
 import Grid from "../../../components/custom/Grid";
 import { neutral } from "../../../configs/colors/color-template.config";
-import { RootState } from "../../../configs/redux/store.config";
+import { RootState, useAppDispatch } from "../../../configs/redux/store.config";
 import HomeHeaderFragment from "../../../fragments/home/HomeHeaderFragment";
 import CategoryType from "../../../types/category.type";
 import { ThemeType } from "../../../types/theme.type";
@@ -25,6 +25,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../navigations/stack.type";
 import NumberValue from "../../../configs/value/number.value";
 import Space from "../../../components/custom/Space";
+import { loadCategories } from "../../../hooks/redux/category.slice";
 
 function HomeScreen() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
@@ -33,11 +34,18 @@ function HomeScreen() {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	const [refreshing, setRefreshing] = React.useState(false);
 	const [refresh, setRefresh] = useState(0);
+	const categories = useSelector((state: RootState) => state.categoryState.homeCategory);
+	const dispatch = useAppDispatch();
 
 	const onRefresh = React.useCallback(() => {
+		dispatch(loadCategories());
 		setRefresh(prevState => prevState + 1);
 		setRefreshing(true);
 	}, []);
+
+	useEffect(() => {
+		dispatch(loadCategories());
+	}, [dispatch]);
 
 	return (
 		<ScrollView
