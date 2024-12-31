@@ -36,6 +36,9 @@ type BasketScreenProps = {
 
 function BasketScreen({ navigation }: BasketScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const promotionOffer = useSelector((state: RootState) => state.promotionOffer);
+	const deliveryFee: number = promotionOffer.shipping?.discountPromotionInfo.discount ? promotionOffer.shipping.discountPromotionInfo.discount : 0;
+	const discount: number = promotionOffer.order?.discountPromotionInfo.discount ? promotionOffer.order.discountPromotionInfo.discount : 0;
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
@@ -77,14 +80,16 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 						<BasketItem key={index} {...item} />
 					))}
 				</Col>
+				{/*//place work*/}
 				<BasketMenuFragment />
-				<BasketCalculator {...dataDemo2} />
+				<BasketCalculator {...dataDemo2} deliveryFee={deliveryFee} discount={discount} />
 				<Space height={175} />
 			</ScrollView>
 			<Row style={[styles.footer, { backgroundColor: theme.basket.backgroundFooter.getColor() }]}>
 				<Row style={{ justifyContent: "center" }}>
 					<Text style={[{ ...textStyle["18_semibold"], color: theme.text_1.getColor() }]}>
-						{Formater.formatCurrency(dataDemo2.subTotal - dataDemo2.discount + dataDemo2.deliveryFee)}
+
+						{Formater.formatCurrency(dataDemo2.subTotal - discount*dataDemo2.subTotal + deliveryFee)}
 					</Text>
 				</Row>
 				<ButtonHasStatus
