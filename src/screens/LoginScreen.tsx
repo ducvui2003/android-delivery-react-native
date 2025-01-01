@@ -84,13 +84,12 @@ function LoginScreen() {
 		data.region = countryPhoneNumber?.code;
 		dispatch(login(data))
 			.then(action => {
-				console.log("action", action.type);
 				switch (action.type) {
 					case AuthType.LOGIN_FULFILLED:
 						navigation.replace("MainScreen", { screen: "HomeScreen" });
 						break;
 					case AuthType.LOGIN_REJECTED:
-						setShowModal(true)
+						setShowModal(true);
 						break;
 				}
 			})
@@ -293,7 +292,12 @@ function LoginScreen() {
 				>
 					<Text style={[{ ...textStyle["16_semibold"], marginTop: 10 }]}>Phone or password not correct!</Text>
 
-					<ButtonHasStatus styleButton={{ width: "100%" , marginBottom: 0}} title={"OK"} active={true} onPress={() => setShowModal(false)} />
+					<ButtonHasStatus
+						styleButton={{ width: "100%", marginBottom: 0 }}
+						title={"OK"}
+						active={true}
+						onPress={() => setShowModal(false)}
+					/>
 				</Modal>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>

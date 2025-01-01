@@ -15,13 +15,60 @@ import { white } from "../configs/colors/color-template.config";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
+<<<<<<< HEAD
+import Modal from "../components/modal/Modal";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
+import { isServerAlive } from "../services/health.service";
+import { isShowIntroduce } from "../services/client.service";
+import { AuthType, initialStateAuth } from "../hooks/redux/auth.slice";
+import { removeAllToken } from "../services/auth.service";
+=======
 import { isLogin } from "../services/auth.service";
+>>>>>>> origin/dev
 
 export default function WelcomeScreen() {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "WelcomeScreen">>();
+	const [isAlive, setIsAlive] = React.useState<boolean>(false);
+	const [showModal, setShowModal] = React.useState<boolean>(false);
+	const dispatch = useAppDispatch();
+
+	// Check server is alive
+	useEffect(() => {
+		isServerAlive().then(isAlive => {
+			if (isAlive) {
+				setIsAlive(true);
+			} else {
+				console.error("Server is down");
+				setShowModal(true);
+			}
+		});
+	}, []);
 
 	useEffect(() => {
 		const timeOut = setTimeout(() => {
+<<<<<<< HEAD
+			if (isAlive) {
+				dispatch(initialStateAuth()).then(action => {
+					switch (action.type) {
+						case AuthType.GET_ACCOUNT_FULFILLED:
+							navigation.replace("MainScreen", { screen: "HomeScreen" });
+							break;
+						case AuthType.GET_ACCOUNT_REJECTED:
+							removeAllToken().finally(() => {
+								isShowIntroduce().then(response => {
+									if (response) {
+										navigation.replace("IntroduceScreen");
+									} else {
+										navigation.replace("LoginScreen");
+									}
+								});
+							});
+							break;
+					}
+				});
+			}
+=======
 			isLogin()
 				.then(() => {
 					navigation.replace("MainScreen", { screen: "HomeScreen" });
@@ -29,10 +76,11 @@ export default function WelcomeScreen() {
 				.catch(() => {
 					navigation.replace("IntroduceScreen");
 				});
+>>>>>>> origin/dev
 		}, 2000);
 
 		return () => clearTimeout(timeOut);
-	}, []);
+	}, [isAlive]); // Server alive is running
 
 	return (
 		<SafeAreaView style={[style.container]}>
@@ -42,6 +90,7 @@ export default function WelcomeScreen() {
 					<Text style={[textStyle["40_semibold"], style.appNameText]}>SPEEDY CHOW</Text>
 				</View>
 			</ImageBackground>
+			<ModalServerDown showed={showModal} />
 		</SafeAreaView>
 	);
 }
@@ -70,3 +119,31 @@ const style = StyleSheet.create({
 		color: white.getColor(),
 	},
 });
+
+function ModalServerDown({ showed = false, onShowed }: { onShowed?: (value: boolean) => void; showed?: boolean }) {
+	const [showModal, setShowModal] = React.useState<boolean>(false);
+	const theme = useSelector((state: RootState) => state.themeState.theme);
+
+	useEffect(() => {
+		setShowModal(showed);
+	}, [showed]);
+
+	useEffect(() => {
+		onShowed?.(showModal);
+	}, [showModal]);
+	return (
+		<Modal
+			active={showModal}
+			onEndHide={() => {
+				setShowModal(false);
+			}}
+			background={{
+				backgroundColor: theme.background.getColor(),
+				opacity: 0.2,
+			}}
+		>
+			<Text style={[{ ...textStyle["22_semibold"] }]}>Server is down</Text>
+			<Text style={[{ ...textStyle["16_semibold"] }]}>Please wait</Text>
+		</Modal>
+	);
+}

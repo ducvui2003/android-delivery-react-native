@@ -5,7 +5,7 @@
  * Create at: 2:34 PM - 06/08/2024
  * User: lam-nguyen
  **/
-import ColorFactory, { SingleColor } from "../utils/Color";
+import { SingleColor } from "../utils/Color";
 
 export type NameTheme = "light" | "dark";
 
