@@ -15,6 +15,7 @@ import { white } from "../configs/colors/color-template.config";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
+<<<<<<< HEAD
 import Modal from "../components/modal/Modal";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../configs/redux/store.config";
@@ -22,6 +23,9 @@ import { isServerAlive } from "../services/health.service";
 import { isShowIntroduce } from "../services/client.service";
 import { AuthType, initialStateAuth } from "../hooks/redux/auth.slice";
 import { removeAllToken } from "../services/auth.service";
+=======
+import { isLogin } from "../services/auth.service";
+>>>>>>> origin/dev
 
 export default function WelcomeScreen() {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "WelcomeScreen">>();
@@ -43,6 +47,7 @@ export default function WelcomeScreen() {
 
 	useEffect(() => {
 		const timeOut = setTimeout(() => {
+<<<<<<< HEAD
 			if (isAlive) {
 				dispatch(initialStateAuth()).then(action => {
 					switch (action.type) {
@@ -63,6 +68,15 @@ export default function WelcomeScreen() {
 					}
 				});
 			}
+=======
+			isLogin()
+				.then(() => {
+					navigation.replace("MainScreen", { screen: "HomeScreen" });
+				})
+				.catch(() => {
+					navigation.replace("IntroduceScreen");
+				});
+>>>>>>> origin/dev
 		}, 2000);
 
 		return () => clearTimeout(timeOut);
