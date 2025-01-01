@@ -1,3 +1,4 @@
+import React from "react";
 import {Provider as ProviderRedux, useDispatch, useSelector} from "react-redux";
 import {createStackNavigator} from "@react-navigation/stack";
 import {RootStackParamList} from "./src/navigations/stack.type";
@@ -36,7 +37,6 @@ import TouchIDScreen from "./src/screens/TouchIDScreen";
 import CancelOrderScreen from "./src/screens/CancelOrderScreen";
 import ChatScreen from "./src/screens/ChatScreen";
 import {NameTheme} from "./src/types/theme.type";
-import {getAccount} from "./src/hooks/redux/auth.slice";
 import {getFromStorage} from "./src/services/secureStore.service";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
@@ -70,8 +70,6 @@ export default function App() {
 
 function Root() {
     const dispatch = useDispatch();
-    const authSelector = useSelector((state: RootState) => state.authState);
-    const appDispatch = useAppDispatch();
 
     const colorScheme = useColorScheme();
 
@@ -85,10 +83,6 @@ function Root() {
             }
             dispatch(setTheme(value as NameTheme));
         });
-        console.log("auth selector", authSelector.user);
-        if (authSelector.user == null) {
-            appDispatch(getAccount());
-        }
     }, []);
 
 

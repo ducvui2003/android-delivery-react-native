@@ -6,13 +6,15 @@
  * User: ducvui2003
  **/
 import axios, { AxiosError, AxiosInstance, AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig } from "axios";
-import { getFromStorage, KEY_SECURE, setToStorage } from "../../services/secureStore.service";
+import { isRequestWhitelisted } from "./whitelist";
+import { getAccessToken, setRefreshToken } from "../../services/auth.service";
 
 const axiosInstance: AxiosInstance = axios.create({
 	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END,
 	headers: {
 		"Access-Control-Allow-Origin": "*",
 	},
+	withCredentials: true,
 });
 
 interface ApiResponse<T> {
@@ -36,8 +38,10 @@ axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig
 		// You can log other details here if needed
 		console.log("Request Method:", config.method);
 
-		const token = await getFromStorage(KEY_SECURE.ACCESS_TOKEN);
-		if (token != null) config.headers.Authorization = `Bearer ${token}`;
+		if (!isRequestWhitelisted(config.url ?? "")) {
+			const token = await getAccessToken();
+			if (token != null) config.headers.Authorization = `Bearer ${token}`;
+		}
 	} catch (error) {
 		console.error("API request error:", error);
 	}
@@ -50,9 +54,9 @@ axiosInstance.interceptors.response.use(
 			case HttpStatusCode.Ok:
 				const cookies = response.headers["set-cookie"];
 				cookies?.forEach((cookies: string) => {
-					if (cookies.startsWith(KEY_SECURE.REFRESH_TOKEN)) {
+					if (cookies.startsWith("refresh_token")) {
 						const refreshToken = cookies.substring("refresh_token".length + 1);
-						setToStorage(KEY_SECURE.REFRESH_TOKEN, refreshToken).then();
+						setRefreshToken(refreshToken);
 					}
 				});
 				break;
@@ -60,7 +64,8 @@ axiosInstance.interceptors.response.use(
 				console.error("Bad request", response);
 				break;
 			default:
-				console.warn(response);
+				console.log("Response status:", response.status);
+				console.log(response);
 				break;
 		}
 		return response;

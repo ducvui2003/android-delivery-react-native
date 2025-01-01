@@ -10,7 +10,6 @@ import * as SecureStore from "expo-secure-store";
 enum KEY_SECURE {
 	ACCESS_TOKEN = "access_token",
 	REFRESH_TOKEN = "refresh_token",
-	USER = "user",
 }
 
 async function setToStorage(key: KEY_SECURE, value: string) {
@@ -29,4 +28,15 @@ async function removeFromStorage(key: KEY_SECURE): Promise<void> {
 	}
 }
 
-export {setToStorage, getFromStorage, KEY_SECURE, removeFromStorage};
+async function removeAllFromStorage(): Promise<void> {
+	try {
+		for (const key in KEY_SECURE) {
+			const value = KEY_SECURE[key as keyof typeof KEY_SECURE];
+			await removeFromStorage(value);
+		}
+	} catch (e) {
+		console.error("Error removing data from SecureStore", e);
+	}
+}
+
+export { setToStorage, getFromStorage, KEY_SECURE, removeFromStorage, removeAllFromStorage };

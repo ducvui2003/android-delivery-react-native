@@ -9,12 +9,12 @@ import CategoryType from "../types/category.type";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 
 export const getCategories = async (): Promise<CategoryType[]> => {
-	return axiosInstance.get<ApiResponse<CategoryType[]>>("category").then(value => {
+	return axiosInstance.get<ApiResponse<CategoryType[]>>("/category").then(value => {
 		return value.data.data;
 	});
 };
 
-export const getHomeCategories= (data: CategoryType[]): CategoryType[] => {
+export const getHomeCategories = (data: CategoryType[]): CategoryType[] => {
 	if (data.length > 12) {
 		let temp = Object.assign<CategoryType[], CategoryType[]>([], data).slice(0, 11);
 		temp.push({
@@ -24,4 +24,4 @@ export const getHomeCategories= (data: CategoryType[]): CategoryType[] => {
 		});
 		return temp;
 	} else return data;
-}
+};
