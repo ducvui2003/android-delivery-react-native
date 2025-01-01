@@ -12,39 +12,48 @@ import textStyle from "../configs/styles/textStyle.config";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Space from "../components/custom/Space";
 import React from "react";
-import NumberValue from "../configs/value/number.value";
 import PromotionType from "../types/promotion.type";
 
 function InformationPromotionScreen(promotion: PromotionType) {
+	const durationMatched = () =>{
+		return promotion?.discountPromotionInfo.startDate+ " - " + promotion?.discountPromotionInfo.expired
+	}
 	return (
 		<SafeAreaView>
 			<Col style={styles.format_position}>
 				<Text style={styles.title}>Promotion Information</Text>
 				<SolarTicketSaleBold width={100} height={100} />
-				<Text style={styles.nameText}>FREE SHIP</Text>
+				<Text style={styles.nameText}>{promotion?.name}</Text>
 				<View style={styles.styleView}>
-					<Text style={styles.informationTitle}>Descrription :</Text>
-					<Text>{promotion.description}</Text>
+					<Text style={styles.informationTitle}>Description :</Text>
+					<Text>{promotion?.description}</Text>
 				</View>
 				<View style={styles.styleView}>
 					<Text style={styles.informationTitle}>Duration :</Text>
-					<Text>{promotion.duration}</Text>
+					<Text>
+						{durationMatched()}
+					</Text>
 				</View>
 				<View style={styles.styleView}>
 					<Text style={styles.informationTitle}>Promo code :</Text>
-					<Text>{promotion.promotionCode}</Text>
+					<Text>{promotion?.promotionCode}</Text>
 				</View>
 				<View style={styles.styleView}>
 					<Text style={styles.informationTitle}>Application Scope :</Text>
-					<Text>{promotion.applicableScope}</Text>
+					<Text>{promotion?.applicableScope}</Text>
 				</View>
 				<View style={styles.styleView}>
 					<Text style={styles.informationTitle}>Discount Amount : </Text>
-					<Text>{promotion.discountAmount}</Text>
+					<Text>
+						{promotion?.discountPromotionInfo.discount !== undefined &&
+						promotion?.discountPromotionInfo.discount !== 0
+							? promotion?.discountPromotionInfo.discount * 100 + "%"
+							: "Free shipping"}
+					</Text>
 				</View>
 				<View style={styles.styleView}>
 					<Text style={styles.informationTitle}>Terms and Conditions : </Text>
-					<Text>{promotion.termsAndConditions}</Text>
+					<Text>{promotion?.termsAndConditions}</Text>
 				</View>
 				<Space height={400} />
 			</Col>
@@ -54,7 +63,6 @@ function InformationPromotionScreen(promotion: PromotionType) {
 
 export default InformationPromotionScreen;
 const styles = StyleSheet.create({
-
 	title: {
 		fontSize: 18,
 		fontWeight: "bold",

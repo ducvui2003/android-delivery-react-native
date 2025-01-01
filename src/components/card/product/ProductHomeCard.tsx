@@ -24,7 +24,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../navigations/stack.type";
 
 function ProductHomeCard({
-	product: { id, name, rating, price, discountInfo, image, isLiked = false },
+	product: { id, name, avgRating, price, discountInfo, image, isLiked = false },
 	onPress,
 	onPressHeart,
 }: ProductHomeCardProps) {
@@ -34,14 +34,10 @@ function ProductHomeCard({
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "MainScreen">>();
 
 	useEffect(() => {
-		firebaseStorage
-			.ref(image)
-			.getDownloadURL()
-			.then(setUrl)
-			.catch(error => {
-				console.log("error", error);
-			});
-	}, []);
+		try {
+			firebaseStorage.ref(image).getDownloadURL().then(setUrl);
+		} catch (e) {}
+	}, [image]);
 
 	return (
 		<TouchableOpacity
@@ -72,7 +68,7 @@ function ProductHomeCard({
 				<Text style={styles.nameProduct}>{name}</Text>
 				<View style={styles.containerContent}>
 					<SolarStarOutline width={14} height={14} color={secondary.getColor("500")} />
-					<Text style={styles.star}>{rating}</Text>
+					<Text style={styles.star}>{avgRating}</Text>
 				</View>
 				<View style={[styles.containerContent, { overflow: "hidden" }]}>
 					{discountInfo ? (

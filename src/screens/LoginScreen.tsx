@@ -8,7 +8,6 @@
 
 import React, { ReactNode, useState } from "react";
 import {
-	Alert,
 	Keyboard,
 	Platform,
 	SafeAreaView,
@@ -18,10 +17,10 @@ import {
 	TouchableWithoutFeedback,
 	View,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../configs/redux/store.config";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
 import textStyle from "../configs/styles/textStyle.config";
-import { gradient, neutral, otherMethodSignIn, primary } from "../configs/colors/color-template.config";
+import { gradient, neutral, otherMethodSignIn, primary, white } from "../configs/colors/color-template.config";
 import { CheckBox, Divider } from "@rneui/themed";
 import Row from "../components/custom/Row";
 import Col from "../components/custom/Col";
@@ -40,13 +39,11 @@ import InputIcon from "../components/input/InputIcon";
 import SolarLockPasswordBold from "../../assets/images/icons/SolarLockPasswordBold";
 import Space from "../components/custom/Space";
 import CountryPhoneNumberType from "../types/countryPhoneNumber.type";
-import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
-import { User } from "../types/user.type";
-import { login } from "../hooks/redux/auth.slice";
-import { AxiosError } from "axios";
 import SolarEyeBold from "../../assets/images/icons/SolarEyeBold";
 import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
 import NumberValue from "../configs/value/number.value";
+import { AuthType, login } from "../hooks/redux/auth.slice";
+import Modal from "../components/modal/Modal";
 
 function LoginScreen() {
 	const [checked, setChecked] = React.useState(false);
@@ -57,7 +54,8 @@ function LoginScreen() {
 	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>();
 	const [showPassword, setShowPassword] = useState(false);
 	const sizeIcon = 25;
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
+	const [showModal, setShowModal] = useState<boolean>(false);
 
 	const {
 		control,
@@ -84,15 +82,18 @@ function LoginScreen() {
 	const onSubmit = (data: LoginFormType) => {
 		if (!isValid || !countryPhoneNumber) return;
 		data.region = countryPhoneNumber?.code;
-		axiosInstance
-			.post<ApiResponse<User>>("/auth/login", data)
-			.then(result => {
-				dispatch(login(result.data.data));
-				navigation.navigate("SettingPinSecurityScreen");
+		dispatch(login(data))
+			.then(action => {
+				switch (action.type) {
+					case AuthType.LOGIN_FULFILLED:
+						navigation.replace("MainScreen", { screen: "HomeScreen" });
+						break;
+					case AuthType.LOGIN_REJECTED:
+						setShowModal(true);
+						break;
+				}
 			})
-			.catch((error: AxiosError<ApiResponse<string>>) => {
-				Alert.alert("Lỗi đăng nhập", error.response?.data?.message);
-			});
+			.catch();
 	};
 
 	const renderIconShowPassword: Record<"true" | "false", ReactNode> = {
@@ -279,6 +280,25 @@ function LoginScreen() {
 						</Row>
 					</Col>
 				</Col>
+				<Modal
+					active={showModal}
+					onEndHide={() => {
+						setShowModal(false);
+					}}
+					background={{
+						backgroundColor: white.getColor(),
+						opacity: 0.2,
+					}}
+				>
+					<Text style={[{ ...textStyle["16_semibold"], marginTop: 10 }]}>Phone or password not correct!</Text>
+
+					<ButtonHasStatus
+						styleButton={{ width: "100%", marginBottom: 0 }}
+						title={"OK"}
+						active={true}
+						onPress={() => setShowModal(false)}
+					/>
+				</Modal>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
 	);

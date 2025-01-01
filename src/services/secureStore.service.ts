@@ -6,22 +6,37 @@
  * User: ducvui2003
  **/
 import * as SecureStore from "expo-secure-store";
-import { Platform } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 enum KEY_SECURE {
 	ACCESS_TOKEN = "access_token",
 	REFRESH_TOKEN = "refresh_token",
 }
 
-function setItem(key: keyof typeof KEY_SECURE, value: string) {
-	if (Platform.OS === "web") AsyncStorage.setItem(key, value).then();
-	SecureStore.setItemAsync(key, value).then();
+async function setToStorage(key: KEY_SECURE, value: string) {
+	await SecureStore.setItemAsync(key, value).then();
 }
 
-async function getToken(key: keyof typeof KEY_SECURE): Promise<string | null> {
-	if (Platform.OS === "web") return await AsyncStorage.getItem(key);
+async function getFromStorage(key: KEY_SECURE | string): Promise<string | null> {
 	return await SecureStore.getItemAsync(key);
 }
 
-export { setItem, getToken, KEY_SECURE };
+async function removeFromStorage(key: KEY_SECURE): Promise<void> {
+	try {
+		await SecureStore.deleteItemAsync(key);
+	} catch (e) {
+		console.error("Error removing data from SecureStore", e);
+	}
+}
+
+async function removeAllFromStorage(): Promise<void> {
+	try {
+		for (const key in KEY_SECURE) {
+			const value = KEY_SECURE[key as keyof typeof KEY_SECURE];
+			await removeFromStorage(value);
+		}
+	} catch (e) {
+		console.error("Error removing data from SecureStore", e);
+	}
+}
+
+export { setToStorage, getFromStorage, KEY_SECURE, removeFromStorage, removeAllFromStorage };

@@ -17,7 +17,6 @@ import { RootStackParamList } from "../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Grid from "../components/custom/Grid";
 import CategoryItem from "../components/category/CategoryItem";
-import data from "../../assets/data/category/category";
 import CategoryType from "../types/category.type";
 import NumberValue from "../configs/value/number.value";
 
@@ -28,6 +27,7 @@ type CategoriesScreenProps = {
 
 export default function CategoriesScreen({ navigation }: CategoriesScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const categories = useSelector((state: RootState) => state.categoryState.categories);
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: theme.background.getColor() }}>
@@ -45,7 +45,7 @@ export default function CategoriesScreen({ navigation }: CategoriesScreenProps) 
 			<View style={{ paddingHorizontal: NumberValue.paddingHorizontalScreen }}>
 				<Grid<CategoryType>
 					col={4}
-					data={data}
+					data={categories}
 					renderItem={(item, index) => {
 						return (
 							<CategoryItem

@@ -41,7 +41,7 @@ function BasketCalculator({ subTotal, deliveryFee, discount }: BasketCalculatorP
 			<Row style={{ justifyContent: "space-between" }}>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>Giảm giá</Text>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>
-					{Formater.formatCurrency(discount)}
+					{Formater.formatCurrency((discount*subTotal))}
 				</Text>
 			</Row>
 			<Row style={{ alignItems: "center", height: 10 }}>
@@ -58,7 +58,7 @@ function BasketCalculator({ subTotal, deliveryFee, discount }: BasketCalculatorP
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>Tổng</Text>
 				<Text style={[{ color: theme.text_1.getColor(), ...textStyle["16_regular"] }]}>
 					{Formater.formatCurrency(
-						subTotal - discount + deliveryFee > 0 ? subTotal - discount + deliveryFee : 0
+						subTotal - (discount*subTotal) + deliveryFee > 0 ? subTotal - (discount*subTotal) + deliveryFee : 0
 					)}
 				</Text>
 			</Row>
