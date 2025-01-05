@@ -1,15 +1,16 @@
-import { Provider as ProviderRedux, useDispatch } from "react-redux";
-import { createStackNavigator } from "@react-navigation/stack";
-import { RootStackParamList } from "./src/navigations/stack.type";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import store from "./src/configs/redux/store.config";
-import { NavigationContainer } from "@react-navigation/native";
+import React from "react";
+import {Provider as ProviderRedux, useDispatch, useSelector} from "react-redux";
+import {createStackNavigator} from "@react-navigation/stack";
+import {RootStackParamList} from "./src/navigations/stack.type";
+import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
+import store, {RootState, useAppDispatch} from "./src/configs/redux/store.config";
+import {NavigationContainer} from "@react-navigation/native";
 import MainScreen from "./src/screens/MainScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
-import { Platform, useColorScheme } from "react-native";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { setTheme } from "./src/hooks/redux/theme.slice";
+import {Platform, useColorScheme} from "react-native";
+import {GoogleOAuthProvider} from "@react-oauth/google";
+import {setTheme} from "./src/hooks/redux/theme.slice";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import VerificationScreen from "./src/screens/VerificationScreen";
 import SettingPinSecurityScreen from "./src/screens/SettingPinSecurityScreen";
@@ -21,7 +22,7 @@ import SearchScreen from "./src/screens/SearchScreen";
 import ProductDetailScreen from "./src/screens/ProductDetailScreen";
 import ReviewScreen from "./src/screens/ReviewScreen";
 import BasketScreen from "./src/screens/BasketScreen";
-import { JSX, lazy, useEffect } from "react";
+import {JSX, lazy, useEffect} from "react";
 import OrderRatingScreen from "./src/screens/OrderRatingScreen";
 import DriverRatingScreen from "./src/screens/DriverRatingScreen";
 import GiveThanksScreen from "./src/screens/GiveThanksScreen";
@@ -35,16 +36,17 @@ import FaceIDScreen from "./src/screens/FaceIDScreen";
 import TouchIDScreen from "./src/screens/TouchIDScreen";
 import CancelOrderScreen from "./src/screens/CancelOrderScreen";
 import ChatScreen from "./src/screens/ChatScreen";
-import React from "react";
+import {NameTheme} from "./src/types/theme.type";
+import {getFromStorage} from "./src/services/secureStore.service";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
-const RootStack = createStackNavigator<RootStackParamList>()
+const RootStack = createStackNavigator<RootStackParamList>();
 
 const provider =
     <ProviderRedux store={store}>
         <Root/>
-    </ProviderRedux>
+    </ProviderRedux>;
 
 const readerRoot: Record<typeof Platform.OS, JSX.Element> = {
     web: <GoogleOAuthProvider clientId={process.env.EXPO_PUBLIC_WEB_CLIENT_ID as string}>
@@ -54,7 +56,7 @@ const readerRoot: Record<typeof Platform.OS, JSX.Element> = {
     macos: provider,
     android: provider,
     windows: provider,
-}
+};
 
 export default function App() {
     return (
@@ -68,12 +70,21 @@ export default function App() {
 
 function Root() {
     const dispatch = useDispatch();
+
     const colorScheme = useColorScheme();
 
+
     useEffect(() => {
-        if (!colorScheme) return;
-        dispatch(setTheme(colorScheme));
+        getFromStorage("theme").then(value => {
+            if (!value) {
+                if (!colorScheme) return;
+                dispatch(setTheme(colorScheme));
+                return;
+            }
+            dispatch(setTheme(value as NameTheme));
+        });
     }, []);
+
 
     return (
         <NavigationContainer>
@@ -106,7 +117,7 @@ function Root() {
                 <RootStack.Screen name={"TouchIDScreen"} component={TouchIDScreen}/>
                 <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen}/>
                 <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen}/>
-                <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
+                <RootStack.Screen name={"ChatScreen"} component={ChatScreen}/>
             </RootStack.Navigator>
         </NavigationContainer>
     );
