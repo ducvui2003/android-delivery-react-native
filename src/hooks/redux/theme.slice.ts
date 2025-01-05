@@ -9,13 +9,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NameTheme, ThemeType } from "../../types/theme.type";
 import themes from "../../configs/themes/theme.config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type ThemeState = {
 	theme: ThemeType;
+	textTheme: NameTheme;
 };
 
 const initialState: ThemeState = {
 	theme: themes.light,
+	textTheme: "light",
 };
 
 const themeSlice = createSlice({
@@ -24,6 +27,8 @@ const themeSlice = createSlice({
 	reducers: {
 		setTheme: (state, action: PayloadAction<NameTheme>) => {
 			state.theme = themes[action.payload];
+			state.textTheme = action.payload;
+			AsyncStorage.setItem("theme", action.payload).then();
 		},
 	},
 });

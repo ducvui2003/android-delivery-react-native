@@ -9,6 +9,7 @@ import BottomNavigationItemInputProps from "./bottomNavigationItemInput.props";
 import { DimensionValue } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 import { ColorValue } from "react-native/Libraries/StyleSheet/StyleSheet";
 import BottomNavigationItemType from "./BottomNavigationItem.type";
+import { ReactNode } from "react";
 
 type BottomNavigationProps = BottomNavigationItemType & {
 	items: BottomNavigationItemInputProps[];
@@ -28,6 +29,7 @@ type BottomNavigationProps = BottomNavigationItemType & {
 		shadowRadius: number;
 		elevation: number;
 	};
+	children: ReactNode;
 };
 
 export default BottomNavigationProps;

@@ -1,4 +1,4 @@
-import NotificationProps, {Variant} from "./type/notifications.props";
+import NotificationProps, { Variant } from "./type/notifications.props";
 import { StyleSheet, Text, View } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import Col from "../custom/Col";
@@ -8,13 +8,13 @@ import { RootState } from "../../configs/redux/store.config";
 import Row from "../custom/Row";
 import SolarTicketSaleBold from "../../../assets/images/icons/SolarTicketSaleBold";
 import { MdiTickCircle } from "../../../assets/images/icons/MdiTickCircle";
-import { SolarScooterBold } from "../../../assets/images/icons/SolarScooterBold";
-import { SolarShopBold } from "../../../assets/images/icons/SolarShopBold";
 import SolarBag5Bold from "../../../assets/images/icons/SolarBag5Bold";
 import { MdiUserCircle } from "../../../assets/images/icons/MdiUserCircle";
 import { SolarCloseCircleBold } from "../../../assets/images/icons/SolarCloseCircleBold";
 import { SolarCardBold } from "../../../assets/images/icons/SolarCardBold";
 import MdiDot from "../../../assets/images/icons/MdiDot";
+import SolarScooterBold from "../../../assets/images/icons/SolarScooterBold";
+import SolarShopBold from "../../../assets/images/icons/SolarShopBold";
 
 const COLORS = {
 	success: "#E7F9F5",
@@ -27,7 +27,6 @@ const COLORS = {
 };
 
 const renderIcon = (typeNotification: Variant) => {
-
 	switch (typeNotification) {
 		case "Discount":
 			return <SolarTicketSaleBold color={COLORS.discountIcon} />;
@@ -84,12 +83,12 @@ function NotificationCard({ name, content, time, variant, isRead, onInfoPress }:
 					</Row>
 					{!isRead && (
 						<View style={styles.dotContainer}>
-							<MdiDot/>
+							<MdiDot />
 						</View>
 					)}
 				</View>
 				<Row style={styles.timeContainer}>
-					<Text>{time}</Text>
+					<Text style={{ color: theme.text_1.getColor() }}>{time}</Text>
 				</Row>
 			</Col>
 		</Row>

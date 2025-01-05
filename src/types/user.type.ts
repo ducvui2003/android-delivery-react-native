@@ -18,3 +18,17 @@ export type ResponseAuthentication = {
 	accessToken: string;
 	user: User;
 };
+
+export type ResponseAuthentication = {
+	access_token: string;
+	user: User;
+};
+
+export type UserGetAccount = {
+	user: {
+		id: number;
+		email: string;
+		phoneNumber: string;
+		fullName: string;
+	};
+};

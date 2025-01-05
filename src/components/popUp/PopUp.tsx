@@ -10,8 +10,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import { Dimensions, Keyboard, ScrollView, StyleSheet, View } from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { Dimensions, Keyboard, StyleSheet, View } from "react-native";
+import { FlatList, PanGestureHandler } from "react-native-gesture-handler";
 import { neutral } from "../../configs/colors/color-template.config";
 import PopUpProps from "./type/popUp.props";
 import spacing from "../../configs/styles/space.config";
@@ -24,11 +24,17 @@ function PopUp({
 	onEndHide,
 	hideHeader = false,
 	hideFooter = false,
+	height = 0.95,
+	contentStyle,
 }: PopUpProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const popUpAnim = useSharedValue(0);
-	const heightContendPopUp = Dimensions.get("screen").height * 0.95;
+	const heightContendPopUp = Dimensions.get("screen").height * height;
 	const [visible, setVisible] = useState(showed);
+
+	useEffect(() => {
+		if (height < 0 || height > 1) throw Error("height is between 0 to 1!");
+	}, []);
 
 	const onEndHideHandle = useCallback(() => {
 		setVisible(false);
@@ -67,8 +73,10 @@ function PopUp({
 					styles.contentContainer,
 					{
 						backgroundColor: theme.add_new_location.background.getColor(),
+						height: `${height * 100}%`,
 					},
 					animatePopUp,
+					contentStyle,
 				]}
 			>
 				<PanGestureHandler
@@ -93,14 +101,18 @@ function PopUp({
 					/>
 				</PanGestureHandler>
 				{!hideHeader && header}
-				<ScrollView
+				<FlatList
+					data={[0]}
 					showsVerticalScrollIndicator={false}
-					style={{ width: "100%", backgroundColor: undefined }}
-					contentContainerStyle={[{ flexGrow: 1, justifyContent: "space-between" }]}
-				>
-					{body}
-					{!hideFooter && footer}
-				</ScrollView>
+					renderItem={() => {
+						return (
+							<>
+								{body}
+								{!hideFooter && footer}
+							</>
+						);
+					}}
+				/>
 			</Animated.View>
 		</View>
 	);

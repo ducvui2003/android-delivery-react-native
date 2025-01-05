@@ -114,6 +114,12 @@ const lightTheme: ThemeType = {
 	chat: {
 		background: ColorFactory.createSingleColor("#F3F3F3"),
 	},
+	profile: {
+		switch: ColorFactory.createSingleColor(neutral.getColor("50")),
+	},
+	order: {
+		orderStatusCancel: ColorFactory.createSingleColor(neutral.getColor("400")),
+	},
 };
 
 export default lightTheme;

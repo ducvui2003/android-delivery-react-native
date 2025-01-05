@@ -8,7 +8,6 @@
 
 import React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
-import TestThemeScreen from "./mainSubScreens/TestThemeScreen";
 import { MainScreenStackParamList } from "../navigations/stack.type";
 import { useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
@@ -42,20 +41,6 @@ function MainScreen() {
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
-			<MainScreenStack.Navigator
-				screenOptions={{
-					headerShown: false,
-				}}
-				initialRouteName={"HomeScreen"}
-			>
-				<MainScreenStack.Screen name="TestThemeScreen" component={TestThemeScreen} />
-				<MainScreenStack.Screen name="HomeScreen" component={HomeScreen} />
-				<MainScreenStack.Screen name="OrderScreen" component={OrderScreen} />
-				<MainScreenStack.Screen name="LikedScreen" component={LikedScreen} />
-				<MainScreenStack.Screen name="NotificationScreen" component={NotificationScreen} />
-				<MainScreenStack.Screen name="ProfileScreen" component={ProfileScreen} />
-			</MainScreenStack.Navigator>
-
 			<BottomNavigation
 				initialItem={0}
 				position={"static"}
@@ -75,7 +60,14 @@ function MainScreen() {
 				}}
 				items={[
 					{
-						icon: <SolarHomeSmileLinear color={neutral.getColor("100")} height={30} width={30} />,
+						icon: (
+							<SolarHomeSmileLinear
+								strokeWidth={1.5}
+								color={neutral.getColor("100")}
+								height={30}
+								width={30}
+							/>
+						),
 						iconActive: <SolarHomeSmileBold color={white.getColor()} height={30} width={30} />,
 						title: "Home",
 						onPress: () => {
@@ -83,7 +75,14 @@ function MainScreen() {
 						},
 					},
 					{
-						icon: <SolarClipboardListLinear color={neutral.getColor("100")} height={30} width={30} />,
+						icon: (
+							<SolarClipboardListLinear
+								strokeWidth={1.5}
+								color={neutral.getColor("100")}
+								height={30}
+								width={30}
+							/>
+						),
 						iconActive: <SolarClipboardListBold color={white.getColor()} height={30} width={30} />,
 						title: "Orders",
 						onPress: () => {
@@ -91,7 +90,9 @@ function MainScreen() {
 						},
 					},
 					{
-						icon: <SolarHeartLinear color={neutral.getColor("100")} height={30} width={30} />,
+						icon: (
+							<SolarHeartLinear strokeWidth={2} color={neutral.getColor("100")} height={30} width={30} />
+						),
 						iconActive: <SolarHeartBold color={white.getColor()} height={30} width={30} />,
 						title: "Liked",
 						onPress: () => {
@@ -99,7 +100,9 @@ function MainScreen() {
 						},
 					},
 					{
-						icon: <SolarBellLinear color={neutral.getColor("100")} height={30} width={30} />,
+						icon: (
+							<SolarBellLinear strokeWidth={1.5} color={neutral.getColor("100")} height={30} width={30} />
+						),
 						iconActive: <SolarBellBold color={white.getColor()} height={30} width={30} />,
 						title: "Notification",
 						onPress: () => {
@@ -107,7 +110,14 @@ function MainScreen() {
 						},
 					},
 					{
-						icon: <SolarUserCircleLinear color={neutral.getColor("100")} height={30} width={30} />,
+						icon: (
+							<SolarUserCircleLinear
+								strokeWidth={1.5}
+								color={neutral.getColor("100")}
+								height={30}
+								width={30}
+							/>
+						),
 						iconActive: <SolarUserCircleBold color={white.getColor()} height={30} width={30} />,
 						title: "Profile",
 						onPress: () => {
@@ -115,7 +125,20 @@ function MainScreen() {
 						},
 					},
 				]}
-			/>
+			>
+				<MainScreenStack.Navigator
+					screenOptions={{
+						headerShown: false,
+					}}
+					initialRouteName={"HomeScreen"}
+				>
+					<MainScreenStack.Screen name="HomeScreen" component={HomeScreen} />
+					<MainScreenStack.Screen name="OrderScreen" component={OrderScreen} />
+					<MainScreenStack.Screen name="LikedScreen" component={LikedScreen} />
+					<MainScreenStack.Screen name="NotificationScreen" component={NotificationScreen} />
+					<MainScreenStack.Screen name="ProfileScreen" component={ProfileScreen} />
+				</MainScreenStack.Navigator>
+			</BottomNavigation>
 		</SafeAreaView>
 	);
 }

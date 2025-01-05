@@ -35,7 +35,6 @@ function CancelOrderScreen({ navigation }: CancelOrderScreenProps) {
 	const styles = makeStyled(theme)
 	const [checked, setChecked] = React.useState<boolean[]>(Array(reasons.length).fill(false));
 	const hasChecked: boolean = checked.filter(item => item).length > 0;
-	const [showPopUp, setShowPopUp] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
 
 	return (
@@ -71,7 +70,6 @@ function CancelOrderScreen({ navigation }: CancelOrderScreenProps) {
 			<Modal
 				active={showModal}
 				onEndHide={() => {
-					setShowPopUp(false);
 					setShowModal(false);
 				}}
 			>
@@ -84,7 +82,6 @@ function CancelOrderScreen({ navigation }: CancelOrderScreenProps) {
 					title={"Ok"}
 					active={true}
 					onPress={() => {
-						setShowPopUp(false);
 						setShowModal(false);
 					}}
 				/>

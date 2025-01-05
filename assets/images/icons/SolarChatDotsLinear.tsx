@@ -10,7 +10,7 @@ import Svg, { G, Path, SvgProps } from "react-native-svg";
 
 export default function SolarChatDotsLinear(props: SvgProps) {
   return (
-    <Svg width={20} height={20} color={"black"} viewBox="0 0 24 24" {...props}>
+    <Svg width={24} height={24} color={"black"} viewBox="0 0 24 24" {...props}>
       <G fill="none">
         <Path
           fill="currentColor"

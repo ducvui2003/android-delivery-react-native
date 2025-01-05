@@ -33,6 +33,7 @@ function InputPhoneNumber({
 	borderColorFocus,
 	showed = false,
 	onShow,
+	height,
 }: InputPhoneNumberProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>(countries[0]);
@@ -77,6 +78,7 @@ function InputPhoneNumber({
 						padding={0}
 						showed={showed}
 						onShow={onShow}
+						height={height}
 						onSelected={item => {
 							setCountryPhoneNumber(item);
 						}}

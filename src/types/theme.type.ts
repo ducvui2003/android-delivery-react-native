@@ -82,4 +82,10 @@ export type ThemeType = {
 	chat: {
 		background: SingleColor;
 	};
+	profile: {
+		switch: SingleColor;
+	};
+	order: {
+		orderStatusCancel: SingleColor;
+	};
 };

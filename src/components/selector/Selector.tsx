@@ -97,6 +97,7 @@ function Selector<T>({
 			</TouchableOpacity>
 			<FlatList<T>
 				ref={flatListRef}
+				nestedScrollEnabled={true}
 				style={[
 					styles.itemsContainer,
 					{

@@ -7,25 +7,27 @@
  **/
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosInstance, { ApiResponse } from "../../configs/axios/axios.config";
-import { KEY_SECURE, removeFromStorage, setToStorage } from "../../services/secureStore.service";
 import LoginFormType from "../../types/loginForm.type";
-import { ResponseAuthentication, User } from "../../types/user.type";
-import { EndPoint } from "../../utils/EndPoint";
+import { User } from "../../types/user.type";
 import { setLoading } from "./modal.slice";
+import { getUserInfo, loginApi, logoutApi, setAccessToken } from "../../services/auth.service";
 
 type AuthState = {
 	user: User | null;
-	accessToken: string | null;
+	error: string | null;
 };
 
 const initialState: AuthState = {
 	user: null,
-	accessToken: null,
+	error: null,
 };
 
 enum AuthType {
 	ROOT = "auth",
+	GET_ACCOUNT = "auth/getAccount",
+	GET_ACCOUNT_PENDING = "auth/getAccount/pending",
+	GET_ACCOUNT_FULFILLED = "auth/getAccount/fulfilled",
+	GET_ACCOUNT_REJECTED = "auth/getAccount/rejected",
 	LOGIN = "auth/login",
 	LOGIN_PENDING = "auth/login/pending",
 	LOGIN_FULFILLED = "auth/login/fulfilled",
@@ -33,20 +35,22 @@ enum AuthType {
 	LOGOUT = "auth/logout",
 }
 
-// Async Thunks for login, token refresh, and logout
+export const initialStateAuth = createAsyncThunk(AuthType.GET_ACCOUNT, async _ => {
+	try {
+		const user = await getUserInfo();
+		return { user };
+	} catch (error: any) {
+		return error.response.data;
+	}
+});
+
 export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType, thunkAPI) => {
 	const { dispatch, rejectWithValue } = thunkAPI;
 	try {
 		dispatch(setLoading(true)); // Gọi action setLoading với giá trị true
-		const result = await axiosInstance.post<ApiResponse<ResponseAuthentication>>(EndPoint.LOGIN, data);
-
-		const { user, accessToken } = result.data.data;
-		await setToStorage(KEY_SECURE.ACCESS_TOKEN, accessToken);
-
-		return {
-			user,
-			accessToken,
-		};
+		const { user, accessToken } = await loginApi(data);
+		await setAccessToken(accessToken);
+		return { user };
 	} catch (error: any) {
 		return rejectWithValue(error.response.data);
 	} finally {
@@ -54,9 +58,8 @@ export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType
 	}
 });
 
-export const logout = createAsyncThunk(AuthType.LOGOUT, async () => {
-	await removeFromStorage(KEY_SECURE.ACCESS_TOKEN);
-	await removeFromStorage(KEY_SECURE.REFRESH_TOKEN);
+export const logout = createAsyncThunk(AuthType.LOGOUT, async _ => {
+	await logoutApi();
 });
 
 const authSlice = createSlice({
@@ -65,18 +68,19 @@ const authSlice = createSlice({
 	reducers: {},
 	extraReducers: builder => {
 		builder
+			.addCase(initialStateAuth.fulfilled, (state, action) => {
+				state.user = action.payload.user;
+			})
 			.addCase(login.fulfilled, (state, action) => {
 				state.user = action.payload.user;
-				state.accessToken = action.payload.accessToken;
+				state.error = null;
 			})
 			.addCase(logout.fulfilled, state => {
 				state.user = null;
-				state.accessToken = null;
 			});
 	},
 });
 
-// export const {login} = authSlice.actions;
 export default authSlice.reducer;
 
 export { AuthType };

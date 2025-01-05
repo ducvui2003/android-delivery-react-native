@@ -12,6 +12,14 @@ type ProductDetailType = ProductType & {
 	description: string;
 	nutritional?: NutritionalType[];
 	options?: (OptionType | GroupOptionType)[];
+	rating: RatingType;
+};
+
+export type RatingType = {
+	productId: string;
+	totalReview: number;
+	averageRating: number;
+	ratingDistribution: Map<string, number>;
 };
 
 export type OptionType = {

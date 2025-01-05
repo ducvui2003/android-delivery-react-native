@@ -73,9 +73,6 @@ export default function ProductDetailScreen({
 			.ref(product.image)
 			.getDownloadURL()
 			.then(setUrl)
-			.catch(error => {
-				console.log("error", error);
-			});
 	}, [product]);
 
 	const renderButtonSeeMore = () => {
@@ -129,8 +126,8 @@ export default function ProductDetailScreen({
 					<Row style={[styles.containerRating]}>
 						<Row style={{ gap: 10 }}>
 							<SolarStarBold color={secondary.getColor("500")} />
-							<Text style={[{ ...textStyle["16_regular"] }]}>{product?.rating}</Text>
-							<Text style={[styles.textDescribe]}>(1025)</Text>
+							<Text style={[{ ...textStyle["16_regular"] }]}>{product?.rating.averageRating}</Text>
+							<Text style={[styles.textDescribe]}>({product?.rating.totalReview})</Text>
 						</Row>
 						<TouchableOpacity
 							onPress={() => {

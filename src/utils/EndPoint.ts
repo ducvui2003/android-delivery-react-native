@@ -1,5 +1,6 @@
 export enum EndPoint {
 	LOGIN = "/auth/login",
 	REGISTER = "/auth/register",
-	REFRESH_TOKEN = "/auth/refresh-token",
+	LOGOUT = "/auth/logout",
+	ACCOUNT = "/auth/account",
 }

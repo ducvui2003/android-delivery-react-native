@@ -37,9 +37,9 @@ const HomeProductsFragment = ({ refresh, onRefresh }: { refresh?: number; onRefr
 		navigation.navigate("SearchScreen", {
 			autoFocus: false,
 			category: {
-				id: 1,
+				id: "1",
 				name: "Special Offers",
-				image: {},
+				image: "",
 			} as CategoryType,
 		});
 	};
@@ -60,13 +60,13 @@ const HomeProductsFragment = ({ refresh, onRefresh }: { refresh?: number; onRefr
 		<Col style={styles.productList}>
 			<Row style={styles.productGridContainerHeading}>
 				<Text style={styles.productGridContainerHeadingText}>Special Offers</Text>
-				<TouchableOpacity
-					style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
-					onPress={() => onClickViewAll()}
-				>
-					<GradientText text={"View All"} textStyle={styles.more} gradientColors={gradient.getColor()} />
-					<SolarAltArrowRightOutline width={25} height={25} color={primary.getColor("500")} />
-				</TouchableOpacity>
+				{/*<TouchableOpacity*/}
+				{/*	style={{ flexDirection: "row", alignItems: "center", gap: 10 }}*/}
+				{/*	onPress={() => onClickViewAll()}*/}
+				{/*>*/}
+				{/*	<GradientText text={"View All"} textStyle={styles.more} gradientColors={gradient.getColor()} />*/}
+				{/*	<SolarAltArrowRightOutline width={25} height={25} color={primary.getColor("500")} />*/}
+				{/*</TouchableOpacity>*/}
 			</Row>
 			<View style={styles.productGridContainer}>
 				<Grid<ProductType>
@@ -94,7 +94,6 @@ const styled = (theme: ThemeType) =>
 	StyleSheet.create({
 		productList: {
 			marginTop: 32,
-			marginBottom: 100,
 		},
 		productGridContainer: {
 			marginTop: 24,
