@@ -11,6 +11,8 @@ export type User = {
 	email: string;
 	phoneNumber: string;
 	fullName: string;
+	role: string;
+	permissions?: string[];
 };
 
 export type ResponseAuthentication = {
@@ -24,5 +26,7 @@ export type UserGetAccount = {
 		email: string;
 		phoneNumber: string;
 		fullName: string;
+		role: string;
+		permissions: string[];
 	};
 };

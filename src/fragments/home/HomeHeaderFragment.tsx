@@ -62,7 +62,7 @@ function HomeHeaderFragment() {
 					</Row>
 				</TouchableOpacity>
 			</Col>
-			<TouchableOpacity style={styles.shopIconContainer}>
+			<TouchableOpacity style={styles.shopIconContainer} onPress={() => navigation.navigate("BasketScreen")}>
 				<SolarBagOutline width={32} height={32} color={theme.home.cart.icon.getColor()} />
 			</TouchableOpacity>
 		</Row>
