@@ -6,15 +6,13 @@
  * User: ducvui2003
  **/
 import axios, { AxiosError, AxiosInstance, AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig } from "axios";
-import { isRequestWhitelisted } from "./whitelist";
-import { getAccessToken, setRefreshToken } from "../../services/auth.service";
+import { getFromStorage, KEY_SECURE, setToStorage } from "../../services/secureStore.service";
 
 const axiosInstance: AxiosInstance = axios.create({
 	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END,
 	headers: {
 		"Access-Control-Allow-Origin": "*",
 	},
-	withCredentials: true,
 });
 
 interface ApiResponse<T> {
@@ -33,15 +31,13 @@ interface ApiResponseError {
 axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
 	try {
 		// Log the URL before the request is sent
-		console.log("Request URL:", (config.baseURL ?? "") + config.url);
+		console.log("Request URL:", config.url);
 
 		// You can log other details here if needed
 		console.log("Request Method:", config.method);
 
-		if (!isRequestWhitelisted(config.url ?? "")) {
-			const token = await getAccessToken();
-			if (token != null) config.headers.Authorization = `Bearer ${token}`;
-		}
+		const token = await getFromStorage(KEY_SECURE.ACCESS_TOKEN);
+		if (token != null) config.headers.Authorization = `Bearer ${token}`;
 	} catch (error) {
 		console.error("API request error:", error);
 	}
@@ -54,9 +50,9 @@ axiosInstance.interceptors.response.use(
 			case HttpStatusCode.Ok:
 				const cookies = response.headers["set-cookie"];
 				cookies?.forEach((cookies: string) => {
-					if (cookies.startsWith("refresh_token")) {
+					if (cookies.startsWith(KEY_SECURE.REFRESH_TOKEN)) {
 						const refreshToken = cookies.substring("refresh_token".length + 1);
-						setRefreshToken(refreshToken);
+						setToStorage(KEY_SECURE.REFRESH_TOKEN, refreshToken).then();
 					}
 				});
 				break;
@@ -64,8 +60,7 @@ axiosInstance.interceptors.response.use(
 				console.error("Bad request", response);
 				break;
 			default:
-				console.log("Response status:", response.status);
-				console.log(response);
+				console.warn(response);
 				break;
 		}
 		return response;
@@ -74,7 +69,7 @@ axiosInstance.interceptors.response.use(
 		if (axios.isAxiosError(error)) {
 			switch (error.response?.status) {
 				case HttpStatusCode.Unauthorized:
-					// console.error("Unauthorized");
+					console.error("Unauthorized");
 					break;
 				case HttpStatusCode.Forbidden:
 					console.error("Forbidden");

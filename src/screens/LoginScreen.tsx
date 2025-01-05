@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import React, { ReactNode, useState } from "react";
+import React, {ReactNode, useState} from "react";
 import {
 	Keyboard,
 	Platform,
@@ -17,24 +17,24 @@ import {
 	TouchableWithoutFeedback,
 	View,
 } from "react-native";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../configs/redux/store.config";
+import {useSelector} from "react-redux";
+import {RootState, useAppDispatch} from "../configs/redux/store.config";
 import textStyle from "../configs/styles/textStyle.config";
-import { gradient, neutral, otherMethodSignIn, primary, white } from "../configs/colors/color-template.config";
-import { CheckBox, Divider } from "@rneui/themed";
+import {gradient, neutral, otherMethodSignIn, primary} from "../configs/colors/color-template.config";
+import {CheckBox, Divider} from "@rneui/themed";
 import Row from "../components/custom/Row";
 import Col from "../components/custom/Col";
 import GoogleAuth from "../components/auth/GoogleAuth";
 import FacebookAuth from "../components/auth/FacebookAuth";
-import { Controller, useForm } from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import LoginFormType from "../types/loginForm.type";
 import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import InputPhoneNumber from "../components/input/InputPhoneNumber";
 import GradientText from "../components/gradientText/GradientText";
-import { FlatList } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../navigations/stack.type";
+import {FlatList} from "react-native-gesture-handler";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../navigations/stack.type";
 import InputIcon from "../components/input/InputIcon";
 import SolarLockPasswordBold from "../../assets/images/icons/SolarLockPasswordBold";
 import Space from "../components/custom/Space";
@@ -42,8 +42,7 @@ import CountryPhoneNumberType from "../types/countryPhoneNumber.type";
 import SolarEyeBold from "../../assets/images/icons/SolarEyeBold";
 import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
 import NumberValue from "../configs/value/number.value";
-import { AuthType, login } from "../hooks/redux/auth.slice";
-import Modal from "../components/modal/Modal";
+import {AuthType, login} from "../hooks/redux/auth.slice";
 
 function LoginScreen() {
 	const [checked, setChecked] = React.useState(false);
@@ -55,14 +54,13 @@ function LoginScreen() {
 	const [showPassword, setShowPassword] = useState(false);
 	const sizeIcon = 25;
 	const dispatch = useAppDispatch();
-	const [showModal, setShowModal] = useState<boolean>(false);
 
 	const {
 		control,
 		setError,
 		handleSubmit,
-		formState: { isValid },
-	} = useForm<LoginFormType>({ mode: "all" });
+		formState: {isValid},
+	} = useForm<LoginFormType>({mode: "all"});
 
 	const onFocusInput = () => {
 		setIsFocusInput(true);
@@ -82,16 +80,11 @@ function LoginScreen() {
 	const onSubmit = (data: LoginFormType) => {
 		if (!isValid || !countryPhoneNumber) return;
 		data.region = countryPhoneNumber?.code;
+		console.log(data);
 		dispatch(login(data))
 			.then(action => {
-				switch (action.type) {
-					case AuthType.LOGIN_FULFILLED:
-						navigation.replace("MainScreen", { screen: "HomeScreen" });
-						break;
-					case AuthType.LOGIN_REJECTED:
-						setShowModal(true);
-						break;
-				}
+				console.log(action);
+				if (action.type === AuthType.LOGIN_FULFILLED) navigation.navigate("SettingPinSecurityScreen");
 			})
 			.catch();
 	};
@@ -101,7 +94,7 @@ function LoginScreen() {
 			<SolarEyeBold
 				width={sizeIcon}
 				height={sizeIcon}
-				style={{ marginRight: 12 }}
+				style={{marginRight: 12}}
 				color={neutral.getColor("100")}
 			/>
 		),
@@ -109,7 +102,7 @@ function LoginScreen() {
 			<SolarEyeClosedBold
 				width={sizeIcon}
 				height={sizeIcon}
-				style={{ marginRight: 12 }}
+				style={{marginRight: 12}}
 				color={neutral.getColor("100")}
 			/>
 		),
@@ -117,14 +110,14 @@ function LoginScreen() {
 
 	return (
 		<TouchableWithoutFeedback onPress={onOtherPress}>
-			<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
+			<SafeAreaView style={[styles.container, {backgroundColor: theme.background.getColor()}]}>
 				<FlatList
 					data={[1]}
 					renderItem={() => {
 						return (
 							<>
 								<GradientText
-									style={{ marginBottom: 32, alignItems: "center" }}
+									style={{marginBottom: 32, alignItems: "center"}}
 									textStyle={styles.title}
 									text={"Login"}
 									gradientColors={gradient.getColor()}
@@ -140,7 +133,7 @@ function LoginScreen() {
 										},
 										validate: undefined,
 									}}
-									render={({ field: { onChange, value }, fieldState: { error } }) => {
+									render={({field: {onChange, value}, fieldState: {error}}) => {
 										return (
 											<Col>
 												<InputPhoneNumber
@@ -164,13 +157,13 @@ function LoginScreen() {
 													}}
 												/>
 												{error && (
-													<Text style={{ color: "red", zIndex: -1 }}>{error.message}</Text>
+													<Text style={{color: "red", zIndex: -1}}>{error.message}</Text>
 												)}
 											</Col>
 										);
 									}}
 								/>
-								<Space height={24} />
+								<Space height={24}/>
 								<Controller
 									control={control}
 									name={"password"}
@@ -185,22 +178,22 @@ function LoginScreen() {
 											message: "Invalid password",
 										},
 									}}
-									render={({ field: { onChange, value }, fieldState: { error } }) => {
+									render={({field: {onChange, value}, fieldState: {error}}) => {
 										return (
-											<Col style={{ zIndex: -1 }}>
+											<Col style={{zIndex: -1}}>
 												<InputIcon
 													iconLeft={
 														<SolarLockPasswordBold
 															width={sizeIcon}
 															height={sizeIcon}
-															style={{ marginRight: 12 }}
+															style={{marginRight: 12}}
 															color={neutral.getColor("100")}
 														/>
 													}
 													iconRight={
 														renderIconShowPassword[
 															showPassword.toString() as "true" | "false"
-														]
+															]
 													}
 													placeholder={"Password"}
 													borderColor={error ? primary.getColor("500") : undefined}
@@ -214,7 +207,7 @@ function LoginScreen() {
 													onPressIconRight={() => setShowPassword(!showPassword)}
 												/>
 												{error && (
-													<Text style={{ color: primary.getColor("500") }}>
+													<Text style={{color: primary.getColor("500")}}>
 														{error.message}
 													</Text>
 												)}
@@ -237,7 +230,7 @@ function LoginScreen() {
 											padding: 5,
 										}}
 									/>
-									<Text style={[styles.rememberMeText, { color: theme.text_1.getColor() }]}>
+									<Text style={[styles.rememberMeText, {color: theme.text_1.getColor()}]}>
 										Remember me
 									</Text>
 								</Row>
@@ -245,11 +238,11 @@ function LoginScreen() {
 						);
 					}}
 				/>
-				<Col style={{ zIndex: -1 }}>
-					<ButtonHasStatus title={"Sign in"} active={isValid} onPress={handleSubmit(onSubmit)} />
-					<Col style={{ display: isFocusInput ? "none" : "flex" }}>
+				<Col style={{zIndex: -1}}>
+					<ButtonHasStatus title={"Sign in"} active={isValid} onPress={handleSubmit(onSubmit)}/>
+					<Col style={{display: isFocusInput ? "none" : "flex"}}>
 						<View style={[styles.otherMethodSignInContainer]}>
-							<Divider width={1} color={otherMethodSignIn.getColor()} style={[styles.dividerStyle]} />
+							<Divider width={1} color={otherMethodSignIn.getColor()} style={[styles.dividerStyle]}/>
 							<Text
 								style={[
 									styles.otherMethodSignIn,
@@ -262,12 +255,12 @@ function LoginScreen() {
 							</Text>
 						</View>
 						<Row style={[styles.buttonOtherMethodSignIn]} flex={0}>
-							<GoogleAuth />
-							<View style={{ padding: 8 }} />
-							<FacebookAuth />
+							<GoogleAuth/>
+							<View style={{padding: 8}}/>
+							<FacebookAuth/>
 						</Row>
 						<Row style={[styles.askSignUpContainer]} flex={0}>
-							<Text style={[styles.askSignUpText, { color: theme.text_1.getColor() }]}>
+							<Text style={[styles.askSignUpText, {color: theme.text_1.getColor()}]}>
 								Don’t have an account?
 							</Text>
 							<TouchableOpacity
@@ -280,25 +273,6 @@ function LoginScreen() {
 						</Row>
 					</Col>
 				</Col>
-				<Modal
-					active={showModal}
-					onEndHide={() => {
-						setShowModal(false);
-					}}
-					background={{
-						backgroundColor: white.getColor(),
-						opacity: 0.2,
-					}}
-				>
-					<Text style={[{ ...textStyle["16_semibold"], marginTop: 10 }]}>Phone or password not correct!</Text>
-
-					<ButtonHasStatus
-						styleButton={{ width: "100%", marginBottom: 0 }}
-						title={"OK"}
-						active={true}
-						onPress={() => setShowModal(false)}
-					/>
-				</Modal>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
 	);

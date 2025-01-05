@@ -11,8 +11,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "../../hooks/redux/auth.slice";
 import ratingSlice from "../../hooks/redux/rating.slice";
 import loadingSlice from "../../hooks/redux/modal.slice";
-import categorySlice from "../../hooks/redux/category.slice";
-import promotionOfferSlice from "../../hooks/redux/promotionOffer.slice";
 
 const store = configureStore({
 	reducer: {
@@ -20,8 +18,6 @@ const store = configureStore({
 		themeState: themeSlice,
 		authState: authSlice,
 		ratingState: ratingSlice,
-		categoryState: categorySlice,
-		promotionOffer: promotionOfferSlice,
 	},
 	middleware: getDefaultMiddleware => {
 		return getDefaultMiddleware({

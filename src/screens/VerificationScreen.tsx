@@ -8,7 +8,7 @@
 
 // @flow
 import * as React from "react";
-import { ReactNode, useEffect, useState } from "react";
+import {ReactNode, useEffect, useState} from "react";
 import {
 	Alert,
 	Keyboard,
@@ -20,26 +20,27 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 } from "react-native";
-import { gradient, neutral, primary } from "../configs/colors/color-template.config";
+import {gradient, neutral, primary} from "../configs/colors/color-template.config";
 import textStyle from "../configs/styles/textStyle.config";
 import Row from "../components/custom/Row";
 import SolarClockCircleLinear from "../../assets/images/icons/SolarClockCircleLinear";
 import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import Col from "../components/custom/Col";
-import { useSelector } from "react-redux";
-import { RootState } from "../configs/redux/store.config";
-import { RootStackParamList } from "../navigations/stack.type";
-import { VerificationScreenRouteProp } from "../navigations/route.type";
-import { CountDown } from "../components/coutDown/CountDown";
+import {useSelector} from "react-redux";
+import {RootState} from "../configs/redux/store.config";
+import {RootStackParamList} from "../navigations/stack.type";
+import {VerificationScreenRouteProp} from "../navigations/route.type";
+import {CountDown} from "../components/coutDown/CountDown";
 import InputCodeFragment from "../fragments/InputCodeFragment";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Header } from "../components/header/Header";
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
-import { firebaseAuth } from "../configs/firebase/firebase.config";
-import { AxiosError } from "axios";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {Header} from "../components/header/Header";
+import {FirebaseAuthTypes} from "@react-native-firebase/auth";
+import axiosInstance, {ApiResponse} from "../configs/axios/axios.config";
+import {firebaseAuth} from "../configs/firebase/firebase.config";
+import {AxiosError} from "axios";
 import Formater from "../utils/formater";
 import NumberValue from "../configs/value/number.value";
+import {registerApi} from "../services/auth.service";
 
 type VerificationScreenProps = {
 	route: VerificationScreenRouteProp;
@@ -48,7 +49,7 @@ type VerificationScreenProps = {
 
 export default function VerificationScreen({
 											   route: {
-												   params: { dialCode, form },
+												   params: {dialCode, form},
 											   },
 											   navigation,
 										   }: VerificationScreenProps) {
@@ -57,12 +58,10 @@ export default function VerificationScreen({
 	const [time, setTime] = useState(0);
 	const [errorVerify, setErrorVerify] = useState<boolean>(false);
 	const [confirmation, setConfirmation] = useState<FirebaseAuthTypes.ConfirmationResult>();
-	const [codeVerify, setCodeVerify] = useState<string>("");
 
 	useEffect(() => {
-		signInWithPhoneNumber(dialCode, form.phoneNumber);
+		// signInWithPhoneNumber(form.phoneNumber);
 
-		/*Bắt sự kiện khi đã xác thực thành công.*/
 		return firebaseAuth.onAuthStateChanged(user => {
 			if (!user) return;
 
@@ -74,11 +73,11 @@ export default function VerificationScreen({
 
 	const componentResend: Record<"true" | "false", ReactNode> = {
 		true: (
-			<TouchableOpacity onPress={() => signInWithPhoneNumber(dialCode, form.phoneNumber)}>
-				<Text style={[styles.text, styles.textSimiBold, { color: primary.getColor("500") }]}>Resend Code</Text>
+			<TouchableOpacity onPress={() => signInWithPhoneNumber(form.phoneNumber)}>
+				<Text style={[styles.text, styles.textSimiBold, {color: primary.getColor("500")}]}>Resend Code</Text>
 			</TouchableOpacity>
 		),
-		false: <Text style={[styles.text, styles.textSimiBold, { color: neutral.getColor("100") }]}>Resend Code</Text>,
+		false: <Text style={[styles.text, styles.textSimiBold, {color: neutral.getColor("100")}]}>Resend Code</Text>,
 	};
 
 	const onBlurInput = () => {
@@ -86,7 +85,7 @@ export default function VerificationScreen({
 		Keyboard.dismiss();
 	};
 
-	const signInWithPhoneNumber = (dialCode: string, phoneNumber: string) => {
+	const signInWithPhoneNumber = (phoneNumber: string) => {
 		if (time !== 0 || firebaseAuth.currentUser) return;
 		setTime(60 * 5);
 		firebaseAuth
@@ -105,7 +104,7 @@ export default function VerificationScreen({
 	};
 
 	const verifyCode = (code: string) => {
-		if (!confirmation || code.length != 6) {
+		if (!confirmation) {
 			setErrorVerify(true);
 			return;
 		}
@@ -125,15 +124,11 @@ export default function VerificationScreen({
 
 	const register = (idToken: string) => {
 		form.idToken = idToken;
-		axiosInstance
-			.post("/auth/register", form)
-			.then(() => {
-				firebaseAuth.signOut().then();
-				navigation.navigate("LoginScreen");
-			})
-			.catch((error: AxiosError<ApiResponse<string>>) => {
-				Alert.alert("Lỗi đăng ký", error.response?.data?.message);
-			});
+		registerApi(form).then(() => {
+			navigation.navigate("LoginScreen");
+		}).catch(() => {
+			// TODO: Handle error
+		});
 	};
 
 	return (
@@ -143,25 +138,25 @@ export default function VerificationScreen({
 				onBlurInput();
 			}}
 		>
-			<SafeAreaView style={[{ flex: 1, backgroundColor: theme.background.getColor() }]}>
+			<SafeAreaView style={[{flex: 1, backgroundColor: theme.background.getColor()}]}>
 				<Header
 					title={"Verification"}
 					colorTitle={gradient.getColor()}
 					titleStyle={[styles.titleHeader]}
 					colorIconBack={theme.text_1.getColor()}
-					styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor() }}
+					styleIconBack={{backgroundColor: theme.header.backgroundIconBack.getColor()}}
 					style={styles.header}
 					onPressBack={() => {
 						navigation.replace("SignUpScreen");
 					}}
 				/>
 				<ScrollView
-					style={{ flexDirection: "column", paddingHorizontal: 25 }}
+					style={{flexDirection: "column", paddingHorizontal: 25}}
 					showsVerticalScrollIndicator={false}
 					showsHorizontalScrollIndicator={false}
 					onResponderRelease={onBlurInput}
 				>
-					<Text style={[styles.text, styles.textNotification, { color: theme.text_1.getColor() }]}>
+					<Text style={[styles.text, styles.textNotification, {color: theme.text_1.getColor()}]}>
 						Code has been send to ({dialCode}) {Formater.formatHiddenPhoneNumber(form.phoneNumber)}
 					</Text>
 					<InputCodeFragment
@@ -173,28 +168,26 @@ export default function VerificationScreen({
 						onBlur={onBlurInput}
 						setError={errorVerify}
 						onChangeCode={code => {
-							setCodeVerify(code);
 							if (code.length !== 6) return;
 							verifyCode(code);
 						}}
 						fontSize={20}
 					/>
-					<Text style={[styles.text, { color: theme.text_1.getColor() }]}>Didn’t receive code?</Text>
+					<Text style={[styles.text, {color: theme.text_1.getColor()}]}>Didn’t receive code?</Text>
 					<CountDown
 						time={time}
-						icon={<SolarClockCircleLinear color={theme.text_1.getColor()} strokeWidth={2} />}
-						textStyle={[{ color: theme.text_1.getColor() }]}
+						icon={<SolarClockCircleLinear color={theme.text_1.getColor()} strokeWidth={2}/>}
+						textStyle={[{color: theme.text_1.getColor()}]}
 						onEnd={() => {
 							setTime(0);
 						}}
 					/>
 					{componentResend[(time === 0).toString() as "true" | "false"]}
 				</ScrollView>
-				<Col style={[styles.footerContainer, { paddingHorizontal: 25 }]} flex={1}>
-					<ButtonHasStatus title={"Verify"} onPress={() => verifyCode(codeVerify)} active={!!confirmation}
-									 styleButton={[styles.buttonVerify]} />
-					<Row style={[{ display: hidden ? "none" : "flex" }, styles.containerCanHidden]}>
-						<Text style={[styles.text, { color: theme.text_1.getColor() }]}>Back to </Text>
+				<Col style={[styles.footerContainer, {paddingHorizontal: 25}]} flex={1}>
+					<ButtonHasStatus title={"Verify"} active={errorVerify} styleButton={[styles.buttonVerify]}/>
+					<Row style={[{display: hidden ? "none" : "flex"}, styles.containerCanHidden]}>
+						<Text style={[styles.text, {color: theme.text_1.getColor()}]}>Back to </Text>
 						<TouchableOpacity
 							onPress={() => {
 								navigation.navigate("LoginScreen");
