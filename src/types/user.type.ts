@@ -12,6 +12,7 @@ export type User = {
 	phoneNumber: string;
 	fullName: string;
 	role: string;
+	permissions: string[];
 };
 
 export type ResponseAuthentication = {
