@@ -1,7 +1,7 @@
 import { Role, Permission } from "../const/authenticationConst";
 
 type ProtectedRouteProps = {
-	allowRole?: Role;
+	allowRoles?: Role[];
 	allowPermissions?: Permission[];
 	children: React.ReactNode;
 };

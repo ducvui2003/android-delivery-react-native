@@ -8,7 +8,7 @@ type Role = (typeof RoleConst)[keyof typeof RoleConst];
 
 // eslint-disable-next-line unused-imports/no-unused-vars
 const PermissionConst = {
-	"can-create": "/",
+	CAN_CREATE: "/",
 } as const;
 
 type Permission = (typeof PermissionConst)[keyof typeof PermissionConst];

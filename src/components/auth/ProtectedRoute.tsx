@@ -3,16 +3,16 @@ import { RootState } from "../../configs/redux/store.config";
 import ProtectedRouteProps from "./type/protectedRoute.prop";
 import { User } from "../../types/user.type";
 
-const ProtectedRoute = ({ allowRole, allowPermissions, children }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ allowRoles, allowPermissions, children }: ProtectedRouteProps) => {
 	const userSelector: User | null = useSelector((state: RootState) => state.authState.user);
-	const role = userSelector?.role;
+	const role = userSelector?.role || "";
 	const permissions = userSelector?.permissions || [];
 
 	if (!userSelector) {
 		return null;
 	}
 
-	if (allowRole && role !== allowRole) {
+	if (allowRoles && allowRoles.find(allowRole => allowRole === role) !== undefined) {
 		return null;
 	}
 

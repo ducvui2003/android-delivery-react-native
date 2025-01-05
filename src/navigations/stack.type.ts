@@ -28,9 +28,7 @@ export type RootStackParamList = {
 		id: string;
 		name: string;
 	};
-	BasketScreen: {
-		id: string;
-	};
+	BasketScreen: undefined;
 	OrderRatingScreen: { idOrder: string; idDriver: string };
 	DriverRatingScreen: { uri?: string };
 	GiveThanksScreen: undefined;

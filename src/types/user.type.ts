@@ -12,9 +12,10 @@ export type User = {
 	phoneNumber: string;
 	fullName: string;
 	role: string;
+	permissions: string[];
 };
 
 export type ResponseAuthentication = {
-	accessToken: string;
+	access_token: string;
 	user: User;
 };

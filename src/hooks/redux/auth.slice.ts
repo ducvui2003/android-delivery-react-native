@@ -52,6 +52,7 @@ export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType
 		await setAccessToken(accessToken);
 		return { user };
 	} catch (error: any) {
+		console.log("Error logging in", error);
 		return rejectWithValue(error.response.data);
 	} finally {
 		dispatch(setLoading(false)); // Gọi action setLoading với giá trị false

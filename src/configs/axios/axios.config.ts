@@ -6,10 +6,28 @@
  * User: ducvui2003
  **/
 import axios, { AxiosError, AxiosInstance, AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig } from "axios";
+import {
+	getAccessToken,
+	getRefreshToken,
+	removeAllToken,
+	setAccessToken,
+	setRefreshToken,
+} from "../../services/auth.service";
+import { ResponseAuthentication } from "../../types/user.type";
 import { isRequestWhitelisted } from "./whitelist";
-import { getAccessToken, setRefreshToken } from "../../services/auth.service";
+
+let isRefreshing = false;
+let failedQueue: Array<any> = [];
 
 const axiosInstance: AxiosInstance = axios.create({
+	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END,
+	headers: {
+		"Access-Control-Allow-Origin": "*",
+	},
+	withCredentials: true,
+});
+
+const axiosInstanceInternal: AxiosInstance = axios.create({
 	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END,
 	headers: {
 		"Access-Control-Allow-Origin": "*",
@@ -38,9 +56,14 @@ axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig
 		// You can log other details here if needed
 		console.log("Request Method:", config.method);
 
+		console.log("Whitelist", isRequestWhitelisted(config.url ?? ""));
+
 		if (!isRequestWhitelisted(config.url ?? "")) {
 			const token = await getAccessToken();
+			console.log("Get access token success", token);
 			if (token != null) config.headers.Authorization = `Bearer ${token}`;
+		} else {
+			delete config.headers.Authorization;
 		}
 	} catch (error) {
 		console.error("API request error:", error);
@@ -50,31 +73,38 @@ axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig
 
 axiosInstance.interceptors.response.use(
 	(response: AxiosResponse) => {
-		switch (response.status) {
-			case HttpStatusCode.Ok:
-				const cookies = response.headers["set-cookie"];
-				cookies?.forEach((cookies: string) => {
-					if (cookies.startsWith("refresh_token")) {
-						const refreshToken = cookies.substring("refresh_token".length + 1);
-						setRefreshToken(refreshToken);
-					}
-				});
-				break;
-			case HttpStatusCode.BadRequest:
-				console.error("Bad request", response);
-				break;
-			default:
-				console.log("Response status:", response.status);
-				console.log(response);
-				break;
-		}
+		const refreshToken: string | null = getCookie("refresh_token", response);
+		if (refreshToken) setRefreshToken(refreshToken);
 		return response;
 	},
 	(error: AxiosError<ApiResponseError>) => {
-		if (axios.isAxiosError(error)) {
+		const originalRequest = error.config;
+		if (originalRequest != null && axios.isAxiosError(error)) {
 			switch (error.response?.status) {
 				case HttpStatusCode.Unauthorized:
-					// console.error("Unauthorized");
+					console.error(`Token expired`);
+					if (!isRefreshing) {
+						isRefreshing = true;
+						return new Promise((resolve, reject) => {
+							exchangeAccessTokenInternal()
+								.then(newAccessToken => {
+									console.info(`Set new access token success, retry ${originalRequest.url}`);
+									setAccessToken(newAccessToken);
+									resolve(axiosInstance(originalRequest));
+								})
+								.catch(err => {
+									if (err.statusCode == HttpStatusCode.Unauthorized) {
+										removeAllToken();
+									}
+									console.error(`Set new access token failed`);
+									reject(err);
+								})
+								.finally(() => {
+									processQueue(null);
+									isRefreshing = false;
+								});
+						});
+					}
 					break;
 				case HttpStatusCode.Forbidden:
 					console.error("Forbidden");
@@ -84,6 +114,69 @@ axiosInstance.interceptors.response.use(
 		return Promise.reject(error);
 	}
 );
+
+const getCookie = (name: string, response: AxiosResponse): string | null => {
+	const cookies = response.headers["set-cookie"];
+	if (cookies) {
+		for (const cookie of cookies) {
+			if (cookie.startsWith(name)) {
+				return cookie.substring("refresh_token".length + 1);
+			}
+		}
+	}
+	return null;
+};
+
+const setCookie = (name: string, value: string, instance: AxiosInstance): void => {
+	const cookie = `${name}=${value}`;
+	instance.interceptors.request.use(config => {
+		if (config.headers["Cookie"]) {
+			config.headers["Cookie"] += `; ${cookie}`;
+		} else {
+			config.headers["Cookie"] = cookie;
+		}
+		return config;
+	});
+};
+
+const exchangeAccessTokenInternal = async (): Promise<string> => {
+	try {
+		const cookie: string | null = await getRefreshToken();
+		if (cookie) setCookie("refresh_token", cookie, axiosInstanceInternal);
+		const result = await axiosInstanceInternal.post<ApiResponse<ResponseAuthentication>>("/refresh-token");
+
+		const token = result.data.data?.access_token;
+		if (!token) {
+			throw new Error("Access token is missing in the response");
+		}
+		return token;
+	} catch (error: unknown) {
+		if (axios.isAxiosError(error)) {
+			switch (error.response?.status) {
+				case HttpStatusCode.Unauthorized:
+					console.error("Unauthorized: The refresh token is invalid");
+					break;
+				default:
+					console.error("Axios error", error.message);
+			}
+		} else {
+			console.error("Unexpected error occurred while refreshing token");
+		}
+		throw error;
+	}
+};
+
+const processQueue = (error: any) => {
+	failedQueue.forEach(request => {
+		if (!error) {
+			request.resolve(axiosInstance(request.originalRequest));
+		} else {
+			request.reject(error);
+		}
+	});
+
+	failedQueue = [];
+};
 
 export default axiosInstance;
 export { ApiResponse };

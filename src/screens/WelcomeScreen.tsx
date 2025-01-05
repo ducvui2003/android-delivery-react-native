@@ -32,6 +32,7 @@ export default function WelcomeScreen() {
 	// Check server is alive
 	useEffect(() => {
 		isServerAlive().then(isAlive => {
+			console.log("Server is alive", isAlive);
 			if (isAlive) {
 				setIsAlive(true);
 			} else {
