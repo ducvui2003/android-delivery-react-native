@@ -4,7 +4,7 @@ import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import RegisterFormType from "../types/registerForm.type";
 import { EndPoint } from "../utils/EndPoint";
 import { getFromStorage, KEY_SECURE, removeAllFromStorage, setToStorage } from "./secureStore.service";
-import { ResponseAuthentication, User, UserGetAccount } from "../types/user.type";
+import { ResponseAuthentication, User } from "../types/user.type";
 import LoginFormType from "../types/loginForm.type";
 
 import { UnAuthorizationError } from "../utils/error";
@@ -58,8 +58,8 @@ export const logoutApi = async (): Promise<void> => {
 
 export const getUserInfo = async (): Promise<User> => {
 	try {
-		const result = await axiosInstance.get<ApiResponse<UserGetAccount>>(EndPoint.ACCOUNT);
-		const user: User = result.data.data.user;
+		const result = await axiosInstance.get<ApiResponse<User>>(EndPoint.ACCOUNT);
+		const user: User = result.data.data;
 		return user;
 	} catch (error) {
 		console.error("Error getting account", error);
@@ -83,4 +83,10 @@ export const setRefreshToken = async (refreshToken: string): Promise<void> => {
 
 export const removeAllToken = async (): Promise<void> => {
 	await removeAllFromStorage();
+};
+
+export const getRefreshToken = async (): Promise<string | null> => {
+	const refreshToken = await getFromStorage(KEY_SECURE.REFRESH_TOKEN);
+	if (refreshToken === null) return null;
+	return refreshToken;
 };
