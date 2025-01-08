@@ -8,13 +8,15 @@
 import OptionAddProps from "./optionAdd.props";
 
 type BasketItemProps = {
-	id: string;
+	id: number;
 	name: string;
 	price: number;
 	discount?: number;
 	quantity: number;
+	quantityMax: number;
 	image: string;
 	options?: OptionAddProps[];
+	onChangeQuantity: (quantity: number) => boolean;
 };
 
 export default BasketItemProps;

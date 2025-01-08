@@ -8,7 +8,7 @@
 import { StyleProp, TextStyle, ViewStyle } from "react-native";
 
 type InputNumberButtonProps = {
-	onAmount?: (amount: number) => void;
+	onAmount?: (amount: number) => boolean;
 	totalAmount: number;
 	styleButton?: StyleProp<ViewStyle>;
 	styleText?: StyleProp<TextStyle>;

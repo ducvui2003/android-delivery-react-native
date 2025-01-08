@@ -51,14 +51,15 @@ interface ApiResponseError {
 axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
 	try {
 		// Log the URL before the request is sent
-		console.log("Request URL:", (config.baseURL ?? "") + config.url);
 
+		const fullUrl = (config.baseURL ?? "") + config.url;
+		console.log("Request URL:", fullUrl);
 		// You can log other details here if needed
 		console.log("Request Method:", config.method);
 
 		console.log("Whitelist", isRequestWhitelisted(config.url ?? ""));
 
-		if (!isRequestWhitelisted(config.url ?? "")) {
+		if (!isRequestWhitelisted(fullUrl)) {
 			const token = await getAccessToken();
 			console.log("Get access token success", token);
 			if (token != null) config.headers.Authorization = `Bearer ${token}`;

@@ -6,11 +6,11 @@
  *  User: lam-nguyen
  **/
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Header } from "../components/header/Header";
 import { useSelector } from "react-redux";
-import { RootState } from "../configs/redux/store.config";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -28,6 +28,8 @@ import BasketCalculator, { BasketCalculatorProps } from "../fragments/basket/Bas
 import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import Formater from "../utils/formater";
 import NumberValue from "../configs/value/number.value";
+import { Cart } from "../types/cart.type";
+import { decreaseCart, fetchCarts, increaseCart } from "../hooks/redux/cart.slice";
 
 type BasketScreenProps = {
 	route: RouteProp<RootStackParamList, "BasketScreen">;
@@ -37,8 +39,54 @@ type BasketScreenProps = {
 function BasketScreen({ navigation }: BasketScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const promotionOffer = useSelector((state: RootState) => state.promotionOffer);
-	const deliveryFee: number = promotionOffer.shipping?.discountPromotionInfo.discount ? promotionOffer.shipping.discountPromotionInfo.discount : 0;
-	const discount: number = promotionOffer.order?.discountPromotionInfo.discount ? promotionOffer.order.discountPromotionInfo.discount : 0;
+	const deliveryFee: number = promotionOffer.shipping?.discountPromotionInfo.discount
+		? promotionOffer.shipping.discountPromotionInfo.discount
+		: 0;
+	const discount: number = promotionOffer.order?.discountPromotionInfo.discount
+		? promotionOffer.order.discountPromotionInfo.discount
+		: 0;
+	const cartItems = useSelector((state: RootState) => state.cart.items);
+	const appDispatch = useAppDispatch();
+	const [basketCalculateProps, setBasketCalculateProps] = useState<BasketCalculatorProps>({
+		subTotal: 0,
+		deliveryFee: 0,
+		discount: 0,
+	});
+
+	useEffect(() => {
+		appDispatch(fetchCarts());
+	}, []);
+
+	useEffect(() => {
+		if (cartItems) {
+			setBasketCalculateProps({
+				subTotal: cartItems.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0),
+				deliveryFee: deliveryFee,
+				discount: cartItems.reduce(
+					(previousValue, currentValue) =>
+						previousValue + (currentValue.price * (100 - (currentValue.discount ?? 100))) / 100,
+					0
+				),
+			});
+		}
+	}, [cartItems]);
+
+	const onChangeQuantity = (
+		id: number,
+		quantityAfter: number,
+		quantityBefore: number,
+		quantityValid: number
+	): boolean => {
+		console.log("onChangeQuantity", id, quantityAfter, quantityBefore, quantityValid);
+		if (quantityBefore <= quantityValid) {
+			if (quantityAfter > quantityBefore) {
+			}
+			if (quantityAfter < quantityBefore) {
+				// appDispatch(decreaseCart(id));
+				return;
+			}
+		}
+	};
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
@@ -76,20 +124,39 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 							</GradientBorder>
 						</TouchableOpacity>
 					</Row>
-					{dataDemo.map((item: BasketItemProps, index: number) => (
+					{/* {dataDemo.map((item: BasketItemProps, index: number) => (
 						<BasketItem key={index} {...item} />
-					))}
+					))} */}
+					{cartItems?.map((item: Cart, index: number) => {
+						return (
+							<BasketItem
+								key={index}
+								id={item.id}
+								name={item.name}
+								image={item.thumbnail}
+								price={item.price}
+								quantity={item.quantity}
+								discount={item.discount}
+								options={item.options}
+								quantityMax={item.quantityValid}
+								onChangeQuantity={(quantity: number) =>
+									onChangeQuantity(item.id, quantity, item.quantity, item.quantityValid)
+								}
+							/>
+						);
+					})}
 				</Col>
 				{/*//place work*/}
 				<BasketMenuFragment />
-				<BasketCalculator {...dataDemo2} deliveryFee={deliveryFee} discount={discount} />
+				<BasketCalculator {...basketCalculateProps} deliveryFee={deliveryFee} discount={discount} />
 				<Space height={175} />
 			</ScrollView>
 			<Row style={[styles.footer, { backgroundColor: theme.basket.backgroundFooter.getColor() }]}>
 				<Row style={{ justifyContent: "center" }}>
 					<Text style={[{ ...textStyle["18_semibold"], color: theme.text_1.getColor() }]}>
-
-						{Formater.formatCurrency(dataDemo2.subTotal - discount*dataDemo2.subTotal + deliveryFee)}
+						{Formater.formatCurrency(
+							basketCalculateProps.subTotal - discount * basketCalculateProps.subTotal + deliveryFee
+						)}
 					</Text>
 				</Row>
 				<ButtonHasStatus
@@ -120,48 +187,48 @@ const styles = StyleSheet.create({
 
 export default BasketScreen;
 
-const dataDemo: BasketItemProps[] = [
-	{
-		id: "1",
-		name: "Chicken Burger",
-		price: 20000,
-		discount: 60,
-		quantity: 1,
-		image: "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-		options: [
-			{
-				name: "Cheese",
-				price: 1000,
-			},
-			{
-				name: "Meat (Extra Patty)",
-				price: 5000,
-			},
-		],
-	},
-	{
-		id: "2",
-		name: "Ramen Noodles",
-		price: 25000,
-		discount: 70,
-		quantity: 1,
-		image: "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	},
-	{
-		id: "3",
-		name: "Cherry Tomato Salad",
-		price: 10000,
-		quantity: 1,
-		image: "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	},
-];
+// const dataDemo: BasketItemProps[] = [
+// 	{
+// 		id: "1",
+// 		name: "Chicken Burger",
+// 		price: 20000,
+// 		discount: 60,
+// 		quantity: 1,
+// 		image: "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+// 		options: [
+// 			{
+// 				name: "Cheese",
+// 				price: 1000,
+// 			},
+// 			{
+// 				name: "Meat (Extra Patty)",
+// 				price: 5000,
+// 			},
+// 		],
+// 	},
+// 	{
+// 		id: "2",
+// 		name: "Ramen Noodles",
+// 		price: 25000,
+// 		discount: 70,
+// 		quantity: 1,
+// 		image: "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+// 	},
+// 	{
+// 		id: "3",
+// 		name: "Cherry Tomato Salad",
+// 		price: 10000,
+// 		quantity: 1,
+// 		image: "https://plus.unsplash.com/premium_photo-1668618295237-f1d8666812c9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+// 	},
+// ];
 
-const dataDemo2: BasketCalculatorProps = {
-	subTotal: dataDemo.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0),
-	deliveryFee: 0,
-	discount: dataDemo.reduce(
-		(previousValue, currentValue) =>
-			previousValue + (currentValue.price * (100 - (currentValue.discount ?? 100))) / 100,
-		0
-	),
-};
+// const dataDemo2: BasketCalculatorProps = {
+// 	subTotal: dataDemo.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0),
+// 	deliveryFee: 0,
+// 	discount: dataDemo.reduce(
+// 		(previousValue, currentValue) =>
+// 			previousValue + (currentValue.price * (100 - (currentValue.discount ?? 100))) / 100,
+// 		0
+// 	),
+// };
