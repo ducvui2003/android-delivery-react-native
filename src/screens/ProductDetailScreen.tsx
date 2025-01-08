@@ -18,7 +18,7 @@ import textStyle from "../configs/styles/textStyle.config";
 import Col from "../components/custom/Col";
 import { gradient, neutral, secondary } from "../configs/colors/color-template.config";
 import { useSelector } from "react-redux";
-import { RootState } from "../configs/redux/store.config";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
 import { Header } from "../components/header/Header";
 import SolarHeartBold from "../../assets/images/icons/SolarHeartBold";
 import GradientIconSvg from "../components/grandientIconSvg/GradientIconSvg";
@@ -31,6 +31,7 @@ import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from 
 import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import NumberValue from "../configs/value/number.value";
+import { like } from "../hooks/redux/product.slice";
 
 type ProductDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "ProductDetailScreen">;
@@ -50,6 +51,7 @@ export default function ProductDetailScreen({
 	const [product, setProduct] = useState<ProductDetailType>();
 	const [amount, setAmount] = useState<number>(1);
 	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
+	const dispatch = useAppDispatch();
 
 	const onSeeMore = () => {
 		setSeeMore(true);
@@ -64,6 +66,14 @@ export default function ProductDetailScreen({
 			setProduct(res.data.data);
 		});
 	}, []);
+	
+	const onHeartPress = () => {
+		dispatch(like(id)).then(data => {
+			// if (data.type != AuthType.LOGIN_FULFILLED)
+		}).catch(e => {
+			
+		})
+	}
 
 	const renderButtonSeeMore = () => {
 		if (seeMore)
@@ -93,12 +103,13 @@ export default function ProductDetailScreen({
 					style={{ position: "absolute", zIndex: 2 }}
 				/>
 				<View style={[styles.containerImage]}>
-					<Image
+					{product?.image && <Image
 						style={{ height: "100%", width: "100%" }}
 						resizeMode={"cover"}
 						source={{ uri: product?.image }}
-					/>
-					<TouchableOpacity style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}>
+					/>}
+					<TouchableOpacity style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}
+					onPress={onHeartPress}>
 						<GradientIconSvg
 							icon={
 								product?.isLiked ? (

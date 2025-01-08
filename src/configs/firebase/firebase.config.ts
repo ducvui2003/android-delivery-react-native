@@ -19,7 +19,7 @@ const firebaseConfig: ReactNativeFirebase.FirebaseAppOptions = {
 	databaseURL: process.env.EXPO_PUBLIC_FIREBASE_DATABASE_URL,
 };
 
-initializeApp(firebaseConfig, "delivery-app");
+initializeApp(firebaseConfig, "delivery-app-" + Math.random() + 100000);
 const firebaseAuth = getAuth();
 firebaseAuth.setLanguageCode("VN").then();
 

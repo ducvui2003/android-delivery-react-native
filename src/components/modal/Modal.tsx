@@ -26,6 +26,7 @@ function Modal({
 	durationAnimation = 250,
 	background,
 	onEndHide,
+	displayCancelButton = true,
 }: ModalProps) {
 	const opacityAmin = useSharedValue(100);
 	const [visible, setVisible] = React.useState(active);
@@ -61,9 +62,11 @@ function Modal({
 		>
 			<View style={[styles.background, background && { ...background }]} />
 			<View style={[styles.content, contentStyle, { width }]}>
-				<TouchableOpacity style={[styles.buttonDismiss]} onPress={() => runAnimation(false)}>
-					<SolarDismiss color={neutral.getColor("100")} width={25} height={25} />
-				</TouchableOpacity>
+				{displayCancelButton && (
+					<TouchableOpacity style={[styles.buttonDismiss]} onPress={() => runAnimation(false)}>
+						<SolarDismiss color={neutral.getColor("100")} width={25} height={25} />
+					</TouchableOpacity>
+				)}
 				{children}
 			</View>
 		</Animated.View>

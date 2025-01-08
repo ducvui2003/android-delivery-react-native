@@ -1,15 +1,10 @@
-const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL_BACK_END;
-const WHITE_LIST = [
-	BASE_URL + "/auth/login",
-	BASE_URL + "/auth/register",
-	BASE_URL + "/auth/refresh-token",
-	BASE_URL + "/health/alive",
-];
+const WHITE_LIST = ["/auth/login", "/auth/register", "/auth/refresh-token", "/health/alive", "/product/**"];
 
 // Function to check if the endpoint is whitelisted
 const isRequestWhitelisted = (path: string) => {
 	return WHITE_LIST.some(item => {
-		return path.startsWith(item);
+		if (item.endsWith("**")) return path.startsWith(item.substring(0, item.length - 3));
+		return path === item;
 	});
 };
 export { isRequestWhitelisted };
