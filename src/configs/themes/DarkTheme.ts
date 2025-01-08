@@ -120,6 +120,9 @@ const darkTheme: ThemeType = {
 	order: {
 		orderStatusCancel: ColorFactory.createSingleColor(neutral.getColor("100")),
 	},
+	orderDetail: {
+		backgroundItem: ColorFactory.createSingleColor(neutral.getColor("600")),
+	}
 };
 
 export default darkTheme;

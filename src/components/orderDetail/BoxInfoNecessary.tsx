@@ -21,9 +21,9 @@ function BoxInfoNecessary({styleDescriptionInfo, descriptionInfo, titleInfo, ico
 			<Row>
 				<GradientIconSvg icon={iconTopRight}
 								 gradientColors={[primary.getColor("500"), primary.getColor("300")]}/>
-				<Text style={{left: 10, marginBottom: 8}}>{titleInfo}</Text>
+				<Text style={{left: 10, marginBottom: 8, color: theme.text_1.getColor(),}}>{titleInfo}</Text>
 				{checkDescriptionInfo(descriptionInfo) === 2 &&
-					<Row style={{left: 10}}><SolarArrowRightOutline/><Text
+					<Row style={{left: 10}}><SolarArrowRightOutline /><Text
 						style={[textStyle["16_semibold"], styleDescriptionInfo]}>{(descriptionInfo as MyLocation).name}</Text></Row>
 
 				}
@@ -71,7 +71,7 @@ const makeStyled = (theme: ThemeType) =>
 	StyleSheet.create({
 		container: {
 			...textStyle["16_regular"],
-			backgroundColor: theme.background.getColor(),
+			backgroundColor: theme.orderDetail.backgroundItem.getColor(),
 			padding: 16,
 			marginVertical: 10,
 			borderRadius: 10,
