@@ -30,7 +30,6 @@ import { ProductDetailAdditionalOption } from "../fragments/productDetail/Produc
 import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from "../types/productDetail.type";
 import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
-import { firebaseStorage } from "../configs/firebase/firebase.config";
 import NumberValue from "../configs/value/number.value";
 
 type ProductDetailScreenProps = {
@@ -51,7 +50,6 @@ export default function ProductDetailScreen({
 	const [product, setProduct] = useState<ProductDetailType>();
 	const [amount, setAmount] = useState<number>(1);
 	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
-	const [url, setUrl] = useState<string>("");
 
 	const onSeeMore = () => {
 		setSeeMore(true);
@@ -66,14 +64,6 @@ export default function ProductDetailScreen({
 			setProduct(res.data.data);
 		});
 	}, []);
-
-	useEffect(() => {
-		if (!product) return;
-		firebaseStorage
-			.ref(product.image)
-			.getDownloadURL()
-			.then(setUrl)
-	}, [product]);
 
 	const renderButtonSeeMore = () => {
 		if (seeMore)
@@ -103,9 +93,11 @@ export default function ProductDetailScreen({
 					style={{ position: "absolute", zIndex: 2 }}
 				/>
 				<View style={[styles.containerImage]}>
-					{url && (
-						<Image style={{ height: "100%", width: "100%" }} resizeMode={"cover"} source={{ uri: url }} />
-					)}
+					<Image
+						style={{ height: "100%", width: "100%" }}
+						resizeMode={"cover"}
+						source={{ uri: product?.image }}
+					/>
 					<TouchableOpacity style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}>
 						<GradientIconSvg
 							icon={

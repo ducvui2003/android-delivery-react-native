@@ -145,6 +145,7 @@ const exchangeAccessTokenInternal = async (): Promise<string> => {
 		if (cookie) setCookie("refresh_token", cookie, axiosInstanceInternal);
 		const result = await axiosInstanceInternal.post<ApiResponse<ResponseAuthentication>>("/refresh-token");
 
+		// @ts-ignore
 		const token = result.data.data?.access_token;
 		if (!token) {
 			throw new Error("Access token is missing in the response");

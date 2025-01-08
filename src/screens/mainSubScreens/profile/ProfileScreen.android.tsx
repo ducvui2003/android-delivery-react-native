@@ -50,7 +50,8 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 	}, [navigation]);
 
 	//press button logout
-	const handleLogoutPress = () => {
+	const 
+		handleLogoutPress = () => {
 		setLogoutActive(!isLogoutActive);
 		appDispatch(logout()).then(() => {
 			setShowModal(false);

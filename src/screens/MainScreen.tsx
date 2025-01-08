@@ -38,11 +38,11 @@ const MainScreenStack = createStackNavigator<MainScreenStackParamList>();
 function MainScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const navigation = useNavigation<NativeStackNavigationProp<MainScreenStackParamList>>();
+	const user = useSelector((state: RootState) => state.authState.user);
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 			<BottomNavigation
-				initialItem={0}
 				position={"static"}
 				bottom={15}
 				sizeIcon={60}
