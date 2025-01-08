@@ -1,6 +1,4 @@
-import axios from "axios";
-import { Alert } from "react-native";
-import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
+import axiosInstance, { ApiResponse, setCookie } from "../configs/axios/axios.config";
 import { EndPoint } from "../utils/EndPoint";
 import { getFromStorage, KEY_SECURE, removeAllFromStorage, setToStorage } from "./secureStore.service";
 import { ResponseAuthentication, User } from "../types/user.type";
@@ -18,17 +16,13 @@ export const loginApi = async (data: LoginFormType): Promise<{ user: User; acces
 };
 
 export const logoutApi = async (): Promise<void> => {
-	try {
-		await axiosInstance.post(EndPoint.LOGOUT);
-		await removeAllToken();
-	} catch (error: unknown) {
-		if (axios.isAxiosError(error)) {
-			const errorMessage = error.response?.data?.message || "An error occurred";
-			Alert.alert("Lỗi đăng xuất", errorMessage);
-		}
-		console.log("Error logging out", error);
-		throw error;
-	}
+	const instance = axiosInstance;
+	const refresh = await getRefreshToken();
+	const access = await getAccessToken();
+	setCookie("refresh_token", refresh, instance);
+	setCookie("access_token", access, instance);
+	await instance.post(EndPoint.LOGOUT);
+	await removeAllToken();
 };
 
 export const getUserInfo = async (): Promise<User> => {

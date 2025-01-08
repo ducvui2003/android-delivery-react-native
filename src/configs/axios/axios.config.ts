@@ -15,6 +15,8 @@ import {
 } from "../../services/auth.service";
 import { ResponseAuthentication } from "../../types/user.type";
 import { isRequestWhitelisted } from "./whitelist";
+import store from "../redux/store.config";
+import { setLoading } from "../../hooks/redux/modal.slice";
 
 let isRefreshing = false;
 let failedQueue: Array<any> = [];
@@ -49,15 +51,17 @@ interface ApiResponseError {
 }
 
 axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
+	store.dispatch(setLoading(true));
 	try {
 		// Log the URL before the request is sent
 		console.log("Request Full URL:", (config.baseURL ?? "") + config.url);
 		// You can log other details here if needed
 		console.log("Request Method:", config.method);
 		console.log("Request Endpoint:", config.url);
-		console.log("Whitelist", isRequestWhitelisted(config.url ?? ""));
+		const isWhitelist = isRequestWhitelisted(config.url ?? "");
+		console.log("Whitelist", isWhitelist);
 
-		if (!isRequestWhitelisted(config.url ?? "")) {
+		if (!isWhitelist) {
 			const token = await getAccessToken();
 			console.log("Get access token success", token);
 			if (token != null) config.headers.Authorization = `Bearer ${token}`;
@@ -72,11 +76,13 @@ axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig
 
 axiosInstance.interceptors.response.use(
 	(response: AxiosResponse) => {
+		store.dispatch(setLoading(false));
 		const refreshToken: string | null = getCookie("refresh_token", response);
 		if (refreshToken) setRefreshToken(refreshToken);
 		return response;
 	},
 	(error: AxiosError<ApiResponseError>) => {
+		store.dispatch(setLoading(false));
 		const originalRequest = error.config;
 		if (originalRequest != null && axios.isAxiosError(error)) {
 			switch (error.response?.status) {
@@ -126,7 +132,8 @@ const getCookie = (name: string, response: AxiosResponse): string | null => {
 	return null;
 };
 
-const setCookie = (name: string, value: string, instance: AxiosInstance): void => {
+const setCookie = (name: string, value: string | null, instance: AxiosInstance): void => {
+	if (value === null) return;
 	const cookie = `${name}=${value}`;
 	instance.interceptors.request.use(config => {
 		if (config.headers["Cookie"]) {
@@ -179,4 +186,4 @@ const processQueue = (error: any) => {
 };
 
 export default axiosInstance;
-export { ApiResponse };
+export { ApiResponse, setCookie };
