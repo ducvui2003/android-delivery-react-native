@@ -26,9 +26,10 @@ const themeSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		setTheme: (state, action: PayloadAction<NameTheme>) => {
-			state.theme = themes[action.payload];
-			state.textTheme = action.payload;
-			AsyncStorage.setItem("theme", action.payload).then();
+			AsyncStorage.setItem("theme", action.payload).then(() => {
+				state.theme = themes[action.payload];
+				state.textTheme = action.payload;
+			});
 		},
 	},
 });

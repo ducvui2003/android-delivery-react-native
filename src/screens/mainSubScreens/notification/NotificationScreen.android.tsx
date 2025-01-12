@@ -45,6 +45,7 @@ function NotificationScreen({ navigation }: NotificationScreenProps) {
 				colorIconBack={theme.text_1.getColor()}
 				styleIconBack={{ backgroundColor: theme.header.backgroundIconBack.getColor() }}
 				onPressBack={handleBackPress}
+				showIconBack={false}
 			/>
 			<View style={styles.contentContainer}>
 				<InputSearch placeholder="Search" />
@@ -54,8 +55,8 @@ function NotificationScreen({ navigation }: NotificationScreenProps) {
 						data={dataNotification}
 						showsHorizontalScrollIndicator={false}
 						showsVerticalScrollIndicator={false}
-						contentContainerStyle={{paddingBottom: spacing['spaced-7']}}
-						renderItem={({ item,  }) => (
+						contentContainerStyle={{ paddingBottom: spacing["spaced-7"] }}
+						renderItem={({ item }) => (
 							<TouchableOpacity>
 								<Row>
 									<NotificationCard

@@ -8,7 +8,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import MainScreen from "./src/screens/MainScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
-import { Image, Platform, Text, useColorScheme, View } from "react-native";
+import { Platform, useColorScheme, View } from "react-native";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { setTheme } from "./src/hooks/redux/theme.slice";
 import SignUpScreen from "./src/screens/SignUpScreen";
@@ -37,11 +37,8 @@ import CancelOrderScreen from "./src/screens/CancelOrderScreen";
 import ChatScreen from "./src/screens/ChatScreen";
 import { NameTheme } from "./src/types/theme.type";
 import { getFromStorage } from "./src/services/secureStore.service";
-import Modal from "./src/components/modal/Modal";
-import { primary, white } from "./src/configs/colors/color-template.config";
-import textStyle from "./src/configs/styles/textStyle.config";
-// @ts-ignore
-import loadingImage from "./assets/images/loading.gif";
+import LoadingModal from "./src/fragments/modal/LoadingModal";
+import NotifyModal from "./src/fragments/modal/NotifyModal";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -67,7 +64,6 @@ export default function App() {
         <SafeAreaProvider>
             <SafeAreaView style={{ flex: 1 }}>
                 {readerRoot[Platform.OS]}
-
             </SafeAreaView>
         </SafeAreaProvider>
     );
@@ -75,7 +71,6 @@ export default function App() {
 
 function Root() {
     const dispatch = useDispatch();
-    const loading = useSelector((state: RootState) => state.loadingState);
 
     const colorScheme = useColorScheme();
 
@@ -127,28 +122,10 @@ function Root() {
                     <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
                 </RootStack.Navigator>
             </NavigationContainer>
-            <Modal
-                active={loading.isLoading}
-                displayCancelButton={false}
-                width={"50%"}
-                background={{
-                    backgroundColor: "rgb(33,42,55)",
-                    opacity: 0.5,
-                }}
-                contentStyle={{
-                    backgroundColor: "rgba(250, 249, 246, 1)",
-                }}
-            >
-                <Text style={[{
-                    ...textStyle["22_semibold"],
-                    color: primary.getColor("500"),
-                    letterSpacing: 1.5,
-                }]}>Loading</Text>
-                <Image source={loadingImage} style={{
-                    width: 100,
-                    height: 100,
-                }} />
-            </Modal>
+
+            <LoadingModal />
+            <NotifyModal />
         </View>
     );
 }
+

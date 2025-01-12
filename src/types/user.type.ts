@@ -16,6 +16,6 @@ export type User = {
 };
 
 export type ResponseAuthentication = {
-	access_token: string;
+	access_token: string | undefined;
 	user: User;
 };

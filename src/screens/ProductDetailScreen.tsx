@@ -31,7 +31,9 @@ import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from 
 import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import NumberValue from "../configs/value/number.value";
-import { like } from "../hooks/redux/product.slice";
+import { likeProduct, unlikeProduct } from "../services/product.service";
+import axios, { AxiosError } from "axios";
+import { showModalNotify } from "../hooks/redux/modal.slice";
 
 type ProductDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "ProductDetailScreen">;
@@ -52,6 +54,7 @@ export default function ProductDetailScreen({
 	const [amount, setAmount] = useState<number>(1);
 	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
 	const dispatch = useAppDispatch();
+	const [like, setLike] = useState<boolean>(product?.isLiked ?? false);
 
 	const onSeeMore = () => {
 		setSeeMore(true);
@@ -66,14 +69,35 @@ export default function ProductDetailScreen({
 			setProduct(res.data.data);
 		});
 	}, []);
-	
+
 	const onHeartPress = () => {
-		dispatch(like(id)).then(data => {
-			// if (data.type != AuthType.LOGIN_FULFILLED)
-		}).catch(e => {
-			
-		})
-	}
+		if (!like)
+			likeProduct(id)
+				.then(() => {
+					setLike(true);
+				})
+				.catch(error => {
+					if (axios.isAxiosError(error)) {
+						const response = error as AxiosError<ApiResponse<void>>;
+						dispatch(
+							showModalNotify({
+								onConfirm: () => {
+									return true;
+								},
+								body: "hello",
+								title: "hello",
+							})
+						);
+					}
+				});
+		else {
+			unlikeProduct(id)
+				.then(() => {
+					setLike(false);
+				})
+				.catch();
+		}
+	};
 
 	const renderButtonSeeMore = () => {
 		if (seeMore)
@@ -103,16 +127,20 @@ export default function ProductDetailScreen({
 					style={{ position: "absolute", zIndex: 2 }}
 				/>
 				<View style={[styles.containerImage]}>
-					{product?.image && <Image
-						style={{ height: "100%", width: "100%" }}
-						resizeMode={"cover"}
-						source={{ uri: product?.image }}
-					/>}
-					<TouchableOpacity style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}
-					onPress={onHeartPress}>
+					{product?.image && (
+						<Image
+							style={{ height: "100%", width: "100%" }}
+							resizeMode={"cover"}
+							source={{ uri: product?.image }}
+						/>
+					)}
+					<TouchableOpacity
+						style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}
+						onPress={onHeartPress}
+					>
 						<GradientIconSvg
 							icon={
-								product?.isLiked ? (
+								like ? (
 									<SolarHeartBold width={26} height={26} />
 								) : (
 									<SolarHeartLinear width={26} height={26} />

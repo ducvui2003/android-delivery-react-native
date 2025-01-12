@@ -29,8 +29,7 @@ export const getUserInfo = async (): Promise<User> => {
 	try {
 		const result = await axiosInstance.get<ApiResponse<User>>(EndPoint.ACCOUNT);
 		return result.data.data;
-	} catch (error) {
-		console.error("Error getting account", error);
+	} catch (_) {
 		throw new UnAuthorizationError("User not found");
 	}
 };

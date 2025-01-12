@@ -6,8 +6,8 @@
  *  User: lam-nguyen
  **/
 
-import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { createContext, useCallback, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import Row from "../custom/Row";
 import BottomNavigationItem from "./BottomNavigationItem";
 import BottomNavigationProps from "./type/bottomNavigation.props";
@@ -89,7 +89,19 @@ function BottomNavigation({
 		<BottomNavigationContext.Provider value={{ setMenu }}>
 			{children}
 			<View
-				style={[styles.container, boxShadow, { position, top, right, left, bottom, zIndex, marginHorizontal }]}
+				style={[
+					styles.container,
+					boxShadow,
+					{
+						position,
+						top,
+						right,
+						left,
+						bottom,
+						zIndex,
+						marginHorizontal,
+					},
+				]}
 			>
 				<Row style={[styles.iconContainer]}>{renderItems()}</Row>
 			</View>

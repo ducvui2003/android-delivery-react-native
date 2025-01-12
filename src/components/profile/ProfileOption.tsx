@@ -7,7 +7,6 @@ import themes from "../../configs/themes/theme.config";
 import { SolarTicketSaleOutline } from "../../../assets/images/icons/TicketSaleOutline";
 import textStyle from "../../configs/styles/textStyle.config";
 import { SolarAltArrowRightOutline } from "../../../assets/images/icons/SolarAltArrowRightOutline";
-import { FlatList } from "react-native-gesture-handler";
 import SolarMapPointLinear from "../../../assets/images/icons/SolarMapPointLinear";
 import { SolarWalletOutline } from "../../../assets/images/icons/SolarWalletOutline";
 import SolarChatDotsLinear from "../../../assets/images/icons/SolarChatDotsLinear";
@@ -58,8 +57,8 @@ function ProfileOption() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(setTheme(isDark ? "dark" : "light"));
-	}, [isDark]);
+		setDark(textTheme === "dark");
+	}, [textTheme]);
 
 	return (
 		<Col>
@@ -88,7 +87,9 @@ function ProfileOption() {
 					trackColor={{ false: theme.profile.switch.getColor(), true: primary.getColor("500") }}
 					thumbColor={white.getColor()}
 					ios_backgroundColor="#3e3e3e"
-					onValueChange={setDark}
+					onValueChange={() => {
+						dispatch(setTheme(isDark ? "dark" : "light"));
+					}}
 					value={isDark}
 				/>
 			</Row>

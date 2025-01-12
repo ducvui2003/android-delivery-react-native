@@ -27,7 +27,7 @@ function LikedScreen({ navigation }: LikedScreenProps) {
 
 	return (
 		<Col style={{ backgroundColor: theme.background.getColor() }} flex={1}>
-			<SearchFragment autoFocus={false} category={{ id: -1, name: "Liked" }} navigation={navigation} />
+			<SearchFragment autoFocus={false} category={{ id: "-1", name: "Liked" }} navigation={navigation} />
 		</Col>
 	);
 }

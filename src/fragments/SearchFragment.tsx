@@ -123,11 +123,13 @@ export default function SearchFragment({ autoFocus, category, navigation }: Sear
 		if (category) {
 			return (
 				<Row style={{ alignItems: "center", gap: 10, justifyContent: "center" }}>
-					<Image
-						resizeMode={"cover"}
-						style={{ width: 30, height: 30 }}
-						source={{ uri: category?.urlImage }}
-					/>
+					{category.urlImage && (
+						<Image
+							resizeMode={"cover"}
+							style={{ width: 30, height: 30 }}
+							source={{ uri: category.urlImage }}
+						/>
+					)}
 					<Text style={{ ...textStyle["22_semibold"], color: theme.text_1.getColor() }}>{category.name}</Text>
 				</Row>
 			);
@@ -155,6 +157,7 @@ export default function SearchFragment({ autoFocus, category, navigation }: Sear
 						Keyboard.dismiss();
 						navigation.pop();
 					}}
+					showIconBack={false}
 				/>
 				<Col style={[styles.contentContainer]} flex={1}>
 					<InputSearch

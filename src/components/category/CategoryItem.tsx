@@ -20,7 +20,7 @@ function CategoryItem({ item, onPress }: CategoryProps) {
 
 	return (
 		<TouchableOpacity onPress={onPress} style={{ ...styles.container }}>
-			<Image source={{ uri: item.urlImage }} style={{ ...styles.image }} />
+			{item.urlImage && <Image source={{ uri: item.urlImage }} style={{ ...styles.image }} />}
 			<Text style={{ ...styles.text }}>{item.name}</Text>
 		</TouchableOpacity>
 	);

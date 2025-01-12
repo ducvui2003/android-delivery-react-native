@@ -23,7 +23,13 @@ import CategoryType from "../../types/category.type";
 import ProductType from "../../types/product.type";
 import { ThemeType } from "../../types/theme.type";
 
-const HomeProductsFragment = ({ refresh, onRefresh }: { refresh?: number; onRefresh?: (result: boolean) => void }) => {
+const HomeProductsFragment = ({
+	refresh,
+	onRefreshed,
+}: {
+	refresh?: number;
+	onRefreshed?: (result: boolean) => void;
+}) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = styled(theme);
@@ -44,12 +50,12 @@ const HomeProductsFragment = ({ refresh, onRefresh }: { refresh?: number; onRefr
 		getProducts()
 			.then(res => {
 				setProducts(res.content);
-				onRefresh?.(false);
+				onRefreshed?.(false);
 			})
 			.catch(() => {
-				onRefresh?.(false);
+				onRefreshed?.(false);
 			});
-	}, [refresh, onRefresh]);
+	}, [refresh, onRefreshed]);
 
 	return (
 		<Col style={styles.productList}>
