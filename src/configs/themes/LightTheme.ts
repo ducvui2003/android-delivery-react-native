@@ -120,6 +120,9 @@ const lightTheme: ThemeType = {
 	order: {
 		orderStatusCancel: ColorFactory.createSingleColor(neutral.getColor("400")),
 	},
+	orderDetail: {
+		backgroundItem: ColorFactory.createSingleColor(white.getColor()),
+	}
 };
 
 export default lightTheme;

@@ -18,6 +18,7 @@ function InputReviewArea({placeholder, value, styleInput, onPressIconLeft, onPre
 			<Col>
 				<TextInput
 					placeholder={placeholder}
+					placeholderTextColor={theme.text_1.getColor()}
 					multiline={true}
 					style={styleInput}
 					defaultValue={value}/>

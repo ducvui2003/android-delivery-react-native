@@ -39,11 +39,11 @@ function ProductOrderCard({
 
 				<Row style={styles.headerCard}>
 					<Col style={{justifyContent: "flex-start", left: 10}}>
-						<Text style={{...textStyle["12_medium"], fontWeight: "bold"}}>{name}</Text>
+						<Text style={{...textStyle["12_medium"], fontWeight: "bold", color: theme.text_1.getColor(),}}>{name}</Text>
 						<Row style={{top: 5}}>
 							<Text style={{
 								...textStyle["16_regular"],
-								color: neutral.getColor("200"),
+								color: theme.text_1.getColor(),
 								textDecorationLine: "line-through"
 							}}>{formater.formatCurrency(price)}</Text>
 							<Text style={{
@@ -76,7 +76,7 @@ function ProductOrderCard({
 			}
 			{status === ORDER_STATUS_COMPLETED &&
 				<Col style={styles.contentCard}>
-					<IconRating total={5} rating={rating}/>
+					<IconRating total={5} rating={rating.averageRating}/>
 				</Col>
 
 			}
@@ -101,7 +101,8 @@ const makeStyled = (theme: ThemeType) =>
 		container: {
 			padding: 10,
 			...textStyle["12_regular"],
-			backgroundColor: "white",
+			backgroundColor: theme.orderDetail.backgroundItem.getColor(),
+			color: theme.text_1.getColor(),
 			borderRadius: 10,
 			marginVertical: 10,
 			justifyContent: "space-between",
@@ -136,6 +137,7 @@ const makeStyled = (theme: ThemeType) =>
 			padding: 15,
 			borderBottomWidth: 0,
 			...textStyle["16_regular"],
+			color: theme.text_1.getColor(),
 		},
 		iconReviewArea: {
 			padding: 10,
