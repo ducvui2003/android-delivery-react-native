@@ -9,7 +9,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import LoginFormType from "../../types/loginForm.type";
 import { User } from "../../types/user.type";
-import { setLoading } from "./modal.slice";
 import { getUserInfo, loginApi, logoutApi, setAccessToken } from "../../services/auth.service";
 
 type AuthState = {
@@ -45,22 +44,24 @@ export const initialStateAuth = createAsyncThunk(AuthType.GET_ACCOUNT, async _ =
 });
 
 export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType, thunkAPI) => {
-	const { dispatch, rejectWithValue } = thunkAPI;
+	const { rejectWithValue } = thunkAPI;
 	try {
-		dispatch(setLoading(true)); // Gọi action setLoading với giá trị true
 		const { user, accessToken } = await loginApi(data);
 		await setAccessToken(accessToken);
 		return { user };
 	} catch (error: any) {
 		console.log("Error logging in", error);
 		return rejectWithValue(error.response.data);
-	} finally {
-		dispatch(setLoading(false)); // Gọi action setLoading với giá trị false
 	}
 });
 
-export const logout = createAsyncThunk(AuthType.LOGOUT, async _ => {
-	await logoutApi();
+export const logout = createAsyncThunk(AuthType.LOGOUT, async (_, thunkAPI) => {
+	const { rejectWithValue } = thunkAPI;
+	try {
+		await logoutApi();
+	} catch (error: any) {
+		return rejectWithValue(error.response.data);
+	}
 });
 
 const authSlice = createSlice({

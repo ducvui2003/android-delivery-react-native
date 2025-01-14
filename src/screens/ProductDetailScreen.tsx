@@ -18,7 +18,7 @@ import textStyle from "../configs/styles/textStyle.config";
 import Col from "../components/custom/Col";
 import { gradient, neutral, secondary } from "../configs/colors/color-template.config";
 import { useSelector } from "react-redux";
-import { RootState } from "../configs/redux/store.config";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
 import { Header } from "../components/header/Header";
 import SolarHeartBold from "../../assets/images/icons/SolarHeartBold";
 import GradientIconSvg from "../components/grandientIconSvg/GradientIconSvg";
@@ -30,8 +30,10 @@ import { ProductDetailAdditionalOption } from "../fragments/productDetail/Produc
 import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from "../types/productDetail.type";
 import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
-import { firebaseStorage } from "../configs/firebase/firebase.config";
 import NumberValue from "../configs/value/number.value";
+import { likeProduct, unlikeProduct } from "../services/product.service";
+import axios, { AxiosError } from "axios";
+import { showModalNotify } from "../hooks/redux/modal.slice";
 
 type ProductDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "ProductDetailScreen">;
@@ -51,7 +53,8 @@ export default function ProductDetailScreen({
 	const [product, setProduct] = useState<ProductDetailType>();
 	const [amount, setAmount] = useState<number>(1);
 	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
-	const [url, setUrl] = useState<string>("");
+	const dispatch = useAppDispatch();
+	const [like, setLike] = useState<boolean>(product?.isLiked ?? false);
 
 	const onSeeMore = () => {
 		setSeeMore(true);
@@ -67,13 +70,34 @@ export default function ProductDetailScreen({
 		});
 	}, []);
 
-	useEffect(() => {
-		if (!product) return;
-		firebaseStorage
-			.ref(product.image)
-			.getDownloadURL()
-			.then(setUrl)
-	}, [product]);
+	const onHeartPress = () => {
+		if (!like)
+			likeProduct(id)
+				.then(() => {
+					setLike(true);
+				})
+				.catch(error => {
+					if (axios.isAxiosError(error)) {
+						const response = error as AxiosError<ApiResponse<void>>;
+						dispatch(
+							showModalNotify({
+								onConfirm: () => {
+									return true;
+								},
+								body: "hello",
+								title: "hello",
+							})
+						);
+					}
+				});
+		else {
+			unlikeProduct(id)
+				.then(() => {
+					setLike(false);
+				})
+				.catch();
+		}
+	};
 
 	const renderButtonSeeMore = () => {
 		if (seeMore)
@@ -103,13 +127,20 @@ export default function ProductDetailScreen({
 					style={{ position: "absolute", zIndex: 2 }}
 				/>
 				<View style={[styles.containerImage]}>
-					{url && (
-						<Image style={{ height: "100%", width: "100%" }} resizeMode={"cover"} source={{ uri: url }} />
+					{product?.image && (
+						<Image
+							style={{ height: "100%", width: "100%" }}
+							resizeMode={"cover"}
+							source={{ uri: product?.image }}
+						/>
 					)}
-					<TouchableOpacity style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}>
+					<TouchableOpacity
+						style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}
+						onPress={onHeartPress}
+					>
 						<GradientIconSvg
 							icon={
-								product?.isLiked ? (
+								like ? (
 									<SolarHeartBold width={26} height={26} />
 								) : (
 									<SolarHeartLinear width={26} height={26} />
