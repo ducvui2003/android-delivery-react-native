@@ -1,8 +1,8 @@
 import React, { cloneElement, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Row from "../custom/Row";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../configs/redux/store.config";
 import themes from "../../configs/themes/theme.config";
 import { SolarTicketSaleOutline } from "../../../assets/images/icons/TicketSaleOutline";
 import textStyle from "../../configs/styles/textStyle.config";
@@ -16,8 +16,8 @@ import { FluentQuestionCircle48Regular } from "../../../assets/images/icons/Flue
 import { Switch } from "@rneui/base";
 import { primary, white } from "../../configs/colors/color-template.config";
 import Col from "../custom/Col";
-import { setTheme } from "../../hooks/redux/theme.slice";
 import Space from "../custom/Space";
+import { setTheme } from "../../hooks/redux/theme.slice";
 
 const ProfileOptionData = [
 	{
@@ -54,7 +54,7 @@ function ProfileOption() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const textTheme = useSelector((state: RootState) => state.themeState.textTheme);
 	const [isDark, setDark] = useState(textTheme === "dark");
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		setDark(textTheme === "dark");
@@ -88,7 +88,7 @@ function ProfileOption() {
 					thumbColor={white.getColor()}
 					ios_backgroundColor="#3e3e3e"
 					onValueChange={() => {
-						dispatch(setTheme(isDark ? "dark" : "light"));
+						dispatch(setTheme(isDark ? "light" : "dark"));
 					}}
 					value={isDark}
 				/>
