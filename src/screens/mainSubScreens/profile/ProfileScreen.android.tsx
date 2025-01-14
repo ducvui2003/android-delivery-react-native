@@ -1,6 +1,6 @@
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import * as React from "react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Header } from "../../../components/header/Header";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../configs/redux/store.config";
@@ -44,11 +44,15 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 
 	//press button logout
 	const handleLogoutPress = () => {
-		appDispatch(logout()).then(() => {
-			appDispatch(hiddenModalNotify());
-			bottomNavigation?.setMenu(0);
-			navigation.replace("HomeScreen");
-		});
+		appDispatch(logout())
+			.then(_ => {
+				appDispatch(hiddenModalNotify());
+				bottomNavigation?.setMenu(0);
+				navigation.replace("HomeScreen");
+			})
+			.catch(error => {
+				console.error(error);
+			});
 		return true;
 	};
 

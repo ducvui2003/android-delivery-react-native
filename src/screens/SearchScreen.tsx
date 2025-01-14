@@ -24,5 +24,5 @@ export default function SearchScreen({
 	},
 	navigation,
 }: SearchScreenProps) {
-	return <SearchFragment autoFocus={autoFocus} category={category} navigation={navigation} />;
+	return <SearchFragment back={true} autoFocus={autoFocus} category={category} navigation={navigation} />;
 }

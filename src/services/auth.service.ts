@@ -1,4 +1,4 @@
-import axiosInstance, { ApiResponse, setCookie } from "../configs/axios/axios.config";
+import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import { EndPoint } from "../utils/EndPoint";
 import { getFromStorage, KEY_SECURE, removeAllFromStorage, setToStorage } from "./secureStore.service";
 import { ResponseAuthentication, User } from "../types/user.type";
@@ -19,9 +19,10 @@ export const logoutApi = async (): Promise<void> => {
 	const instance = axiosInstance;
 	const refresh = await getRefreshToken();
 	const access = await getAccessToken();
-	setCookie("refresh_token", refresh, instance);
-	setCookie("access_token", access, instance);
-	await instance.post(EndPoint.LOGOUT);
+	await instance.post(EndPoint.LOGOUT, {
+		access_token: access,
+		refresh_token: refresh,
+	});
 	await removeAllToken();
 };
 

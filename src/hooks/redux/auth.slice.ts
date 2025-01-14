@@ -55,8 +55,13 @@ export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType
 	}
 });
 
-export const logout = createAsyncThunk(AuthType.LOGOUT, async _ => {
-	await logoutApi();
+export const logout = createAsyncThunk(AuthType.LOGOUT, async (_, thunkAPI) => {
+	const { rejectWithValue } = thunkAPI;
+	try {
+		await logoutApi();
+	} catch (error: any) {
+		return rejectWithValue(error.response.data);
+	}
 });
 
 const authSlice = createSlice({

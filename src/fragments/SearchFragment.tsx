@@ -44,9 +44,14 @@ import { Dialog, Switch } from "@rneui/base";
 import SearchProductType from "../types/searchProduct.type";
 import ApiPagingType from "../types/apiPaging.type";
 
-type SearchScreenProps = { autoFocus: boolean; category?: CategoryType; navigation: NativeStackNavigationProp<any> };
+type SearchScreenProps = {
+	back?: boolean;
+	autoFocus: boolean;
+	category?: CategoryType;
+	navigation: NativeStackNavigationProp<any>;
+};
 
-export default function SearchFragment({ autoFocus, category, navigation }: SearchScreenProps) {
+export default function SearchFragment({ autoFocus, category, navigation, back = false }: SearchScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [products, setProducts] = useState<ApiPagingType<ProductType>>();
 	const [searchTerm, setSearchTerm] = useState<string>();
@@ -157,7 +162,7 @@ export default function SearchFragment({ autoFocus, category, navigation }: Sear
 						Keyboard.dismiss();
 						navigation.pop();
 					}}
-					showIconBack={false}
+					showIconBack={back}
 				/>
 				<Col style={[styles.contentContainer]} flex={1}>
 					<InputSearch
