@@ -18,23 +18,34 @@ import { primary, white } from "../../configs/colors/color-template.config";
 import Col from "../custom/Col";
 import Space from "../custom/Space";
 import { setTheme } from "../../hooks/redux/theme.slice";
+import ProtectedRoute from "../auth/ProtectedRoute";
+import { Role } from "../auth/const/authenticationConst";
 
 const ProfileOptionData = [
 	{
 		icon: <SolarMapPointLinear />,
+		name: "Admin",
+		role: ["ADMIN"],
+	},
+	{
+		icon: <SolarMapPointLinear />,
 		name: "My Locations",
+		role: ["USER", "ADMIN"],
 	},
 	{
 		icon: <SolarTicketSaleOutline />,
 		name: "My Promotions",
+		role: ["USER", "ADMIN"],
 	},
 	{
 		icon: <SolarWalletOutline />,
 		name: "Payment Methods",
+		role: ["USER", "ADMIN"],
 	},
 	{
 		icon: <SolarChatDotsLinear />,
 		name: "Messages",
+		role: ["USER", "ADMIN"],
 	},
 	{
 		icon: <SolarUsersGroupTwoRoundedLinear />,
@@ -43,6 +54,7 @@ const ProfileOptionData = [
 	{
 		icon: <SolarShieldUserOutline />,
 		name: "Security",
+		role: ["USER", "ADMIN"],
 	},
 	{
 		icon: <FluentQuestionCircle48Regular />,
@@ -64,17 +76,19 @@ function ProfileOption() {
 		<Col>
 			{ProfileOptionData.map((item, index) => {
 				return (
-					<TouchableOpacity style={[styles.container]} key={`profile_men_option_${index}`}>
-						<Row style={{ gap: 20 }}>
-							{cloneElement(item.icon, {
-								color: theme.text_1.getColor(),
-							})}
-							<Text style={[styles.option, { color: theme.text_1.getColor() }]}>{item.name}</Text>
-						</Row>
-						<View>
-							<SolarAltArrowRightOutline color={theme.text_1.getColor()} />
-						</View>
-					</TouchableOpacity>
+					<ProtectedRoute key={index} allowRoles={item.role ? (item.role as Role[]) : undefined}>
+						<TouchableOpacity style={[styles.container]} key={index}>
+							<Row style={{ gap: 20 }}>
+								{cloneElement(item.icon, {
+									color: theme.text_1.getColor(),
+								})}
+								<Text style={[styles.option, { color: theme.text_1.getColor() }]}>{item.name}</Text>
+							</Row>
+							<View>
+								<SolarAltArrowRightOutline color={theme.text_1.getColor()} />
+							</View>
+						</TouchableOpacity>
+					</ProtectedRoute>
 				);
 			})}
 			<View style={styles.footerBorder} />

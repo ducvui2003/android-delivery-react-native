@@ -146,6 +146,7 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 					title={"Place Order"}
 					active={true}
 					styleButton={{ marginBottom: 0, paddingHorizontal: 20 }}
+					onPress={() => navigation.navigate("OrderTrackingScreen")}
 				/>
 			</Row>
 		</SafeAreaView>
