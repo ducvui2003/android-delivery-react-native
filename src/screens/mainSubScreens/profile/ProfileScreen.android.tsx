@@ -1,25 +1,25 @@
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
-import * as React from "react";
-import { useContext, useEffect, useState } from "react";
-import { Header } from "../../../components/header/Header";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../../configs/redux/store.config";
 import { RouteProp, useNavigation } from "@react-navigation/native";
-import { MainScreenStackParamList, RootStackParamList } from "../../../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import NumberValue from "../../../configs/value/number.value";
-import Col from "../../../components/custom/Col";
-import ProfileOption from "../../../components/profile/ProfileOption";
-import { logout } from "../../../hooks/redux/auth.slice";
+import * as React from "react";
+import { useContext, useState } from "react";
+import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 import SolarOption from "../../../../assets/images/icons/SolarOption";
+import Col from "../../../components/custom/Col";
+import Space from "../../../components/custom/Space";
+import { Header } from "../../../components/header/Header";
+import { BottomNavigationContext } from "../../../components/navigation/BottomNavigation";
+import ProfileOption from "../../../components/profile/ProfileOption";
+import { RootState, useAppDispatch } from "../../../configs/redux/store.config";
+import spacing from "../../../configs/styles/space.config";
+import NumberValue from "../../../configs/value/number.value";
 import ProfileHasNotUser from "../../../fragments/profile/ProfileHasNotUser";
 import ProfileHasUser from "../../../fragments/profile/ProfileHasUser";
-import ChangeProfile from "../../../types/changeProfile";
 import ProfilePopUp from "../../../fragments/profile/ProfilePopUp";
-import spacing from "../../../configs/styles/space.config";
-import Space from "../../../components/custom/Space";
-import { BottomNavigationContext } from "../../../components/navigation/BottomNavigation";
+import { logout } from "../../../hooks/redux/auth.slice";
 import { hiddenModalNotify, showModalNotify } from "../../../hooks/redux/modal.slice";
+import { MainScreenStackParamList, RootStackParamList } from "../../../navigations/stack.type";
+import ChangeProfile from "../../../types/changeProfile";
 
 /**
  * Author: Nguyen Dinh Lam

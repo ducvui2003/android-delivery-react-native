@@ -23,11 +23,8 @@ import Grid from "../components/custom/Grid";
 import Row from "../components/custom/Row";
 import Space from "../components/custom/Space";
 import GradientIconSvg from "../components/grandientIconSvg/GradientIconSvg";
-import { Header } from "../components/header/Header";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import { gradient, neutral, secondary } from "../configs/colors/color-template.config";
-import { firebaseStorage } from "../configs/firebase/firebase.config";
-import { RootState, useAppDispatch } from "../configs/redux/store.config";
 import textStyle from "../configs/styles/textStyle.config";
 import NumberValue from "../configs/value/number.value";
 import { likeProduct, unlikeProduct } from "../services/product.service";
@@ -58,7 +55,7 @@ export default function ProductDetailScreen({
 	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
 	const dispatch = useAppDispatch();
 	const [like, setLike] = useState<boolean>(product?.isLiked ?? false);
-	const [url, setUrl] = useState<string>("");
+	const isLogin = useSelector((state: RootState) => state.authState.user) != null;
 	const appDispatch = useAppDispatch();
 
 	const onSeeMore = () => {
@@ -103,10 +100,6 @@ export default function ProductDetailScreen({
 				.catch();
 		}
 	};
-	useEffect(() => {
-		if (!product) return;
-		firebaseStorage.ref(product.image).getDownloadURL().then(setUrl);
-	}, [product]);
 
 	const getOptionIds = (option: (OptionType | GroupOptionSelected)[]): string[] => {
 		return option.map((item: OptionType | GroupOptionSelected) => {
@@ -114,21 +107,38 @@ export default function ProductDetailScreen({
 			return item.id;
 		});
 	};
+	const onNavigate = () => {
+		navigation.navigate("LoginScreen");
+		return true;
+	};
+
 	const handleSubmit = (quantity: number) => {
 		const optionIds = getOptionIds(additionalOption);
-		console.log("ProductDetailScreen", {
-			productId: product?.id ?? "",
-			quantity: quantity,
-			optionIds: optionIds,
-		});
+		// console.log("ProductDetailScreen", {
+		// 	productId: product?.id ?? "",
+		// 	quantity: quantity,
+		// 	optionIds: optionIds,
+		// });
 
-		appDispatch(
-			addCart({
-				productId: product?.id ?? "",
-				quantity: quantity,
-				optionIds: optionIds,
-			})
-		);
+		if (isLogin)
+			appDispatch(
+				addCart({
+					productId: product?.id ?? "",
+					quantity: quantity,
+					optionIds: optionIds,
+				})
+			);
+		else
+			dispatch(
+				showModalNotify({
+					title: "Please login to can buy",
+					body: "Please login to can buy",
+					width: "70%",
+					onConfirm: onNavigate,
+					showCancelButton: true,
+					showConfirmButton: true,
+				})
+			);
 	};
 
 	const renderButtonSeeMore = () => {

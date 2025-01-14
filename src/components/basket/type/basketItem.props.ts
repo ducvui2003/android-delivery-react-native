@@ -9,6 +9,7 @@ import OptionAddProps from "./optionAdd.props";
 
 type BasketItemProps = {
 	id: number;
+	productId: string;
 	name: string;
 	price: number;
 	discount?: number;

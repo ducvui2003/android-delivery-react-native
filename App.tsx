@@ -1,44 +1,44 @@
-import React, { JSX, lazy, useEffect } from "react";
-import { Provider as ProviderRedux, useDispatch, useSelector } from "react-redux";
-import { createStackNavigator } from "@react-navigation/stack";
-import { RootStackParamList } from "./src/navigations/stack.type";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import store, { RootState } from "./src/configs/redux/store.config";
 import { NavigationContainer } from "@react-navigation/native";
-import MainScreen from "./src/screens/MainScreen";
-import LoadingScreen from "./src/screens/LoadingScreen";
-import WelcomeScreen from "./src/screens/WelcomeScreen";
-import { Platform, useColorScheme, View } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { setTheme } from "./src/hooks/redux/theme.slice";
-import SignUpScreen from "./src/screens/SignUpScreen";
-import VerificationScreen from "./src/screens/VerificationScreen";
-import SettingPinSecurityScreen from "./src/screens/SettingPinSecurityScreen";
-import LoginScreen from "./src/screens/LoginScreen";
-import AddNewLocationScreen from "./src/screens/AddNewLocationScreen";
-import MyLocationScreen from "./src/screens/MyLocationScreen";
-import CategoriesScreen from "./src/screens/CategoriesScreen";
-import SearchScreen from "./src/screens/SearchScreen";
-import ProductDetailScreen from "./src/screens/ProductDetailScreen";
-import ReviewScreen from "./src/screens/ReviewScreen";
-import BasketScreen from "./src/screens/BasketScreen";
-import OrderRatingScreen from "./src/screens/OrderRatingScreen";
-import DriverRatingScreen from "./src/screens/DriverRatingScreen";
-import GiveThanksScreen from "./src/screens/GiveThanksScreen";
-import MeatRatingScreen from "./src/screens/MeatRatingScreen";
-import CameraScreen from "./src/screens/CameraScreen";
-import PromotionScreen from "./src/screens/PromotionScreen";
-import PaymentMethodScreen from "./src/screens/PaymentMethodScreen";
-import OrderDetailScreen from "./src/screens/OrderDetailScreen";
-import OrderTrackingScreen from "./src/screens/OrderTrackingScreen";
-import FaceIDScreen from "./src/screens/FaceIDScreen";
-import TouchIDScreen from "./src/screens/TouchIDScreen";
-import CancelOrderScreen from "./src/screens/CancelOrderScreen";
-import ChatScreen from "./src/screens/ChatScreen";
-import { NameTheme } from "./src/types/theme.type";
-import { getFromStorage } from "./src/services/secureStore.service";
+import React, { JSX, lazy, useEffect } from "react";
+import { Platform, useColorScheme, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Provider as ProviderRedux, useDispatch } from "react-redux";
+import store, { AppDispatch } from "./src/configs/redux/store.config";
 import LoadingModal from "./src/fragments/modal/LoadingModal";
 import NotifyModal from "./src/fragments/modal/NotifyModal";
+import { setTheme } from "./src/hooks/redux/theme.slice";
+import { RootStackParamList } from "./src/navigations/stack.type";
+import AddNewLocationScreen from "./src/screens/AddNewLocationScreen";
+import BasketScreen from "./src/screens/BasketScreen";
+import CameraScreen from "./src/screens/CameraScreen";
+import CancelOrderScreen from "./src/screens/CancelOrderScreen";
+import CategoriesScreen from "./src/screens/CategoriesScreen";
+import ChatScreen from "./src/screens/ChatScreen";
+import DriverRatingScreen from "./src/screens/DriverRatingScreen";
+import FaceIDScreen from "./src/screens/FaceIDScreen";
+import GiveThanksScreen from "./src/screens/GiveThanksScreen";
+import LoadingScreen from "./src/screens/LoadingScreen";
+import LoginScreen from "./src/screens/LoginScreen";
+import MainScreen from "./src/screens/MainScreen";
+import MeatRatingScreen from "./src/screens/MeatRatingScreen";
+import MyLocationScreen from "./src/screens/MyLocationScreen";
+import OrderDetailScreen from "./src/screens/OrderDetailScreen";
+import OrderRatingScreen from "./src/screens/OrderRatingScreen";
+import OrderTrackingScreen from "./src/screens/OrderTrackingScreen";
+import PaymentMethodScreen from "./src/screens/PaymentMethodScreen";
+import ProductDetailScreen from "./src/screens/ProductDetailScreen";
+import PromotionScreen from "./src/screens/PromotionScreen";
+import ReviewScreen from "./src/screens/ReviewScreen";
+import SearchScreen from "./src/screens/SearchScreen";
+import SettingPinSecurityScreen from "./src/screens/SettingPinSecurityScreen";
+import SignUpScreen from "./src/screens/SignUpScreen";
+import TouchIDScreen from "./src/screens/TouchIDScreen";
+import VerificationScreen from "./src/screens/VerificationScreen";
+import WelcomeScreen from "./src/screens/WelcomeScreen";
+import { getFromStorage } from "./src/services/secureStore.service";
+import { NameTheme } from "./src/types/theme.type";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -70,7 +70,7 @@ export default function App() {
 }
 
 function Root() {
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     const colorScheme = useColorScheme();
 

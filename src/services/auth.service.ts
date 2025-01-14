@@ -16,10 +16,9 @@ export const loginApi = async (data: LoginFormType): Promise<{ user: User; acces
 };
 
 export const logoutApi = async (): Promise<void> => {
-	const instance = axiosInstance;
 	const refresh = await getRefreshToken();
 	const access = await getAccessToken();
-	await instance.post(EndPoint.LOGOUT, {
+	await axiosInstance.post<ApiResponse<void>>(EndPoint.LOGOUT, {
 		access_token: access,
 		refresh_token: refresh,
 	});
@@ -28,8 +27,8 @@ export const logoutApi = async (): Promise<void> => {
 
 export const getUserInfo = async (): Promise<User> => {
 	try {
-		const result = await axiosInstance.get<ApiResponse<User>>(EndPoint.ACCOUNT);
-		return result.data.data;
+		const result = await axiosInstance.get<ApiResponse<{ user: User }>>(EndPoint.ACCOUNT);
+		return result.data.data.user;
 	} catch (_) {
 		throw new UnAuthorizationError("User not found");
 	}

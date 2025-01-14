@@ -57,9 +57,14 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 	}, []);
 
 	useEffect(() => {
+		console.log(JSON.stringify(cartItems, null, 3));
+
 		if (cartItems) {
 			setBasketCalculateProps({
-				subTotal: cartItems.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0),
+				subTotal: cartItems.reduce(
+					(previousValue, currentValue) => previousValue + currentValue.price * currentValue.quantity,
+					0
+				),
 				deliveryFee: deliveryFee,
 				discount: cartItems.reduce(
 					(previousValue, currentValue) =>
@@ -106,14 +111,13 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 							</GradientBorder>
 						</TouchableOpacity>
 					</Row>
-					{/* {dataDemo.map((item: BasketItemProps, index: number) => (
-						<BasketItem key={index} {...item} />
-					))} */}
+
 					{cartItems.map((item: Cart, index: number) => {
 						return (
 							<BasketItem
 								key={index}
 								id={item.id}
+								productId={item.productId}
 								name={item.name}
 								image={item.thumbnail}
 								price={item.price}

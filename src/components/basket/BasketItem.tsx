@@ -22,15 +22,20 @@ import Row from "../custom/Row";
 import InputNumberButton from "../input/InputNumberButton";
 import OptionAdd from "./OptionAdd";
 import BasketItemProps from "./type/basketItem.props";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigations/stack.type";
 
-function BasketItem({ id, name, discount, price, options, quantity, quantityMax, image }: BasketItemProps) {
+function BasketItem({ id, productId, name, discount, price, options, quantity, quantityMax, image }: BasketItemProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
 	const appDispatch = useAppDispatch();
-	console.log("BasketItem", JSON.stringify(options, null, 2));
 
 	const handleDelete = () => {
 		appDispatch(deleteCart(id));
 	};
+
 	const handleIncrease = (): Promise<void> => {
 		return appDispatch(increaseCart(id))
 			.then(() => {})
@@ -38,12 +43,17 @@ function BasketItem({ id, name, discount, price, options, quantity, quantityMax,
 				throw new Error("Error");
 			});
 	};
+
 	const handleDecrease = () => {
 		return appDispatch(decreaseCart(id))
 			.then(() => {})
 			.catch(() => {
 				throw new Error("Error");
 			});
+	};
+
+	const handleNavigateToProductDetail = () => {
+		navigation.navigate("ProductDetailScreen", { id: productId });
 	};
 
 	return (
@@ -57,12 +67,14 @@ function BasketItem({ id, name, discount, price, options, quantity, quantityMax,
 			]}
 		>
 			<Row style={{ gap: 10 }}>
-				<Image
-					source={{
-						uri: image,
-					}}
-					style={{ width: 95, height: 95, borderRadius: 10 }}
-				/>
+				<TouchableOpacity onPress={handleNavigateToProductDetail}>
+					<Image
+						source={{
+							uri: image,
+						}}
+						style={{ width: 95, height: 95, borderRadius: 10 }}
+					/>
+				</TouchableOpacity>
 				<Col style={{ gap: 10 }}>
 					<Text style={[{ ...textStyle["12_medium"], color: theme.text_1.getColor() }]}>{name}</Text>
 					{discount ? (

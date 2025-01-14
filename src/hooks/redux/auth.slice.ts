@@ -12,13 +12,11 @@ import { User } from "../../types/user.type";
 import { getUserInfo, loginApi, logoutApi, setAccessToken } from "../../services/auth.service";
 
 type AuthState = {
-	user: User | null;
-	error: string | null;
+	user?: User;
 };
 
 const initialState: AuthState = {
-	user: null,
-	error: null,
+	user: undefined,
 };
 
 enum AuthType {
@@ -34,21 +32,24 @@ enum AuthType {
 	LOGOUT = "auth/logout",
 }
 
-export const initialStateAuth = createAsyncThunk(AuthType.GET_ACCOUNT, async _ => {
+export const initialStateAuth = createAsyncThunk<User, void>(AuthType.GET_ACCOUNT, async _ => {
 	try {
 		const user = await getUserInfo();
-		return { user };
+		console.log("User info", user);
+
+		return user;
 	} catch (error: any) {
+		console.error("Error getting user info", error);
 		return error.response.data;
 	}
 });
 
-export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType, thunkAPI) => {
+export const login = createAsyncThunk<User, LoginFormType>(AuthType.LOGIN, async (data: LoginFormType, thunkAPI) => {
 	const { rejectWithValue } = thunkAPI;
 	try {
 		const { user, accessToken } = await loginApi(data);
 		await setAccessToken(accessToken);
-		return { user };
+		return user;
 	} catch (error: any) {
 		console.log("Error logging in", error);
 		return rejectWithValue(error.response.data);
@@ -71,14 +72,13 @@ const authSlice = createSlice({
 	extraReducers: builder => {
 		builder
 			.addCase(initialStateAuth.fulfilled, (state, action) => {
-				state.user = action.payload.user;
+				state.user = action.payload;
 			})
 			.addCase(login.fulfilled, (state, action) => {
-				state.user = action.payload.user;
-				state.error = null;
+				state.user = action.payload;
 			})
 			.addCase(logout.fulfilled, state => {
-				state.user = null;
+				state.user = undefined;
 			});
 	},
 });
