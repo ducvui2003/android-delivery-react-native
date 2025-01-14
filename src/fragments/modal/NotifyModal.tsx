@@ -71,7 +71,7 @@ function NotifyModal() {
 						}}
 						title={model.titleCancel ?? "Cancel"}
 						active={true}
-						onPress={() => () => {
+						onPress={() => {
 							if (model.onCancel) {
 								const close = model.onCancel();
 								if (close) dispatch(hiddenModalNotify());
