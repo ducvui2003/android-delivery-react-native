@@ -20,7 +20,7 @@ export const getHomeCategories = (data: CategoryType[]): CategoryType[] => {
 		temp.push({
 			id: "",
 			name: "More",
-			urlImage: undefined,
+			urlImage: "https://firebasestorage.googleapis.com/v0/b/delivery-react-native-ap-fa468.appspot.com/o/category%2Fmore.png?alt=media",
 		});
 		return temp;
 	} else return data;

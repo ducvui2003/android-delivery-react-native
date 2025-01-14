@@ -13,6 +13,8 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
+import { Header } from "../components/header/Header";
 import SolarHeartBold from "../../assets/images/icons/SolarHeartBold";
 import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
 import SolarStarBold from "../../assets/images/icons/SolarStarBold";
@@ -28,6 +30,9 @@ import { firebaseStorage } from "../configs/firebase/firebase.config";
 import { RootState, useAppDispatch } from "../configs/redux/store.config";
 import textStyle from "../configs/styles/textStyle.config";
 import NumberValue from "../configs/value/number.value";
+import { likeProduct, unlikeProduct } from "../services/product.service";
+import axios, { AxiosError } from "axios";
+import { showModalNotify } from "../hooks/redux/modal.slice";
 import { ProductDetailAdditionalOption } from "../fragments/productDetail/ProductDetailAdditionalOption";
 import ProductDetailFooter from "../fragments/productDetail/ProductDetailFooter";
 import { RootStackParamList } from "../navigations/stack.type";
@@ -51,6 +56,8 @@ export default function ProductDetailScreen({
 	const [seeMore, setSeeMore] = useState<boolean>(false);
 	const [product, setProduct] = useState<ProductDetailType>();
 	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
+	const dispatch = useAppDispatch();
+	const [like, setLike] = useState<boolean>(product?.isLiked ?? false);
 	const [url, setUrl] = useState<string>("");
 	const appDispatch = useAppDispatch();
 
@@ -68,6 +75,34 @@ export default function ProductDetailScreen({
 		});
 	}, []);
 
+	const onHeartPress = () => {
+		if (!like)
+			likeProduct(id)
+				.then(() => {
+					setLike(true);
+				})
+				.catch(error => {
+					if (axios.isAxiosError(error)) {
+						const response = error as AxiosError<ApiResponse<void>>;
+						dispatch(
+							showModalNotify({
+								onConfirm: () => {
+									return true;
+								},
+								body: "hello",
+								title: "hello",
+							})
+						);
+					}
+				});
+		else {
+			unlikeProduct(id)
+				.then(() => {
+					setLike(false);
+				})
+				.catch();
+		}
+	};
 	useEffect(() => {
 		if (!product) return;
 		firebaseStorage.ref(product.image).getDownloadURL().then(setUrl);
@@ -124,13 +159,20 @@ export default function ProductDetailScreen({
 					style={{ position: "absolute", zIndex: 2 }}
 				/>
 				<View style={[styles.containerImage]}>
-					{url && (
-						<Image style={{ height: "100%", width: "100%" }} resizeMode={"cover"} source={{ uri: url }} />
+					{product?.image && (
+						<Image
+							style={{ height: "100%", width: "100%" }}
+							resizeMode={"cover"}
+							source={{ uri: product?.image }}
+						/>
 					)}
-					<TouchableOpacity style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}>
+					<TouchableOpacity
+						style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}
+						onPress={onHeartPress}
+					>
 						<GradientIconSvg
 							icon={
-								product?.isLiked ? (
+								like ? (
 									<SolarHeartBold width={26} height={26} />
 								) : (
 									<SolarHeartLinear width={26} height={26} />

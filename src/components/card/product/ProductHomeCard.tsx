@@ -11,14 +11,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
 import { ProductHomeCardProps } from "./type/productHomeCard.props";
 import textStyle from "../../../configs/styles/textStyle.config";
-import React, { useEffect } from "react";
+import React from "react";
 import { gradient, neutral, primary, secondary } from "../../../configs/colors/color-template.config";
 import SolarStarOutline from "../../../../assets/images/icons/SolarStarOutline";
 import SolarHeartOutline from "../../../../assets/images/icons/SolarHeartOutline";
 import SolarHeartBold from "../../../../assets/images/icons/SolarHeartBold";
 import GradientIconSvg from "../../grandientIconSvg/GradientIconSvg";
 import Formater from "../../../utils/formater";
-import { firebaseStorage } from "../../../configs/firebase/firebase.config";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../navigations/stack.type";
@@ -30,14 +29,7 @@ function ProductHomeCard({
 }: ProductHomeCardProps) {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
-	const [url, setUrl] = React.useState<string>("");
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "MainScreen">>();
-
-	useEffect(() => {
-		try {
-			firebaseStorage.ref(image).getDownloadURL().then(setUrl);
-		} catch (e) {}
-	}, [image]);
 
 	return (
 		<TouchableOpacity
@@ -48,11 +40,7 @@ function ProductHomeCard({
 			style={styles.container}
 		>
 			<View style={{ position: "relative" }}>
-				{url ? (
-					<Image source={{ uri: url }} style={styles.thumbnail} />
-				) : (
-					<View style={[styles.thumbnail, { backgroundColor: "gray" }]} />
-				)}
+				<Image source={{ uri: image }} style={styles.thumbnail} />
 				<TouchableOpacity onPress={onPressHeart} style={styles.heartContainer}>
 					{!isLiked ? (
 						<SolarHeartOutline width={18} height={18} color={primary.getColor("500")} />

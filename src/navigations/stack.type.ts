@@ -8,7 +8,9 @@ export type RootStackParamList = {
 	WelcomeScreen: undefined;
 	IntroduceScreen: undefined;
 	SignUpScreen: undefined;
-	LoginScreen: undefined;
+	LoginScreen: {
+		back: boolean
+	} | undefined;
 	VerificationScreen: {
 		dialCode: string;
 		form: RegisterFormType;

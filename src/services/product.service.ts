@@ -42,3 +42,13 @@ export const getProducts = async (): Promise<ApiPagingType<ProductType>> => {
 		throw e;
 	}
 };
+
+export const likeProduct = async (id: string): Promise<ApiResponse<void>> => {
+	const response = await axiosInstance.post<ApiResponse<void>>(`/product/favorite/${id}`);
+	return response.data;
+};
+
+export const unlikeProduct = async (id: string): Promise<ApiResponse<void>> => {
+	const response = await axiosInstance.delete<ApiResponse<void>>(`/product/favorite/${id}`);
+	return response.data;
+};

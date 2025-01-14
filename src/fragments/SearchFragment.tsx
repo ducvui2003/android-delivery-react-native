@@ -36,7 +36,6 @@ import NumberValue from "../configs/value/number.value";
 import CategoryType from "../types/category.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import spacing from "../configs/styles/space.config";
-import { firebaseStorage } from "../configs/firebase/firebase.config";
 import { getProductByCategoryId, searchProduct } from "../services/product.service";
 import { useDebounce } from "@uidotdev/usehooks";
 import Modal from "../components/modal/Modal";
@@ -45,11 +44,15 @@ import { Dialog, Switch } from "@rneui/base";
 import SearchProductType from "../types/searchProduct.type";
 import ApiPagingType from "../types/apiPaging.type";
 
-type SearchScreenProps = { autoFocus: boolean; category?: CategoryType; navigation: NativeStackNavigationProp<any> };
+type SearchScreenProps = {
+	back?: boolean;
+	autoFocus: boolean;
+	category?: CategoryType;
+	navigation: NativeStackNavigationProp<any>;
+};
 
-export default function SearchFragment({ autoFocus, category, navigation }: SearchScreenProps) {
+export default function SearchFragment({ autoFocus, category, navigation, back = false }: SearchScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
-	const [image, setImage] = useState<string | undefined>();
 	const [products, setProducts] = useState<ApiPagingType<ProductType>>();
 	const [searchTerm, setSearchTerm] = useState<string>();
 	const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -63,15 +66,6 @@ export default function SearchFragment({ autoFocus, category, navigation }: Sear
 		isBestSeller: false,
 	});
 	const [positionScroll, setPositionScroll] = useState<number>(0);
-
-	useEffect(() => {
-		firebaseStorage
-			.ref(category?.urlImage)
-			.getDownloadURL()
-			.then(value => {
-				setImage(value);
-			});
-	}, [category?.urlImage]);
 
 	useEffect(() => {
 		if (searchData.name === undefined && loading) return; // stop run search when first enter page or loading
@@ -134,7 +128,13 @@ export default function SearchFragment({ autoFocus, category, navigation }: Sear
 		if (category) {
 			return (
 				<Row style={{ alignItems: "center", gap: 10, justifyContent: "center" }}>
-					{image && <Image resizeMode={"cover"} style={{ width: 30, height: 30 }} source={{ uri: image }} />}
+					{category.urlImage && (
+						<Image
+							resizeMode={"cover"}
+							style={{ width: 30, height: 30 }}
+							source={{ uri: category.urlImage }}
+						/>
+					)}
 					<Text style={{ ...textStyle["22_semibold"], color: theme.text_1.getColor() }}>{category.name}</Text>
 				</Row>
 			);
@@ -162,6 +162,7 @@ export default function SearchFragment({ autoFocus, category, navigation }: Sear
 						Keyboard.dismiss();
 						navigation.pop();
 					}}
+					showIconBack={back}
 				/>
 				<Col style={[styles.contentContainer]} flex={1}>
 					<InputSearch

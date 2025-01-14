@@ -15,9 +15,11 @@ import {
 } from "../../services/auth.service";
 import { ResponseAuthentication } from "../../types/user.type";
 import { isRequestWhitelisted } from "./whitelist";
+import store from "../redux/store.config";
+import { setLoading } from "../../hooks/redux/modal.slice";
 
 let isRefreshing = false;
-let failedQueue: Array<any> = [];
+let failedQueue: any[] = [];
 
 const axiosInstance: AxiosInstance = axios.create({
 	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END,
@@ -49,19 +51,18 @@ interface ApiResponseError {
 }
 
 axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
+	store.dispatch(setLoading(true));
 	try {
 		// Log the URL before the request is sent
-
-		const fullUrl = (config.baseURL ?? "") + config.url;
-		console.log("Request URL:", fullUrl);
+		console.log("Request Full URL:", (config.baseURL ?? "") + config.url);
 		// You can log other details here if needed
 		console.log("Request Method:", config.method);
+		console.log("Request Endpoint:", config.url);
+		const isWhitelist = isRequestWhitelisted(config.url ?? "");
+		console.log("Whitelist", isWhitelist);
 
-		console.log("Whitelist", isRequestWhitelisted(config.url ?? ""));
-
-		if (!isRequestWhitelisted(fullUrl)) {
+		if (!isWhitelist) {
 			const token = await getAccessToken();
-			console.log("Get access token success", token);
 			if (token != null) config.headers.Authorization = `Bearer ${token}`;
 		} else {
 			delete config.headers.Authorization;
@@ -73,17 +74,22 @@ axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig
 });
 
 axiosInstance.interceptors.response.use(
-	(response: AxiosResponse) => {
+	async (response: AxiosResponse) => {
+		store.dispatch(setLoading(false));
 		const refreshToken: string | null = getCookie("refresh_token", response);
-		if (refreshToken) setRefreshToken(refreshToken);
+		if (refreshToken) await setRefreshToken(refreshToken);
 		return response;
 	},
-	(error: AxiosError<ApiResponseError>) => {
+	async (error: AxiosError<ApiResponseError>) => {
+		store.dispatch(setLoading(false));
 		const originalRequest = error.config;
 		if (originalRequest != null && axios.isAxiosError(error)) {
+			const response = error as AxiosError<ApiResponseError>;
+			if (response.response) printError(response.response.data);
+			else console.error(error);
+
 			switch (error.response?.status) {
 				case HttpStatusCode.Unauthorized:
-					console.error(`Token expired`);
 					if (!isRefreshing) {
 						isRefreshing = true;
 						return new Promise((resolve, reject) => {
@@ -94,7 +100,7 @@ axiosInstance.interceptors.response.use(
 									resolve(axiosInstance(originalRequest));
 								})
 								.catch(err => {
-									if (err.statusCode == HttpStatusCode.Unauthorized) {
+									if (err.statusCode === HttpStatusCode.Unauthorized) {
 										removeAllToken();
 									}
 									console.error(`Set new access token failed`);
@@ -108,7 +114,6 @@ axiosInstance.interceptors.response.use(
 					}
 					break;
 				case HttpStatusCode.Forbidden:
-					console.error("Forbidden");
 					break;
 			}
 		} else console.log("Unexpected error:", error);
@@ -128,7 +133,8 @@ const getCookie = (name: string, response: AxiosResponse): string | null => {
 	return null;
 };
 
-const setCookie = (name: string, value: string, instance: AxiosInstance): void => {
+const setCookie = (name: string, value: string | null, instance: AxiosInstance): void => {
+	if (value === null) return;
 	const cookie = `${name}=${value}`;
 	instance.interceptors.request.use(config => {
 		if (config.headers["Cookie"]) {
@@ -146,7 +152,7 @@ const exchangeAccessTokenInternal = async (): Promise<string> => {
 		if (cookie) setCookie("refresh_token", cookie, axiosInstanceInternal);
 		const result = await axiosInstanceInternal.post<ApiResponse<ResponseAuthentication>>("/refresh-token");
 
-		const token = result.data.data?.access_token;
+		const token = result.data.data.access_token;
 		if (!token) {
 			throw new Error("Access token is missing in the response");
 		}
@@ -179,5 +185,27 @@ const processQueue = (error: any) => {
 	failedQueue = [];
 };
 
+const printError = (response: ApiResponseError) => {
+	let status = `|| Server status: ${response.statusCode}`;
+	let error = `|| Server error: ${response.error}`;
+	let message = `|| Server message: ${response.message}`;
+	let line = "||";
+	const maxLength = Math.max(status.length, error.length, message.length);
+	for (let i = 0; i < maxLength; i++) {
+		line += "=";
+		if (i > status.length - 3) status += " ";
+		if (i > error.length - 3) error += " ";
+		if (i > message.length - 3) message += " ";
+	}
+	status += "||";
+	error += "||";
+	message += "||";
+	line += "||";
+	console.error(line);
+	console.error(status);
+	console.error(error);
+	console.error(message);
+	console.error(line);
+};
 export default axiosInstance;
-export { ApiResponse };
+export { ApiResponse, setCookie };
