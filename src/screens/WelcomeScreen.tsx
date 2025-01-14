@@ -56,7 +56,7 @@ export default function WelcomeScreen() {
 									if (response) {
 										navigation.replace("IntroduceScreen");
 									} else {
-										navigation.replace("LoginScreen");
+										navigation.replace("MainScreen", { screen: "HomeScreen" });
 									}
 								});
 							});

@@ -3,4 +3,5 @@ export enum EndPoint {
 	REGISTER = "/auth/register",
 	LOGOUT = "/auth/logout",
 	ACCOUNT = "/auth/account",
+	UPDATE_PROFILE = "/user/update-profile",
 }

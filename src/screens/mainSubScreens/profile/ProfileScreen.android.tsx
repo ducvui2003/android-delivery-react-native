@@ -20,6 +20,7 @@ import ProfileModel from "../../../fragments/profile/ProfileModel";
 import spacing from "../../../configs/styles/space.config";
 import Space from "../../../components/custom/Space";
 import { BottomNavigationContext } from "../../../components/navigation/BottomNavigation";
+import { updateProfile } from "../../../hooks/redux/profile.slice";
 
 /**
  * Author: Nguyen Dinh Lam
@@ -63,7 +64,10 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 	const handleOptionPress = () => {};
 
 	//press button save change profile
-	const handlePressSaveChangeProfile = async (data: ChangeProfile) => {};
+	const handlePressSaveChangeProfile = async (data: ChangeProfile) => {
+		await appDispatch(updateProfile(data));
+		setShowPopUp(false);
+	};
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
@@ -89,7 +93,16 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 				<Space height={spacing["spaced-7"]} />
 			</ScrollView>
 			<ProfileModel onYes={handleLogoutPress} onShowed={setShowModal} showed={showModal} />
-			<ProfilePopUp onSave={handlePressSaveChangeProfile} onShowed={setShowPopUp} showed={showPopUp} />
+			<ProfilePopUp
+				numberPhone={(user?.phoneNumber ?? "")
+					.replace((user?.countryCode ?? 0).toString(), "0")
+					.replace("+", "")}
+				fullName={user?.fullName}
+				email={user?.email}
+				onSave={handlePressSaveChangeProfile}
+				onShowed={setShowPopUp}
+				showed={showPopUp}
+			/>
 		</SafeAreaView>
 	);
 }
