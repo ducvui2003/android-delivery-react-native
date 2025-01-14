@@ -13,6 +13,7 @@ import ratingSlice from "../../hooks/redux/rating.slice";
 import loadingSlice from "../../hooks/redux/modal.slice";
 import categorySlice from "../../hooks/redux/category.slice";
 import promotionOfferSlice from "../../hooks/redux/promotionOffer.slice";
+import addressSlice from "../../hooks/redux/address.slice";
 
 const store = configureStore({
 	reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
 		ratingState: ratingSlice,
 		categoryState: categorySlice,
 		promotionOffer: promotionOfferSlice,
+		addressState: addressSlice,
 	},
 	middleware: getDefaultMiddleware => {
 		return getDefaultMiddleware({

@@ -7,52 +7,86 @@
  **/
 
 type MyLocation = {
+  id: number;
   name: string;
   address: string;
+  isDefault: boolean;
 };
 
 const data: MyLocation[] = [
   {
+    id: 1,
     name: "Home",
     address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
   },
   {
+    id: 1,
     name: "Home",
     address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
   },
   {
+    id: 1,
     name: "Home",
     address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
   },
   {
+    id: 1,
     name: "Home",
     address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
   },
   {
+    id: 1,
     name: "Home",
     address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
   },
   {
+    id: 1,
     name: "Home",
     address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
   },
   {
+    id: 1,
     name: "Home",
     address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
   },
   {
+    id: 1,
     name: "Home",
     address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
   },
   {
+    id: 1,
     name: "Home",
     address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
   },
   {
+    id: 1,
     name: "Home",
     address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
+  },
+  {
+    id: 1,
+    name: "Home",
+    address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
+  },
+  {
+    id: 1,
+    name: "Home",
+    address: "221B Baker Street, London, United Kingdom",
+    isDefault: true,
   },
 ];
 
 export default data;
-export {MyLocation};
+export { MyLocation };

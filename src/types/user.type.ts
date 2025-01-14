@@ -5,6 +5,7 @@
  * Create at: 2:54 PM - 13/08/2024
  * User: lam-nguyen
  **/
+import { MyLocation } from "../../assets/data/location/location";
 
 export type User = {
 	id: number;
@@ -13,6 +14,7 @@ export type User = {
 	fullName: string;
 	role: string;
 	permissions: string[];
+	address: MyLocation;
 };
 
 export type ResponseAuthentication = {

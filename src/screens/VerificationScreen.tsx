@@ -47,11 +47,11 @@ type VerificationScreenProps = {
 };
 
 export default function VerificationScreen({
-											   route: {
-												   params: { dialCode, form },
-											   },
-											   navigation,
-										   }: VerificationScreenProps) {
+	route: {
+		params: { dialCode, form },
+	},
+	navigation,
+}: VerificationScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [hidden, setHidden] = useState<boolean>(false);
 	const [time, setTime] = useState(0);
@@ -105,7 +105,7 @@ export default function VerificationScreen({
 	};
 
 	const verifyCode = (code: string) => {
-		if (!confirmation || code.length != 6) {
+		if (!confirmation || code.length !== 6) {
 			setErrorVerify(true);
 			return;
 		}
@@ -191,8 +191,12 @@ export default function VerificationScreen({
 					{componentResend[(time === 0).toString() as "true" | "false"]}
 				</ScrollView>
 				<Col style={[styles.footerContainer, { paddingHorizontal: 25 }]} flex={1}>
-					<ButtonHasStatus title={"Verify"} onPress={() => verifyCode(codeVerify)} active={!!confirmation}
-									 styleButton={[styles.buttonVerify]} />
+					<ButtonHasStatus
+						title={"Verify"}
+						onPress={() => verifyCode(codeVerify)}
+						active={!!confirmation}
+						styleButton={[styles.buttonVerify]}
+					/>
 					<Row style={[{ display: hidden ? "none" : "flex" }, styles.containerCanHidden]}>
 						<Text style={[styles.text, { color: theme.text_1.getColor() }]}>Back to </Text>
 						<TouchableOpacity

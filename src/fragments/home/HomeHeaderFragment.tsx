@@ -23,6 +23,7 @@ import { RootStackParamList } from "../../navigations/stack.type";
 
 function HomeHeaderFragment() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
+	const user = useSelector((state: RootState) => state.authState.user);
 	const styles = makeStyled(theme);
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -35,7 +36,7 @@ function HomeHeaderFragment() {
 						color: theme.home.heading.getColor(),
 					}}
 				>
-					Deliver to
+					Deliver to {user?.address && "→ " + user.address.name}
 				</Text>
 				<TouchableOpacity onPress={() => navigation.navigate("MyLocationScreen")}>
 					<Row style={{ marginTop: 11, alignItems: "center", gap: 5 }}>
@@ -45,7 +46,9 @@ function HomeHeaderFragment() {
 								color: neutral.getColor("200"),
 							}}
 						>
-							Select Your Location
+							{user?.address != null
+								? user.address.address.substring(0, user.address.address.indexOf(","))
+								: "Select Your Location"}
 						</Text>
 
 						<GradientIconSvg

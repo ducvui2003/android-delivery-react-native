@@ -20,9 +20,13 @@
             <data android:scheme="https"/>
         </intent>
     </queries>
-    <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher"
-                 android:roundIcon="@mipmap/ic_launcher_round" android:usesCleartextTraffic="true"
-                 android:allowBackup="true" android:theme="@style/AppTheme">
+    <application android:name=".MainApplication"
+                 android:label="@string/app_name"
+                 android:icon="@mipmap/ic_launcher"
+                 android:roundIcon="@mipmap/ic_launcher_round"
+                 android:usesCleartextTraffic="true"
+                 android:allowBackup="true"
+                 android:theme="@style/AppTheme">
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled" android:value="false"/>
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
@@ -33,6 +37,8 @@
         <meta-data android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS" android:value="0"/>
         <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL"
                    android:value="https://u.expo.dev/3f122c2a-835d-4d74-ba33-a353029aa008"/>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                   android:value="@string/api_key"/>
         <activity android:name=".MainActivity"
                   android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
                   android:launchMode="singleTask" android:windowSoftInputMode="adjustResize"

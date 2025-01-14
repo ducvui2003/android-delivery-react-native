@@ -12,7 +12,7 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Col from "../components/custom/Col";
 import { Header } from "../components/header/Header";
 import { useSelector } from "react-redux";
-import { RootState } from "../configs/redux/store.config";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
 import { InfoLocation } from "../components/location/InfoLocation";
 import Row from "../components/custom/Row";
 import SolarAddLinear from "../../assets/images/icons/SolarAddLinear";
@@ -25,6 +25,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
 import data from "../../assets/data/location/location";
 import NumberValue from "../configs/value/number.value";
+import { useEffect } from "react";
+import { thunkGetAllAddress } from "../hooks/redux/address.slice";
 
 type MyLocationScreenProps = {
 	route: RouteProp<RootStackParamList, "MyLocationScreen">;
@@ -33,8 +35,14 @@ type MyLocationScreenProps = {
 
 export default function MyLocationScreen({ navigation }: MyLocationScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const address = useSelector((state: RootState) => state.addressState.address);
 	const [indexChecked, setIndexChecked] = React.useState<number>(0);
 	const myLocation = 0;
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(thunkGetAllAddress());
+	}, [dispatch]);
 
 	return (
 		<SafeAreaView style={[{ flex: 1, backgroundColor: theme.background.getColor() }]}>
@@ -50,7 +58,7 @@ export default function MyLocationScreen({ navigation }: MyLocationScreenProps) 
 			<Col style={styles.container} flex={1}>
 				<FlatList
 					style={styles.flatList}
-					data={data}
+					data={address}
 					showsHorizontalScrollIndicator={false}
 					showsVerticalScrollIndicator={false}
 					renderItem={({ item: { name, address }, index }) => {

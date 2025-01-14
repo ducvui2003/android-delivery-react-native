@@ -37,8 +37,7 @@ enum AuthType {
 
 export const initialStateAuth = createAsyncThunk(AuthType.GET_ACCOUNT, async _ => {
 	try {
-		const user = await getUserInfo();
-		return { user };
+		return await getUserInfo();
 	} catch (error: any) {
 		return error.response.data;
 	}
