@@ -62,7 +62,6 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 				title: "Logout",
 				body: "Are you sure you want to log out?",
 				onConfirm: handleLogoutPress,
-				active: true,
 				showCancelButton: true,
 				showConfirmButton: true,
 			})

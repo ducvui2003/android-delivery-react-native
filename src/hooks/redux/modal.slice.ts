@@ -21,6 +21,7 @@ const modalSlice = createSlice({
 		},
 		showModalNotify: (state, action: PayloadAction<ModelType>) => {
 			state.notify = action.payload;
+			action.payload.active = true;
 		},
 		hiddenModalNotify: state => {
 			state.notify.active = false;
