@@ -7,31 +7,32 @@
  **/
 
 // @flow
+import { RouteProp } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../navigations/stack.type";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Row from "../components/custom/Row";
-import textStyle from "../configs/styles/textStyle.config";
-import Col from "../components/custom/Col";
-import { gradient, neutral, secondary } from "../configs/colors/color-template.config";
 import { useSelector } from "react-redux";
-import { RootState } from "../configs/redux/store.config";
-import { Header } from "../components/header/Header";
 import SolarHeartBold from "../../assets/images/icons/SolarHeartBold";
-import GradientIconSvg from "../components/grandientIconSvg/GradientIconSvg";
-import Space from "../components/custom/Space";
-import SolarStarBold from "../../assets/images/icons/SolarStarBold";
-import Grid from "../components/custom/Grid";
-import ProductDetailFooter from "../fragments/productDetail/ProductDetailFooter";
-import { ProductDetailAdditionalOption } from "../fragments/productDetail/ProductDetailAdditionalOption";
-import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from "../types/productDetail.type";
 import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
+import SolarStarBold from "../../assets/images/icons/SolarStarBold";
+import Col from "../components/custom/Col";
+import Grid from "../components/custom/Grid";
+import Row from "../components/custom/Row";
+import Space from "../components/custom/Space";
+import GradientIconSvg from "../components/grandientIconSvg/GradientIconSvg";
+import { Header } from "../components/header/Header";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
+import { gradient, neutral, secondary } from "../configs/colors/color-template.config";
 import { firebaseStorage } from "../configs/firebase/firebase.config";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
+import textStyle from "../configs/styles/textStyle.config";
 import NumberValue from "../configs/value/number.value";
+import { ProductDetailAdditionalOption } from "../fragments/productDetail/ProductDetailAdditionalOption";
+import ProductDetailFooter from "../fragments/productDetail/ProductDetailFooter";
+import { RootStackParamList } from "../navigations/stack.type";
+import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from "../types/productDetail.type";
+import { addCart } from "../hooks/redux/cart.slice";
 
 type ProductDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "ProductDetailScreen">;
@@ -49,9 +50,9 @@ export default function ProductDetailScreen({
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [seeMore, setSeeMore] = useState<boolean>(false);
 	const [product, setProduct] = useState<ProductDetailType>();
-	const [amount, setAmount] = useState<number>(1);
 	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
 	const [url, setUrl] = useState<string>("");
+	const appDispatch = useAppDispatch();
 
 	const onSeeMore = () => {
 		setSeeMore(true);
@@ -69,11 +70,31 @@ export default function ProductDetailScreen({
 
 	useEffect(() => {
 		if (!product) return;
-		firebaseStorage
-			.ref(product.image)
-			.getDownloadURL()
-			.then(setUrl)
+		firebaseStorage.ref(product.image).getDownloadURL().then(setUrl);
 	}, [product]);
+
+	const getOptionIds = (option: (OptionType | GroupOptionSelected)[]): string[] => {
+		return option.map((item: OptionType | GroupOptionSelected) => {
+			if ("option" in item) return item.option.id;
+			return item.id;
+		});
+	};
+	const handleSubmit = (quantity: number) => {
+		const optionIds = getOptionIds(additionalOption);
+		console.log("ProductDetailScreen", {
+			productId: product?.id ?? "",
+			quantity: quantity,
+			optionIds: optionIds,
+		});
+
+		appDispatch(
+			addCart({
+				productId: product?.id ?? "",
+				quantity: quantity,
+				optionIds: optionIds,
+			})
+		);
+	};
 
 	const renderButtonSeeMore = () => {
 		if (seeMore)
@@ -166,7 +187,7 @@ export default function ProductDetailScreen({
 					<Space height={125} />
 				</Col>
 			</ScrollView>
-			<ProductDetailFooter totalAmount={product?.quantity ?? 0} onAmount={setAmount} />
+			<ProductDetailFooter totalAmount={product?.quantity ?? 999} onSubmit={handleSubmit} />
 		</SafeAreaView>
 	);
 }

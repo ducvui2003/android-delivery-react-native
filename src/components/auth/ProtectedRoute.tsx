@@ -12,7 +12,7 @@ const ProtectedRoute = ({ allowRoles, allowPermissions, children }: ProtectedRou
 		return null;
 	}
 
-	if (allowRoles && allowRoles.find(allowRole => allowRole === role) !== undefined) {
+	if (allowRoles && allowRoles.find(allowRole => allowRole === role) === undefined) {
 		return null;
 	}
 

@@ -13,8 +13,9 @@ import { useSelector } from "react-redux";
 import SolarDismiss from "../../../assets/images/icons/SolarDismiss";
 import SolarPenBold from "../../../assets/images/icons/SolarPenBold";
 import { neutral, primary } from "../../configs/colors/color-template.config";
-import { RootState } from "../../configs/redux/store.config";
+import { RootState, useAppDispatch } from "../../configs/redux/store.config";
 import textStyle from "../../configs/styles/textStyle.config";
+import { decreaseCart, deleteCart, increaseCart } from "../../hooks/redux/cart.slice";
 import Formater from "../../utils/formater";
 import Col from "../custom/Col";
 import Row from "../custom/Row";
@@ -22,18 +23,28 @@ import InputNumberButton from "../input/InputNumberButton";
 import OptionAdd from "./OptionAdd";
 import BasketItemProps from "./type/basketItem.props";
 
-function BasketItem({
-	id,
-	name,
-	discount,
-	price,
-	options,
-	quantity,
-	quantityMax,
-	image,
-	onChangeQuantity,
-}: BasketItemProps) {
+function BasketItem({ id, name, discount, price, options, quantity, quantityMax, image }: BasketItemProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const appDispatch = useAppDispatch();
+	console.log("BasketItem", JSON.stringify(options, null, 2));
+
+	const handleDelete = () => {
+		appDispatch(deleteCart(id));
+	};
+	const handleIncrease = (): Promise<void> => {
+		return appDispatch(increaseCart(id))
+			.then(() => {})
+			.catch(() => {
+				throw new Error("Error");
+			});
+	};
+	const handleDecrease = () => {
+		return appDispatch(decreaseCart(id))
+			.then(() => {})
+			.catch(() => {
+				throw new Error("Error");
+			});
+	};
 
 	return (
 		<Col
@@ -65,18 +76,19 @@ function BasketItem({
 						<Text style={{ ...styles.currentPrice }}>{Formater.formatCurrency(price)}</Text>
 					)}
 					<InputNumberButton
-						totalAmount={quantityMax}
 						styleButton={{ padding: 5 }}
 						sizeIcon={25}
-						quantity={quantity}
-						onAmount={amount => onChangeQuantity(amount)}
+						current={quantity}
+						max={quantityMax}
+						onPlusActionController={handleIncrease}
+						onMinusActionController={handleDecrease}
 					/>
 				</Col>
 				<Row style={{ gap: 5, justifyContent: "flex-end" }}>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={() => {}}>
 						<SolarPenBold color={neutral.getColor("100")} width={25} height={25} />
 					</TouchableOpacity>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={handleDelete}>
 						<SolarDismiss color={neutral.getColor("100")} width={25} height={25} />
 					</TouchableOpacity>
 				</Row>

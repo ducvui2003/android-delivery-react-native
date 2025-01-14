@@ -7,7 +7,6 @@ const getCartItems = async (): Promise<Cart[]> => {
 		const response = await axiosInstance.get<ApiResponse<Cart[]>>(EndPoint.GET_CARTS);
 		return response.data.data ?? [];
 	} catch (e) {
-		console.error(e);
 		throw e;
 	}
 };
@@ -19,11 +18,15 @@ const addCart = async ({
 }: {
 	productId: string;
 	quantity: number;
-	optionIds: [];
+	optionIds: string[];
 }): Promise<Cart> => {
 	try {
-		const response = await axiosInstance.post(EndPoint.ADD_CART, { productId, quantity, optionIds });
-		return response.data;
+		const response = await axiosInstance.post<ApiResponse<Cart>>(EndPoint.ADD_CART, {
+			productId,
+			quantity,
+			optionIds,
+		});
+		return response.data.data;
 	} catch (e) {
 		console.error(e);
 		throw e;
@@ -32,8 +35,7 @@ const addCart = async ({
 
 const increaseCart = async (cartId: number): Promise<void> => {
 	try {
-		const response = await axiosInstance.post(`${EndPoint.INCREASE_CART}/${cartId}`);
-		return response.data;
+		await axiosInstance.put<ApiResponse<void>>(`${EndPoint.INCREASE_CART}/${cartId}`);
 	} catch (e) {
 		console.error(e);
 		throw e;
@@ -42,8 +44,7 @@ const increaseCart = async (cartId: number): Promise<void> => {
 
 const decreaseCart = async (cartId: number): Promise<void> => {
 	try {
-		const response = await axiosInstance.post(`${EndPoint.DECREASE_CART}/${cartId}`);
-		return response.data;
+		await axiosInstance.put<ApiResponse<void>>(`${EndPoint.DECREASE_CART}/${cartId}`);
 	} catch (e) {
 		console.error(e);
 		throw e;
@@ -52,8 +53,7 @@ const decreaseCart = async (cartId: number): Promise<void> => {
 
 const deleteCart = async (cartId: number): Promise<void> => {
 	try {
-		const response = await axiosInstance.post(`${EndPoint.DELETE_CART}/${cartId}`);
-		return response.data;
+		await axiosInstance.delete<ApiResponse<void>>(`${EndPoint.DELETE_CART}/${cartId}`);
 	} catch (e) {
 		console.error(e);
 		throw e;

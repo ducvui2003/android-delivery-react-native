@@ -13,10 +13,9 @@ type BasketItemProps = {
 	price: number;
 	discount?: number;
 	quantity: number;
-	quantityMax: number;
 	image: string;
 	options?: OptionAddProps[];
-	onChangeQuantity: (quantity: number) => boolean;
+	quantityMax: number;
 };
 
 export default BasketItemProps;

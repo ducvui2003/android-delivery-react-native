@@ -14,4 +14,10 @@ type CartOption = {
 	name: string;
 	price: number;
 };
+
+export type CartAdded = {
+	productId: string;
+	quantity: number;
+	optionIds: string[];
+};
 export { Cart, CartOption };

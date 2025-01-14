@@ -1,7 +1,7 @@
 // eslint-disable-next-line unused-imports/no-unused-vars
 const RoleConst = {
-	admin: "admin",
-	user: "user",
+	ADMIN: "ADMIN",
+	USER: "USER",
 } as const;
 
 type Role = (typeof RoleConst)[keyof typeof RoleConst];

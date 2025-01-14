@@ -6,30 +6,29 @@
  *  User: lam-nguyen
  **/
 
+import { RouteProp } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Header } from "../components/header/Header";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../configs/redux/store.config";
-import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../navigations/stack.type";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Row from "../components/custom/Row";
-import GradientText from "../components/gradientText/GradientText";
-import { gradient } from "../configs/colors/color-template.config";
-import GradientBorder from "../components/gradientBorder/GradientBorder";
-import textStyle from "../configs/styles/textStyle.config";
 import BasketItem from "../components/basket/BasketItem";
-import BasketItemProps from "../components/basket/type/basketItem.props";
-import Space from "../components/custom/Space";
-import Col from "../components/custom/Col";
-import BasketMenuFragment from "../fragments/basket/BasketMenuFragment";
-import BasketCalculator, { BasketCalculatorProps } from "../fragments/basket/BasketCalculator";
 import ButtonHasStatus from "../components/custom/ButtonHasStatus";
-import Formater from "../utils/formater";
+import Col from "../components/custom/Col";
+import Row from "../components/custom/Row";
+import Space from "../components/custom/Space";
+import GradientBorder from "../components/gradientBorder/GradientBorder";
+import GradientText from "../components/gradientText/GradientText";
+import { Header } from "../components/header/Header";
+import { gradient } from "../configs/colors/color-template.config";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
+import textStyle from "../configs/styles/textStyle.config";
 import NumberValue from "../configs/value/number.value";
+import BasketCalculator, { BasketCalculatorProps } from "../fragments/basket/BasketCalculator";
+import BasketMenuFragment from "../fragments/basket/BasketMenuFragment";
+import { fetchCarts } from "../hooks/redux/cart.slice";
+import { RootStackParamList } from "../navigations/stack.type";
 import { Cart } from "../types/cart.type";
-import { decreaseCart, fetchCarts, increaseCart } from "../hooks/redux/cart.slice";
+import Formater from "../utils/formater";
 
 type BasketScreenProps = {
 	route: RouteProp<RootStackParamList, "BasketScreen">;
@@ -71,23 +70,6 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 		}
 	}, [cartItems]);
 
-	const onChangeQuantity = (
-		id: number,
-		quantityAfter: number,
-		quantityBefore: number,
-		quantityValid: number
-	): boolean => {
-		console.log("onChangeQuantity", id, quantityAfter, quantityBefore, quantityValid);
-		if (quantityBefore <= quantityValid) {
-			if (quantityAfter > quantityBefore) {
-			}
-			if (quantityAfter < quantityBefore) {
-				// appDispatch(decreaseCart(id));
-				return;
-			}
-		}
-	};
-
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 			<Header
@@ -127,7 +109,7 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 					{/* {dataDemo.map((item: BasketItemProps, index: number) => (
 						<BasketItem key={index} {...item} />
 					))} */}
-					{cartItems?.map((item: Cart, index: number) => {
+					{cartItems.map((item: Cart, index: number) => {
 						return (
 							<BasketItem
 								key={index}
@@ -139,9 +121,6 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 								discount={item.discount}
 								options={item.options}
 								quantityMax={item.quantityValid}
-								onChangeQuantity={(quantity: number) =>
-									onChangeQuantity(item.id, quantity, item.quantity, item.quantityValid)
-								}
 							/>
 						);
 					})}
