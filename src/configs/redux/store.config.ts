@@ -13,7 +13,7 @@ import ratingSlice from "../../hooks/redux/rating.slice";
 import modalSlice from "../../hooks/redux/modal.slice";
 import categorySlice from "../../hooks/redux/category.slice";
 import promotionOfferSlice from "../../hooks/redux/promotionOffer.slice";
-
+import cartSlice from "../../hooks/redux/cart.slice";
 const store = configureStore({
 	reducer: {
 		modalState: modalSlice,
@@ -22,6 +22,7 @@ const store = configureStore({
 		ratingState: ratingSlice,
 		categoryState: categorySlice,
 		promotionOffer: promotionOfferSlice,
+		cart: cartSlice,
 	},
 	middleware: getDefaultMiddleware => {
 		return getDefaultMiddleware({

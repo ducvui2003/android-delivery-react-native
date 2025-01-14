@@ -7,33 +7,34 @@
  **/
 
 // @flow
+import { RouteProp } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../navigations/stack.type";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Row from "../components/custom/Row";
-import textStyle from "../configs/styles/textStyle.config";
-import Col from "../components/custom/Col";
-import { gradient, neutral, secondary } from "../configs/colors/color-template.config";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../configs/redux/store.config";
 import { Header } from "../components/header/Header";
 import SolarHeartBold from "../../assets/images/icons/SolarHeartBold";
-import GradientIconSvg from "../components/grandientIconSvg/GradientIconSvg";
-import Space from "../components/custom/Space";
-import SolarStarBold from "../../assets/images/icons/SolarStarBold";
-import Grid from "../components/custom/Grid";
-import ProductDetailFooter from "../fragments/productDetail/ProductDetailFooter";
-import { ProductDetailAdditionalOption } from "../fragments/productDetail/ProductDetailAdditionalOption";
-import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from "../types/productDetail.type";
 import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
+import SolarStarBold from "../../assets/images/icons/SolarStarBold";
+import Col from "../components/custom/Col";
+import Grid from "../components/custom/Grid";
+import Row from "../components/custom/Row";
+import Space from "../components/custom/Space";
+import GradientIconSvg from "../components/grandientIconSvg/GradientIconSvg";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
+import { gradient, neutral, secondary } from "../configs/colors/color-template.config";
+import textStyle from "../configs/styles/textStyle.config";
 import NumberValue from "../configs/value/number.value";
 import { likeProduct, unlikeProduct } from "../services/product.service";
 import axios, { AxiosError } from "axios";
 import { showModalNotify } from "../hooks/redux/modal.slice";
+import { ProductDetailAdditionalOption } from "../fragments/productDetail/ProductDetailAdditionalOption";
+import ProductDetailFooter from "../fragments/productDetail/ProductDetailFooter";
+import { RootStackParamList } from "../navigations/stack.type";
+import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from "../types/productDetail.type";
+import { addCart } from "../hooks/redux/cart.slice";
 
 type ProductDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "ProductDetailScreen">;
@@ -51,10 +52,11 @@ export default function ProductDetailScreen({
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [seeMore, setSeeMore] = useState<boolean>(false);
 	const [product, setProduct] = useState<ProductDetailType>();
-	const [amount, setAmount] = useState<number>(1);
 	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
 	const dispatch = useAppDispatch();
 	const [like, setLike] = useState<boolean>(product?.isLiked ?? false);
+	const isLogin = useSelector((state: RootState) => state.authState.user) != null;
+	const appDispatch = useAppDispatch();
 
 	const onSeeMore = () => {
 		setSeeMore(true);
@@ -97,6 +99,46 @@ export default function ProductDetailScreen({
 				})
 				.catch();
 		}
+	};
+
+	const getOptionIds = (option: (OptionType | GroupOptionSelected)[]): string[] => {
+		return option.map((item: OptionType | GroupOptionSelected) => {
+			if ("option" in item) return item.option.id;
+			return item.id;
+		});
+	};
+	const onNavigate = () => {
+		navigation.navigate("LoginScreen");
+		return true;
+	};
+
+	const handleSubmit = (quantity: number) => {
+		const optionIds = getOptionIds(additionalOption);
+		// console.log("ProductDetailScreen", {
+		// 	productId: product?.id ?? "",
+		// 	quantity: quantity,
+		// 	optionIds: optionIds,
+		// });
+
+		if (isLogin)
+			appDispatch(
+				addCart({
+					productId: product?.id ?? "",
+					quantity: quantity,
+					optionIds: optionIds,
+				})
+			);
+		else
+			dispatch(
+				showModalNotify({
+					title: "Please login to can buy",
+					body: "Please login to can buy",
+					width: "70%",
+					onConfirm: onNavigate,
+					showCancelButton: true,
+					showConfirmButton: true,
+				})
+			);
 	};
 
 	const renderButtonSeeMore = () => {
@@ -197,7 +239,7 @@ export default function ProductDetailScreen({
 					<Space height={125} />
 				</Col>
 			</ScrollView>
-			<ProductDetailFooter totalAmount={product?.quantity ?? 0} onAmount={setAmount} />
+			<ProductDetailFooter totalAmount={product?.quantity ?? 999} onSubmit={handleSubmit} />
 		</SafeAreaView>
 	);
 }
