@@ -88,4 +88,7 @@ export type ThemeType = {
 	order: {
 		orderStatusCancel: SingleColor;
 	};
+	orderDetail: {
+		backgroundItem: SingleColor;
+	};
 };

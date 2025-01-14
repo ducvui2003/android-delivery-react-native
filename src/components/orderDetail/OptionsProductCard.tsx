@@ -21,7 +21,7 @@ export default function OptionsProductCard({options}: { options: (OptionType | G
 					if (isOptionType(option)) {
 						return (
 								<Row style={styles.container} key={index + option.name}>
-									<Text style={{...textStyle["12_regular"]}}>{option.name}</Text>
+									<Text style={{...textStyle["12_regular"], color: theme.text_1.getColor(),}}>{option.name}</Text>
 									<Text style={{
 										...textStyle["12_medium"],
 										color: primary.getColor("500")
@@ -32,7 +32,7 @@ export default function OptionsProductCard({options}: { options: (OptionType | G
 					if (isGroupOptionType(option)) {
 						return (
 							<Row style={styles.container} key={index + option.name}>
-								<Text style={{...textStyle["12_regular"]}}>{infoGroupOption(option).name}</Text>
+								<Text style={{...textStyle["12_regular"], color: theme.text_1.getColor(),}}>{infoGroupOption(option).name}</Text>
 								<Text style={{
 									...textStyle["12_medium"],
 									color: primary.getColor("500")
@@ -78,7 +78,7 @@ const makeStyled = (theme: ThemeType) =>
 	StyleSheet.create({
 		container: {
 			justifyContent: "space-between",
-			paddingVertical: 5
+			paddingVertical: 5,
 		},
 
 	})
