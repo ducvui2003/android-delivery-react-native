@@ -10,6 +10,13 @@ import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
 import ProductType from "../types/product.type";
 import ApiPagingType from "../types/apiPaging.type";
 import SearchProductType from "../types/searchProduct.type";
+import ProductDetailType from "../types/productDetail.type";
+import { ImagePickerAsset } from "expo-image-picker";
+import { firebaseStorage } from "../configs/firebase/firebase.config";
+import uuid from "react-native-uuid";
+import RequestRequestProduct from "./RequestRequestProduct";
+import store from "../configs/redux/store.config";
+import { setLoading } from "../hooks/redux/modal.slice";
 
 export const getProductByCategoryId = async (id: String): Promise<ApiPagingType<ProductType>> => {
 	return axiosInstance.get<ApiResponse<ApiPagingType<ProductType>>>(`/product/category/${id}`).then(value => {
@@ -41,6 +48,27 @@ export const getProducts = async (): Promise<ApiPagingType<ProductType>> => {
 		console.error(e);
 		throw e;
 	}
+};
+
+export const createProduct = async (
+	product: RequestRequestProduct,
+	asset: ImagePickerAsset
+): Promise<ProductDetailType> => {
+	const image = `product/${uuid.v4()}.png`;
+	store.dispatch(setLoading(true));
+	return firebaseStorage
+		.ref(image)
+		.putFile(asset.uri)
+		.then(async result => {
+			if (result.state !== "success") return;
+			product.image = image;
+			const response = await axiosInstance.post<ApiResponse<ProductDetailType>>("/product", product);
+			return response.data.data;
+		})
+		.catch(e => {
+			store.dispatch(setLoading(false));
+			throw e;
+		});
 };
 
 export const likeProduct = async (id: string): Promise<ApiResponse<void>> => {

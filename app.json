@@ -82,7 +82,7 @@
         }
       ],
       [
-        "expo-image-picker"
+          "expo-image-picker"
       ]
     ],
     "updates": {

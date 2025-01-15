@@ -161,9 +161,9 @@ function MeatRatingScreen({
 									onPressGallery={() => {
 										if (!rating) return;
 
-										ImagePicker.pickImage().then(uri => {
-											if (!uri) return;
-											addImage(index, uri);
+										ImagePicker.pickImage().then(asset => {
+											if (!asset) return;
+											addImage(index, asset.uri);
 										});
 									}}
 									onPressCamera={() => {

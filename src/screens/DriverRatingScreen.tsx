@@ -43,11 +43,11 @@ type OrderRatingScreenProps = {
 };
 
 function DriverRatingScreen({
-								route: {
-									params: { uri },
-								},
-								navigation,
-							}: OrderRatingScreenProps) {
+	route: {
+		params: { uri },
+	},
+	navigation,
+}: OrderRatingScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const { driverRating, driverInfo } = useSelector((state: RootState) => state.ratingState);
 	const dispatch = useDispatch();
@@ -186,7 +186,7 @@ function DriverRatingScreen({
 									)
 								}
 								onPressGallery={() => {
-									ImagePicker.pickImage().then(updateImage);
+									ImagePicker.pickImage().then(asset => updateImage(asset?.uri));
 								}}
 							/>
 						) : (

@@ -1,6 +1,7 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 import RegisterFormType from "../types/registerForm.type";
 import CategoryType from "../types/category.type";
+import AddImageScreen from "../screens/AddImageScreen";
 
 export type RootStackParamList = {
 	MainScreen: NavigatorScreenParams<MainScreenStackParamList>;
@@ -47,6 +48,7 @@ export type RootStackParamList = {
 	};
 	CancelOrderScreen: undefined;
 	ChatScreen: undefined;
+	AddImageScreen: undefined;
 };
 
 export type MainScreenStackParamList = {

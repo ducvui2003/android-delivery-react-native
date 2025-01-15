@@ -39,6 +39,7 @@ import VerificationScreen from "./src/screens/VerificationScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import { NameTheme } from "./src/types/theme.type";
 import { getFromStorage, KEY_ASYNC } from "./src/services/asyncStore.service";
+import AddImageScreen from "./src/screens/AddImageScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -90,7 +91,7 @@ function Root() {
     return (
         <View style={{ flex: 1 }}>
             <NavigationContainer>
-                <RootStack.Navigator initialRouteName="WelcomeScreen" screenOptions={{ headerShown: false }}>
+                <RootStack.Navigator initialRouteName="AddImageScreen" screenOptions={{ headerShown: false }}>
                     <RootStack.Screen name={"MainScreen"} component={MainScreen} />
                     <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
                     <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />
@@ -120,6 +121,7 @@ function Root() {
                     <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen} />
                     <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen} />
                     <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
+                    <RootStack.Screen name={"AddImageScreen"} component={AddImageScreen} />
                 </RootStack.Navigator>
             </NavigationContainer>
 

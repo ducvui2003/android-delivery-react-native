@@ -7,6 +7,7 @@
  **/
 import { getAuth } from "@react-native-firebase/auth";
 import { initializeApp, ReactNativeFirebase } from "@react-native-firebase/app";
+import { getStorage } from "@react-native-firebase/storage";
 
 const firebaseConfig: ReactNativeFirebase.FirebaseAppOptions = {
 	apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
@@ -22,5 +23,6 @@ const firebaseConfig: ReactNativeFirebase.FirebaseAppOptions = {
 initializeApp(firebaseConfig, "delivery-app-" + Math.random() + 100000);
 const firebaseAuth = getAuth();
 firebaseAuth.setLanguageCode("VN").then();
+const firebaseStorage = getStorage();
 
-export { firebaseAuth };
+export { firebaseAuth, firebaseStorage };
