@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ChangeProfile from "../../types/changeProfile";
 import { updateProfileAPI } from "../../services/profile.service";
+import { useSelector } from "react-redux";
+import { RootState } from "../../configs/redux/store.config";
+
 
 type ProfileState = {
 	user?: ChangeProfile;
@@ -24,11 +27,18 @@ export const updateProfile = createAsyncThunk(
 	async (data: ChangeProfile, thunkAPI) => {
 		try {
 			const response = await updateProfileAPI(data);
-			return response.data.data;
+			// return response.data.data;
+			const state = thunkAPI.getState() as RootState;
+			const currentUser = state.authState.user;
+			const updatedUser = {
+				...currentUser,
+				...response.data.data,
+			};
+			return updatedUser;
 		} catch (e: any) {
 			return thunkAPI.rejectWithValue(e.response.data || e.message);
 		}
-	}
+	},
 );
 
 const profileSlice = createSlice({

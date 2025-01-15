@@ -7,7 +7,6 @@ import themes from "../../configs/themes/theme.config";
 import { SolarTicketSaleOutline } from "../../../assets/images/icons/TicketSaleOutline";
 import textStyle from "../../configs/styles/textStyle.config";
 import { SolarAltArrowRightOutline } from "../../../assets/images/icons/SolarAltArrowRightOutline";
-import { FlatList } from "react-native-gesture-handler";
 import SolarMapPointLinear from "../../../assets/images/icons/SolarMapPointLinear";
 import { SolarWalletOutline } from "../../../assets/images/icons/SolarWalletOutline";
 import SolarChatDotsLinear from "../../../assets/images/icons/SolarChatDotsLinear";
@@ -23,7 +22,7 @@ import Space from "../custom/Space";
 const ProfileOptionData = [
 	{
 		icon: <SolarMapPointLinear />,
-		name: "My Locations",
+		name: "Change Password",
 	},
 	{
 		icon: <SolarTicketSaleOutline />,
@@ -51,11 +50,14 @@ const ProfileOptionData = [
 	},
 ];
 
-function ProfileOption() {
+function ProfileOption({ onShowPopUpChangePassword }: { onShowPopUpChangePassword: (show: boolean) => void }) {
+
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const textTheme = useSelector((state: RootState) => state.themeState.textTheme);
 	const [isDark, setDark] = useState(textTheme === "dark");
 	const dispatch = useDispatch();
+	const [showPopUpChangePassword, setShowPopUpChangePassword] = useState<boolean>(false);
+
 
 	useEffect(() => {
 		dispatch(setTheme(isDark ? "dark" : "light"));
@@ -65,7 +67,12 @@ function ProfileOption() {
 		<Col>
 			{ProfileOptionData.map((item, index) => {
 				return (
-					<TouchableOpacity style={[styles.container]} key={`profile_men_option_${index}`}>
+					<TouchableOpacity style={[styles.container]} key={`profile_men_option_${index}`}
+					onPress={() => {
+						if (item.name === "Change Password") {
+							onShowPopUpChangePassword(true);
+						}
+					}}>
 						<Row style={{ gap: 20 }}>
 							{cloneElement(item.icon, {
 								color: theme.text_1.getColor(),
@@ -105,6 +112,7 @@ function ProfileOption() {
 				<SolarAltArrowRightOutline color={theme.text_1.getColor()} />
 			</TouchableOpacity>
 		</Col>
+
 	);
 }
 

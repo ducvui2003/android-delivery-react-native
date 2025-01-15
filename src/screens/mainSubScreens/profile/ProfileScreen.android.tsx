@@ -21,6 +21,7 @@ import spacing from "../../../configs/styles/space.config";
 import Space from "../../../components/custom/Space";
 import { BottomNavigationContext } from "../../../components/navigation/BottomNavigation";
 import { updateProfile } from "../../../hooks/redux/profile.slice";
+import ProfilePopUpChangePassword from "../../../fragments/profile/ProfilePopUpChangePassword";
 
 /**
  * Author: Nguyen Dinh Lam
@@ -43,6 +44,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [showPopUp, setShowPopUp] = useState<boolean>(false);
+	const [showPopUpChangePassword, setShowPopUpChangePassword] = useState<boolean>(false);
 	const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	const handleBackPress = useCallback(() => {
@@ -88,7 +90,8 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 					) : (
 						<ProfileHasUser onChangeProfile={() => setShowPopUp(true)} logout={() => setShowModal(true)} />
 					)}
-					<ProfileOption />
+					<ProfileOption onShowPopUpChangePassword={setShowPopUpChangePassword} />
+
 				</Col>
 				<Space height={spacing["spaced-7"]} />
 			</ScrollView>
@@ -103,6 +106,11 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 				onShowed={setShowPopUp}
 				showed={showPopUp}
 			/>
+			<ProfilePopUpChangePassword
+				showed={showPopUpChangePassword}
+				onShowed={(value) => setShowPopUpChangePassword(value)}
+			/>
+
 		</SafeAreaView>
 	);
 }
