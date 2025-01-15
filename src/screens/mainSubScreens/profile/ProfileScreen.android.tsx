@@ -15,7 +15,6 @@ import spacing from "../../../configs/styles/space.config";
 import NumberValue from "../../../configs/value/number.value";
 import ProfileHasNotUser from "../../../fragments/profile/ProfileHasNotUser";
 import ProfileHasUser from "../../../fragments/profile/ProfileHasUser";
-import ChangeProfile from "../../../types/changeProfile";
 import ProfilePopUp from "../../../fragments/profile/ProfilePopUp";
 import { logout } from "../../../hooks/redux/auth.slice";
 import { hiddenModalNotify, showModalNotify } from "../../../hooks/redux/modal.slice";
@@ -98,7 +97,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 					{user == null ? (
 						<ProfileHasNotUser onPress={() => nav.push("LoginScreen", { back: true })} />
 					) : (
-						<ProfileHasUser onChangeProfile={() => {}} logout={onLogout} />
+						<ProfileHasUser onChangeProfile={() => setShowPopUp(true)} logout={onLogout} />
 					)}
 					<ProfileOption onShowPopUpChangePassword={setShowPopUpChangePassword} />
 
