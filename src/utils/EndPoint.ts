@@ -3,5 +3,11 @@ export enum EndPoint {
 	REGISTER = "/auth/register",
 	LOGOUT = "/auth/logout",
 	ACCOUNT = "/auth/account",
-	UPDATE_PROFILE = "/user/update-profile",
+
+	ADD_CART = "/cart/add",
+	GET_CARTS = "/cart/list",
+	DETAIL_CART = "/cart/detail",
+	INCREASE_CART = "/cart/increase",
+	DECREASE_CART = "/cart/decrease",
+	DELETE_CART = "/cart/delete",
 }

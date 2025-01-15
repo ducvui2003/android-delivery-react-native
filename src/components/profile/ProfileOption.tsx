@@ -1,8 +1,8 @@
 import React, { cloneElement, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Row from "../custom/Row";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../configs/redux/store.config";
 import themes from "../../configs/themes/theme.config";
 import { SolarTicketSaleOutline } from "../../../assets/images/icons/TicketSaleOutline";
 import textStyle from "../../configs/styles/textStyle.config";
@@ -18,23 +18,38 @@ import { primary, white } from "../../configs/colors/color-template.config";
 import Col from "../custom/Col";
 import { setTheme } from "../../hooks/redux/theme.slice";
 import Space from "../custom/Space";
+import ProtectedRoute from "../auth/ProtectedRoute";
+import { Role } from "../auth/const/authenticationConst";
 
 const ProfileOptionData = [
+	{
+		icon: <SolarMapPointLinear />,
+		name: "Admin",
+		role: ["ADMIN"],
+	},
 	{
 		icon: <SolarMapPointLinear />,
 		name: "Change Password",
 	},
 	{
+		icon: <SolarMapPointLinear />,
+		name: "My Locations",
+		role: ["USER", "ADMIN"],
+	},
+	{
 		icon: <SolarTicketSaleOutline />,
 		name: "My Promotions",
+		role: ["USER", "ADMIN"],
 	},
 	{
 		icon: <SolarWalletOutline />,
 		name: "Payment Methods",
+		role: ["USER", "ADMIN"],
 	},
 	{
 		icon: <SolarChatDotsLinear />,
 		name: "Messages",
+		role: ["USER", "ADMIN"],
 	},
 	{
 		icon: <SolarUsersGroupTwoRoundedLinear />,
@@ -43,6 +58,7 @@ const ProfileOptionData = [
 	{
 		icon: <SolarShieldUserOutline />,
 		name: "Security",
+		role: ["USER", "ADMIN"],
 	},
 	{
 		icon: <FluentQuestionCircle48Regular />,
@@ -55,34 +71,33 @@ function ProfileOption({ onShowPopUpChangePassword }: { onShowPopUpChangePasswor
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const textTheme = useSelector((state: RootState) => state.themeState.textTheme);
 	const [isDark, setDark] = useState(textTheme === "dark");
-	const dispatch = useDispatch();
-	const [showPopUpChangePassword, setShowPopUpChangePassword] = useState<boolean>(false);
-
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(setTheme(isDark ? "dark" : "light"));
-	}, [isDark]);
+		setDark(textTheme === "dark");
+	}, [textTheme]);
 
 	return (
 		<Col>
 			{ProfileOptionData.map((item, index) => {
 				return (
-					<TouchableOpacity style={[styles.container]} key={`profile_men_option_${index}`}
-					onPress={() => {
-						if (item.name === "Change Password") {
-							onShowPopUpChangePassword(true);
-						}
-					}}>
-						<Row style={{ gap: 20 }}>
-							{cloneElement(item.icon, {
-								color: theme.text_1.getColor(),
-							})}
-							<Text style={[styles.option, { color: theme.text_1.getColor() }]}>{item.name}</Text>
-						</Row>
-						<View>
-							<SolarAltArrowRightOutline color={theme.text_1.getColor()} />
-						</View>
-					</TouchableOpacity>
+					<ProtectedRoute key={index} allowRoles={item.role ? (item.role as Role[]) : undefined}>
+						<TouchableOpacity style={[styles.container]} key={index} onPress={() => {
+							if (item.name === "Change Password") {
+								onShowPopUpChangePassword(true);
+							}
+						}}>
+							<Row style={{ gap: 20 }}>
+								{cloneElement(item.icon, {
+									color: theme.text_1.getColor(),
+								})}
+								<Text style={[styles.option, { color: theme.text_1.getColor() }]}>{item.name}</Text>
+							</Row>
+							<View>
+								<SolarAltArrowRightOutline color={theme.text_1.getColor()} />
+							</View>
+						</TouchableOpacity>
+					</ProtectedRoute>
 				);
 			})}
 			<View style={styles.footerBorder} />
@@ -95,7 +110,9 @@ function ProfileOption({ onShowPopUpChangePassword }: { onShowPopUpChangePasswor
 					trackColor={{ false: theme.profile.switch.getColor(), true: primary.getColor("500") }}
 					thumbColor={white.getColor()}
 					ios_backgroundColor="#3e3e3e"
-					onValueChange={setDark}
+					onValueChange={() => {
+						dispatch(setTheme(isDark ? "light" : "dark"));
+					}}
 					value={isDark}
 				/>
 			</Row>
@@ -112,7 +129,6 @@ function ProfileOption({ onShowPopUpChangePassword }: { onShowPopUpChangePasswor
 				<SolarAltArrowRightOutline color={theme.text_1.getColor()} />
 			</TouchableOpacity>
 		</Col>
-
 	);
 }
 

@@ -52,6 +52,7 @@ function OrderScreen() {
 				styleIconBack={{
 					backgroundColor: theme.header.backgroundIconBack.getColor(),
 				}}
+				showIconBack={false}
 			/>
 			<Col style={[{ paddingHorizontal: 25 }]}>
 				<InputSearch styleInput={styles.inputSearchCustom} placeholder={"Search"} />
@@ -84,7 +85,7 @@ function OrderScreen() {
 				renderItem={renderItem}
 				keyExtractor={item => item.id}
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{paddingBottom: spacing['spaced-7']}}
+				contentContainerStyle={{ paddingBottom: spacing["spaced-7"] }}
 			/>
 		</SafeAreaView>
 	);

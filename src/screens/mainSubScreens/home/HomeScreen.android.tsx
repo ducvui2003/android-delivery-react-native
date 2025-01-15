@@ -119,7 +119,7 @@ function HomeScreen() {
 				/>
 			</View>
 
-			<HomeProductsFragment refresh={refresh} onRefresh={setRefreshing} />
+			<HomeProductsFragment refresh={refresh} onRefreshed={setRefreshing} />
 
 			<Space height={80} />
 		</ScrollView>

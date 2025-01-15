@@ -8,8 +8,7 @@ export const isServerAlive = (): Promise<boolean> => {
 		.then(() => {
 			return true;
 		})
-		.catch(error => {
-			console.log(error);
+		.catch(() => {
 			return false;
 		});
 };

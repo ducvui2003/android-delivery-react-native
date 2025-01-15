@@ -17,6 +17,7 @@
     ".env",
     "react-app-env.d.ts",
     "src",
-    "assets/fonts"
+    "assets/fonts",
+    "assets/images"
   ]
 }

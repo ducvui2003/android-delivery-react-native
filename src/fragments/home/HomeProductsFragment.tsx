@@ -23,7 +23,13 @@ import CategoryType from "../../types/category.type";
 import ProductType from "../../types/product.type";
 import { ThemeType } from "../../types/theme.type";
 
-const HomeProductsFragment = ({ refresh, onRefresh }: { refresh?: number; onRefresh?: (result: boolean) => void }) => {
+const HomeProductsFragment = ({
+	refresh,
+	onRefreshed,
+}: {
+	refresh?: number;
+	onRefreshed?: (result: boolean) => void;
+}) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = styled(theme);
@@ -44,24 +50,17 @@ const HomeProductsFragment = ({ refresh, onRefresh }: { refresh?: number; onRefr
 		getProducts()
 			.then(res => {
 				setProducts(res.content);
-				onRefresh?.(false);
+				onRefreshed?.(false);
 			})
 			.catch(() => {
-				onRefresh?.(false);
+				onRefreshed?.(false);
 			});
-	}, [refresh, onRefresh]);
+	}, [refresh, onRefreshed]);
 
 	return (
 		<Col style={styles.productList}>
 			<Row style={styles.productGridContainerHeading}>
 				<Text style={styles.productGridContainerHeadingText}>Special Offers</Text>
-				{/*<TouchableOpacity*/}
-				{/*	style={{ flexDirection: "row", alignItems: "center", gap: 10 }}*/}
-				{/*	onPress={() => onClickViewAll()}*/}
-				{/*>*/}
-				{/*	<GradientText text={"View All"} textStyle={styles.more} gradientColors={gradient.getColor()} />*/}
-				{/*	<SolarAltArrowRightOutline width={25} height={25} color={primary.getColor("500")} />*/}
-				{/*</TouchableOpacity>*/}
 			</Row>
 			<View style={styles.productGridContainer}>
 				<Grid<ProductType>

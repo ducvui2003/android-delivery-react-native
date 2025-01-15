@@ -20,6 +20,7 @@ import GradientIconSvg from "../../components/grandientIconSvg/GradientIconSvg";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigations/stack.type";
+import ProtectedRoute from "../../components/auth/ProtectedRoute";
 
 function HomeHeaderFragment() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
@@ -62,9 +63,11 @@ function HomeHeaderFragment() {
 					</Row>
 				</TouchableOpacity>
 			</Col>
-			<TouchableOpacity style={styles.shopIconContainer} onPress={() => navigation.navigate("BasketScreen")}>
-				<SolarBagOutline width={32} height={32} color={theme.home.cart.icon.getColor()} />
-			</TouchableOpacity>
+			<ProtectedRoute allowRoles={["ADMIN", "USER"]}>
+				<TouchableOpacity style={styles.shopIconContainer} onPress={() => navigation.navigate("BasketScreen")}>
+					<SolarBagOutline width={32} height={32} color={theme.home.cart.icon.getColor()} />
+				</TouchableOpacity>
+			</ProtectedRoute>
 		</Row>
 	);
 }
