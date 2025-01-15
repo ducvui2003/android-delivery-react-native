@@ -37,8 +37,8 @@ import SignUpScreen from "./src/screens/SignUpScreen";
 import TouchIDScreen from "./src/screens/TouchIDScreen";
 import VerificationScreen from "./src/screens/VerificationScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
-import { getFromStorage } from "./src/services/secureStore.service";
 import { NameTheme } from "./src/types/theme.type";
+import { getFromStorage, KEY_ASYNC } from "./src/services/asyncStore.service";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -76,7 +76,7 @@ function Root() {
 
 
     useEffect(() => {
-        getFromStorage("theme").then(value => {
+        getFromStorage(KEY_ASYNC.THEME).then(value => {
             if (!value) {
                 if (!colorScheme) return;
                 dispatch(setTheme(colorScheme));

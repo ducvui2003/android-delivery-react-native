@@ -9,7 +9,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { NameTheme, ThemeType } from "../../types/theme.type";
 import themes from "../../configs/themes/theme.config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { KEY_ASYNC, saveToStorage } from "../../services/asyncStore.service";
 
 type ThemeState = {
 	theme: ThemeType;
@@ -22,7 +22,7 @@ const initialState: ThemeState = {
 };
 
 export const setTheme = createAsyncThunk("theme", async (data: string): Promise<NameTheme> => {
-	await AsyncStorage.setItem("theme", data);
+	await saveToStorage(KEY_ASYNC.THEME, data);
 	return data as NameTheme;
 });
 

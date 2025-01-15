@@ -41,17 +41,13 @@ export const initialStateAuth = createAsyncThunk(AuthType.GET_ACCOUNT, async _ =
 });
 
 export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType, thunkAPI) => {
-	const { dispatch, rejectWithValue } = thunkAPI;
+	const { rejectWithValue } = thunkAPI;
 	try {
-		dispatch(setLoading(true)); // Gọi action setLoading với giá trị true
 		const { user, accessToken } = await loginApi(data);
 		await setAccessToken(accessToken);
 		return user;
 	} catch (error: any) {
-		console.log("Error logging in", error);
 		return rejectWithValue(error.response.data);
-	} finally {
-		dispatch(setLoading(false)); // Gọi action setLoading với giá trị false
 	}
 });
 export const logout = createAsyncThunk(AuthType.LOGOUT, async _ => {

@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export enum KEY_ASYNC {
 	SET_PIN = "set_pin",
 	LAST_TIME_USE = "last_time_use",
+	THEME = "theme",
 }
 
 export const saveToStorage = async (key: KEY_ASYNC, value: string) => {
