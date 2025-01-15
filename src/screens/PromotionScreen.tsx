@@ -77,12 +77,6 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 	const orderOffers = promotions !== undefined ? promotions.filter(item => item.type !== "SHIPPING") : [];
 
 	const submit = () => {
-		if ((indexCheckedOrder || indexCheckedOrder === 0) && orderOffers)
-			appDispatch(promotionOffer(orderOffers[indexCheckedOrder].id));
-
-		if (shippingOffers && (indexCheckedShipping || indexCheckedShipping === 0))
-			appDispatch(promotionOffer(shippingOffers[indexCheckedShipping].id));
-
 		handleBackPress();
 	};
 	return (
@@ -109,30 +103,30 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 							<Text style={{ ...styles.offerText, color: theme.promotion.heading.getColor() }}>
 								Shipping Offers
 							</Text>
-							<FlatList
-								style={styles.flatList}
-								data={shippingOffers}
-								showsHorizontalScrollIndicator={false}
-								showsVerticalScrollIndicator={false}
-								renderItem={({ item, index }) => (
-									<TouchableOpacity onPress={() => handleCheckShipping(index)}>
-										<Row style={styles.row}>
-											<Promotion
-												name={item.name}
-												checked={indexCheckedShipping === index || shipping?.id === item.id}
-												onCheck={() => {
-													appDispatch(promotionOffer(item.id));
-													handleCheckShipping(index);
-												}}
-												onInfoPress={() =>
-													fetchPromotion(item.id).then(res => setPromotion(res.data))
-												}
-											/>
-										</Row>
-										<Space height={15} />
-									</TouchableOpacity>
-								)}
-							/>
+							{shippingOffers &&
+								shippingOffers.map((item, index) => {
+									return (
+										<TouchableOpacity
+											key={`shipping-${index}`}
+											onPress={() => handleCheckShipping(index)}
+										>
+											<Row style={styles.row}>
+												<Promotion
+													name={item.name}
+													checked={indexCheckedShipping === index || shipping?.id === item.id}
+													onCheck={() => {
+														appDispatch(promotionOffer(item.id));
+														handleCheckShipping(index);
+													}}
+													onInfoPress={() =>
+														fetchPromotion(item.id).then(res => setPromotion(res.data))
+													}
+												/>
+											</Row>
+											<Space height={15} />
+										</TouchableOpacity>
+									);
+								})}
 						</>
 					</View>
 					<View style={{ flex: 0 }}>
@@ -140,30 +134,30 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 							<Text style={{ ...styles.offerText, color: theme.promotion.heading.getColor() }}>
 								Order Offers
 							</Text>
-							<FlatList
-								style={styles.flatList}
-								data={orderOffers}
-								showsHorizontalScrollIndicator={false}
-								showsVerticalScrollIndicator={false}
-								renderItem={({ item, index }) => (
-									<TouchableOpacity onPress={() => handleCheckOrder(index)}>
-										<Row style={styles.row}>
-											<Promotion
-												name={item.name}
-												checked={indexCheckedOrder === index || order?.id === item.id}
-												onCheck={() => {
-													appDispatch(promotionOffer(item.id));
-													handleCheckOrder(index);
-												}}
-												onInfoPress={() =>
-													fetchPromotion(item.id).then(res => setPromotion(res.data))
-												}
-											/>
-										</Row>
-										<Space height={15} />
-									</TouchableOpacity>
-								)}
-							/>
+							{orderOffers &&
+								orderOffers.map((item, index) => {
+									return (
+										<TouchableOpacity
+											key={`offer-${index}`}
+											onPress={() => handleCheckOrder(index)}
+										>
+											<Row style={styles.row}>
+												<Promotion
+													name={item.name}
+													checked={indexCheckedOrder === index || order?.id === item.id}
+													onCheck={() => {
+														appDispatch(promotionOffer(item.id));
+														handleCheckOrder(index);
+													}}
+													onInfoPress={() =>
+														fetchPromotion(item.id).then(res => setPromotion(res.data))
+													}
+												/>
+											</Row>
+											<Space height={15} />
+										</TouchableOpacity>
+									);
+								})}
 						</>
 					</View>
 				</ScrollView>

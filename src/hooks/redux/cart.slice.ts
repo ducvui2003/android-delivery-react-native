@@ -61,7 +61,6 @@ export const fetchCarts = createAsyncThunk<Cart[], void, { state: RootState }>(
 		if (lastTimeCalled === undefined || !betweenTime(new Date(), lastTimeCalled, DEFAULT_TIME_BETWEEN_CALLS)) {
 			try {
 				const response = await cartService.getCartItems();
-				console.log(JSON.stringify(response, null, 2));
 
 				return response || [];
 			} catch (error: any) {

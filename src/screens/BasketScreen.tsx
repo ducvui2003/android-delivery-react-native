@@ -57,19 +57,25 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 	}, []);
 
 	useEffect(() => {
-		console.log(JSON.stringify(cartItems, null, 3));
-
 		if (cartItems) {
 			setBasketCalculateProps({
 				subTotal: cartItems.reduce(
-					(previousValue, currentValue) => previousValue + currentValue.price * currentValue.quantity,
-					0
+					(previousValue, currentValue: Cart) =>
+						(
+							previousValue +
+							currentValue.price * currentValue.quantity +
+							(currentValue.options?.reduce(
+								(priceOption, currentOption) => priceOption + currentOption.price,
+								0,
+							) ?? 0)
+						),
+					0,
 				),
 				deliveryFee: deliveryFee,
 				discount: cartItems.reduce(
 					(previousValue, currentValue) =>
 						previousValue + (currentValue.price * (100 - (currentValue.discount ?? 100))) / 100,
-					0
+					0,
 				),
 			});
 		}
@@ -129,7 +135,6 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 						);
 					})}
 				</Col>
-				{/*//place work*/}
 				<BasketMenuFragment />
 				<BasketCalculator {...basketCalculateProps} deliveryFee={deliveryFee} discount={discount} />
 				<Space height={175} />
@@ -138,7 +143,7 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 				<Row style={{ justifyContent: "center" }}>
 					<Text style={[{ ...textStyle["18_semibold"], color: theme.text_1.getColor() }]}>
 						{Formater.formatCurrency(
-							basketCalculateProps.subTotal - discount * basketCalculateProps.subTotal + deliveryFee
+							basketCalculateProps.subTotal - discount * basketCalculateProps.subTotal + deliveryFee,
 						)}
 					</Text>
 				</Row>

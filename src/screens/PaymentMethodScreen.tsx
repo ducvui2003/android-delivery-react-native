@@ -17,7 +17,6 @@ import PopUp from "../components/popUp/PopUp";
 import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import Modal from "../components/modal/Modal";
 import CardVisaType from "../types/cardVisa.type";
-import AddPaymentMethodFragment from "../fragments/paymentMethod/AddPaymentMethodFragment";
 import textStyle from "../configs/styles/textStyle.config";
 import PaymentMethodType from "../types/paymentMethod.type";
 import LogosMoney from "../../assets/images/icons/LogosMoney";
@@ -140,7 +139,7 @@ function PaymentMethodScreen({ navigation }: PaymentMethodScreenProps) {
 				header={
 					<Text style={[styles.titleAddPaymentMethod, { color: theme.text_1.getColor() }]}>Add New Card</Text>
 				}
-				body={<AddPaymentMethodFragment onDoneInput={setCard} clearData={!showPopUp} />}
+				// body={<AddPaymentMethodFragment onDoneInput={setCard} clearData={!showPopUp} />}
 				footer={
 					<ButtonHasStatus
 						title={"Save"}

@@ -9,7 +9,7 @@ import React, { ReactNode } from "react";
 
 type MenuItemProps = {
 	icon: React.JSX.Element;
-	title: string;
+	title: string | ReactNode;
 	footer?: ReactNode;
 	onPress?: () => void;
 	childRightTitle?: ReactNode;

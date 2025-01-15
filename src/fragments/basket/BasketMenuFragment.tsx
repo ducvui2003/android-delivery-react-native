@@ -10,7 +10,6 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import SolarMapPointBold from "../../../assets/images/icons/SolarMapPointBold";
 import SolarTicketSaleBold from "../../../assets/images/icons/SolarTicketSaleBold";
@@ -24,7 +23,9 @@ import PromotionType from "../../types/promotion.type";
 
 function BasketMenuFragment() {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "BasketScreen">>();
+	const user = useSelector((root: RootState) => root.authState.user);
 	const { shipping, order } = useSelector((state: RootState) => state.promotionOffer);
+	const theme = useSelector((state: RootState) => state.themeState.theme);
 
 	const navigateToPaymentScreen = () => {
 		navigation.navigate("PaymentMethodScreen");
@@ -34,21 +35,35 @@ function BasketMenuFragment() {
 			<MenuBasketItem
 				icon={<SolarMapPointBold />}
 				title={"Deliver to"}
+				childRightTitle={
+					user?.address && (
+						<Text style={{ color: theme.text_1.getColor(), ...textStyle["16_semibold"] }}>
+							→ {user.address.name}
+						</Text>
+					)
+				}
 				footer={
-					<Text style={[{ ...textStyle["16_semibold"], color: neutral.getColor("400") }]}>
-						Select Your Location
+					<Text
+						style={[
+							{
+								...textStyle["16_semibold"],
+								color: user?.address ? theme.text_1.getColor() : neutral.getColor("400"),
+							},
+						]}
+						numberOfLines={1}
+					>
+						{user?.address ? user.address.address : "Select Your Location"}
 					</Text>
 				}
 			/>
 			<MenuBasketItem
 				icon={<SolarWalletBold />}
 				title={"Payment method"}
+				onPress={navigateToPaymentScreen}
 				footer={
-					<TouchableOpacity onPress={navigateToPaymentScreen}>
-						<Text style={[{ ...textStyle["16_semibold"], color: neutral.getColor("400") }]}>
-							Select Payment Method
-						</Text>
-					</TouchableOpacity>
+					<Text style={[{ ...textStyle["16_semibold"], color: neutral.getColor("400") }]} numberOfLines={1}>
+						Select Payment Method
+					</Text>
 				}
 			/>
 			<MenuBasketItem

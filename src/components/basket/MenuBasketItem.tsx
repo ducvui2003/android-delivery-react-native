@@ -11,7 +11,7 @@ import Row from "../custom/Row";
 import Col from "../custom/Col";
 import GradientIconSvg from "../grandientIconSvg/GradientIconSvg";
 import { gradient } from "../../configs/colors/color-template.config";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import textStyle from "../../configs/styles/textStyle.config";
 import SolarAltArrowRightOutline from "../../../assets/images/icons/SolarArrowRightOutline";
 import { useSelector } from "react-redux";
@@ -32,14 +32,13 @@ function MenuBasketItem({ icon, title, footer, onPress, childRightTitle }: MenuI
 					styles.container,
 				]}
 			>
-				<Col style={{ gap: 10 }}>
+				<Col style={{ gap: 10 }} flex={1}>
 					<Row style={{ alignItems: "center", gap: 5 }}>
 						<GradientIconSvg gradientColors={gradient.getColor()} icon={icon} />
 						<Text style={[{ ...textStyle["16_regular"], color: theme.text_1.getColor() }]}>{title}</Text>
 						{childRightTitle}
 					</Row>
-					<Row style={{gap: 10}}>{footer}</Row>
-
+					<Row style={{ gap: 10 }}>{footer}</Row>
 				</Col>
 				<SolarAltArrowRightOutline width={35} height={35} color={theme.text_1.getColor()} />
 			</Row>
@@ -52,7 +51,6 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		borderWidth: 1,
 		borderStyle: "solid",
-		gap: 10,
 		padding: 15,
 		justifyContent: "space-between",
 		alignItems: "center",
