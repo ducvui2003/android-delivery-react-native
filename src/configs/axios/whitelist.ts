@@ -1,9 +1,9 @@
 const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL_BACK_END;
 const WHITE_LIST = [
-	 "/auth/login",
-	 "/auth/register",
-	 "/auth/refresh-token",
-	 "/health/alive",
+	BASE_URL+ "/auth/login",
+	BASE_URL+"/auth/register",
+	BASE_URL+"/auth/refresh-token",
+	BASE_URL+"/health/alive",
 ];
 
 // Function to check if the endpoint is whitelisted

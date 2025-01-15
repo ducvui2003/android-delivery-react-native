@@ -45,6 +45,9 @@ export type RootStackParamList = {
 	};
 	CancelOrderScreen: undefined;
 	ChatScreen: undefined;
+
+	// admin - manage product
+	ProductManagerScreen: { id : string };
 };
 
 export type MainScreenStackParamList = {

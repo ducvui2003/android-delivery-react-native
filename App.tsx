@@ -38,6 +38,7 @@ import CancelOrderScreen from "./src/screens/CancelOrderScreen";
 import ChatScreen from "./src/screens/ChatScreen";
 import {NameTheme} from "./src/types/theme.type";
 import {getFromStorage} from "./src/services/secureStore.service";
+import ProductManagerScreen from "./src/screens/admin/productManager/ProductManagerScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -88,7 +89,7 @@ function Root() {
 
     return (
         <NavigationContainer>
-            <RootStack.Navigator initialRouteName="WelcomeScreen" screenOptions={{headerShown: false}}>
+            <RootStack.Navigator initialRouteName="ProductManagerScreen" screenOptions={{headerShown: false}}>
                 <RootStack.Screen name={"MainScreen"} component={MainScreen}/>
                 <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen}/>
                 <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen}/>
@@ -118,6 +119,7 @@ function Root() {
                 <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen}/>
                 <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen}/>
                 <RootStack.Screen name={"ChatScreen"} component={ChatScreen}/>
+                <RootStack.Screen name={"ProductManagerScreen"} component={ProductManagerScreen}/>
             </RootStack.Navigator>
         </NavigationContainer>
     );
