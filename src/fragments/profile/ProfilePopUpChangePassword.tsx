@@ -11,12 +11,13 @@ import ButtonHasStatus from "../../components/custom/ButtonHasStatus";
 import PopUp from "../../components/popUp/PopUp";
 import NumberValue from "../../configs/value/number.value";
 import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
+import { RootState, useAppDispatch } from "../../configs/redux/store.config";
 import { ChangePasswordType } from "../../types/changePassword.type";
 import axiosInstance from "../../configs/axios/axios.config";
 import SolarLockPasswordBold from "../../../assets/images/icons/SolarLockPasswordBold";
 import SolarEyeBold from "../../../assets/images/icons/SolarEyeBold";
 import SolarEyeClosedBold from "../../../assets/images/icons/SolarEyeClosedBold";
+import { showModalNotify } from "../../hooks/redux/modal.slice";
 
 function ProfilePopUpChangePassword({
 	showed = false,
@@ -30,6 +31,7 @@ function ProfilePopUpChangePassword({
 	const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const dispatch = useAppDispatch();
 	const sizeIcon = 25;
 
 	const {
@@ -64,6 +66,7 @@ function ProfilePopUpChangePassword({
 			}
 		} catch (error) {
 			console.error("Error changing password", error);
+			dispatch(showModalNotify({ title: "Error", body : "Error changing password"}));
 		}
 	};
 
