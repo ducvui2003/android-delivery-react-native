@@ -42,9 +42,10 @@ import CountryPhoneNumberType from "../types/countryPhoneNumber.type";
 import SolarEyeBold from "../../assets/images/icons/SolarEyeBold";
 import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
 import NumberValue from "../configs/value/number.value";
-import { AuthType, login } from "../hooks/redux/auth.slice";
+import { AuthType, login, loginGoogle } from "../hooks/redux/auth.slice";
 import Modal from "../components/modal/Modal";
 import SolarArrowLeftLinear from "../../assets/images/icons/SolarArrowLeftLinear";
+import { User } from "../types/user.type";
 
 type LoginScreenProps = {
 	route: RouteProp<RootStackParamList, "LoginScreen">;
@@ -82,6 +83,19 @@ function LoginScreen({ route: { params }, navigation }: LoginScreenProps) {
 		setShowed(false);
 		if (Platform.OS === "web") return;
 		Keyboard.dismiss();
+	};
+
+	const handleLoginGoogle = (user: User, accessToken: string) => {
+		dispatch(loginGoogle({ user, accessToken })).then(action => {
+			switch (action.type) {
+				case AuthType.LOGIN_GOOGLE_FULFILLED:
+					navigation.replace("MainScreen", { screen: "HomeScreen" });
+					break;
+				case AuthType.LOGIN_GOOGLE_REJECTED:
+					setShowModal(true);
+					break;
+			}
+		});
 	};
 
 	const onSubmit = (data: LoginFormType) => {
@@ -152,7 +166,7 @@ function LoginScreen({ route: { params }, navigation }: LoginScreenProps) {
 											opacity: params?.back ? 1 : 0,
 										}}
 									>
-										{params?.back  && (
+										{params?.back && (
 											<TouchableOpacity onPress={() => navigation.pop()}>
 												<SolarArrowLeftLinear
 													color={theme.text_1.getColor()}
@@ -305,7 +319,7 @@ function LoginScreen({ route: { params }, navigation }: LoginScreenProps) {
 							</Text>
 						</View>
 						<Row style={[styles.buttonOtherMethodSignIn]} flex={0}>
-							<GoogleAuth />
+							<GoogleAuth loginSuccess={(user, accessToken) => handleLoginGoogle(user, accessToken)} />
 							<View style={{ padding: 8 }} />
 							<FacebookAuth />
 						</Row>

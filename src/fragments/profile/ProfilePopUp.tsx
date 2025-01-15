@@ -27,10 +27,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../configs/redux/store.config";
 
 function ProfilePopUp({
+	numberPhone,
+	email,
+	fullName,
 	onSave,
 	showed = false,
 	onShowed,
 }: {
+	numberPhone?: string;
+	email?: string;
+	fullName?: string;
 	onSave: (data: ChangeProfile) => void;
 	onShowed?: (value: boolean) => void;
 	showed?: boolean;
@@ -38,13 +44,19 @@ function ProfilePopUp({
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [showPopUp, setShowPopUp] = useState<boolean>(false);
 	const sizeIcon = 25;
+	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>();
 	const {
 		control,
 		setError,
 		handleSubmit,
 		formState: { isValid, errors },
-	} = useForm<ChangeProfile>({ mode: "all" });
-	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>();
+	} = useForm<ChangeProfile>({ mode: "all", defaultValues: {
+			phoneNumber: numberPhone || "",
+			email: email || "",
+			fullName: fullName || "",
+			region:   countryPhoneNumber?.code || "VN",
+		},});
+
 
 	useEffect(() => {
 		setShowPopUp(showed);

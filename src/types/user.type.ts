@@ -9,6 +9,7 @@ import { MyLocation } from "../../assets/data/location/location";
 
 export type User = {
 	id: number;
+	countryCode: number;
 	email: string;
 	phoneNumber: string;
 	fullName: string;
