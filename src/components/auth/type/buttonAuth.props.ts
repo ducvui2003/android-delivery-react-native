@@ -6,8 +6,10 @@
  * User: lam-nguyen
  **/
 
+import { User } from "../../../types/user.type";
+
 type ButtonAuthProps = {
-	loginSuccess?: (email: string) => void; //để tạm
+	loginSuccess?: (user: User, accessToken: string) => void; //để tạm
 	errorLogin?: () => void;
 	loginFail?: () => void;
 	logoutSuccess?: () => void;

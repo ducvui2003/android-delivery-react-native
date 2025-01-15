@@ -15,6 +15,17 @@ export const loginApi = async (data: LoginFormType): Promise<{ user: User; acces
 	};
 };
 
+export const loginGoogleApi = async (authCode: string): Promise<{ user: User; accessToken: string }> => {
+	const result = await axiosInstance.post<ApiResponse<ResponseAuthentication>>(EndPoint.LOGIN_GOOGLE, {
+		authCode,
+	});
+	const { user, access_token } = result.data.data;
+	return {
+		user,
+		accessToken: access_token,
+	};
+};
+
 export const logoutApi = async (): Promise<void> => {
 	const refresh = await getRefreshToken();
 	const access = await getAccessToken();
