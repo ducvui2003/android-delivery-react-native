@@ -10,20 +10,22 @@ import themeSlice from "../../hooks/redux/theme.slice";
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "../../hooks/redux/auth.slice";
 import ratingSlice from "../../hooks/redux/rating.slice";
-import loadingSlice from "../../hooks/redux/modal.slice";
+import modalSlice from "../../hooks/redux/modal.slice";
 import categorySlice from "../../hooks/redux/category.slice";
 import promotionOfferSlice from "../../hooks/redux/promotionOffer.slice";
+import cartSlice from "../../hooks/redux/cart.slice";
 import addressSlice from "../../hooks/redux/address.slice";
 
 const store = configureStore({
 	reducer: {
-		loadingState: loadingSlice,
+		modalState: modalSlice,
 		themeState: themeSlice,
 		authState: authSlice,
 		ratingState: ratingSlice,
 		categoryState: categorySlice,
 		promotionOffer: promotionOfferSlice,
 		addressState: addressSlice,
+		cart: cartSlice,
 	},
 	middleware: getDefaultMiddleware => {
 		return getDefaultMiddleware({

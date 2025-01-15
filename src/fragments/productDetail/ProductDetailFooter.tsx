@@ -6,39 +6,34 @@
  *  User: lam-nguyen
  **/
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
-import Row from "../../components/custom/Row";
 import { StyleSheet } from "react-native";
-import ButtonHasStatus from "../../components/custom/ButtonHasStatus";
+import { useSelector } from "react-redux";
 import SolarBag5Bold from "../../../assets/images/icons/SolarBag5Bold";
-import { white } from "../../configs/colors/color-template.config";
+import ButtonHasStatus from "../../components/custom/ButtonHasStatus";
+import Row from "../../components/custom/Row";
 import InputNumberButton from "../../components/input/InputNumberButton";
+import { white } from "../../configs/colors/color-template.config";
+import { RootState } from "../../configs/redux/store.config";
 
 export default function ProductDetailFooter({
-	onAmount,
+	onSubmit,
 	totalAmount,
 }: {
-	onAmount?: (amount: number) => void;
+	onSubmit: (quantity: number) => void;
 	totalAmount: number;
 }) {
-	const [amount, setAmount] = useState<number>(1);
 	const theme = useSelector((state: RootState) => state.themeState.theme);
-
-	useEffect(() => {
-		onAmount?.(amount);
-	}, [amount]);
-
+	const [quantity, setQuantity] = React.useState<number>(1);
 	return (
 		<Row style={[styles.container, { backgroundColor: theme.navigation.getColor() }]}>
-			<InputNumberButton totalAmount={totalAmount} onAmount={amount => setAmount(amount)} />
+			<InputNumberButton max={totalAmount} onMountCurrent={quantity => setQuantity(quantity)} />
 
 			<ButtonHasStatus
 				styleButton={[styles.buttonAdd]}
 				icon={<SolarBag5Bold color={white.getColor()} width={24} height={24} style={{ marginRight: 10 }} />}
 				title={"Add to Basket"}
 				active={true}
+				onPress={() => onSubmit(quantity)}
 			/>
 		</Row>
 	);

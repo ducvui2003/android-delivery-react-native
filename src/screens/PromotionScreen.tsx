@@ -76,7 +76,6 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 	const shippingOffers = promotions !== undefined ? promotions.filter(item => item.type !== "ORDER") : [];
 	const orderOffers = promotions !== undefined ? promotions.filter(item => item.type !== "SHIPPING") : [];
 
-	
 	const submit = () => {
 		if ((indexCheckedOrder || indexCheckedOrder === 0) && orderOffers)
 			appDispatch(promotionOffer(orderOffers[indexCheckedOrder].id));
@@ -107,7 +106,9 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 				<ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
 					<View style={{ flex: 0 }}>
 						<>
-							<Text style={styles.offerText}>Shipping Offers</Text>
+							<Text style={{ ...styles.offerText, color: theme.promotion.heading.getColor() }}>
+								Shipping Offers
+							</Text>
 							<FlatList
 								style={styles.flatList}
 								data={shippingOffers}
@@ -120,7 +121,7 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 												name={item.name}
 												checked={indexCheckedShipping === index || shipping?.id === item.id}
 												onCheck={() => {
-													appDispatch(promotionOffer(item.id))
+													appDispatch(promotionOffer(item.id));
 													handleCheckShipping(index);
 												}}
 												onInfoPress={() =>
@@ -136,7 +137,9 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 					</View>
 					<View style={{ flex: 0 }}>
 						<>
-							<Text style={styles.offerText}>Order Offers</Text>
+							<Text style={{ ...styles.offerText, color: theme.promotion.heading.getColor() }}>
+								Order Offers
+							</Text>
 							<FlatList
 								style={styles.flatList}
 								data={orderOffers}
@@ -200,7 +203,6 @@ const styles = StyleSheet.create({
 	},
 	offerText: {
 		...textStyle["16_regular"],
-		color: "black",
 		paddingTop: 20,
 		paddingBottom: 15,
 	},

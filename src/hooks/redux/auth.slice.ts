@@ -9,17 +9,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import LoginFormType from "../../types/loginForm.type";
 import { User } from "../../types/user.type";
-import { setLoading } from "./modal.slice";
 import { getUserInfo, loginApi, logoutApi, setAccessToken } from "../../services/auth.service";
 
 type AuthState = {
-	user: User | null;
-	error: string | null;
+	user?: User;
 };
 
 const initialState: AuthState = {
-	user: null,
-	error: null,
+	user: undefined,
 };
 
 enum AuthType {
@@ -49,7 +46,7 @@ export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType
 		dispatch(setLoading(true)); // Gọi action setLoading với giá trị true
 		const { user, accessToken } = await loginApi(data);
 		await setAccessToken(accessToken);
-		return { user };
+		return user;
 	} catch (error: any) {
 		console.log("Error logging in", error);
 		return rejectWithValue(error.response.data);
@@ -57,7 +54,6 @@ export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType
 		dispatch(setLoading(false)); // Gọi action setLoading với giá trị false
 	}
 });
-
 export const logout = createAsyncThunk(AuthType.LOGOUT, async _ => {
 	await logoutApi();
 });
@@ -69,14 +65,13 @@ const authSlice = createSlice({
 	extraReducers: builder => {
 		builder
 			.addCase(initialStateAuth.fulfilled, (state, action) => {
-				state.user = action.payload.user;
+				state.user = action.payload;
 			})
 			.addCase(login.fulfilled, (state, action) => {
-				state.user = action.payload.user;
-				state.error = null;
+				state.user = action.payload;
 			})
 			.addCase(logout.fulfilled, state => {
-				state.user = null;
+				state.user = undefined;
 			});
 	},
 });

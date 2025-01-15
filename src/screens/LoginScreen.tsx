@@ -32,7 +32,7 @@ import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import InputPhoneNumber from "../components/input/InputPhoneNumber";
 import GradientText from "../components/gradientText/GradientText";
 import { FlatList } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigations/stack.type";
 import InputIcon from "../components/input/InputIcon";
@@ -44,13 +44,18 @@ import SolarEyeClosedBold from "../../assets/images/icons/SolarEyeClosedBold";
 import NumberValue from "../configs/value/number.value";
 import { AuthType, login } from "../hooks/redux/auth.slice";
 import Modal from "../components/modal/Modal";
+import SolarArrowLeftLinear from "../../assets/images/icons/SolarArrowLeftLinear";
 
-function LoginScreen() {
+type LoginScreenProps = {
+	route: RouteProp<RootStackParamList, "LoginScreen">;
+	navigation: NativeStackNavigationProp<RootStackParamList>;
+};
+
+function LoginScreen({ route: { params }, navigation }: LoginScreenProps) {
 	const [checked, setChecked] = React.useState(false);
 	const [showed, setShowed] = React.useState(false);
 	const [isFocusInput, setIsFocusInput] = React.useState(false);
 	const theme = useSelector((state: RootState) => state.themeState.theme);
-	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "LoginScreen">>();
 	const [countryPhoneNumber, setCountryPhoneNumber] = useState<CountryPhoneNumberType>();
 	const [showPassword, setShowPassword] = useState(false);
 	const sizeIcon = 25;
@@ -123,12 +128,50 @@ function LoginScreen() {
 					renderItem={() => {
 						return (
 							<>
-								<GradientText
-									style={{ marginBottom: 32, alignItems: "center" }}
-									textStyle={styles.title}
-									text={"Login"}
-									gradientColors={gradient.getColor()}
-								/>
+								<Row
+									style={{
+										justifyContent: "space-between",
+									}}
+								>
+									<View
+										style={{
+											padding: 8,
+											borderRadius: 99999999,
+											borderStyle: "solid",
+											borderWidth: 0,
+											borderColor: "gray",
+											shadowRadius: 10,
+											shadowOffset: { width: -100000, height: 5 },
+											shadowColor: "#000",
+											shadowOpacity: 0.5,
+											justifyContent: "center",
+											alignItems: "center",
+											backgroundColor: theme.header.backgroundIconBack.getColor(),
+											width: 50,
+											height: 50,
+											opacity: params?.back ? 1 : 0,
+										}}
+									>
+										{params?.back  && (
+											<TouchableOpacity onPress={() => navigation.pop()}>
+												<SolarArrowLeftLinear
+													color={theme.text_1.getColor()}
+													width={25}
+													height={25}
+													strokeWidth={2}
+												/>
+											</TouchableOpacity>
+										)}
+									</View>
+
+									<GradientText
+										style={{ marginBottom: 32, alignItems: "center" }}
+										textStyle={styles.title}
+										text={"Login"}
+										gradientColors={gradient.getColor()}
+									/>
+									<View style={{ width: 50, height: 50, opacity: 0 }}></View>
+								</Row>
 								<Controller
 									control={control}
 									name={"phoneNumber"}
