@@ -62,6 +62,7 @@ function ProfilePopUpChangePassword({
 
 			if (response.status === 200) {
 				console.log("Password changed successfully");
+				dispatch(showModalNotify({ title: "Success", body : "Change Password Successfully"}));
 				setShowPopUp(false);
 			}
 		} catch (error) {
