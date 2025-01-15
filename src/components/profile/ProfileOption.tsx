@@ -30,6 +30,7 @@ const ProfileOptionData = [
 	{
 		icon: <SolarMapPointLinear />,
 		name: "Change Password",
+		role: ["USER", "ADMIN"],
 	},
 	{
 		icon: <SolarMapPointLinear />,
