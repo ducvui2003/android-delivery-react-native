@@ -16,8 +16,8 @@ import { FluentQuestionCircle48Regular } from "../../../assets/images/icons/Flue
 import { Switch } from "@rneui/base";
 import { primary, white } from "../../configs/colors/color-template.config";
 import Col from "../custom/Col";
-import Space from "../custom/Space";
 import { setTheme } from "../../hooks/redux/theme.slice";
+import Space from "../custom/Space";
 import ProtectedRoute from "../auth/ProtectedRoute";
 import { Role } from "../auth/const/authenticationConst";
 
@@ -26,6 +26,11 @@ const ProfileOptionData = [
 		icon: <SolarMapPointLinear />,
 		name: "Admin",
 		role: ["ADMIN"],
+	},
+	{
+		icon: <SolarMapPointLinear />,
+		name: "Change Password",
+		role: ["USER", "ADMIN"],
 	},
 	{
 		icon: <SolarMapPointLinear />,
@@ -62,7 +67,8 @@ const ProfileOptionData = [
 	},
 ];
 
-function ProfileOption() {
+function ProfileOption({ onShowPopUpChangePassword }: { onShowPopUpChangePassword: (show: boolean) => void }) {
+
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const textTheme = useSelector((state: RootState) => state.themeState.textTheme);
 	const [isDark, setDark] = useState(textTheme === "dark");
@@ -77,7 +83,11 @@ function ProfileOption() {
 			{ProfileOptionData.map((item, index) => {
 				return (
 					<ProtectedRoute key={index} allowRoles={item.role ? (item.role as Role[]) : undefined}>
-						<TouchableOpacity style={[styles.container]} key={index}>
+						<TouchableOpacity style={[styles.container]} key={index} onPress={() => {
+							if (item.name === "Change Password") {
+								onShowPopUpChangePassword(true);
+							}
+						}}>
 							<Row style={{ gap: 20 }}>
 								{cloneElement(item.icon, {
 									color: theme.text_1.getColor(),
