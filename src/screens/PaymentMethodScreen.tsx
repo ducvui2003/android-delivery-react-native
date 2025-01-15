@@ -8,7 +8,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../configs/redux/store.config";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../navigations/stack.type";
@@ -30,6 +30,7 @@ import { neutral } from "../configs/colors/color-template.config";
 import spacing from "../configs/styles/space.config";
 import LogosVisa from "../../assets/images/icons/LogosVisa";
 import confetti from "../../assets/images/confetti.png";
+import { setPayment } from "../hooks/redux/cart.slice";
 
 type PaymentMethodScreenProps = {
 	route: RouteProp<RootStackParamList, "PaymentMethodScreen">;
@@ -62,7 +63,8 @@ function PaymentMethodScreen({ navigation }: PaymentMethodScreenProps) {
 	const [showPopUp, setShowPopUp] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [cards, setCards] = useState<CardVisaType[]>([]);
-	const [card, setCard] = useState<CardVisaType>();
+	const dispatch = useDispatch();
+	const payment = useSelector((state: RootState) => state.cart.paymentMethod);
 
 	useEffect(() => {
 		// Call API get card
@@ -102,7 +104,15 @@ function PaymentMethodScreen({ navigation }: PaymentMethodScreenProps) {
 				contentContainerStyle={[{ gap: spacing["spaced-3"] }]}
 			>
 				{payments.map((value, index) => (
-					<ButtonPaymentMethod key={`payment_type_${index}`} title={value.type} icon={value.icon} />
+					<ButtonPaymentMethod
+						key={`payment_type_${index}`}
+						title={value.type}
+						icon={value.icon}
+						checked={value.type === payment}
+						onPress={() => {
+							dispatch(setPayment(value.type));
+						}}
+					/>
 				))}
 
 				{cards.map((value, index) => (
@@ -131,7 +141,8 @@ function PaymentMethodScreen({ navigation }: PaymentMethodScreenProps) {
 					marginHorizontal: spacing["spaced-5"],
 				}}
 				title={"Apply"}
-				active={false}
+				active={!!payment}
+				onPress={() => navigation.pop()}
 			/>
 			<PopUp
 				showed={showPopUp}
@@ -144,9 +155,9 @@ function PaymentMethodScreen({ navigation }: PaymentMethodScreenProps) {
 					<ButtonHasStatus
 						title={"Save"}
 						onPress={() => {
-							if (card) submitAddNewCard(card);
+							// if (card) submitAddNewCard(card);
 						}}
-						active={!!card}
+						// active={!!card}
 						styleButton={{ marginTop: spacing["spaced-5"] }}
 					/>
 				}

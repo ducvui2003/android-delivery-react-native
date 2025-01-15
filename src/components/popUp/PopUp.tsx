@@ -104,6 +104,7 @@ function PopUp({
 				<FlatList
 					data={[0]}
 					showsVerticalScrollIndicator={false}
+					style={{ width: "100%" }}
 					renderItem={() => {
 						return (
 							<>

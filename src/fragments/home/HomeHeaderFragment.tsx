@@ -31,14 +31,28 @@ function HomeHeaderFragment() {
 	return (
 		<Row style={{ justifyContent: "space-between", alignItems: "center" }}>
 			<Col>
-				<Text
-					style={{
-						...textStyle["16_regular"],
-						color: theme.home.heading.getColor(),
-					}}
-				>
-					Deliver to {user?.address && "→ " + user.address.name}
-				</Text>
+				<Row>
+					<Text
+						style={{
+							...textStyle["16_regular"],
+							color: theme.home.heading.getColor(),
+						}}
+					>
+						Deliver to
+					</Text>
+					{user?.address && (
+						<Text
+							style={{
+								...textStyle["16_regular"],
+								color: theme.home.heading.getColor(),
+								fontWeight: "bold",
+							}}
+						>
+							{" "}
+							→ {user.address.name}
+						</Text>
+					)}
+				</Row>
 				<TouchableOpacity onPress={() => navigation.navigate("MyLocationScreen")}>
 					<Row style={{ marginTop: 11, alignItems: "center", gap: 5 }}>
 						<Text

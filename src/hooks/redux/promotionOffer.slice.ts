@@ -54,13 +54,14 @@ const promotionOfferSlice = createSlice({
 				state.promotions = action.payload.data;
 			})
 			.addCase(promotionOffer.fulfilled, (state, action) => {
+				const data = action.payload.data;
 				switch (action.payload.data.type) {
 					case "ORDER":
-						state.order = action.payload.data;
+						state.order = data.id === state.order?.id ? undefined : data;
 						break;
 
 					case "SHIPPING":
-						state.shipping = action.payload.data;
+						state.shipping = data.id === state.shipping?.id ? undefined : data;
 						break;
 				}
 			});

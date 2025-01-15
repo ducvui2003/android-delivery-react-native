@@ -6,10 +6,11 @@
  * User: lam-nguyen
  **/
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import cartService from "../../services/cart.service";
 import { Cart, CartAdded } from "../../types/cart.type";
 import { RootState } from "../../configs/redux/store.config";
+import PaymentEnum from "../../utils/payment.enum";
 
 export const DEFAULT_QUANTITY_CHANGE = 1;
 const DEFAULT_TIME_BETWEEN_CALLS = 5 * 60;
@@ -17,11 +18,13 @@ const DEFAULT_TIME_BETWEEN_CALLS = 5 * 60;
 type CartState = {
 	items: Cart[];
 	lastTimeCalled?: Date;
+	paymentMethod?: PaymentEnum;
 };
 
 const initialState: CartState = {
 	items: [],
 	lastTimeCalled: undefined,
+	paymentMethod: undefined,
 };
 
 enum CartType {
@@ -46,6 +49,7 @@ enum CartType {
 	DELETE_PENDING = "cart/delete/pending",
 	DELETE_FULFILLED = "cart/delete/fulfilled",
 	DELETE_REJECTED = "cart/delete/rejected",
+	PAYMENT = "cart/payment",
 }
 
 const betweenTime = (date1: Date, date2: Date, seconds: number) => {
@@ -129,7 +133,11 @@ export const deleteCart = createAsyncThunk<{ id: number }, number>(
 const cartSlice = createSlice({
 	name: CartType.ROOT,
 	initialState: initialState,
-	reducers: {},
+	reducers: {
+		setPayment: (state, action: PayloadAction<PaymentEnum>) => {
+			state.paymentMethod = action.payload;
+		},
+	},
 	extraReducers: builder => {
 		builder
 			.addCase(fetchCarts.fulfilled, (state, action) => {
@@ -172,5 +180,5 @@ const cartSlice = createSlice({
 });
 
 export default cartSlice.reducer;
-
+export const { setPayment } = cartSlice.actions;
 export { CartType };

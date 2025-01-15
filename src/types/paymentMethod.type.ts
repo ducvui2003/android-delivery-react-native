@@ -6,10 +6,11 @@
  * User: lam-nguyen
  **/
 import { ReactNode } from "react";
+import PaymentEnum from "../utils/payment.enum";
 
 type PaymentMethodType = {
 	icon: ReactNode;
-	type: string;
+	type: PaymentEnum;
 };
 
 export default PaymentMethodType;

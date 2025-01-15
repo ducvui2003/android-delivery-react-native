@@ -10,7 +10,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 
 import { RootState, useAppDispatch } from "../configs/redux/store.config";
@@ -26,7 +25,7 @@ import ButtonHasStatus from "../components/custom/ButtonHasStatus";
 import { Header } from "../components/header/Header";
 import { Promotion } from "../components/promotion/Promotion";
 import PopUp from "../components/popUp/PopUp";
-import InformationPromotionScreen from "./InformationPromotionScreen";
+import InformationPromotionFragment from "../fragments/InformationPromotionFragment";
 import PromotionType from "../types/promotion.type";
 import { EndPointPromotion, getPromotions, promotionOffer } from "../hooks/redux/promotionOffer.slice";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
@@ -45,21 +44,10 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 
 	const appDispatch = useAppDispatch();
 
-	const [indexCheckedShipping, setIndexCheckedShipping] = useState<number | null>(null);
-	const [indexCheckedOrder, setIndexCheckedOrder] = useState<number | null>(null);
-
 	const handleBackPress = useCallback(() => {
 		Keyboard.dismiss();
 		navigation.pop();
 	}, [navigation]);
-
-	const handleCheckShipping = useCallback((index: number) => {
-		setIndexCheckedShipping(index);
-	}, []);
-
-	const handleCheckOrder = useCallback((index: number) => {
-		setIndexCheckedOrder(index);
-	}, []);
 
 	const [promotion, setPromotion] = useState<PromotionType>();
 
@@ -108,16 +96,13 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 									return (
 										<TouchableOpacity
 											key={`shipping-${index}`}
-											onPress={() => handleCheckShipping(index)}
+											onPress={() => appDispatch(promotionOffer(item.id))}
 										>
 											<Row style={styles.row}>
 												<Promotion
 													name={item.name}
-													checked={indexCheckedShipping === index || shipping?.id === item.id}
-													onCheck={() => {
-														appDispatch(promotionOffer(item.id));
-														handleCheckShipping(index);
-													}}
+													checked={shipping?.id === item.id}
+													onCheck={() => appDispatch(promotionOffer(item.id))}
 													onInfoPress={() =>
 														fetchPromotion(item.id).then(res => setPromotion(res.data))
 													}
@@ -139,16 +124,13 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 									return (
 										<TouchableOpacity
 											key={`offer-${index}`}
-											onPress={() => handleCheckOrder(index)}
+											onPress={() => appDispatch(promotionOffer(item.id))}
 										>
 											<Row style={styles.row}>
 												<Promotion
 													name={item.name}
-													checked={indexCheckedOrder === index || order?.id === item.id}
-													onCheck={() => {
-														appDispatch(promotionOffer(item.id));
-														handleCheckOrder(index);
-													}}
+													checked={order?.id === item.id}
+													onCheck={() => appDispatch(promotionOffer(item.id))}
 													onInfoPress={() =>
 														fetchPromotion(item.id).then(res => setPromotion(res.data))
 													}
@@ -164,22 +146,20 @@ const PromotionScreen = ({ navigation }: PromotionScreenProps) => {
 			</View>
 			<View style={styles.footer}>
 				<ButtonHasStatus
-					active={indexCheckedShipping != null || indexCheckedOrder != null}
+					active={shipping != null || order != null}
 					title="Apply"
 					onPress={submit}
 					styleButton={styles.buttonApply}
 				/>
 			</View>
 
-			{promotion && (
-				<PopUp
-					body={<InformationPromotionScreen {...promotion} />}
-					onEndHide={() => {
-						setPromotion(undefined);
-					}}
-					showed={!!promotion}
-				/>
-			)}
+			<PopUp
+				body={promotion && <InformationPromotionFragment {...promotion} />}
+				onEndHide={() => {
+					setPromotion(undefined);
+				}}
+				showed={!!promotion}
+			/>
 		</SafeAreaView>
 	);
 };

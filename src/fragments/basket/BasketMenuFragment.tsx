@@ -26,10 +26,12 @@ function BasketMenuFragment() {
 	const user = useSelector((root: RootState) => root.authState.user);
 	const { shipping, order } = useSelector((state: RootState) => state.promotionOffer);
 	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const payment = useSelector((state: RootState) => state.cart.paymentMethod);
 
 	const navigateToPaymentScreen = () => {
 		navigation.navigate("PaymentMethodScreen");
 	};
+
 	return (
 		<>
 			<MenuBasketItem
@@ -61,8 +63,16 @@ function BasketMenuFragment() {
 				title={"Payment method"}
 				onPress={navigateToPaymentScreen}
 				footer={
-					<Text style={[{ ...textStyle["16_semibold"], color: neutral.getColor("400") }]} numberOfLines={1}>
-						Select Payment Method
+					<Text
+						style={[
+							{
+								...textStyle["16_semibold"],
+								color: payment ? theme.text_1.getColor() : neutral.getColor("400"),
+							},
+						]}
+						numberOfLines={1}
+					>
+						{payment ? payment : "Select Payment Method"}
 					</Text>
 				}
 			/>
