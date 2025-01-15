@@ -20,6 +20,8 @@ import { logout } from "../../../hooks/redux/auth.slice";
 import { hiddenModalNotify, showModalNotify } from "../../../hooks/redux/modal.slice";
 import { MainScreenStackParamList, RootStackParamList } from "../../../navigations/stack.type";
 import ChangeProfile from "../../../types/changeProfile";
+import ProfilePopUpChangePassword from "../../../fragments/profile/ProfilePopUpChangePassword";
+import { updateProfile } from "../../../hooks/redux/profile.slice";
 
 /**
  * Author: Nguyen Dinh Lam
@@ -40,6 +42,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 	const bottomNavigation = useContext(BottomNavigationContext);
 
 	const [showPopUp, setShowPopUp] = useState<boolean>(false);
+	const [showPopUpChangePassword, setShowPopUpChangePassword] = useState<boolean>(false);
 	const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	//press button logout
@@ -72,7 +75,10 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 	const handleOptionPress = () => {};
 
 	//press button save change profile
-	const handlePressSaveChangeProfile = async (data: ChangeProfile) => {};
+	const handlePressSaveChangeProfile = async (data: ChangeProfile) => {
+		await appDispatch(updateProfile(data));
+		setShowPopUp(false);
+	};
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
@@ -91,13 +97,28 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 					{user == null ? (
 						<ProfileHasNotUser onPress={() => nav.push("LoginScreen", { back: true })} />
 					) : (
-						<ProfileHasUser onChangeProfile={() => {}} logout={onLogout} />
+						<ProfileHasUser onChangeProfile={() => setShowPopUp(true)} logout={onLogout} />
 					)}
-					<ProfileOption />
+					<ProfileOption onShowPopUpChangePassword={setShowPopUpChangePassword} />
+
 				</Col>
 				<Space height={spacing["spaced-7"]} />
 			</ScrollView>
-			<ProfilePopUp onSave={handlePressSaveChangeProfile} onShowed={setShowPopUp} showed={showPopUp} />
+			<ProfilePopUp
+				numberPhone={(user?.phoneNumber ?? "")
+					.replace((user?.countryCode ?? 0).toString(), "0")
+					.replace("+", "")}
+				fullName={user?.fullName}
+				email={user?.email}
+				onSave={handlePressSaveChangeProfile}
+				onShowed={setShowPopUp}
+				showed={showPopUp}
+			/>
+			<ProfilePopUpChangePassword
+				showed={showPopUpChangePassword}
+				onShowed={(value) => setShowPopUpChangePassword(value)}
+			/>
+
 		</SafeAreaView>
 	);
 }
