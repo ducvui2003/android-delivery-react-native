@@ -13,38 +13,43 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Space from "../components/custom/Space";
 import React from "react";
 import PromotionType from "../types/promotion.type";
+import { useSelector } from "react-redux";
+import { RootState } from "../configs/redux/store.config";
+
 
 function InformationPromotionScreen(promotion: PromotionType) {
+	const theme = useSelector((state: RootState) => state.themeState.theme);
+
 	const durationMatched = () =>{
 		return promotion?.discountPromotionInfo.startDate+ " - " + promotion?.discountPromotionInfo.expired
 	}
 	return (
 		<SafeAreaView>
 			<Col style={styles.format_position}>
-				<Text style={styles.title}>Promotion Information</Text>
+				<Text style={[styles.title, { color: theme.text_1.getColor() }]}>Promotion Information</Text>
 				<SolarTicketSaleBold width={100} height={100} />
-				<Text style={styles.nameText}>{promotion?.name}</Text>
+				<Text style={[styles.nameText, { color: theme.text_1.getColor() }]}>{promotion?.name}</Text>
 				<View style={styles.styleView}>
-					<Text style={styles.informationTitle}>Description :</Text>
-					<Text>{promotion?.description}</Text>
+					<Text style={[styles.informationTitle, { color: theme.text_1.getColor() }]}>Description :</Text>
+					<Text style={ {color: theme.text_1.getColor() }}>{promotion?.description}</Text>
 				</View>
 				<View style={styles.styleView}>
-					<Text style={styles.informationTitle}>Duration :</Text>
-					<Text>
+					<Text style={[styles.informationTitle, {color: theme.text_1.getColor() }]}>Duration :</Text>
+					<Text style={{color: theme.text_1.getColor() }}>
 						{durationMatched()}
 					</Text>
 				</View>
 				<View style={styles.styleView}>
-					<Text style={styles.informationTitle}>Promo code :</Text>
-					<Text>{promotion?.promotionCode}</Text>
+					<Text style={[styles.informationTitle, {color: theme.text_1.getColor() }]}>Promo code :</Text>
+					<Text style={{color: theme.text_1.getColor() }}>{promotion?.promotionCode}</Text>
 				</View>
 				<View style={styles.styleView}>
-					<Text style={styles.informationTitle}>Application Scope :</Text>
-					<Text>{promotion?.applicableScope}</Text>
+					<Text style={[styles.informationTitle, {color: theme.text_1.getColor() }]}>Application Scope :</Text>
+					<Text style={{color: theme.text_1.getColor() }}>{promotion?.applicableScope}</Text>
 				</View>
 				<View style={styles.styleView}>
-					<Text style={styles.informationTitle}>Discount Amount : </Text>
-					<Text>
+					<Text style={[styles.informationTitle, {color: theme.text_1.getColor() }]}>Discount Amount : </Text>
+					<Text style={{color: theme.text_1.getColor() }}>
 						{promotion?.discountPromotionInfo.discount !== undefined &&
 						promotion?.discountPromotionInfo.discount !== 0
 							? promotion?.discountPromotionInfo.discount * 100 + "%"
@@ -52,8 +57,8 @@ function InformationPromotionScreen(promotion: PromotionType) {
 					</Text>
 				</View>
 				<View style={styles.styleView}>
-					<Text style={styles.informationTitle}>Terms and Conditions : </Text>
-					<Text>{promotion?.termsAndConditions}</Text>
+					<Text style={[styles.informationTitle, {color: theme.text_1.getColor() }]}>Terms and Conditions : </Text>
+					<Text style={{color: theme.text_1.getColor() }}>{promotion?.termsAndConditions}</Text>
 				</View>
 				<Space height={400} />
 			</Col>

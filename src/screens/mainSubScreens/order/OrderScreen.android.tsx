@@ -5,7 +5,7 @@
  * Create at: 8:16 PM - 21/08/2024
  *  User: lam-nguyen
  **/
-import { FlatListComponent, SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";

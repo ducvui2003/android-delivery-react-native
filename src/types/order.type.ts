@@ -8,6 +8,7 @@ type OrderType = {
 	images: {}[];
 	starReview: number;
 	status: StatusOrderType;
+	role?: string[]
 }
 
 export default OrderType;

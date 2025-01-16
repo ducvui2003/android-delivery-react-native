@@ -47,6 +47,10 @@ export type RootStackParamList = {
 	};
 	CancelOrderScreen: undefined;
 	ChatScreen: undefined;
+	ManagementOrderScreen: undefined;
+	ManagementOrderDetailScreen: {
+		id: string;
+	}
 };
 
 export type MainScreenStackParamList = {

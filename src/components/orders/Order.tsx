@@ -9,10 +9,14 @@ import OverlappingImages from "./OverlappingImages";
 import textStyle from "../../configs/styles/textStyle.config";
 import IconRating from "../rating/IconRating";
 import StatusLabel from "./StatusLabel";
-import { neutral, primary } from "../../configs/colors/color-template.config";
+import { neutral, primary, white } from "../../configs/colors/color-template.config";
 import formater from "../../utils/formater";
+import SolarPenBold from "../../../assets/images/icons/SolarPenBold";
+import React from "react";
+import { Role } from "../auth/const/authenticationConst";
+import ProtectedRoute from "../auth/ProtectedRoute";
 
-function Order({ id, price, images, starReview, status, onPress }: OrderProps) {
+function Order({ id, price, images, starReview, status, onPress, role}: OrderProps) {
 	const theme = useSelector((root: RootState) => root.themeState.theme);
 	const styles = makeStyled(theme);
 
@@ -34,9 +38,10 @@ function Order({ id, price, images, starReview, status, onPress }: OrderProps) {
 						<Text style={styles.priceText}>{formater.formatCurrency(price)}</Text>
 						<IconRating total={5} rating={starReview} />
 					</Col>
-					<Col style={{ justifyContent: "center" }}>
+					<Col style={{ justifyContent: "center", alignItems: "center", gap: 5}}>
 						<StatusLabel status={status} />
 					</Col>
+
 				</Row>
 			</Row>
 		</TouchableOpacity>
@@ -68,6 +73,14 @@ const makeStyled = (theme: ThemeType) =>
 		priceText: {
 			...textStyle["16_semibold"],
 			color: primary.getColor("500"),
+		},
+		buttonEdit: {
+			width: 42,
+			backgroundColor: primary.getColor("500"),
+			height: 42,
+			borderRadius: 21,
+			justifyContent: "center",
+			alignItems: "center",
 		},
 	});
 

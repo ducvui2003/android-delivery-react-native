@@ -37,11 +37,7 @@ type OrderDetailScreenProps = {
 	onPressReorder?: () => void;
 	onPressTrackOrder?: () => void;
 };
-export default function OrderDetailScreen({
-	route: {
-		params: { id },
-	},
-	navigation,
+export default function OrderDetailScreen({ route: { params: { id }, }, navigation,
 	onPressCamera,
 	onPressInsertPicture,
 	onPressReorder,
