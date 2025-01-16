@@ -1,6 +1,5 @@
 type OverlappingImagesProps = {
-	images:
-		{}[],
-	limitShow?: number
-}
-export {OverlappingImagesProps}
+	images: string[];
+	limitShow?: number;
+};
+export { OverlappingImagesProps };

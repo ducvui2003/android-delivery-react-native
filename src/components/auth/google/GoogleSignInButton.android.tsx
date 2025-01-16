@@ -47,6 +47,7 @@ function GoogleSignInButton({ loginSuccess }: ButtonAuthProps) {
 	const signIn = async () => {
 		try {
 			await GoogleSignin.hasPlayServices();
+			await GoogleSignin.signOut();
 			const userInfo: User = await GoogleSignin.signIn();
 			await loginServerSide(userInfo.serverAuthCode ? userInfo.serverAuthCode : "");
 		} catch (error) {
