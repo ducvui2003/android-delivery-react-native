@@ -1,15 +1,10 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
 import { StyleSheet, Text, View } from "react-native";
-import { ThemeType } from "../../types/theme.type";
-import textStyle from "../../configs/styles/textStyle.config";
+import { useSelector } from "react-redux";
 import { green, neutral, primary } from "../../configs/colors/color-template.config";
-import OrderType, {
-	ORDER_STATUS_ACTIVE,
-	ORDER_STATUS_CANCELLED,
-	ORDER_STATUS_COMPLETED,
-	StatusOrderType,
-} from "../../types/order.type";
+import { RootState } from "../../configs/redux/store.config";
+import textStyle from "../../configs/styles/textStyle.config";
+import OrderType, { StatusOrderType } from "../../types/order.type";
+import { ThemeType } from "../../types/theme.type";
 
 function StatusLabel({ status }: Pick<OrderType, "status">) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
@@ -25,11 +20,11 @@ function StatusLabel({ status }: Pick<OrderType, "status">) {
 
 const makeColorOrderStatus = (title: StatusOrderType, theme: ThemeType): string => {
 	switch (title) {
-		case ORDER_STATUS_ACTIVE:
+		case "ACTIVE":
 			return primary.getColor("500");
-		case ORDER_STATUS_COMPLETED:
+		case "COMPLETED":
 			return green.getColor("500");
-		case ORDER_STATUS_CANCELLED:
+		case "CANCELLED":
 			return theme.order.orderStatusCancel.getColor();
 	}
 };

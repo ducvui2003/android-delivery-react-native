@@ -26,12 +26,13 @@ import { getOrders } from "../../../services/order.service";
 import OrderType from "../../../types/order.type";
 import { ThemeType } from "../../../types/theme.type";
 
-const ButtonFilterTypeArray: ButtonFilterType[] = ["All", "Active", "Completed", "Cancelled", "5", "4", "3", "2", "1"];
+const buttonStatusTypeArray: ButtonFilterType[] = ["ALL", "ACTIVE", "COMPLETED", "CANCELLED", "1", "2", "3", "4", "5"];
 
 function OrderScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
-	const [ButtonFilterType, setButtonFilterType] = React.useState<ButtonFilterType>("All");
+	const [filter, setFilter] = React.useState<ButtonFilterType | null>("ALL");
+
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "MainScreen">>();
 	const [orders, setOrders] = React.useState<OrderProps[]>([]);
 
@@ -47,21 +48,29 @@ function OrderScreen() {
 	};
 
 	React.useEffect(() => {
-		getOrders()
+		let star: number | null = null;
+		let status: string | null = null;
+		if (filter && !Number.isNaN(Number.parseInt(filter))) {
+			star = Number.parseInt(filter);
+		} else {
+			status = filter;
+		}
+
+		getOrders({
+			star: star,
+			status: status,
+			page: 0,
+			limit: 10,
+		})
 			.then((orders: OrderType[] | undefined) => {
 				if (orders) {
-					setOrders(
-						orders.map(order => ({
-							...order,
-							onPress: () => {},
-						}))
-					);
+					setOrders(orders.map(order => ({ ...order, onPress: () => {} })));
 				}
 			})
 			.catch(error => {
 				console.error("Error when get orders", error);
 			});
-	}, []);
+	}, [filter]);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -89,24 +98,27 @@ function OrderScreen() {
 							<ButtonFilter
 								key={index}
 								title={value}
-								isSelected={ButtonFilterType === value}
+								isSelected={filter === value}
 								hiddenIconRight={Number.isNaN(Number.parseInt(value))}
 								onPress={() => {
-									setButtonFilterType(value);
+									setFilter(value);
 								}}
 							/>
 						))}
 					</ScrollView>
 				</SafeAreaView>
 			</Col>
-
-			<FlatList
-				data={orders}
-				renderItem={renderItem}
-				keyExtractor={item => item.id + ""}
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingBottom: spacing["spaced-7"] }}
-			/>
+			{orders ? (
+				<FlatList
+					data={orders}
+					renderItem={renderItem}
+					keyExtractor={item => item.id}
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={{ paddingBottom: spacing["spaced-7"] }}
+				/>
+			) : (
+				<Text>Empty</Text>
+			)}
 		</SafeAreaView>
 	);
 }

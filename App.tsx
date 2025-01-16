@@ -42,6 +42,9 @@ import { getFromStorage, KEY_ASYNC } from "./src/services/asyncStore.service";
 import AddImageScreen from "./src/screens/AddImageScreen";
 import ProductManagerScreen from "./src/screens/admin/productManager/ProductManagerScreen";
 import ModifyProductManageScreen from "./src/screens/admin/productManager/ModifyProductManageScreen";
+import ManagementOrderDetailScreen from "./src/screens/admin/order/ManagementOrderDetailScreen";
+import ManagementOrderScreen from "./src/screens/admin/order/ManagementOrderScreen";
+import ChartScreen from "./src/screens/admin/ChartScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -121,11 +124,15 @@ function Root() {
                     <RootStack.Screen name={"FaceIDScreen"} component={FaceIDScreen} />
                     <RootStack.Screen name={"TouchIDScreen"} component={TouchIDScreen} />
                     <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen} />
+
                     <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen} />
                     <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
-                    <RootStack.Screen name={"AddImageScreen"} component={AddImageScreen} />
-                    <RootStack.Screen name={"ProductManagerScreen"} component={ProductManagerScreen} />
-                    <RootStack.Screen name={"ModifyProductManageScreen"} component={ModifyProductManageScreen} />
+                    <RootStack.Screen name={"ManagementOrderDetailScreen"} component={ManagementOrderDetailScreen} />
+                    <RootStack.Screen name={"ManagementOrderScreen"} component={ManagementOrderScreen} />
+                    <RootStack.Screen name={"ChartScreen"} component={ChartScreen} />
+                    <RootStack.Screen name={"ManagementOrderDetailScreen"} component={ManagementOrderDetailScreen} />
+                    <RootStack.Screen name={"ManagementOrderScreen"} component={ManagementOrderScreen} />
+                    <RootStack.Screen name={"ChartScreen"} component={ChartScreen} />
                 </RootStack.Navigator>
             </NavigationContainer>
 

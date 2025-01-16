@@ -16,8 +16,10 @@ export enum EndPoint {
 	DELETE_CART = "/cart/delete",
 
 	GET_ORDERS = "/order",
+	GET_ORDERS_ADMIN = "/order/admin",
 	GET_ORDER_DETAIL = "/order/detail",
 	CREATE_ORDER = "/order/create",
+	UPDATE_ORDER_STATUS = "/order/update",
 
 	UPDATE_PROFILE = "/profile",
 }
