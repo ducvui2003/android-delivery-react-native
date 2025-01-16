@@ -11,4 +11,8 @@ export enum EndPoint {
 	INCREASE_CART = "/cart/increase",
 	DECREASE_CART = "/cart/decrease",
 	DELETE_CART = "/cart/delete",
+
+	GET_ORDERS = "/order",
+	GET_ORDER_DETAIL = "/order/detail",
+	CREATE_ORDER = "/order/create",
 }

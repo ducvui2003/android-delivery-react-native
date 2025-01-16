@@ -1,18 +1,18 @@
-import InputIconProps from "../input/type/inputIcon.props";
-import Col from "../custom/Col";
-import {StyleSheet, TextInput, TouchableOpacity} from "react-native";
-import Row from "../custom/Row";
+import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
 import SolarCameraBold from "../../../assets/images/icons/SolarCameraBold";
-import {neutral, primary} from "../../configs/colors/color-template.config";
-import {SolarMageImageFill} from "../../../assets/images/icons/SolarMageImageFill";
-import {useSelector} from "react-redux";
-import {RootState} from "../../configs/redux/store.config";
-import {ThemeType} from "../../types/theme.type";
+import { SolarMageImageFill } from "../../../assets/images/icons/SolarMageImageFill";
+import { neutral } from "../../configs/colors/color-template.config";
+import { RootState } from "../../configs/redux/store.config";
 import textStyle from "../../configs/styles/textStyle.config";
+import { ThemeType } from "../../types/theme.type";
+import Col from "../custom/Col";
+import Row from "../custom/Row";
+import InputIconProps from "../input/type/inputIcon.props";
 
-function InputReviewArea({placeholder, value, styleInput, onPressIconLeft, onPressIconRight}: InputIconProps) {
-	const theme = useSelector((state: RootState) => state.themeState.theme)
-	const styles = makeStyled(theme)
+function InputReviewArea({ placeholder, value, styleInput, onPressIconLeft, onPressIconRight }: InputIconProps) {
+	const theme = useSelector((state: RootState) => state.themeState.theme);
+	const styles = makeStyled(theme);
 	return (
 		<Col style={styles.reviewArea}>
 			<Col>
@@ -21,20 +21,21 @@ function InputReviewArea({placeholder, value, styleInput, onPressIconLeft, onPre
 					placeholderTextColor={theme.text_1.getColor()}
 					multiline={true}
 					style={styleInput}
-					defaultValue={value}/>
+					defaultValue={value}
+				/>
 			</Col>
-			<Col >
+			<Col>
 				<Row style={styles.iconReviewArea}>
 					<TouchableOpacity onPress={onPressIconLeft}>
-						<SolarCameraBold width={30} height={30} style={{right: 10}} color={neutral.getColor("100")}/>
+						<SolarCameraBold width={30} height={30} style={{ right: 10 }} color={neutral.getColor("100")} />
 					</TouchableOpacity>
 					<TouchableOpacity onPress={onPressIconRight}>
-						<SolarMageImageFill width={30} height={30} color={neutral.getColor("100")}/>
+						<SolarMageImageFill width={30} height={30} color={neutral.getColor("100")} />
 					</TouchableOpacity>
 				</Row>
 			</Col>
 		</Col>
-	)
+	);
 }
 const makeStyled = (theme: ThemeType) =>
 	StyleSheet.create({
@@ -57,7 +58,6 @@ const makeStyled = (theme: ThemeType) =>
 			borderBottomWidth: 0,
 			...textStyle["16_regular"],
 		},
-
-	})
+	});
 
 export default InputReviewArea;

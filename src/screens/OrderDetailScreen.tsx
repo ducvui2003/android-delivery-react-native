@@ -1,32 +1,36 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useSelector } from "react-redux";
-import { RootState } from "../configs/redux/store.config";
-import { ThemeType } from "../types/theme.type";
-import { Header } from "../components/header/Header";
 import * as React from "react";
-import SolarMenuDotsLinear from "../../assets/images/icons/SolarMenuDotLinear";
-import StatusLabel from "../components/orders/StatusLabel";
-import OrderDetailType from "../types/orderDetail.type";
-import Row from "../components/custom/Row";
-import { ORDER_STATUS_ACTIVE, ORDER_STATUS_CANCELLED, ORDER_STATUS_COMPLETED } from "../types/order.type";
-import textStyle from "../configs/styles/textStyle.config";
-import ProductOrderCard from "../components/orderDetail/ProductOrderCard";
-import BoxInfoNecessary from "../components/orderDetail/BoxInfoNecessary";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
+import { MyLocation } from "../../assets/data/location/location";
 import { FluentLocation16Filled } from "../../assets/images/icons/FluentLocation16Filled";
-import SolarTicketSaleBold from "../../assets/images/icons/SolarTicketSaleBold";
-import { primary, white } from "../configs/colors/color-template.config";
-import Col from "../components/custom/Col";
-import SolarWalletBold from "../../assets/images/icons/SolarWalletBold";
-import formater from "../utils/formater";
-import IconRating from "../components/rating/IconRating";
-import InputReviewArea from "../components/orderDetail/InputReviewArea";
-import SolarPenBold from "../../assets/images/icons/SolarPenBold";
-import GradientView from "../components/gradientView/GradientView";
 import SolarBag5Bold from "../../assets/images/icons/SolarBag5Bold";
-import { orders } from "../../assets/data/order/order";
+import SolarMenuDotsLinear from "../../assets/images/icons/SolarMenuDotLinear";
+import SolarPenBold from "../../assets/images/icons/SolarPenBold";
+import SolarTicketSaleBold from "../../assets/images/icons/SolarTicketSaleBold";
+import SolarWalletBold from "../../assets/images/icons/SolarWalletBold";
+import Col from "../components/custom/Col";
+import Row from "../components/custom/Row";
+import GradientView from "../components/gradientView/GradientView";
+import { Header } from "../components/header/Header";
+import BoxInfoNecessary from "../components/orderDetail/BoxInfoNecessary";
+import InputReviewArea from "../components/orderDetail/InputReviewArea";
+import ProductOrderCard from "../components/orderDetail/ProductOrderCard";
+import StatusLabel from "../components/orders/StatusLabel";
+import IconRating from "../components/rating/IconRating";
+import { primary } from "../configs/colors/color-template.config";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
+import textStyle from "../configs/styles/textStyle.config";
+import { RootStackParamList } from "../navigations/stack.type";
+import { getOrderDetail } from "../services/order.service";
+import { ORDER_STATUS_ACTIVE, ORDER_STATUS_CANCELLED, ORDER_STATUS_COMPLETED } from "../types/order.type";
+import OrderDetailType from "../types/orderDetail.type";
+import PaymentMethodType from "../types/paymentMethod.type";
+import { ThemeType } from "../types/theme.type";
+import formater from "../utils/formater";
+import { addCart, CartType } from "../hooks/redux/cart.slice";
+import { showModalNotify } from "../hooks/redux/modal.slice";
 
 type OrderDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "OrderDetailScreen">;
@@ -34,7 +38,6 @@ type OrderDetailScreenProps = {
 	onPressCamera?: () => void;
 	onPressInsertPicture?: () => void;
 	onPressCancelOrder?: () => void;
-	onPressReorder?: () => void;
 	onPressTrackOrder?: () => void;
 };
 export default function OrderDetailScreen({
@@ -44,21 +47,61 @@ export default function OrderDetailScreen({
 	navigation,
 	onPressCamera,
 	onPressInsertPicture,
-	onPressReorder,
 	onPressTrackOrder,
 }: OrderDetailScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
 	const [orderDetail, setOrderDetail] = React.useState<OrderDetailType | null>(null);
+	const appDispatch = useAppDispatch();
 
 	React.useEffect(() => {
-		const order = orders.find(order => order.id === id);
-		if (order) setOrderDetail(order);
+		getOrderDetail(id)
+			.then((response: OrderDetailType | undefined) => {
+				if (response) {
+					setOrderDetail(response);
+				}
+			})
+			.catch();
 	}, []);
+
+	const handlePreOrderItem = (productId: string, optionIds?: string[]) => {
+		console.log("productId", productId);
+		console.log("optionIds", optionIds);
+
+		if (!productId || !optionIds) return;
+		appDispatch(
+			addCart({
+				productId,
+				quantity: 1,
+				optionIds,
+			})
+		).then(action => {
+			if (action.type === CartType.ADD_FULFILLED) {
+				appDispatch(
+					showModalNotify({
+						title: "Success",
+						body: "Please check your order",
+						width: "70%",
+						showCancelButton: true,
+					})
+				);
+			} else {
+				appDispatch(
+					showModalNotify({
+						title: "Error",
+						body: "Add cart failed",
+						width: "70%",
+						showCancelButton: true,
+					})
+				);
+			}
+		});
+	};
+
 	return (
 		<View style={styles.container}>
 			<Header
-				title={id}
+				title={"# " + id}
 				colorTitle={theme.text_1.getColor()}
 				colorIconBack={theme.text_1.getColor()}
 				styleIconBack={{
@@ -79,8 +122,20 @@ export default function OrderDetailScreen({
 						<StatusLabel status={orderDetail?.status ? orderDetail?.status : ORDER_STATUS_ACTIVE} />
 					</Row>
 
-					{orderDetail?.products.map(product => {
-						return <ProductOrderCard status={orderDetail?.status} {...product} key={product.id} />;
+					{orderDetail?.items.map(product => {
+						return (
+							<ProductOrderCard
+								key={product.productId}
+								{...product}
+								status={orderDetail?.status}
+								reorderOnPress={() => {
+									handlePreOrderItem(
+										product.productId,
+										product.options?.map(option => option.id)
+									);
+								}}
+							/>
+						);
 					})}
 
 					<BoxInfoNecessary
@@ -88,12 +143,10 @@ export default function OrderDetailScreen({
 						titleInfo={"Deliver to"}
 						styleDescriptionInfo={styles.styleDescriptionInfo}
 						descriptionInfo={
-							orderDetail?.address
-								? orderDetail?.address
-								: {
-										name: "",
-										address: "",
-									}
+							{
+								name: "Home",
+								address: orderDetail?.address ? orderDetail.address : "",
+							} as MyLocation
 						}
 					/>
 
@@ -101,7 +154,11 @@ export default function OrderDetailScreen({
 						iconTopRight={<SolarWalletBold />}
 						titleInfo={"Payment Method"}
 						styleDescriptionInfo={styles.styleDescriptionInfo}
-						descriptionInfo={orderDetail?.paymentMethod ? orderDetail?.paymentMethod : { type: "" }}
+						descriptionInfo={
+							{
+								type: orderDetail?.paymentMethod ? orderDetail?.paymentMethod : "",
+							} as PaymentMethodType
+						}
 					/>
 
 					<BoxInfoNecessary
@@ -120,7 +177,9 @@ export default function OrderDetailScreen({
 						</Row>
 						<Row style={styles.summaryArea}>
 							<Text style={styles.summaryTitleArea}>Delivery Fee</Text>
-							<Text style={styles.summaryNumberArea}>{orderDetail?.deliveryFee}</Text>
+							<Text style={styles.summaryNumberArea}>
+								{orderDetail?.deliveryFee !== 0 ? orderDetail?.deliveryFee : "FREE"}
+							</Text>
 						</Row>
 						<Row style={styles.summaryArea}>
 							<Text style={styles.summaryTitleArea}>Discount</Text>
@@ -134,7 +193,7 @@ export default function OrderDetailScreen({
 						<Row style={styles.summaryArea}>
 							<Text style={styles.summaryTitleArea}>Total</Text>
 							<Text style={styles.summaryNumberArea}>
-								{formater.formatCurrency(orderDetail?.price ? orderDetail?.price : 0)}
+								{formater.formatCurrency(orderDetail?.subTotal ? orderDetail.subTotal : 0)}
 							</Text>
 						</Row>
 					</Col>
@@ -202,7 +261,6 @@ export default function OrderDetailScreen({
 						) : (
 							<TouchableOpacity
 								style={{ padding: 16, borderRadius: 30, backgroundColor: primary.getColor("500") }}
-								onPress={onPressReorder}
 							>
 								<Row style={{ justifyContent: "center" }}>
 									<SolarBag5Bold height={24} width={24} style={{ marginEnd: 10 }} color={"white"} />

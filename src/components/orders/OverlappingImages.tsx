@@ -15,7 +15,7 @@ function OverlappingImages({ images, limitShow = 3 }: OverlappingImagesProps) {
 			{images.slice(0, limitShow).map((url, index) => (
 				<Image
 					key={index}
-					source={url}
+					source={{ uri: url }}
 					style={{
 						width: 80,
 						height: 80,
