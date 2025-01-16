@@ -44,11 +44,15 @@ export type RootStackParamList = {
 	OrderTrackingScreen: undefined;
 	// order detail
 	OrderDetailScreen: {
-		id: string;
+		id: number;
 	};
 	CancelOrderScreen: undefined;
 	ChatScreen: undefined;
 	AddImageScreen: undefined;
+
+	// admin - manage product
+	ProductManagerScreen: undefined;
+	ProductSaveManageScreen: { id : string }
 };
 
 export type MainScreenStackParamList = {

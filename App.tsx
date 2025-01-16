@@ -40,6 +40,8 @@ import WelcomeScreen from "./src/screens/WelcomeScreen";
 import { NameTheme } from "./src/types/theme.type";
 import { getFromStorage, KEY_ASYNC } from "./src/services/asyncStore.service";
 import AddImageScreen from "./src/screens/AddImageScreen";
+import ProductManagerScreen from "./src/screens/admin/productManager/ProductManagerScreen";
+import ProductSaveManageScreen from "./src/screens/admin/productManager/ProductSaveManageScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -122,6 +124,8 @@ function Root() {
                     <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen} />
                     <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
                     <RootStack.Screen name={"AddImageScreen"} component={AddImageScreen} />
+                    <RootStack.Screen name={"ProductManagerScreen"} component={ProductManagerScreen} />
+                    <RootStack.Screen name={"ProductSaveManageScreen"} component={ProductSaveManageScreen} />
                 </RootStack.Navigator>
             </NavigationContainer>
 
@@ -130,4 +134,3 @@ function Root() {
         </View>
     );
 }
-

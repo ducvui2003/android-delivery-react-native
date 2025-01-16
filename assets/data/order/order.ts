@@ -5,7 +5,7 @@ import OrderDetailType from "../../../src/types/orderDetail.type";
 
 const DATA: OrderProps[] = [
     {
-        id: "SP1",
+        id: 1,
         price: 1000,
         images: [
             burger,
@@ -18,7 +18,7 @@ const DATA: OrderProps[] = [
         }
     },
     {
-        id: "SP2",
+        id: 2,
         price: 2000,
         images: [
             burger,
@@ -30,7 +30,7 @@ const DATA: OrderProps[] = [
         }
     },
     {
-        id: "SP3",
+        id: 3,
         price: 3000,
         images: [
             burrito,
@@ -42,7 +42,7 @@ const DATA: OrderProps[] = [
         }
     },
     {
-        id: "SP4",
+        id: 4,
         price: 4000,
         images: [
             burger
@@ -53,7 +53,7 @@ const DATA: OrderProps[] = [
         }
     },
     {
-        id: "SP5",
+        id: 5,
         price: 2000,
         images: [
             burger,
@@ -65,7 +65,7 @@ const DATA: OrderProps[] = [
         }
     },
     {
-        id: "SP6",
+        id: 6,
         price: 3000,
         images: [
             burrito,
@@ -77,7 +77,7 @@ const DATA: OrderProps[] = [
         }
     },
     {
-        id: "SP7",
+        id: 7,
         price: 4000,
         images: [
             burger
@@ -92,7 +92,7 @@ const DATA: OrderProps[] = [
 // Khởi tạo dữ liệu cho các phần tử
 const orders: OrderDetailType[] = [
     {
-        id: 'SP1',
+        id: 1,
         price: 1000,
         starReview: 5,
         status: ORDER_STATUS_COMPLETED,
@@ -145,7 +145,7 @@ const orders: OrderDetailType[] = [
         description: '',
     },
     {
-        id: 'SP2',
+        id: 2,
         price: 2000,
         starReview: 4,
         status: ORDER_STATUS_CANCELLED,
@@ -189,7 +189,7 @@ const orders: OrderDetailType[] = [
         reasonForCancellation: 'This is a very good product',
     },
     {
-        id: 'SP3',
+        id: 3,
         price: 3000,
         starReview: 3,
         status: ORDER_STATUS_ACTIVE,

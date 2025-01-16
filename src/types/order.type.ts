@@ -3,7 +3,7 @@ const ORDER_STATUS_COMPLETED = "Completed"
 const ORDER_STATUS_CANCELLED = "Cancelled"
 type StatusOrderType = "Active" | "Completed" | "Cancelled"
 type OrderType = {
-	id: string;
+	id: number;
 	price: number;
 	images: {}[];
 	starReview: number;

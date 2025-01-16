@@ -5,7 +5,7 @@
  * Create at: 8:16 PM - 21/08/2024
  *  User: lam-nguyen
  **/
-import { FlatListComponent, SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
@@ -38,7 +38,7 @@ function OrderScreen() {
 			<Order
 				{...item}
 				onPress={() => {
-					navigation.navigate("OrderDetailScreen", { id: item.id });
+					navigation.navigate("OrderDetailScreen", { id: item.id +""});
 				}}
 			/>
 		);
@@ -83,7 +83,7 @@ function OrderScreen() {
 			<FlatList
 				data={DATA}
 				renderItem={renderItem}
-				keyExtractor={item => item.id}
+				keyExtractor={item => item.id + ""}
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{ paddingBottom: spacing["spaced-7"] }}
 			/>
