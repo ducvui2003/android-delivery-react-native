@@ -12,7 +12,7 @@ const wishlist: ProductType[] = [
       discount: 10,
       expired: new Date("2024-09-15"),
     },
-    isLiked: true,
+    favorite: true,
   },
   {
     id: "2",
@@ -24,7 +24,7 @@ const wishlist: ProductType[] = [
       discount: 20,
       expired: new Date("2024-09-20"),
     },
-    isLiked: true,
+    favorite: true,
   },
   {
     id: "3",
@@ -32,7 +32,7 @@ const wishlist: ProductType[] = [
     name: "Beef Burger",
     rating: 4.8,
     price: 85000,
-    isLiked: true,
+    favorite: true,
   },
   {
     id: "4",
@@ -40,7 +40,7 @@ const wishlist: ProductType[] = [
     name: "Glazed Donut",
     rating: 4.3,
     price: 25000,
-    isLiked: true,
+    favorite: true,
   },
   {
     id: "5",
@@ -48,7 +48,7 @@ const wishlist: ProductType[] = [
     name: "Caesar Salad",
     rating: 4.6,
     price: 65000,
-    isLiked: true,
+    favorite: true,
   },
 ];
 

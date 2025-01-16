@@ -8,6 +8,6 @@
 import ProductType from "../../../../types/product.type";
 
 export type ProductManageCardProps = {
-	product: Omit<ProductType, "isLiked">;
+	product: Omit<ProductType, "favorite">;
 	onEditPress?: () => void;
 };

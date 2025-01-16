@@ -71,9 +71,6 @@ const HomeProductsFragment = ({
 							<ProductHomeCard
 								key={index}
 								product={item}
-								onPress={() => {
-									console.log(item);
-								}}
 							/>
 						);
 					}}

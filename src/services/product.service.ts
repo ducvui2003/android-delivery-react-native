@@ -24,17 +24,23 @@ export const getProductByCategoryId = async (id: String): Promise<ApiPagingType<
 	});
 };
 
-export const searchProduct = async (data: SearchProductType): Promise<ApiPagingType<ProductType>> => {
+export const searchProduct = async (
+	data: SearchProductType,
+	isFavorite?: boolean
+): Promise<ApiPagingType<ProductType>> => {
 	return axiosInstance
-		.get<ApiResponse<ApiPagingType<ProductType>>, any, SearchProductType>(`/product/search`, {
-			params: {
-				name: data.name,
-				category: data.category,
-				isBestSeller: data.isBestSeller,
-				isNew: data.isNew,
-				page: data.page,
-			},
-		})
+		.get<ApiResponse<ApiPagingType<ProductType>>, any, SearchProductType>(
+			`/product/${isFavorite ? "favorite" : "search"}`,
+			{
+				params: !isFavorite && {
+					name: data.name,
+					category: data.category,
+					isBestSeller: data.isBestSeller,
+					isNew: data.isNew,
+					page: data.page,
+				},
+			}
+		)
 		.then(value => {
 			return value.data.data;
 		});
@@ -42,7 +48,9 @@ export const searchProduct = async (data: SearchProductType): Promise<ApiPagingT
 
 export const getProducts = async (page?: number): Promise<ApiPagingType<ProductType>> => {
 	try {
-		const response = await axiosInstance.get<ApiResponse<ApiPagingType<ProductType>>>("/product", {params: {page: page ?? 0}});
+		const response = await axiosInstance.get<ApiResponse<ApiPagingType<ProductType>>>("/product", {
+			params: { page: page ?? 0 },
+		});
 		return response.data.data;
 	} catch (e) {
 		console.error(e);
@@ -72,10 +80,10 @@ export const createProduct = async (
 };
 
 export const updateProduct = async (
-	product: CreateProductRequest & {id: string},
+	product: CreateProductRequest & { id: string },
 	asset?: ImagePickerAsset
 ): Promise<ProductDetailType> => {
-	if(asset) {
+	if (asset) {
 		const image = `product/${uuid.v4()}.png`;
 		store.dispatch(setLoading(true));
 		return firebaseStorage
@@ -94,11 +102,8 @@ export const updateProduct = async (
 				store.dispatch(setLoading(false));
 				throw e;
 			});
-	}else{
-		const response = await axiosInstance.put<ApiResponse<ProductDetailType>>(
-			`/product/${product.id}`,
-			product
-		);
+	} else {
+		const response = await axiosInstance.put<ApiResponse<ProductDetailType>>(`/product/${product.id}`, product);
 		return response.data.data;
 	}
 };

@@ -14,7 +14,7 @@ type ProductType = {
 	avgRating: number;
 	price: number;
 	discountInfo?: DiscountInfo;
-	isLiked?: boolean;
+	favorite?: boolean;
 	category: CategoryType
 };
 

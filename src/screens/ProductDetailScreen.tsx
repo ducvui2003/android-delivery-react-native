@@ -54,7 +54,7 @@ export default function ProductDetailScreen({
 	const [product, setProduct] = useState<ProductDetailType>();
 	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
 	const dispatch = useAppDispatch();
-	const [like, setLike] = useState<boolean>(product?.isLiked ?? false);
+	const [like, setLike] = useState<boolean>(false);
 	const isLogin = useSelector((state: RootState) => state.authState.user) != null;
 	const appDispatch = useAppDispatch();
 
@@ -68,6 +68,7 @@ export default function ProductDetailScreen({
 
 	useEffect(() => {
 		axiosInstance.get<ApiResponse<ProductDetailType>>(`/product/${id}`).then(res => {
+			setLike(res.data.data.favorite ?? false);
 			setProduct(res.data.data);
 		});
 	}, []);

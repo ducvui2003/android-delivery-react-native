@@ -49,9 +49,16 @@ type SearchScreenProps = {
 	autoFocus: boolean;
 	category?: CategoryType;
 	navigation: NativeStackNavigationProp<any>;
+	isFavorite?: boolean;
 };
 
-export default function SearchFragment({ autoFocus, category, navigation, back = false }: SearchScreenProps) {
+export default function SearchFragment({
+	autoFocus,
+	category,
+	navigation,
+	back = false,
+	isFavorite = false,
+}: SearchScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [products, setProducts] = useState<ApiPagingType<ProductType>>();
 	const [searchTerm, setSearchTerm] = useState<string>();
@@ -71,7 +78,7 @@ export default function SearchFragment({ autoFocus, category, navigation, back =
 		if (searchData.name === undefined && loading) return; // stop run search when first enter page or loading
 		setProducts(undefined);
 		setLoading(true);
-		searchProduct(searchData).then(value => {
+		searchProduct(searchData, isFavorite).then(value => {
 			setProducts(value);
 			setLoading(false);
 		});
@@ -86,7 +93,7 @@ export default function SearchFragment({ autoFocus, category, navigation, back =
 	/* function get date by category
 	 * when page show product by category, this function will call api to get data and run only 1 times*/
 	useEffect(() => {
-		if (!category) return;
+		if (!category || category.id === "-1") return;
 		setLoading(true);
 		getProductByCategoryId(category.id).then(value => {
 			setProducts(value);
@@ -112,7 +119,7 @@ export default function SearchFragment({ autoFocus, category, navigation, back =
 
 		searchData.page = (searchData?.page ?? 0) + 1;
 		setLoading(true);
-		searchProduct(searchData).then(value => {
+		searchProduct(searchData, isFavorite).then(value => {
 			setProducts(prevState => {
 				const temp = prevState?.content ?? [];
 				value.content.forEach(it => temp.push(it));

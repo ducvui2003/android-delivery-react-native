@@ -23,7 +23,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../navigations/stack.type";
 
 function ProductHomeCard({
-	product: { id, name, avgRating, price, discountInfo, image, isLiked = false },
+	product: { id, name, avgRating, price, discountInfo, image, favorite = false },
 	onPress,
 	onPressHeart,
 }: ProductHomeCardProps) {
@@ -42,7 +42,7 @@ function ProductHomeCard({
 			<View style={{ position: "relative" }}>
 				<Image source={{ uri: image }} style={styles.thumbnail} />
 				<TouchableOpacity onPress={onPressHeart} style={styles.heartContainer}>
-					{!isLiked ? (
+					{!favorite ? (
 						<SolarHeartOutline width={18} height={18} color={primary.getColor("500")} />
 					) : (
 						<GradientIconSvg
