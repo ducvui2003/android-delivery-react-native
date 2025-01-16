@@ -57,8 +57,6 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 	}, []);
 
 	useEffect(() => {
-		console.log(JSON.stringify(cartItems, null, 3));
-
 		if (cartItems) {
 			setBasketCalculateProps({
 				subTotal: cartItems.reduce(
@@ -74,6 +72,22 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 			});
 		}
 	}, [cartItems]);
+
+	// const handlePlaceOrder = () => {
+	// 	const cartItemIds: number[] = cartItems.map(item => item.id);
+	// 	const promotionShipId = promotionOffer.shipping?.id ? promotionOffer.shipping.id : null;
+	// 	const promotionProductId = promotionOffer.order?.id ? promotionOffer.order.id : null;
+	// 	const paymentMethod = "CASH";
+	// 	const address = "";
+
+	// 	createOrder(cartItemIds, promotionShipId, promotionProductId, address, paymentMethod)
+	// 		.then(() => {
+	// 			navigation.navigate("OrderTrackingScreen");
+	// 		})
+	// 		.catch(error => {
+	// 			console.error("Error while creating order", error);
+	// 		});
+	// };
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
@@ -146,7 +160,6 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 					title={"Place Order"}
 					active={true}
 					styleButton={{ marginBottom: 0, paddingHorizontal: 20 }}
-					onPress={() => navigation.navigate("OrderTrackingScreen")}
 				/>
 			</Row>
 		</SafeAreaView>

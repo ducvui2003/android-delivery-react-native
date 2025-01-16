@@ -34,7 +34,7 @@ import { ProductDetailAdditionalOption } from "../fragments/productDetail/Produc
 import ProductDetailFooter from "../fragments/productDetail/ProductDetailFooter";
 import { RootStackParamList } from "../navigations/stack.type";
 import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from "../types/productDetail.type";
-import { addCart } from "../hooks/redux/cart.slice";
+import { addCart, CartType } from "../hooks/redux/cart.slice";
 
 type ProductDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "ProductDetailScreen">;
@@ -127,7 +127,28 @@ export default function ProductDetailScreen({
 					quantity: quantity,
 					optionIds: optionIds,
 				})
-			);
+			).then(action => {
+				if (action.type === CartType.ADD_FULFILLED) {
+					console.log("run");
+					dispatch(
+						showModalNotify({
+							title: "Success",
+							body: "Please check your order",
+							width: "70%",
+							showCancelButton: true,
+						})
+					);
+				} else {
+					appDispatch(
+						showModalNotify({
+							title: "Error",
+							body: "Add cart failed",
+							width: "70%",
+							showCancelButton: true,
+						})
+					);
+				}
+			});
 		else
 			dispatch(
 				showModalNotify({

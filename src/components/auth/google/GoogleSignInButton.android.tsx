@@ -6,17 +6,16 @@
  *  User: lam-nguyen
  **/
 
+import { GoogleSignin, isErrorWithCode, statusCodes, User } from "@react-native-google-signin/google-signin";
+import { AxiosError } from "axios";
 import * as React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import axiosInstance, { ApiResponse } from "../../../configs/axios/axios.config";
-import { AxiosError } from "axios";
-import { GoogleSignin, isErrorWithCode, statusCodes, User } from "@react-native-google-signin/google-signin";
-import { Authentication } from "../../../types/authentication.type";
-import ButtonAuthProps from "../type/buttonAuth.props";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../configs/redux/store.config";
-import { borderOthMethodSignIn } from "../../../configs/colors/color-template.config";
 import LogosGoogleIcon from "../../../../assets/images/icons/LogosGoogleIcon";
+import { borderOthMethodSignIn } from "../../../configs/colors/color-template.config";
+import { RootState } from "../../../configs/redux/store.config";
+import { loginGoogleApi } from "../../../services/auth.service";
+import ButtonAuthProps from "../type/buttonAuth.props";
 
 GoogleSignin.configure({
 	scopes: ["https://www.googleapis.com/auth/drive.readonly"], // what API you want to access on behalf of the user, default is email and profile
@@ -34,12 +33,11 @@ GoogleSignin.configure({
 function GoogleSignInButton({ loginSuccess }: ButtonAuthProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const loginServerSide = async (authCode: string) => {
-		axiosInstance
-			.post<any, ApiResponse<Authentication>>("/auth/login-google-mobile", {
-				authCode: authCode,
-			})
+		loginGoogleApi(authCode)
 			.then(result => {
-				loginSuccess && loginSuccess(result.data.user.email);
+				console.log("Login", result.user.email);
+
+				loginSuccess && loginSuccess(result.user, result.accessToken);
 			})
 			.catch((error: AxiosError) => {
 				console.error(error.code);
@@ -49,6 +47,7 @@ function GoogleSignInButton({ loginSuccess }: ButtonAuthProps) {
 	const signIn = async () => {
 		try {
 			await GoogleSignin.hasPlayServices();
+			await GoogleSignin.signOut();
 			const userInfo: User = await GoogleSignin.signIn();
 			await loginServerSide(userInfo.serverAuthCode ? userInfo.serverAuthCode : "");
 		} catch (error) {
