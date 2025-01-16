@@ -16,6 +16,7 @@ import Selector from "../../../components/selector/Selector";
 import data from "../../../../assets/data/category/category";
 import CategoryType from "../../../types/category.type";
 import Row from "../../../components/custom/Row";
+import ButtonHasStatus from "../../../components/custom/ButtonHasStatus";
 
 type ProductSaveManageScreenProps = {
 	route: RouteProp<RootStackParamList, "ProductSaveManageScreen">;
@@ -59,51 +60,34 @@ export default function ProductSaveManageScreen({
 				}}
 				onPressBack={() => navigation.pop()}
 			/>
-			<ScrollView style={[{ backgroundColor: "red" }, styles.layoutScreen]} showsVerticalScrollIndicator={false}>
-				<View style={styles.content}>
-					<View style={styles.thumbnail}>
-						<Image source={burger} style={styles.circularImage} />
-						<TouchableOpacity onPress={() => {}} style={styles.buttonEdit}>
-							<View>
-								<SolarPenBold width={26} height={26} color={white.getColor()} />
-							</View>
-						</TouchableOpacity>
-					</View>
-
-					<View style={[{ backgroundColor: "yellow", flex: 1, height: 800 }, styles.content]}>
-						<InputIcon placeholder={"product name"} height={56} />
-						<Selector
-							data={data}
-							renderItem={renderCategory}
-							renderItemSelected={renderCategorySelected}
-							backgroundColorSelected={theme.background_input.getColor()}
-						/>
-						<Selector
-							data={data}
-							renderItem={renderCategory}
-							renderItemSelected={renderCategorySelected}
-							backgroundColorSelected={theme.background_input.getColor()}
-						/>
-						<Selector
-							data={data}
-							renderItem={renderCategory}
-							renderItemSelected={renderCategorySelected}
-							backgroundColorSelected={theme.background_input.getColor()}
-						/>
-						<Selector
-							data={data}
-							renderItem={renderCategory}
-							renderItemSelected={renderCategorySelected}
-							backgroundColorSelected={theme.background_input.getColor()}
-						/>
-						<Selector
-							data={data}
-							renderItem={renderCategory}
-							renderItemSelected={renderCategorySelected}
-							backgroundColorSelected={theme.background_input.getColor()}
-						/>
-					</View>
+			<ScrollView style={[styles.layoutScreen]} showsVerticalScrollIndicator={false}>
+				<View style={styles.thumbnail}>
+					<Image source={burger} style={styles.circularImage} />
+					<TouchableOpacity onPress={() => {}} style={styles.buttonEdit}>
+						<View>
+							<SolarPenBold width={26} height={26} color={white.getColor()} />
+						</View>
+					</TouchableOpacity>
 				</View>
+				<View style={styles.content}>
+					<InputIcon placeholder={"product name"} height={56} />
+				</View>
+				<View style={styles.content}>
+					<Selector
+						data={data}
+						renderItem={renderCategory}
+						renderItemSelected={renderCategorySelected}
+						// backgroundColorSelected={theme.background_input.getColor()}
+					/>
+				</View>
+				<View style={styles.content}>
+					<InputIcon placeholder={"quality"} height={56} />
+				</View>
+				<Row style={[styles.content, { width: "100%", alignItems: "center", justifyContent: "space-between" }]}>
+					<InputIcon placeholder={"price"} height={56} width={168} />
+					<InputIcon placeholder={"discount"} height={56} width={168} />
+				</Row>
+				<ButtonHasStatus title={"Add Option"} onPress={() => {}} active={true} styleButton={styles.button} />
 			</ScrollView>
 		</SafeAreaView>
 	);
@@ -143,10 +127,7 @@ const makeStyled = (theme: ThemeType) =>
 			right: "30%",
 		},
 		content: {
-			// flex: 1,
-			justifyContent: "space-between",
-			alignItems: "center",
-			// backgroundColor: "blue",
+			paddingVertical: 12,
 		},
 		itemSelects: {
 			padding: 8,
@@ -162,5 +143,12 @@ const makeStyled = (theme: ThemeType) =>
 		itemSelected: {
 			justifyContent: "flex-start",
 			alignItems: "center",
+		},
+		button: {
+			backgroundColor: primary.getColor("500"),
+			padding: 12,
+			borderRadius: 8,
+			// justifyContent: "center",
+			// alignItems: "center",
 		},
 	});
