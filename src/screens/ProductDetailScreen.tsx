@@ -73,6 +73,21 @@ export default function ProductDetailScreen({
 	}, []);
 
 	const onHeartPress = () => {
+		if (!isLogin) {
+			dispatch(
+				showModalNotify({
+					onConfirm: () => {
+						navigation.push("LoginScreen", { back: true });
+						return true;
+					},
+					body: "Vui lòng đăng nhập!",
+					title: "Đăng nhập",
+				})
+			);
+
+			return;
+		}
+
 		if (!like)
 			likeProduct(id)
 				.then(() => {
@@ -81,15 +96,6 @@ export default function ProductDetailScreen({
 				.catch(error => {
 					if (axios.isAxiosError(error)) {
 						const response = error as AxiosError<ApiResponse<void>>;
-						dispatch(
-							showModalNotify({
-								onConfirm: () => {
-									return true;
-								},
-								body: "hello",
-								title: "hello",
-							})
-						);
 					}
 				});
 		else {
@@ -114,11 +120,6 @@ export default function ProductDetailScreen({
 
 	const handleSubmit = (quantity: number) => {
 		const optionIds = getOptionIds(additionalOption);
-		// console.log("ProductDetailScreen", {
-		// 	productId: product?.id ?? "",
-		// 	quantity: quantity,
-		// 	optionIds: optionIds,
-		// });
 
 		if (isLogin)
 			appDispatch(

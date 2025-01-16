@@ -41,7 +41,7 @@ import { NameTheme } from "./src/types/theme.type";
 import { getFromStorage, KEY_ASYNC } from "./src/services/asyncStore.service";
 import AddImageScreen from "./src/screens/AddImageScreen";
 import ProductManagerScreen from "./src/screens/admin/productManager/ProductManagerScreen";
-import ProductSaveManageScreen from "./src/screens/admin/productManager/ProductSaveManageScreen";
+import ModifyProductManageScreen from "./src/screens/admin/productManager/ModifyProductManageScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -93,7 +93,7 @@ function Root() {
     return (
         <View style={{ flex: 1 }}>
             <NavigationContainer>
-                <RootStack.Navigator initialRouteName="AddImageScreen" screenOptions={{ headerShown: false }}>
+                <RootStack.Navigator initialRouteName="ProductManagerScreen" screenOptions={{ headerShown: false }}>
                     <RootStack.Screen name={"MainScreen"} component={MainScreen} />
                     <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
                     <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />
@@ -125,7 +125,7 @@ function Root() {
                     <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
                     <RootStack.Screen name={"AddImageScreen"} component={AddImageScreen} />
                     <RootStack.Screen name={"ProductManagerScreen"} component={ProductManagerScreen} />
-                    <RootStack.Screen name={"ProductSaveManageScreen"} component={ProductSaveManageScreen} />
+                    <RootStack.Screen name={"ModifyProductManageScreen"} component={ModifyProductManageScreen} />
                 </RootStack.Navigator>
             </NavigationContainer>
 

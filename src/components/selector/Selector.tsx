@@ -26,6 +26,9 @@ function Selector<T>({
 	backgroundColorItems,
 	showed = false,
 	onShow,
+	selectItem,
+	selectItemAt,
+	selectItemWhere,
 }: SelectorProps<T>) {
 	const [selectedItem, setSelectedItem] = useState<T>(data[0]);
 	const [isShow, setIsShow] = useState<boolean>(showed);
@@ -50,6 +53,14 @@ function Selector<T>({
 		setIsShow(false);
 		onSelected?.(selectedItem);
 	}, [selectedItem]);
+
+	useEffect(() => {
+		data.forEach(item => {
+			if (selectItemWhere?.(item)) {
+				setSelectedItem(item);
+			}
+		});
+	}, []);
 
 	useEffect(() => {
 		runAnimatedArrow(isShow ? 180 : 0);

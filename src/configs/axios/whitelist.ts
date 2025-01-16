@@ -5,6 +5,7 @@ const WHITE_LIST = [
 	"/auth/refresh-token",
 	"/health/alive",
 	"/product/**",
+	"/product-option/**",
 	"/category/**",
 ];
 

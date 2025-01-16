@@ -14,7 +14,7 @@ import ProductDetailType from "../types/productDetail.type";
 import { ImagePickerAsset } from "expo-image-picker";
 import { firebaseStorage } from "../configs/firebase/firebase.config";
 import uuid from "react-native-uuid";
-import RequestRequestProduct from "./RequestRequestProduct";
+import CreateProductRequest from "../types/request/createProduct.request";
 import store from "../configs/redux/store.config";
 import { setLoading } from "../hooks/redux/modal.slice";
 
@@ -40,9 +40,9 @@ export const searchProduct = async (data: SearchProductType): Promise<ApiPagingT
 		});
 };
 
-export const getProducts = async (): Promise<ApiPagingType<ProductType>> => {
+export const getProducts = async (page?: number): Promise<ApiPagingType<ProductType>> => {
 	try {
-		const response = await axiosInstance.get<ApiResponse<ApiPagingType<ProductType>>>("/product");
+		const response = await axiosInstance.get<ApiResponse<ApiPagingType<ProductType>>>("/product", {params: {page: page ?? 0}});
 		return response.data.data;
 	} catch (e) {
 		console.error(e);
@@ -51,7 +51,7 @@ export const getProducts = async (): Promise<ApiPagingType<ProductType>> => {
 };
 
 export const createProduct = async (
-	product: RequestRequestProduct,
+	product: CreateProductRequest,
 	asset: ImagePickerAsset
 ): Promise<ProductDetailType> => {
 	const image = `product/${uuid.v4()}.png`;
@@ -69,6 +69,38 @@ export const createProduct = async (
 			store.dispatch(setLoading(false));
 			throw e;
 		});
+};
+
+export const updateProduct = async (
+	product: CreateProductRequest & {id: string},
+	asset?: ImagePickerAsset
+): Promise<ProductDetailType> => {
+	if(asset) {
+		const image = `product/${uuid.v4()}.png`;
+		store.dispatch(setLoading(true));
+		return firebaseStorage
+			.ref(image)
+			.putFile(asset.uri)
+			.then(async result => {
+				if (result.state !== "success") return;
+				product.image = image;
+				const response = await axiosInstance.put<ApiResponse<ProductDetailType>>(
+					`/product/${product.id}`,
+					product
+				);
+				return response.data.data;
+			})
+			.catch(e => {
+				store.dispatch(setLoading(false));
+				throw e;
+			});
+	}else{
+		const response = await axiosInstance.put<ApiResponse<ProductDetailType>>(
+			`/product/${product.id}`,
+			product
+		);
+		return response.data.data;
+	}
 };
 
 export const likeProduct = async (id: string): Promise<ApiResponse<void>> => {

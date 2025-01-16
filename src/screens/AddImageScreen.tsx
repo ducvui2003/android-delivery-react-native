@@ -12,7 +12,7 @@ import { Text, TouchableOpacity } from "react-native";
 import ImagePicker from "../utils/imagePicker";
 import { ImagePickerAsset } from "expo-image-picker";
 import { createProduct } from "../services/product.service";
-import RequestRequestProduct from "../services/RequestRequestProduct";
+import CreateProductRequest from "../types/request/createProduct.request";
 
 function AddImageScreen() {
 	const [asset, setAsset] = useState<ImagePickerAsset | undefined>();
@@ -82,6 +82,6 @@ const data = {
 		discount: 60,
 		expired: new Date(Date.parse("2024-08-31")),
 	},
-} as RequestRequestProduct;
+} as CreateProductRequest;
 
 export default AddImageScreen;

@@ -9,9 +9,11 @@ export type RootStackParamList = {
 	WelcomeScreen: undefined;
 	IntroduceScreen: undefined;
 	SignUpScreen: undefined;
-	LoginScreen: {
-		back: boolean
-	} | undefined;
+	LoginScreen:
+		| {
+				back: boolean;
+		  }
+		| undefined;
 	VerificationScreen: {
 		dialCode: string;
 		form: RegisterFormType;
@@ -52,7 +54,7 @@ export type RootStackParamList = {
 
 	// admin - manage product
 	ProductManagerScreen: undefined;
-	ProductSaveManageScreen: { id : string }
+	ModifyProductManageScreen: { id: string | undefined | null };
 };
 
 export type MainScreenStackParamList = {

@@ -10,36 +10,27 @@ import { ThemeType } from "../../../types/theme.type";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../configs/redux/store.config";
 import textStyle from "../../../configs/styles/textStyle.config";
-import React, { useEffect } from "react";
+import React, { useId } from "react";
 import { neutral, primary, secondary, white } from "../../../configs/colors/color-template.config";
 import SolarStarOutline from "../../../../assets/images/icons/SolarStarOutline";
 import Formater from "../../../utils/formater";
-import { firebaseStorage } from "../../../configs/firebase/firebase.config";
 import { ProductManageCardProps } from "./type/productManageCard.props";
 import Row from "../../custom/Row";
 import SolarPenBold from "../../../../assets/images/icons/SolarPenBold";
 import Col from "../../custom/Col";
 
 function ProductManageCard({
-							   product: { id, name, avgRating, price, discountInfo, image },
-							   onEditPress,
-						   }: ProductManageCardProps) {
+	product: { id, name, avgRating, price, discountInfo, image },
+	onEditPress,
+}: ProductManageCardProps) {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
-	const [url, setUrl] = React.useState<string>("");
-
-	useEffect(() => {
-		try {
-			firebaseStorage.ref(image).getDownloadURL().then(setUrl);
-		} catch (e) {
-		}
-	}, [image]);
 
 	return (
 		<View style={styles.container} key={id}>
 			<Row>
-				{url ? (
-					<Image source={{ uri: url }} style={styles.thumbnail} />
+				{image ? (
+					<Image source={{ uri: image }} style={styles.thumbnail} />
 				) : (
 					<View style={[styles.thumbnail, { backgroundColor: "gray" }]} />
 				)}
@@ -49,26 +40,27 @@ function ProductManageCard({
 					</View>
 				</TouchableOpacity>
 				<View style={styles.content}>
-					<Text style={styles.nameProduct} numberOfLines={1}>{name}</Text>
+					<Text style={styles.nameProduct} numberOfLines={1}>
+						{name}
+					</Text>
 					<View style={styles.containerContent}>
 						<SolarStarOutline width={14} height={14} color={secondary.getColor("500")} />
 						<Text style={styles.star}>{avgRating}</Text>
 					</View>
 					<View style={[styles.containerContent, { overflow: "hidden" }]}>
-						{discountInfo ?
-							(<Col>
+						{discountInfo ? (
+							<Col>
 								<Text style={{ ...styles.currentPrice }}>
-								{Formater.formatCurrency((price * (100 - discountInfo.discount)) / 100)}
-							</Text>
+									{Formater.formatCurrency((price * (100 - discountInfo.discount)) / 100)}
+								</Text>
 								<Text style={{ ...styles.oldPrice }}>{Formater.formatCurrency(price)}</Text>
-							</Col>)
-							:
-							(<Col>
+							</Col>
+						) : (
+							<Col>
 								<Text style={{ ...styles.currentPrice }}>{Formater.formatCurrency(price)}</Text>
 								<Text></Text>
-							</Col>)
-						}
-
+							</Col>
+						)}
 					</View>
 				</View>
 			</Row>
@@ -92,8 +84,8 @@ const makeStyled = (theme: ThemeType) =>
 			position: "relative",
 		},
 		thumbnail: {
-			width: "50%",
-			height: "100%",
+			width: 100,
+			height: 100,
 			borderRadius: 8,
 		},
 		editButton: {

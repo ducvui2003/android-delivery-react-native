@@ -16,13 +16,16 @@ type SelectorProps<T> = {
 	renderArrow?: () => React.JSX.Element;
 	onSelected?: (item: T) => void;
 	showBorder?: boolean;
-	height?: number;
+	height?: DimensionValue;
 	width?: DimensionValue;
 	padding?: number;
 	backgroundColorSelected?: ColorValue;
 	backgroundColorItems?: ColorValue;
 	showed?: boolean;
 	onShow?: (isShow: boolean) => void;
+	selectItem?: T,
+	selectItemAt?: number,
+	selectItemWhere?: (item: T) => boolean
 };
 
 export default SelectorProps;

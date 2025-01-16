@@ -5,9 +5,9 @@
  * Create at: 4:57 PM - 15/01/2025
  * User: lam-nguyen
  **/
-import ProductDetailType from "../types/productDetail.type";
+import ProductDetailType from "../productDetail.type";
 
-type RequestRequestProduct = Pick<ProductDetailType, "name" | "price" | "quantity" | "description"> & {
+type CreateProductRequest = Pick<ProductDetailType, "name" | "price" | "quantity" | "description"> & {
 	category: string;
 	nutritional: {
 		name: string;
@@ -20,6 +20,6 @@ type RequestRequestProduct = Pick<ProductDetailType, "name" | "price" | "quantit
 		expired: Date;
 	};
 	image?: string;
-} & Partial<"">;
+};
 
-export default RequestRequestProduct;
+export default CreateProductRequest;

@@ -6,6 +6,8 @@ export enum EndPoint {
 	ACCOUNT = "/auth/account",
 	ADDRESS = "/profile/address",
 
+	PRODUCT_OPTION = "/product-option",
+
 	ADD_CART = "/cart/add",
 	GET_CARTS = "/cart/list",
 	DETAIL_CART = "/cart/detail",

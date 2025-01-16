@@ -5,6 +5,7 @@
  * Created at: 17/8/24 - 12:06 pm
  * User: ducvui2003
  **/
+import CategoryType from "./category.type";
 
 type ProductType = {
 	id: string;
@@ -14,6 +15,7 @@ type ProductType = {
 	price: number;
 	discountInfo?: DiscountInfo;
 	isLiked?: boolean;
+	category: CategoryType
 };
 
 type DiscountInfo = {
