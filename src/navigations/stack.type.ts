@@ -8,9 +8,11 @@ export type RootStackParamList = {
 	WelcomeScreen: undefined;
 	IntroduceScreen: undefined;
 	SignUpScreen: undefined;
-	LoginScreen: {
-		back: boolean
-	} | undefined;
+	LoginScreen:
+		| {
+				back: boolean;
+		  }
+		| undefined;
 	VerificationScreen: {
 		dialCode: string;
 		form: RegisterFormType;
@@ -47,6 +49,10 @@ export type RootStackParamList = {
 	};
 	CancelOrderScreen: undefined;
 	ChatScreen: undefined;
+	ManagementOrderScreen: undefined;
+	ManagementOrderDetailScreen: {
+		id: string;
+	};
 	ChartScreen: undefined;
 };
 

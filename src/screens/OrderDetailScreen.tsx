@@ -200,7 +200,7 @@ export default function OrderDetailScreen({
 
 					{orderDetail?.status === ORDER_STATUS_COMPLETED && (
 						<Col style={{ paddingBottom: 24 }}>
-							<IconRating iconSize={60} total={5} rating={orderDetail.starReview} />
+							<IconRating iconSize={60} total={5} rating={orderDetail?.starReview || 0} />
 						</Col>
 					)}
 					{orderDetail?.status === ORDER_STATUS_COMPLETED && (

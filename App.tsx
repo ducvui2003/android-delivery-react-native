@@ -1,15 +1,15 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import React, { JSX, lazy, useEffect } from "react";
-import { Platform, useColorScheme, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Provider as ProviderRedux, useDispatch } from "react-redux";
-import store, { AppDispatch } from "./src/configs/redux/store.config";
+import {NavigationContainer} from "@react-navigation/native";
+import {createStackNavigator} from "@react-navigation/stack";
+import {GoogleOAuthProvider} from "@react-oauth/google";
+import React, {JSX, lazy, useEffect} from "react";
+import {Platform, useColorScheme, View} from "react-native";
+import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
+import {Provider as ProviderRedux, useDispatch} from "react-redux";
+import store, {AppDispatch} from "./src/configs/redux/store.config";
 import LoadingModal from "./src/fragments/modal/LoadingModal";
 import NotifyModal from "./src/fragments/modal/NotifyModal";
-import { setTheme } from "./src/hooks/redux/theme.slice";
-import { RootStackParamList } from "./src/navigations/stack.type";
+import {setTheme} from "./src/hooks/redux/theme.slice";
+import {RootStackParamList} from "./src/navigations/stack.type";
 import AddNewLocationScreen from "./src/screens/AddNewLocationScreen";
 import BasketScreen from "./src/screens/BasketScreen";
 import CameraScreen from "./src/screens/CameraScreen";
@@ -37,8 +37,10 @@ import SignUpScreen from "./src/screens/SignUpScreen";
 import TouchIDScreen from "./src/screens/TouchIDScreen";
 import VerificationScreen from "./src/screens/VerificationScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
-import { getFromStorage } from "./src/services/secureStore.service";
-import { NameTheme } from "./src/types/theme.type";
+import {getFromStorage} from "./src/services/secureStore.service";
+import {NameTheme} from "./src/types/theme.type";
+import ManagementOrderDetailScreen from "./src/screens/admin/order/ManagementOrderDetailScreen";
+import ManagementOrderScreen from "./src/screens/admin/order/ManagementOrderScreen";
 import ChartScreen from "./src/screens/admin/ChartScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
@@ -47,7 +49,7 @@ const RootStack = createStackNavigator<RootStackParamList>();
 
 const provider =
     <ProviderRedux store={store}>
-        <Root />
+        <Root/>
     </ProviderRedux>;
 
 const readerRoot: Record<typeof Platform.OS, JSX.Element> = {
@@ -63,7 +65,7 @@ const readerRoot: Record<typeof Platform.OS, JSX.Element> = {
 export default function App() {
     return (
         <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{flex: 1}}>
                 {readerRoot[Platform.OS]}
             </SafeAreaView>
         </SafeAreaProvider>
@@ -89,44 +91,48 @@ function Root() {
 
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
             <NavigationContainer>
-                <RootStack.Navigator initialRouteName="WelcomeScreen" screenOptions={{ headerShown: false }}>
-                    <RootStack.Screen name={"MainScreen"} component={MainScreen} />
-                    <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
-                    <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />
-                    <RootStack.Screen name={"IntroduceScreen"} component={IntroduceScreen} />
-                    <RootStack.Screen name={"SignUpScreen"} component={SignUpScreen} />
-                    <RootStack.Screen name={"LoginScreen"} component={LoginScreen} />
-                    <RootStack.Screen name={"VerificationScreen"} component={VerificationScreen} />
-                    <RootStack.Screen name={"SettingPinSecurityScreen"} component={SettingPinSecurityScreen} />
-                    <RootStack.Screen name={"AddNewLocationScreen"} component={AddNewLocationScreen} />
-                    <RootStack.Screen name={"MyLocationScreen"} component={MyLocationScreen} />
-                    <RootStack.Screen name={"CategoriesScreen"} component={CategoriesScreen} />
-                    <RootStack.Screen name={"SearchScreen"} component={SearchScreen} />
-                    <RootStack.Screen name={"ProductDetailScreen"} component={ProductDetailScreen} />
-                    <RootStack.Screen name={"ReviewScreen"} component={ReviewScreen} />
-                    <RootStack.Screen name={"BasketScreen"} component={BasketScreen} />
+                <RootStack.Navigator initialRouteName="WelcomeScreen" screenOptions={{headerShown: false}}>
+                    <RootStack.Screen name={"MainScreen"} component={MainScreen}/>
+                    <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen}/>
+                    <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen}/>
+                    <RootStack.Screen name={"IntroduceScreen"} component={IntroduceScreen}/>
+                    <RootStack.Screen name={"SignUpScreen"} component={SignUpScreen}/>
+                    <RootStack.Screen name={"LoginScreen"} component={LoginScreen}/>
+                    <RootStack.Screen name={"VerificationScreen"} component={VerificationScreen}/>
+                    <RootStack.Screen name={"SettingPinSecurityScreen"} component={SettingPinSecurityScreen}/>
+                    <RootStack.Screen name={"AddNewLocationScreen"} component={AddNewLocationScreen}/>
+                    <RootStack.Screen name={"MyLocationScreen"} component={MyLocationScreen}/>
+                    <RootStack.Screen name={"CategoriesScreen"} component={CategoriesScreen}/>
+                    <RootStack.Screen name={"SearchScreen"} component={SearchScreen}/>
+                    <RootStack.Screen name={"ProductDetailScreen"} component={ProductDetailScreen}/>
+                    <RootStack.Screen name={"ReviewScreen"} component={ReviewScreen}/>
+                    <RootStack.Screen name={"BasketScreen"} component={BasketScreen}/>
                     <RootStack.Screen name={"OrderRatingScreen"} component={OrderRatingScreen}
-                                      initialParams={{ idDriver: "driver_1", idOrder: "SP 0023900" }} />
-                    <RootStack.Screen name={"DriverRatingScreen"} component={DriverRatingScreen} />
-                    <RootStack.Screen name={"GiveThanksScreen"} component={GiveThanksScreen} />
-                    <RootStack.Screen name={"MeatRatingScreen"} component={MeatRatingScreen} />
-                    <RootStack.Screen name={"CameraScreen"} component={CameraScreen} />
-                    <RootStack.Screen name={"PromotionScreen"} component={PromotionScreen} />
-                    <RootStack.Screen name={"PaymentMethodScreen"} component={PaymentMethodScreen} />
-                    <RootStack.Screen name={"OrderTrackingScreen"} component={OrderTrackingScreen} />
-                    <RootStack.Screen name={"FaceIDScreen"} component={FaceIDScreen} />
-                    <RootStack.Screen name={"TouchIDScreen"} component={TouchIDScreen} />
-                    <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen} />
-                    <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen} />
-                    <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
-                    <RootStack.Screen name={"ChartScreen"} component={ChartScreen} />
+                                      initialParams={{idDriver: "driver_1", idOrder: "SP 0023900"}}/>
+                    <RootStack.Screen name={"DriverRatingScreen"} component={DriverRatingScreen}/>
+                    <RootStack.Screen name={"GiveThanksScreen"} component={GiveThanksScreen}/>
+                    <RootStack.Screen name={"MeatRatingScreen"} component={MeatRatingScreen}/>
+                    <RootStack.Screen name={"CameraScreen"} component={CameraScreen}/>
+                    <RootStack.Screen name={"PromotionScreen"} component={PromotionScreen}/>
+                    <RootStack.Screen name={"PaymentMethodScreen"} component={PaymentMethodScreen}/>
+                    <RootStack.Screen name={"OrderTrackingScreen"} component={OrderTrackingScreen}/>
+                    <RootStack.Screen name={"FaceIDScreen"} component={FaceIDScreen}/>
+                    <RootStack.Screen name={"TouchIDScreen"} component={TouchIDScreen}/>
+                    <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen}/>
+
+                    <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen}/>
+                    <RootStack.Screen name={"ChatScreen"} component={ChatScreen}/>
+                    <RootStack.Screen name={"ManagementOrderDetailScreen"} component={ManagementOrderDetailScreen}/>
+                    <RootStack.Screen name={"ManagementOrderScreen"} component={ManagementOrderScreen}/>
+                    <RootStack.Screen name={"ChartScreen"} component={ChartScreen}/>
+
                 </RootStack.Navigator>
             </NavigationContainer>
 
-            <LoadingModal />
-            <NotifyModal />
+            <LoadingModal/>
+            <NotifyModal/>
         </View>
     );
 }

@@ -3,9 +3,42 @@ import OrderType from "../types/order.type";
 import OrderDetailType from "../types/orderDetail.type";
 import { EndPoint } from "../utils/EndPoint";
 
-export const getOrders = async (): Promise<OrderType[] | undefined> => {
+type OrderSearchType = {
+	status: string | null;
+	star: number | null | string;
+	page: number | null;
+	limit: number | null;
+};
+
+export const getOrders = async (
+	{ status, star, page, limit }: OrderSearchType,
+	isAdmin: boolean = false
+): Promise<OrderType[] | undefined> => {
 	try {
-		const response = await axiosInstance.get<ApiResponse<OrderType[]>>(EndPoint.GET_ORDERS);
+		let response;
+		status = status === "ALL" ? null : status;
+		star = star === "ALL" ? null : star;
+
+		if (star) {
+			response = await axiosInstance.get<ApiResponse<OrderType[]>>(
+				isAdmin ? EndPoint.GET_ORDERS_ADMIN : EndPoint.GET_ORDERS,
+				{
+					params: {
+						status,
+						star,
+						page,
+						limit,
+					},
+				}
+			);
+		} else
+			response = await axiosInstance.get<ApiResponse<OrderType[]>>(EndPoint.GET_ORDERS, {
+				params: {
+					status,
+					page,
+					limit,
+				},
+			});
 		if (response.data.data) {
 			return response.data.data;
 		}
@@ -16,7 +49,7 @@ export const getOrders = async (): Promise<OrderType[] | undefined> => {
 	}
 };
 
-export const getOrderDetail = async (id: string): Promise<OrderDetailType | undefined> => {
+export const getOrderDetail = async (id: number | string): Promise<OrderDetailType | undefined> => {
 	try {
 		const response = await axiosInstance.get<ApiResponse<OrderDetailType>>(`${EndPoint.GET_ORDER_DETAIL}/${id}`);
 		if (response.data.data) {
@@ -49,6 +82,17 @@ export const createOrder = async (
 		return response.data;
 	} catch (error) {
 		console.error("Error while creating order", error);
+		throw error;
+	}
+};
+
+export const updateOrderStatus = async (id: string, status: string): Promise<void> => {
+	try {
+		await axiosInstance.put<OrderType>(`${EndPoint.UPDATE_ORDER_STATUS}/${id}`, {
+			status,
+		});
+	} catch (error) {
+		console.error("Error while updating order status", error);
 		throw error;
 	}
 };
