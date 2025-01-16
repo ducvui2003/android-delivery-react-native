@@ -39,6 +39,7 @@ import VerificationScreen from "./src/screens/VerificationScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import { getFromStorage } from "./src/services/secureStore.service";
 import { NameTheme } from "./src/types/theme.type";
+import ChartScreen from "./src/screens/admin/ChartScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -90,7 +91,7 @@ function Root() {
     return (
         <View style={{ flex: 1 }}>
             <NavigationContainer>
-                <RootStack.Navigator initialRouteName="WelcomeScreen" screenOptions={{ headerShown: false }}>
+                <RootStack.Navigator initialRouteName="ChartScreen" screenOptions={{ headerShown: false }}>
                     <RootStack.Screen name={"MainScreen"} component={MainScreen} />
                     <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
                     <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />
@@ -120,6 +121,7 @@ function Root() {
                     <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen} />
                     <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen} />
                     <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
+                    <RootStack.Screen name={"ChartScreen"} component={ChartScreen} />
                 </RootStack.Navigator>
             </NavigationContainer>
 
