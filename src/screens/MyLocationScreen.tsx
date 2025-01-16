@@ -8,6 +8,7 @@
 
 // @flow
 import * as React from "react";
+import { useEffect } from "react";
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Col from "../components/custom/Col";
 import { Header } from "../components/header/Header";
@@ -23,10 +24,9 @@ import Space from "../components/custom/Space";
 import { RootStackParamList } from "../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
-import data from "../../assets/data/location/location";
 import NumberValue from "../configs/value/number.value";
-import { useEffect } from "react";
 import { thunkGetAllAddress } from "../hooks/redux/address.slice";
+import { updateDefaultAddress } from "../services/address.service";
 
 type MyLocationScreenProps = {
 	route: RouteProp<RootStackParamList, "MyLocationScreen">;
@@ -36,13 +36,23 @@ type MyLocationScreenProps = {
 export default function MyLocationScreen({ navigation }: MyLocationScreenProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const address = useSelector((state: RootState) => state.addressState.address);
+	const user = useSelector((state: RootState) => state.authState.user);
 	const [indexChecked, setIndexChecked] = React.useState<number>(0);
-	const myLocation = 0;
+	const [myLocation, setMyLocation] = React.useState<number>(0);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		dispatch(thunkGetAllAddress());
 	}, [dispatch]);
+
+	useEffect(() => {
+		address.forEach((item, index) => {
+			if (item.id === user?.address.id) {
+				setIndexChecked(index);
+				setMyLocation(index);
+			}
+		});
+	}, []);
 
 	return (
 		<SafeAreaView style={[{ flex: 1, backgroundColor: theme.background.getColor() }]}>
@@ -108,7 +118,9 @@ export default function MyLocationScreen({ navigation }: MyLocationScreenProps) 
 				<ButtonHasStatus
 					active={indexChecked !== myLocation}
 					title={"Apply"}
-					onPress={() => {}}
+					onPress={() => {
+						updateDefaultAddress(address[indexChecked].id).then(() => navigation.replace("BasketScreen"));
+					}}
 					styleButton={styles.buttonApply}
 				/>
 			</Col>

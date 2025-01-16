@@ -6,10 +6,11 @@
  * User: lam-nguyen
  **/
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getUserInfo, loginApi, logoutApi, setAccessToken } from "../../services/auth.service";
 import LoginFormType from "../../types/loginForm.type";
 import { User } from "../../types/user.type";
+import { MyLocation } from "../../../assets/data/location/location";
 
 type AuthState = {
 	user?: User;
@@ -83,7 +84,11 @@ export const logout = createAsyncThunk(AuthType.LOGOUT, async (_, thunkAPI) => {
 const authSlice = createSlice({
 	name: AuthType.ROOT,
 	initialState: initialState,
-	reducers: {},
+	reducers: {
+		updateAddress: (state, action: PayloadAction<MyLocation>) => {
+			if (state.user) state.user.address = action.payload;
+		},
+	},
 	extraReducers: builder => {
 		builder
 			.addCase(initialStateAuth.fulfilled, (state, action) => {
@@ -102,5 +107,5 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-
+export const {updateAddress} = authSlice.actions
 export { AuthType };

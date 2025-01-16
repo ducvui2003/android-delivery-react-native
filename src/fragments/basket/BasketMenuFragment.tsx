@@ -57,6 +57,9 @@ function BasketMenuFragment() {
 						{user?.address ? user.address.address : "Select Your Location"}
 					</Text>
 				}
+				onPress={() => {
+					navigation.navigate("MyLocationScreen");
+				}}
 			/>
 			<MenuBasketItem
 				icon={<SolarWalletBold />}

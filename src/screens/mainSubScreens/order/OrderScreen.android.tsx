@@ -9,7 +9,6 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import * as React from "react";
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import Col from "../../../components/custom/Col";
@@ -41,7 +40,7 @@ function OrderScreen() {
 			<Order
 				{...item}
 				onPress={() => {
-					navigation.navigate("OrderDetailScreen", { id: item.id +""});
+					navigation.navigate("OrderDetailScreen", { id: item.id });
 				}}
 			/>
 		);
@@ -51,7 +50,12 @@ function OrderScreen() {
 		getOrders()
 			.then((orders: OrderType[] | undefined) => {
 				if (orders) {
-					setOrders(orders.map(order => ({ ...order, onPress: () => {} })));
+					setOrders(
+						orders.map(order => ({
+							...order,
+							onPress: () => {},
+						}))
+					);
 				}
 			})
 			.catch(error => {

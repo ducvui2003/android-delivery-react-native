@@ -11,6 +11,7 @@ import cartService from "../../services/cart.service";
 import { Cart, CartAdded } from "../../types/cart.type";
 import { RootState } from "../../configs/redux/store.config";
 import PaymentEnum from "../../utils/payment.enum";
+import { MyLocation } from "../../../assets/data/location/location";
 
 export const DEFAULT_QUANTITY_CHANGE = 1;
 const DEFAULT_TIME_BETWEEN_CALLS = 5 * 60;
@@ -19,12 +20,11 @@ type CartState = {
 	items: Cart[];
 	lastTimeCalled?: Date;
 	paymentMethod?: PaymentEnum;
+	address?: MyLocation;
 };
 
 const initialState: CartState = {
 	items: [],
-	lastTimeCalled: undefined,
-	paymentMethod: undefined,
 };
 
 enum CartType {
