@@ -139,8 +139,15 @@ export default function ProductDetailScreen({
 							showCancelButton: true,
 						})
 					);
-
-					return;
+				} else {
+					appDispatch(
+						showModalNotify({
+							title: "Error",
+							body: "Add cart failed",
+							width: "70%",
+							showCancelButton: true,
+						})
+					);
 				}
 			});
 		else
