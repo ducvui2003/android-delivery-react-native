@@ -41,7 +41,7 @@ const DATA: OrderProps[] = [
         price: 2000,
         images: [burger, burrito],
         starReview: 4,
-        status: "Cancelled",
+        status: "CANCELLED",
         onPress: () => {},
     },
     {
@@ -49,7 +49,7 @@ const DATA: OrderProps[] = [
         price: 3000,
         images: [burrito, sandwich],
         starReview: 3,
-        status: "Completed",
+        status: "COMPLETED",
         onPress: () => {},
     },
     {
@@ -57,7 +57,7 @@ const DATA: OrderProps[] = [
         price: 4000,
         images: [burger],
         starReview: 2,
-        status: "Active",
+        status: "ACTIVE",
         onPress: () => {},
     },
 ];

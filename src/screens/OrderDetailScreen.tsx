@@ -40,7 +40,11 @@ type OrderDetailScreenProps = {
 	onPressCancelOrder?: () => void;
 	onPressTrackOrder?: () => void;
 };
-export default function OrderDetailScreen({ route: { params: { id }, }, navigation,
+export default function OrderDetailScreen({
+	route: {
+		params: { id },
+	},
+	navigation,
 	onPressCamera,
 	onPressInsertPicture,
 	onPressTrackOrder,
@@ -196,7 +200,7 @@ export default function OrderDetailScreen({ route: { params: { id }, }, navigati
 
 					{orderDetail?.status === ORDER_STATUS_COMPLETED && (
 						<Col style={{ paddingBottom: 24 }}>
-							<IconRating iconSize={60} total={5} rating={orderDetail.starReview} />
+							<IconRating iconSize={60} total={5} rating={orderDetail?.starReview || 0} />
 						</Col>
 					)}
 					{orderDetail?.status === ORDER_STATUS_COMPLETED && (

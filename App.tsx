@@ -92,7 +92,7 @@ function Root() {
   return (
     <View style={{ flex: 1 }}>
       <NavigationContainer>
-        <RootStack.Navigator initialRouteName="ManagementOrderScreen" screenOptions={{ headerShown: false }}>
+        <RootStack.Navigator initialRouteName="WelcomeScreen" screenOptions={{ headerShown: false }}>
           <RootStack.Screen name={"MainScreen"} component={MainScreen} />
           <RootStack.Screen name={"LoadingScreen"} component={LoadingScreen} />
           <RootStack.Screen name={"WelcomeScreen"} component={WelcomeScreen} />

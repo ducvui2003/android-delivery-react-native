@@ -85,11 +85,11 @@ function ProductOrderCard({
 				</View>
 			)}
 			{options !== undefined && <OptionsProductCard options={options} />}
-			{status === ORDER_STATUS_COMPLETED && (
+			{/* {status === ORDER_STATUS_COMPLETED && (
 				<Col style={styles.contentCard}>
 					<IconRating total={5} rating={rating.averageRating} />
 				</Col>
-			)}
+			)} */}
 			{status === ORDER_STATUS_COMPLETED && (
 				<InputReviewArea
 					placeholder={"Type your review ..."}

@@ -80,6 +80,13 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 		setShowPopUp(false);
 	};
 
+	const navigateManagerProductScreen = () => {};
+
+	const navigateManagerOrderScreen = () => {
+		console.log("navigateManagerOrderScreen");
+		nav.navigate("ManagementOrderScreen");
+	};
+
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 			<Header
@@ -99,8 +106,11 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 					) : (
 						<ProfileHasUser onChangeProfile={() => setShowPopUp(true)} logout={onLogout} />
 					)}
-					<ProfileOption onShowPopUpChangePassword={setShowPopUpChangePassword} />
-
+					<ProfileOption
+						navigateManagerOrderScreen={navigateManagerOrderScreen}
+						navigateManagerProductScreen={navigateManagerProductScreen}
+						onShowPopUpChangePassword={setShowPopUpChangePassword}
+					/>
 				</Col>
 				<Space height={spacing["spaced-7"]} />
 			</ScrollView>
@@ -116,9 +126,8 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 			/>
 			<ProfilePopUpChangePassword
 				showed={showPopUpChangePassword}
-				onShowed={(value) => setShowPopUpChangePassword(value)}
+				onShowed={value => setShowPopUpChangePassword(value)}
 			/>
-
 		</SafeAreaView>
 	);
 }

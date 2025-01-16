@@ -20,11 +20,18 @@ import { setTheme } from "../../hooks/redux/theme.slice";
 import Space from "../custom/Space";
 import ProtectedRoute from "../auth/ProtectedRoute";
 import { Role } from "../auth/const/authenticationConst";
+import { SonarBox } from "../../../assets/images/icons/SonarBox";
+import MaterialFastFood from "../../../assets/images/icons/MaterialFastFood";
 
 const ProfileOptionData = [
 	{
-		icon: <SolarMapPointLinear />,
-		name: "Admin",
+		icon: <MaterialFastFood />,
+		name: "Manager Product",
+		role: ["ADMIN"],
+	},
+	{
+		icon: <SonarBox />,
+		name: "Manage Order",
 		role: ["ADMIN"],
 	},
 	{
@@ -67,8 +74,17 @@ const ProfileOptionData = [
 	},
 ];
 
-function ProfileOption({ onShowPopUpChangePassword }: { onShowPopUpChangePassword: (show: boolean) => void }) {
+type ProfileOptionProps = {
+	navigateManagerOrderScreen: () => void;
+	navigateManagerProductScreen: () => void;
+	onShowPopUpChangePassword: (show: boolean) => void;
+};
 
+function ProfileOption({
+	navigateManagerOrderScreen,
+	navigateManagerProductScreen,
+	onShowPopUpChangePassword,
+}: ProfileOptionProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const textTheme = useSelector((state: RootState) => state.themeState.textTheme);
 	const [isDark, setDark] = useState(textTheme === "dark");
@@ -83,11 +99,21 @@ function ProfileOption({ onShowPopUpChangePassword }: { onShowPopUpChangePasswor
 			{ProfileOptionData.map((item, index) => {
 				return (
 					<ProtectedRoute key={index} allowRoles={item.role ? (item.role as Role[]) : undefined}>
-						<TouchableOpacity style={[styles.container]} key={index} onPress={() => {
-							if (item.name === "Change Password") {
-								onShowPopUpChangePassword(true);
-							}
-						}}>
+						<TouchableOpacity
+							style={[styles.container]}
+							key={index}
+							onPress={() => {
+								if (item.name === "Change Password") {
+									onShowPopUpChangePassword(true);
+								}
+								if (item.name === "Manager Product") {
+									navigateManagerProductScreen();
+								}
+								if (item.name === "Manage Order") {
+									navigateManagerOrderScreen();
+								}
+							}}
+						>
 							<Row style={{ gap: 20 }}>
 								{cloneElement(item.icon, {
 									color: theme.text_1.getColor(),

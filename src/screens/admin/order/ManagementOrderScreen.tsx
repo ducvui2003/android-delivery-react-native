@@ -1,23 +1,22 @@
 "use strict";
-import React, { useCallback } from "react";
-import { Keyboard, SafeAreaView, StyleSheet, View } from "react-native";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../configs/redux/store.config";
 import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../../../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React, { useCallback, useEffect } from "react";
+import { Keyboard, SafeAreaView, StyleSheet, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { useSelector } from "react-redux";
+import SolarOption from "../../../../assets/images/icons/SolarOption";
 import { Header } from "../../../components/header/Header";
 import InputSearch from "../../../components/input/InputSearch";
 import Order from "../../../components/orders/Order";
-import { ThemeType } from "../../../types/theme.type";
-import NumberValue from "../../../configs/value/number.value";
-import SolarOption from "../../../../assets/images/icons/SolarOption";
 import { OrderProps } from "../../../components/orders/type/order.props";
+import { RootState } from "../../../configs/redux/store.config";
 import spacing from "../../../configs/styles/space.config";
-import { FlatList } from "react-native-gesture-handler";
-import { Role } from "../../../components/auth/const/authenticationConst";
-import ProtectedRoute from "../../../components/auth/ProtectedRoute";
-import { DATA } from "../../../../assets/data/order/order";
+import NumberValue from "../../../configs/value/number.value";
+import { RootStackParamList } from "../../../navigations/stack.type";
+import OrderType from "../../../types/order.type";
+import { ThemeType } from "../../../types/theme.type";
+import { getOrders } from "../../../services/order.service";
 
 type ManagementOrderProps = {
 	route: RouteProp<RootStackParamList, "ManagementOrderDetailScreen">;
@@ -27,6 +26,7 @@ type ManagementOrderProps = {
 function ManagementOrderScreen({ navigation }: ManagementOrderProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const styles = getStyles(theme);
+	const [orders, setOrders] = React.useState<OrderProps[]>([]);
 
 	const handleBackPress = useCallback(() => {
 		Keyboard.dismiss();
@@ -36,17 +36,34 @@ function ManagementOrderScreen({ navigation }: ManagementOrderProps) {
 	const handleOptionPress = useCallback(() => {}, []);
 	const renderItem = ({ item }: { item: OrderProps }) => {
 		return (
-			<ProtectedRoute key={item.id} allowRoles={item.role ? (item.role as Role[]) : undefined}>
-				<Order
-					{...item}
-					onPress={() => {
-						navigation.navigate("ManagementOrderDetailScreen", { id: item.id });
-					}}
-					role={item.role}
-				/>
-			</ProtectedRoute>
+			<Order
+				{...item}
+				onPress={() => {
+					navigation.navigate("ManagementOrderDetailScreen", { id: item.id });
+				}}
+			/>
 		);
 	};
+
+	useEffect(() => {
+		getOrders(
+			{
+				star: null,
+				status: null,
+				page: 0,
+				limit: 10,
+			},
+			true
+		)
+			.then((orders: OrderType[] | undefined) => {
+				if (orders) {
+					setOrders(orders.map(order => ({ ...order, onPress: () => {} })));
+				}
+			})
+			.catch(error => {
+				console.error("Error when get orders", error);
+			});
+	}, []);
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -63,12 +80,13 @@ function ManagementOrderScreen({ navigation }: ManagementOrderProps) {
 				iconRight={<SolarOption width={30} height={30} color={theme.text_1.getColor()} />}
 				onPressIconRight={handleOptionPress}
 				showIconBack={true}
+				onPressBack={() => navigation.pop()}
 			/>
 			<View style={styles.container_main}>
 				<InputSearch placeholder="Search" />
 			</View>
 			<FlatList
-				data={DATA}
+				data={orders}
 				renderItem={renderItem}
 				keyExtractor={item => item.id}
 				showsVerticalScrollIndicator={false}

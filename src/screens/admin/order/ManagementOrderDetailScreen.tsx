@@ -1,31 +1,29 @@
-import React, { useCallback, useState } from "react";
-import { Image, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../configs/redux/store.config";
 import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../../../navigations/stack.type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Header } from "../../../components/header/Header";
-import InputIcon from "../../../components/input/InputIcon";
-import { neutral, primary, white } from "../../../configs/colors/color-template.config";
-import NumberValue from "../../../configs/value/number.value";
-import Row from "../../../components/custom/Row";
+import React, { useCallback, useEffect, useState } from "react";
+import { Image, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import SolarPenBold from "../../../../assets/images/icons/SolarPenBold";
 import Col from "../../../components/custom/Col";
-import OrderPopUp from "./OrderPopup";
+import Row from "../../../components/custom/Row";
+import { Header } from "../../../components/header/Header";
+import InputIcon from "../../../components/input/InputIcon";
 import Selector from "../../../components/selector/Selector";
+import { neutral, primary, white } from "../../../configs/colors/color-template.config";
+import { RootState } from "../../../configs/redux/store.config";
+import textStyle from "../../../configs/styles/textStyle.config";
+import NumberValue from "../../../configs/value/number.value";
+import { RootStackParamList } from "../../../navigations/stack.type";
+import { getOrderDetail, updateOrderStatus } from "../../../services/order.service";
+import OrderDetailType from "../../../types/orderDetail.type";
 import PromotionType from "../../../types/promotion.type";
 import { ThemeType } from "../../../types/theme.type";
 import formater from "../../../utils/formater";
-import IconRating from "../../../components/rating/IconRating";
-import StatusLabel from "../../../components/orders/StatusLabel";
-import textStyle from "../../../configs/styles/textStyle.config";
-import { burger } from "../../../../assets/images/category/category.icon";
-import { orders } from "../../../../assets/data/order/order";
+import OrderPopUp from "./OrderPopup";
+import { showModalNotify } from "../../../hooks/redux/modal.slice";
+import { StatusOrderType } from "../../../types/order.type";
 
-type StatusOrderType = "Active" | "Completed" | "Cancelled";
-
-type ManagmentOrderDetailProps = {
+type ManagementOrderDetailProps = {
 	route: RouteProp<RootStackParamList, "ManagementOrderDetailScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
@@ -86,11 +84,13 @@ const ManagementOrderDetailScreen = ({
 		params: { id },
 	},
 	navigation,
-}: ManagmentOrderDetailProps) => {
+}: ManagementOrderDetailProps) => {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
-	const [status, setStatus] = useState<StatusOrderType>("Active");
+	const [status, setStatus] = useState<StatusOrderType>("ACTIVE");
 	const [showPopUp, setShowPopUp] = useState(false);
+	const [orderDetail, setOrderDetail] = useState<OrderDetailType | null>(null);
 	const styles = markStyles(theme);
+	const appDispatch = useDispatch();
 	const handleBackPress = useCallback(() => {
 		Keyboard.dismiss();
 		navigation.pop();
@@ -100,9 +100,47 @@ const ManagementOrderDetailScreen = ({
 		console.log("Selected promotion: ", selected);
 	};
 
-	const handleSave = (data: any) => {
-		console.log("Data saved:", data);
-		setShowPopUp(false);
+	useEffect(() => {
+		getOrderDetail(id).then(data => {
+			if (data) {
+				setOrderDetail(data);
+				setStatus(data.status);
+			}
+		});
+	}, []);
+
+	const handleSave = (data: StatusOrderType) => {
+		updateOrderStatus(id, data)
+			.then(() => {
+				appDispatch(
+					showModalNotify({
+						onConfirm: () => {
+							return true;
+						},
+						title: "Success",
+						body: "Please check your order",
+						width: "70%",
+						showCancelButton: true,
+					})
+				);
+				setStatus(data);
+			})
+			.catch(error => {
+				appDispatch(
+					showModalNotify({
+						onConfirm: () => {
+							return true;
+						},
+						title: "Error",
+						body: "Update status failed, please try again",
+						width: "70%",
+						showCancelButton: true,
+					})
+				);
+			})
+			.finally(() => {
+				setShowPopUp(false);
+			});
 	};
 
 	const handleShowPopup = () => {
@@ -140,20 +178,32 @@ const ManagementOrderDetailScreen = ({
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 				<View style={{ flex: 1 }}>
 					<Col style={styles.sub_container}>
-						<InputIcon styleInput={styles.stylesInput} value={"Đơn hàng SP1"} />
 						<Row flex={0} style={[{ justifyContent: "space-between", width: "100%", gap: 5 }]}>
-							<View style={{ flex: 1 }}>
+							<View style={{ flex: 0.3 }}>
 								<InputIcon
-									styleInput={[styles.stylesInput, { flex: 0 }]}
-									value={"thanhbinh2757@gmail.com"}
+									styleInput={styles.stylesInput}
+									value={"# " + orderDetail?.id || ""}
+									editable={false}
 								/>
 							</View>
+
 							<View style={{ flex: 1 }}>
-								<InputIcon styleInput={[styles.stylesInput, { flex: 0 }]} value={"0901323070"} />
+								<InputIcon
+									editable={false}
+									styleInput={[styles.stylesInput, { flex: 0 }]}
+									value={"Phone: " + orderDetail?.phone || ""}
+								/>
 							</View>
 						</Row>
+
 						<InputIcon
-							value={"Active"}
+							editable={false}
+							styleInput={[styles.stylesInput, { flex: 0 }]}
+							value={"Email: " + orderDetail?.email || ""}
+						/>
+						<InputIcon
+							editable={false}
+							value={"Status: " + status}
 							iconRight={
 								<TouchableOpacity onPress={handleShowPopup}>
 									<View style={styles.buttonEdit}>
@@ -162,55 +212,66 @@ const ManagementOrderDetailScreen = ({
 								</TouchableOpacity>
 							}
 						/>
-						<InputIcon styleInput={styles.stylesInput} value={"Promotion 01"} />
+						<InputIcon styleInput={styles.stylesInput} editable={false} value={"Promotion 01"} />
 						<Selector
 							data={promotions}
 							renderItem={renderItem}
 							renderItemSelected={renderItemSelected}
 							onSelected={handleSelected}
 						/>
-						<InputIcon styleInput={styles.stylesInput} value={"7"} />
 						<InputIcon
+							editable={false}
 							styleInput={styles.stylesInput}
-							value={"Địa chỉ: 123, Nguyễn Văn Linh, Quận 7, TP.HCM"}
+							value={"Address: " + orderDetail?.address || ""}
 						/>
 						<View style={{ flex: 1 }}>
-							{orders.map(order => (
-								<TouchableOpacity
-									key={order.id}
-									style={[styles.container_sp, { backgroundColor: theme.basket.background.getColor(), marginBottom: 20}]}
+							{orderDetail?.items.map(item => (
+								<View
+									key={item.id}
+									style={[
+										styles.container_sp,
+										{ backgroundColor: theme.basket.background.getColor(), marginBottom: 20 },
+									]}
 								>
 									<Row style={styles.content}>
-										<View style={{ flex: 0.3, justifyContent: 'center', alignItems: 'center' }}>
-											<Image source={burger} style={{ width: 50, height: 50 }} />
+										<View style={{ flex: 0.7 }}>
+											<Image
+												source={{ uri: item.image }}
+												style={{
+													width: "100%",
+													height: "100%",
+													borderRadius: 8,
+													objectFit: "cover",
+												}}
+											/>
 										</View>
 										<Row style={styles.content}>
 											<Col style={{ justifyContent: "space-between" }}>
-												<Text style={{ color: theme.text_1.getColor() }}>
-													Món :{" "}
-													<Text
-														style={[styles.oderIdText, { color: theme.text_1.getColor() }]}
-													>
-														{order.products[0].name}
-													</Text>
+												<Text style={[styles.orderIdText, { color: theme.text_1.getColor() }]}>
+													{item.name}
 												</Text>
 												<Text style={styles.priceText}>
-													{formater.formatCurrency(order.products[0].price)}{" "}
+													{formater.formatCurrency(item.price)}
 												</Text>
-												<Text>Số lượng: 1</Text>
-												<Text></Text>
-											</Col>
-											<Col style={{ justifyContent: "center", alignItems: "center", gap: 5 }}>
-												<Text style={styles.status}>Nhiều bơ</Text>
-												<Text style={styles.status}>Thêm bò</Text>
-											</Col>
-											<Col style={{ justifyContent: "center", alignItems: "center", gap: 5 }}>
-												<Text>+5k</Text>
-												<Text>+20k</Text>
+												<Text>Quantity: {item.quantity}</Text>
+												<ScrollView
+													horizontal={true}
+													showsHorizontalScrollIndicator={false}
+													contentContainerStyle={[{ gap: 10, marginTop: 8 }]}
+												>
+													{item?.options?.map(option => (
+														<View key={option.id} style={styles.status}>
+															<Text key={option.id} style={styles.statusText}>
+																{option.name}:{" "}
+																{formater.formatCurrency(option?.price || 0)}
+															</Text>
+														</View>
+													))}
+												</ScrollView>
 											</Col>
 										</Row>
 									</Row>
-								</TouchableOpacity>
+								</View>
 							))}
 						</View>
 					</Col>
@@ -275,18 +336,20 @@ const markStyles = (theme: ThemeType) =>
 		},
 		status: {
 			backgroundColor: "#FF5733",
-			color: "#fff",
 			borderRadius: 20,
 			paddingVertical: 4,
 			paddingHorizontal: 16,
+		},
+		statusText: {
 			fontWeight: "bold",
 			fontSize: 14,
+			color: "#fff",
 		},
 		content: {
-			justifyContent: "space-between",
+			gap: 20,
 		},
-		oderIdText: {
-			...textStyle["12_medium"],
+		orderIdText: {
+			...textStyle["16_regular"],
 			color: neutral.getColor("900"),
 			fontWeight: "bold",
 		},

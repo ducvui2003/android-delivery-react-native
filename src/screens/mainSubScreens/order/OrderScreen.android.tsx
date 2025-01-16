@@ -8,7 +8,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as React from "react";
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import Col from "../../../components/custom/Col";
@@ -26,12 +26,13 @@ import { getOrders } from "../../../services/order.service";
 import OrderType from "../../../types/order.type";
 import { ThemeType } from "../../../types/theme.type";
 
-const ButtonFilterTypeArray: ButtonFilterType[] = ["All", "Active", "Completed", "Cancelled", "5", "4", "3", "2", "1"];
+const buttonStatusTypeArray: ButtonFilterType[] = ["ALL", "ACTIVE", "COMPLETED", "CANCELLED", "1", "2", "3", "4", "5"];
 
 function OrderScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const styles = makeStyled(theme);
-	const [ButtonFilterType, setButtonFilterType] = React.useState<ButtonFilterType>("All");
+	const [filter, setFilter] = React.useState<ButtonFilterType | null>("ALL");
+
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "MainScreen">>();
 	const [orders, setOrders] = React.useState<OrderProps[]>([]);
 
@@ -47,7 +48,20 @@ function OrderScreen() {
 	};
 
 	React.useEffect(() => {
-		getOrders()
+		let star: number | null = null;
+		let status: string | null = null;
+		if (filter && !Number.isNaN(Number.parseInt(filter))) {
+			star = Number.parseInt(filter);
+		} else {
+			status = filter;
+		}
+
+		getOrders({
+			star: star,
+			status: status,
+			page: 0,
+			limit: 10,
+		})
 			.then((orders: OrderType[] | undefined) => {
 				if (orders) {
 					setOrders(orders.map(order => ({ ...order, onPress: () => {} })));
@@ -56,7 +70,7 @@ function OrderScreen() {
 			.catch(error => {
 				console.error("Error when get orders", error);
 			});
-	}, []);
+	}, [filter]);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -80,28 +94,31 @@ function OrderScreen() {
 						showsHorizontalScrollIndicator={false}
 						contentContainerStyle={[{ gap: 10 }]}
 					>
-						{ButtonFilterTypeArray.map((value, index) => (
+						{buttonStatusTypeArray.map((value, index) => (
 							<ButtonFilter
 								key={index}
 								title={value}
-								isSelected={ButtonFilterType === value}
+								isSelected={filter === value}
 								hiddenIconRight={Number.isNaN(Number.parseInt(value))}
 								onPress={() => {
-									setButtonFilterType(value);
+									setFilter(value);
 								}}
 							/>
 						))}
 					</ScrollView>
 				</SafeAreaView>
 			</Col>
-
-			<FlatList
-				data={orders}
-				renderItem={renderItem}
-				keyExtractor={item => item.id}
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingBottom: spacing["spaced-7"] }}
-			/>
+			{orders ? (
+				<FlatList
+					data={orders}
+					renderItem={renderItem}
+					keyExtractor={item => item.id}
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={{ paddingBottom: spacing["spaced-7"] }}
+				/>
+			) : (
+				<Text>Empty</Text>
+			)}
 		</SafeAreaView>
 	);
 }
