@@ -20,6 +20,7 @@ import { setTheme } from "../../hooks/redux/theme.slice";
 import Space from "../custom/Space";
 import ProtectedRoute from "../auth/ProtectedRoute";
 import { Role } from "../auth/const/authenticationConst";
+import SolarChartOutline from "../../../assets/images/icons/SolarChartOutline";
 
 const ProfileOptionData = [
 	{
@@ -36,6 +37,11 @@ const ProfileOptionData = [
 		icon: <SolarMapPointLinear />,
 		name: "My Locations",
 		role: ["USER", "ADMIN"],
+	},
+	{
+		icon: <SolarChartOutline />,
+		name: "My Chart",
+		role: ["ADMIN"],
 	},
 	{
 		icon: <SolarTicketSaleOutline />,
@@ -67,7 +73,10 @@ const ProfileOptionData = [
 	},
 ];
 
-function ProfileOption({ onShowPopUpChangePassword }: { onShowPopUpChangePassword: (show: boolean) => void }) {
+function ProfileOption(
+	{ onShowPopUpChangePassword, onNavigate}:
+	{ onShowPopUpChangePassword: (show: boolean) => void; onNavigate: (screenName: string) => void;}
+) {
 
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const textTheme = useSelector((state: RootState) => state.themeState.textTheme);
@@ -86,6 +95,9 @@ function ProfileOption({ onShowPopUpChangePassword }: { onShowPopUpChangePasswor
 						<TouchableOpacity style={[styles.container]} key={index} onPress={() => {
 							if (item.name === "Change Password") {
 								onShowPopUpChangePassword(true);
+							}
+							if (item.name === "My Chart") {
+								onNavigate("ChartScreen");
 							}
 						}}>
 							<Row style={{ gap: 20 }}>

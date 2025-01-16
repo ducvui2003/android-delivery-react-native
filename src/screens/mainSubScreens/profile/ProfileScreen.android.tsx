@@ -71,6 +71,12 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 		);
 	};
 
+	const handleNavigation = (screenName: string) => {
+		// @ts-ignore
+		navigation.navigate(screenName);
+	};
+
+
 	//press button option
 	const handleOptionPress = () => {};
 
@@ -99,7 +105,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 					) : (
 						<ProfileHasUser onChangeProfile={() => setShowPopUp(true)} logout={onLogout} />
 					)}
-					<ProfileOption onShowPopUpChangePassword={setShowPopUpChangePassword} />
+					<ProfileOption onShowPopUpChangePassword={setShowPopUpChangePassword}  onNavigate={handleNavigation} />
 
 				</Col>
 				<Space height={spacing["spaced-7"]} />

@@ -47,6 +47,7 @@ export type RootStackParamList = {
 	};
 	CancelOrderScreen: undefined;
 	ChatScreen: undefined;
+	ChartScreen: undefined;
 };
 
 export type MainScreenStackParamList = {
