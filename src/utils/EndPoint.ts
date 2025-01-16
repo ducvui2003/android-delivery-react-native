@@ -14,4 +14,5 @@ export enum EndPoint {
 
 	GET_ORDERS = "/order",
 	GET_ORDER_DETAIL = "/order/detail",
+	CREATE_ORDER = "/order/create",
 }

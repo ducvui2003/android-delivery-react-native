@@ -29,15 +29,21 @@ function BasketMenuFragment() {
 	const navigateToPaymentScreen = () => {
 		navigation.navigate("PaymentMethodScreen");
 	};
+
+	const navigateToLocationScreen = () => {
+		navigation.navigate("MyLocationScreen");
+	};
 	return (
 		<>
 			<MenuBasketItem
 				icon={<SolarMapPointBold />}
 				title={"Deliver to"}
 				footer={
-					<Text style={[{ ...textStyle["16_semibold"], color: neutral.getColor("400") }]}>
-						Select Your Location
-					</Text>
+					<TouchableOpacity onPress={navigateToLocationScreen}>
+						<Text style={[{ ...textStyle["16_semibold"], color: neutral.getColor("400") }]}>
+							Select Your Location
+						</Text>
+					</TouchableOpacity>
 				}
 			/>
 			<MenuBasketItem

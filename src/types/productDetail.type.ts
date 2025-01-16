@@ -8,6 +8,7 @@
 import ProductType from "./product.type";
 
 type ProductDetailType = ProductType & {
+	productId: string;
 	quantity: number;
 	description: string;
 	nutritional?: NutritionalType[];
