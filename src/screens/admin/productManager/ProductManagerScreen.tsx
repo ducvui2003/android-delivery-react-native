@@ -15,17 +15,11 @@ import { ThemeType } from "../../../types/theme.type";
 import InputSearch from "../../../components/input/InputSearch";
 import Col from "../../../components/custom/Col";
 import textStyle from "../../../configs/styles/textStyle.config";
-import spacing from "../../../configs/styles/space.config";
 import { FlatList } from "react-native-gesture-handler";
 import ProductManageCard from "../../../components/card/product/ProductManageCard";
 import { ProductManageCardProps } from "../../../components/card/product/type/productManageCard.props";
 import { productCardPropsList } from "../../../../assets/data/product/product.data";
-import { red } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
-// type ProductManagerScreenProps = {
-// 	route: RouteProp<RootStackParamList, "ProductManagerScreen">;
-// 	navigation: NativeStackNavigationProp<RootStackParamList>;
-// };
 
 function ProductManagerScreen() {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
@@ -36,7 +30,7 @@ function ProductManagerScreen() {
 			<ProductManageCard
 				{...item}
 				onEditPress={() => {
-					// navigation.navigate("OrderDetailScreen", { id: item.product.id});
+					navigation.navigate("ProductSaveManageScreen", { id: item.product.id});
 				}}
 			/>
 		);
@@ -98,7 +92,7 @@ const makeStyled = (theme: ThemeType) =>
 		},
 		card: {
 			margin: 20,
-		}
+		},
 	});
 
 export default ProductManagerScreen;

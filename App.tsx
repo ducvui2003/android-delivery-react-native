@@ -39,6 +39,7 @@ import ChatScreen from "./src/screens/ChatScreen";
 import {NameTheme} from "./src/types/theme.type";
 import {getFromStorage} from "./src/services/secureStore.service";
 import ProductManagerScreen from "./src/screens/admin/productManager/ProductManagerScreen";
+import ProductSaveManageScreen from "./src/screens/admin/productManager/ProductSaveManageScreen";
 
 const IntroduceScreen = lazy(() => import("./src/screens/IntroduceScreen"));
 
@@ -120,6 +121,7 @@ function Root() {
                 <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen}/>
                 <RootStack.Screen name={"ChatScreen"} component={ChatScreen}/>
                 <RootStack.Screen name={"ProductManagerScreen"} component={ProductManagerScreen}/>
+                <RootStack.Screen name={"ProductSaveManageScreen"} component={ProductSaveManageScreen}/>
             </RootStack.Navigator>
         </NavigationContainer>
     );
