@@ -71,6 +71,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 		);
 	};
 
+
 	//press button option
 	const handleOptionPress = () => {};
 
@@ -83,8 +84,11 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 	const navigateManagerProductScreen = () => {};
 
 	const navigateManagerOrderScreen = () => {
-		console.log("navigateManagerOrderScreen");
 		nav.navigate("ManagementOrderScreen");
+	};
+
+	const navigateChartScreen = () => {
+		nav.navigate("ChartScreen");
 	};
 
 	return (
@@ -109,6 +113,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 					<ProfileOption
 						navigateManagerOrderScreen={navigateManagerOrderScreen}
 						navigateManagerProductScreen={navigateManagerProductScreen}
+						navigateChartScreen={navigateChartScreen}
 						onShowPopUpChangePassword={setShowPopUpChangePassword}
 					/>
 				</Col>

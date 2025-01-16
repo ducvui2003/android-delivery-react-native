@@ -53,6 +53,7 @@ export type RootStackParamList = {
 	ManagementOrderDetailScreen: {
 		id: string;
 	};
+	ChartScreen: undefined;
 };
 
 export type MainScreenStackParamList = {
