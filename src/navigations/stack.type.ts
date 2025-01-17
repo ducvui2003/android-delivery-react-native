@@ -55,7 +55,7 @@ export type RootStackParamList = {
 	ModifyProductManageScreen: { id: string | undefined | null };
 	ManagementOrderScreen: undefined;
 	ManagementOrderDetailScreen: {
-		id: string;
+		id: number;
 	};
 	ChartScreen: undefined;
 };

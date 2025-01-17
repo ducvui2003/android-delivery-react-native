@@ -25,10 +25,12 @@ import textStyle from "../configs/styles/textStyle.config";
 import NumberValue from "../configs/value/number.value";
 import BasketCalculator, { BasketCalculatorProps } from "../fragments/basket/BasketCalculator";
 import BasketMenuFragment from "../fragments/basket/BasketMenuFragment";
-import { fetchCarts } from "../hooks/redux/cart.slice";
+import { fetchCarts, setLastTimeCalled } from "../hooks/redux/cart.slice";
 import { RootStackParamList } from "../navigations/stack.type";
 import { Cart } from "../types/cart.type";
 import Formater from "../utils/formater";
+import { createOrder } from "../services/order.service";
+import { showModalNotify } from "../hooks/redux/modal.slice";
 
 type BasketScreenProps = {
 	route: RouteProp<RootStackParamList, "BasketScreen">;
@@ -51,6 +53,10 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 		deliveryFee: 0,
 		discount: 0,
 	});
+	const { shipping, order } = useSelector((state: RootState) => state.promotionOffer);
+	const payment = useSelector((state: RootState) => state.cart.paymentMethod);
+	const user = useSelector((root: RootState) => root.authState.user);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		appDispatch(fetchCarts());
@@ -81,21 +87,36 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 		}
 	}, [cartItems]);
 
-	// const handlePlaceOrder = () => {
-	// 	const cartItemIds: number[] = cartItems.map(item => item.id);
-	// 	const promotionShipId = promotionOffer.shipping?.id ? promotionOffer.shipping.id : null;
-	// 	const promotionProductId = promotionOffer.order?.id ? promotionOffer.order.id : null;
-	// 	const paymentMethod = "CASH";
-	// 	const address = "";
+	const handlePlaceOrder = () => {
+		const paymentMethod = payment?.toUpperCase();
+		const address = user?.address.address;
+		if (!paymentMethod) {
+			dispatch(showModalNotify({
+				title: "Chưa chọn hình thức thanh toán",
+				body: "Vui lòng chọn hình thức thanh toán!",
+			}));
+			return;
+		}
+		if (!address) {
+			dispatch(showModalNotify({
+				title: "Chưa chọn địa chỉ",
+				body: "Vui lòng chọn địa chỉ giao hàng của mình!",
+			}));
+			return;
+		}
+		const cartItemIds: number[] = cartItems.map(item => item.id);
+		const promotionShipId = shipping?.id ? shipping.id : null;
+		const promotionProductId = order?.id ? order.id : null;
 
-	// 	createOrder(cartItemIds, promotionShipId, promotionProductId, address, paymentMethod)
-	// 		.then(() => {
-	// 			navigation.navigate("OrderTrackingScreen");
-	// 		})
-	// 		.catch(error => {
-	// 			console.error("Error while creating order", error);
-	// 		});
-	// };
+		createOrder(cartItemIds, promotionShipId, promotionProductId, address, paymentMethod)
+			.then(() => {
+				dispatch(setLastTimeCalled())
+				navigation.navigate("OrderTrackingScreen");
+			})
+			.catch(error => {
+				console.error("Error while creating order", error);
+			});
+	};
 
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
@@ -167,6 +188,7 @@ function BasketScreen({ navigation }: BasketScreenProps) {
 					title={"Place Order"}
 					active={true}
 					styleButton={{ marginBottom: 0, paddingHorizontal: 20 }}
+					onPress={handlePlaceOrder}
 				/>
 			</Row>
 		</SafeAreaView>

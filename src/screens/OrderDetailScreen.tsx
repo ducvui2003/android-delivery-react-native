@@ -65,9 +65,6 @@ export default function OrderDetailScreen({
 	}, []);
 
 	const handlePreOrderItem = (productId: string, optionIds?: string[]) => {
-		console.log("productId", productId);
-		console.log("optionIds", optionIds);
-
 		if (!productId || !optionIds) return;
 		appDispatch(
 			addCart({
@@ -156,7 +153,7 @@ export default function OrderDetailScreen({
 						styleDescriptionInfo={styles.styleDescriptionInfo}
 						descriptionInfo={
 							{
-								type: orderDetail?.paymentMethod ? orderDetail?.paymentMethod : "",
+								type: orderDetail?.paymentMethod ? orderDetail?.paymentMethod : "Cash",
 							} as PaymentMethodType
 						}
 					/>

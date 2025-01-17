@@ -19,20 +19,28 @@ import Col from "../custom/Col";
 import {setTheme} from "../../hooks/redux/theme.slice";
 import Space from "../custom/Space";
 import ProtectedRoute from "../auth/ProtectedRoute";
-import {Role} from "../auth/const/authenticationConst";
-import {SonarBox} from "../../../assets/images/icons/SonarBox";
+import { Role } from "../auth/const/authenticationConst";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigations/stack.type";
 import MaterialFastFood from "../../../assets/images/icons/MaterialFastFood";
 import SolarChartOutline from "../../../assets/images/icons/SolarChartOutline";
+import { SonarBox } from "../../../assets/images/icons/SonarBox";
 
 const ProfileOptionData = [
 	{
-		icon: <MaterialFastFood/>,
-		name: "Manager Product",
+		icon: <MaterialFastFood />,
+		name: "Manage Product",
 		role: ["ADMIN"],
 	},
 	{
 		icon: <SonarBox/>,
 		name: "Manage Order",
+		role: ["ADMIN"],
+	},
+	{
+		icon: <SolarChartOutline/>,
+		name: "My Chart",
 		role: ["ADMIN"],
 	},
 	{
@@ -46,12 +54,7 @@ const ProfileOptionData = [
 		role: ["USER", "ADMIN"],
 	},
 	{
-		icon: <SolarChartOutline/>,
-		name: "My Chart",
-		role: ["ADMIN"],
-	},
-	{
-		icon: <SolarTicketSaleOutline/>,
+		icon: <SolarTicketSaleOutline />,
 		name: "My Promotions",
 		role: ["USER", "ADMIN"],
 	},
@@ -80,20 +83,8 @@ const ProfileOptionData = [
 	},
 ];
 
-type ProfileOptionProps = {
-	navigateManagerOrderScreen: () => void;
-	navigateManagerProductScreen: () => void;
-	navigateChartScreen: () => void;
-	onShowPopUpChangePassword: (show: boolean) => void;
-};
-
-
-function ProfileOption({
-						   navigateManagerOrderScreen,
-						   navigateManagerProductScreen,
-						   onShowPopUpChangePassword,
-						   navigateChartScreen
-					   }: ProfileOptionProps) {
+function ProfileOption({ onShowPopUpChangePassword }: { onShowPopUpChangePassword: (show: boolean) => void }) {
+	const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const textTheme = useSelector((state: RootState) => state.themeState.textTheme);
 	const [isDark, setDark] = useState(textTheme === "dark");
@@ -112,21 +103,30 @@ function ProfileOption({
 							style={[styles.container]}
 							key={index}
 							onPress={() => {
-								if (item.name === "Change Password") {
-									onShowPopUpChangePassword(true);
-								}
-								if (item.name === "Manager Product") {
-									navigateManagerProductScreen();
-								}
-								if (item.name === "Manage Order") {
-									navigateManagerOrderScreen();
-								}
-								if (item.name === "My Chart") {
-									navigateChartScreen();
+								const name = item.name;
+								switch (name){
+									case "Change Password":
+										onShowPopUpChangePassword(true);
+										break;
+									case "Manage Product":
+										nav.navigate("ProductManagerScreen");
+										break;
+									case "Manage Order":
+										nav.navigate("ManagementOrderScreen");
+										break;
+									case "My Chart":
+										nav.navigate("ChartScreen");
+										break;
+									case "My Locations":
+										nav.navigate("MyLocationScreen");
+										break;
+									case "Payment Methods":
+										nav.navigate("PaymentMethodScreen");
+										break;
 								}
 							}}
 						>
-							<Row style={{gap: 20}}>
+							<Row style={{ gap: 20 }}>
 								{cloneElement(item.icon, {
 									color: theme.text_1.getColor(),
 								})}

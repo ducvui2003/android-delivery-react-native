@@ -18,7 +18,6 @@ export const getOrders = async (
 		let response;
 		status = status === "ALL" ? null : status;
 		star = star === "ALL" ? null : star;
-
 		if (star) {
 			response = await axiosInstance.get<ApiResponse<OrderType[]>>(
 				isAdmin ? EndPoint.GET_ORDERS_ADMIN : EndPoint.GET_ORDERS,
@@ -32,13 +31,16 @@ export const getOrders = async (
 				}
 			);
 		} else
-			response = await axiosInstance.get<ApiResponse<OrderType[]>>(EndPoint.GET_ORDERS, {
-				params: {
-					status,
-					page,
-					limit,
-				},
-			});
+			response = await axiosInstance.get<ApiResponse<OrderType[]>>(
+				isAdmin ? EndPoint.GET_ORDERS_ADMIN : EndPoint.GET_ORDERS,
+				{
+					params: {
+						status,
+						page,
+						limit,
+					},
+				}
+			);
 		if (response.data.data) {
 			return response.data.data;
 		}
@@ -86,7 +88,7 @@ export const createOrder = async (
 	}
 };
 
-export const updateOrderStatus = async (id: string, status: string): Promise<void> => {
+export const updateOrderStatus = async (id: number, status: string): Promise<void> => {
 	try {
 		await axiosInstance.put<OrderType>(`${EndPoint.UPDATE_ORDER_STATUS}/${id}`, {
 			status,

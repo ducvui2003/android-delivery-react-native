@@ -30,10 +30,10 @@ function AovBarChart() {
 			<Text style={{ fontSize: 18, fontWeight: "bold", textAlign: "center", marginBottom: 8 }}>
 				AOV Comparison by Category
 			</Text>
-			<ScrollView horizontal={true} style={{ borderRadius: 12}}>
+			<ScrollView horizontal={true} style={{ borderRadius: 12 }}>
 				<BarChart
 					data={data}
-					width={Dimensions.get("window").width}
+					width={Dimensions.get("window").width - 50}
 					height={300}
 					chartConfig={chartConfig}
 					yAxisLabel="$"

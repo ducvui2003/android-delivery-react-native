@@ -19,7 +19,7 @@ import { ThemeType } from "../../../types/theme.type";
 import { getOrders } from "../../../services/order.service";
 
 type ManagementOrderProps = {
-	route: RouteProp<RootStackParamList, "ManagementOrderDetailScreen">;
+	route: RouteProp<RootStackParamList, "ManagementOrderScreen">;
 	navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
@@ -39,7 +39,7 @@ function ManagementOrderScreen({ navigation }: ManagementOrderProps) {
 			<Order
 				{...item}
 				onPress={() => {
-					navigation.navigate("ManagementOrderDetailScreen", { id: item.id });
+					navigation.replace("ManagementOrderDetailScreen", { id: item.id });
 				}}
 			/>
 		);
@@ -88,7 +88,7 @@ function ManagementOrderScreen({ navigation }: ManagementOrderProps) {
 			<FlatList
 				data={orders}
 				renderItem={renderItem}
-				keyExtractor={item => item.id}
+				keyExtractor={item => `item-${item.id}`}
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{ paddingBottom: spacing["spaced-7"] }}
 			/>

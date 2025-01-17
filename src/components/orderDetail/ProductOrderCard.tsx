@@ -47,26 +47,44 @@ function ProductOrderCard({
 							{name}
 						</Text>
 						<Row style={{ top: 5 }}>
-							<Text
-								style={{
-									...textStyle["16_regular"],
-									color: theme.text_1.getColor(),
-									textDecorationLine: "line-through",
-								}}
-							>
-								{formater.formatCurrency(price)}
-							</Text>
-							<Text
-								style={{
-									...textStyle["16_semibold"],
-									color: primary.getColor("500"),
-									left: 10,
-								}}
-							>
-								{formater.formatCurrency(priceHasDiscount)}
-							</Text>
+							{price === priceHasDiscount ? (
+								<>
+									<Text
+										style={{
+											...textStyle["16_semibold"],
+											color: primary.getColor("500"),
+											left: 10,
+										}}
+									>
+										{formater.formatCurrency(price)}
+									</Text>
+								</>
+							) : (
+								<>
+									<Text
+										style={{
+											...textStyle["16_regular"],
+											color: theme.text_1.getColor(),
+											textDecorationLine: "line-through",
+										}}
+									>
+										{formater.formatCurrency(price)}
+									</Text>
+									<Text
+										style={{
+											...textStyle["16_semibold"],
+											color: primary.getColor("500"),
+											left: 10,
+										}}
+									>
+										{formater.formatCurrency(priceHasDiscount)}
+									</Text>
+								</>
+							)}
 						</Row>
 					</Col>
+				</Row>
+				<Row style={{ justifyContent: "flex-end", marginTop: 50, flex: 1 }}>
 					{!(status === ORDER_STATUS_ACTIVE) && (
 						<Col style={{ justifyContent: "flex-end" }}>
 							<TouchableOpacity onPress={reorderOnPress}>

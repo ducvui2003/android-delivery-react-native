@@ -137,12 +137,15 @@ const cartSlice = createSlice({
 		setPayment: (state, action: PayloadAction<PaymentEnum>) => {
 			state.paymentMethod = action.payload;
 		},
+		setLastTimeCalled: (state) => {
+			state.lastTimeCalled = undefined;
+		},
 	},
 	extraReducers: builder => {
 		builder
 			.addCase(fetchCarts.fulfilled, (state, action) => {
 				state.items = action.payload;
-				state.lastTimeCalled = new Date();
+				// state.lastTimeCalled = new Date();
 			})
 			.addCase(fetchCarts.rejected, (state, rejectWithValue) => {
 				if (rejectWithValue.payload === "Time between calls is too short") return;
@@ -180,5 +183,5 @@ const cartSlice = createSlice({
 });
 
 export default cartSlice.reducer;
-export const { setPayment } = cartSlice.actions;
+export const { setPayment , setLastTimeCalled} = cartSlice.actions;
 export { CartType };

@@ -124,14 +124,12 @@ function Root() {
                     <RootStack.Screen name={"FaceIDScreen"} component={FaceIDScreen} />
                     <RootStack.Screen name={"TouchIDScreen"} component={TouchIDScreen} />
                     <RootStack.Screen name={"OrderDetailScreen"} component={OrderDetailScreen} />
-
                     <RootStack.Screen name={"CancelOrderScreen"} component={CancelOrderScreen} />
                     <RootStack.Screen name={"ChatScreen"} component={ChatScreen} />
                     <RootStack.Screen name={"ManagementOrderDetailScreen"} component={ManagementOrderDetailScreen} />
                     <RootStack.Screen name={"ManagementOrderScreen"} component={ManagementOrderScreen} />
-                    <RootStack.Screen name={"ChartScreen"} component={ChartScreen} />
-                    <RootStack.Screen name={"ManagementOrderDetailScreen"} component={ManagementOrderDetailScreen} />
-                    <RootStack.Screen name={"ManagementOrderScreen"} component={ManagementOrderScreen} />
+                    <RootStack.Screen name={"ProductManagerScreen"} component={ProductManagerScreen} />
+                    <RootStack.Screen name={"ModifyProductManageScreen"} component={ModifyProductManageScreen} />
                     <RootStack.Screen name={"ChartScreen"} component={ChartScreen} />
                 </RootStack.Navigator>
             </NavigationContainer>

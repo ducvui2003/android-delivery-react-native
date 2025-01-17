@@ -45,7 +45,7 @@ export default function ChartScreen({ navigation }: ChartScreenProps) {
 				onPressBack={handleBackPress}
 			/>
 
-			<ScrollView>
+			<ScrollView showsVerticalScrollIndicator={false}>
 				<HorizontalBarProductHotChart />
 				<InventoryPieChart />
 				<FunnelChart />

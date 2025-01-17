@@ -22,6 +22,7 @@ import formater from "../../../utils/formater";
 import OrderPopUp from "./OrderPopup";
 import { showModalNotify } from "../../../hooks/redux/modal.slice";
 import { StatusOrderType } from "../../../types/order.type";
+import { FlatList } from "react-native-gesture-handler";
 
 type ManagementOrderDetailProps = {
 	route: RouteProp<RootStackParamList, "ManagementOrderDetailScreen">;
@@ -93,7 +94,7 @@ const ManagementOrderDetailScreen = ({
 	const appDispatch = useDispatch();
 	const handleBackPress = useCallback(() => {
 		Keyboard.dismiss();
-		navigation.pop();
+		navigation.replace("ManagementOrderScreen");
 	}, [navigation]);
 
 	const handleSelected = (selected: PromotionType) => {
@@ -175,8 +176,8 @@ const ManagementOrderDetailScreen = ({
 				onPressBack={handleBackPress}
 			/>
 
-			<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-				<View style={{ flex: 1 }}>
+			<FlatList contentContainerStyle={{ flexGrow: 1 }} data={[1]} renderItem={() => {
+				return 	<View key={"management-order-detail"}  style={{ flex: 1 }}>
 					<Col style={styles.sub_container}>
 						<Row flex={0} style={[{ justifyContent: "space-between", width: "100%", gap: 5 }]}>
 							<View style={{ flex: 0.3 }}>
@@ -276,7 +277,8 @@ const ManagementOrderDetailScreen = ({
 						</View>
 					</Col>
 				</View>
-			</ScrollView>
+			}} />
+
 			<OrderPopUp showed={showPopUp} onSave={handleSave} onShowed={value => setShowPopUp(value)} />
 		</SafeAreaView>
 	);

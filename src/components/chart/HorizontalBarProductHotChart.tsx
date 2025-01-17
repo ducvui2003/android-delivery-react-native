@@ -24,7 +24,7 @@ function HorizontalBarProductHotChart() {
 							},
 						],
 					}}
-					width={Dimensions.get("screen").width}
+					width={Dimensions.get("screen").width - 50}
 					height={220}
 					chartConfig={{
 						backgroundColor: theme.background.getColor(),

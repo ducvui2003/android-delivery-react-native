@@ -71,7 +71,6 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 		);
 	};
 
-
 	//press button option
 	const handleOptionPress = () => {};
 
@@ -79,16 +78,6 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 	const handlePressSaveChangeProfile = async (data: ChangeProfile) => {
 		await appDispatch(updateProfile(data));
 		setShowPopUp(false);
-	};
-
-	const navigateManagerProductScreen = () => {};
-
-	const navigateManagerOrderScreen = () => {
-		nav.navigate("ManagementOrderScreen");
-	};
-
-	const navigateChartScreen = () => {
-		nav.navigate("ChartScreen");
 	};
 
 	return (
@@ -110,12 +99,8 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 					) : (
 						<ProfileHasUser onChangeProfile={() => setShowPopUp(true)} logout={onLogout} />
 					)}
-					<ProfileOption
-						navigateManagerOrderScreen={navigateManagerOrderScreen}
-						navigateManagerProductScreen={navigateManagerProductScreen}
-						navigateChartScreen={navigateChartScreen}
-						onShowPopUpChangePassword={setShowPopUpChangePassword}
-					/>
+					<ProfileOption onShowPopUpChangePassword={setShowPopUpChangePassword}  />
+
 				</Col>
 				<Space height={spacing["spaced-7"]} />
 			</ScrollView>

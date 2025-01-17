@@ -37,7 +37,7 @@ const FunnelChart = () => {
 			<ScrollView horizontal={true} style={{ borderRadius: 12}}>
 				<BarChart
 					data={data}
-					width={Dimensions.get("window").width}
+					width={Dimensions.get("window").width - 50}
 					height={300}
 					yAxisLabel=""
 					yAxisSuffix="%"
