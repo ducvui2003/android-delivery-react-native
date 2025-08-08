@@ -7,19 +7,16 @@
  **/
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getUserInfo, loginApi, logoutApi, setAccessToken } from "../../services/auth.service";
 import LoginFormType from "../../types/loginForm.type";
 import { User } from "../../types/user.type";
-import { setLoading } from "./modal.slice";
-import { getUserInfo, loginApi, logoutApi, setAccessToken } from "../../services/auth.service";
 
 type AuthState = {
-	user: User | null;
-	error: string | null;
+	user?: User;
 };
 
 const initialState: AuthState = {
-	user: null,
-	error: null,
+	user: undefined,
 };
 
 enum AuthType {
@@ -32,34 +29,60 @@ enum AuthType {
 	LOGIN_PENDING = "auth/login/pending",
 	LOGIN_FULFILLED = "auth/login/fulfilled",
 	LOGIN_REJECTED = "auth/login/rejected",
+
+	LOGIN_GOOGLE = "auth/loginGoogle",
+	LOGIN_GOOGLE_PENDING = "auth/loginGoogle/pending",
+	LOGIN_GOOGLE_FULFILLED = "auth/loginGoogle/fulfilled",
+	LOGIN_GOOGLE_REJECTED = "auth/loginGoogle/rejected",
+
 	LOGOUT = "auth/logout",
 }
 
-export const initialStateAuth = createAsyncThunk(AuthType.GET_ACCOUNT, async _ => {
+export const initialStateAuth = createAsyncThunk<User, void>(AuthType.GET_ACCOUNT, async _ => {
 	try {
 		const user = await getUserInfo();
-		return { user };
+		console.log("User info", user);
+
+		return user;
 	} catch (error: any) {
+		console.error("Error getting user info", error);
 		return error.response.data;
 	}
 });
 
-export const login = createAsyncThunk(AuthType.LOGIN, async (data: LoginFormType, thunkAPI) => {
-	const { dispatch, rejectWithValue } = thunkAPI;
+export const login = createAsyncThunk<User, LoginFormType>(AuthType.LOGIN, async (data: LoginFormType, thunkAPI) => {
+	const { rejectWithValue } = thunkAPI;
 	try {
-		dispatch(setLoading(true)); // Gọi action setLoading với giá trị true
 		const { user, accessToken } = await loginApi(data);
 		await setAccessToken(accessToken);
-		return { user };
+		return user;
 	} catch (error: any) {
+		console.log("Error logging in", error);
 		return rejectWithValue(error.response.data);
-	} finally {
-		dispatch(setLoading(false)); // Gọi action setLoading với giá trị false
 	}
 });
 
-export const logout = createAsyncThunk(AuthType.LOGOUT, async _ => {
-	await logoutApi();
+export const loginGoogle = createAsyncThunk<User, { user: User; accessToken: string }>(
+	AuthType.LOGIN_GOOGLE,
+	async ({ user, accessToken }, thunkAPI) => {
+		const { rejectWithValue } = thunkAPI;
+		try {
+			await setAccessToken(accessToken);
+			return user;
+		} catch (error: any) {
+			console.log("Error logging in", error);
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
+export const logout = createAsyncThunk(AuthType.LOGOUT, async (_, thunkAPI) => {
+	const { rejectWithValue } = thunkAPI;
+	try {
+		await logoutApi();
+	} catch (error: any) {
+		return rejectWithValue(error.response.data);
+	}
 });
 
 const authSlice = createSlice({
@@ -69,14 +92,16 @@ const authSlice = createSlice({
 	extraReducers: builder => {
 		builder
 			.addCase(initialStateAuth.fulfilled, (state, action) => {
-				state.user = action.payload.user;
+				state.user = action.payload;
 			})
 			.addCase(login.fulfilled, (state, action) => {
-				state.user = action.payload.user;
-				state.error = null;
+				state.user = action.payload;
+			})
+			.addCase(loginGoogle.fulfilled, (state, action) => {
+				state.user = action.payload;
 			})
 			.addCase(logout.fulfilled, state => {
-				state.user = null;
+				state.user = undefined;
 			});
 	},
 });

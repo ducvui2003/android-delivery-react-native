@@ -106,6 +106,7 @@ const darkTheme: ThemeType = {
 	},
 	promotion: {
 		background: ColorFactory.createSingleColor(neutral.getColor("500")),
+		heading: ColorFactory.createSingleColor(neutral.getColor("100")),
 	},
 	paymentMethod: {
 		backgroundButtonAdd: ColorFactory.createSingleColor(neutral.getColor("700")),
@@ -119,6 +120,9 @@ const darkTheme: ThemeType = {
 	},
 	order: {
 		orderStatusCancel: ColorFactory.createSingleColor(neutral.getColor("100")),
+	},
+	orderDetail: {
+		backgroundItem: ColorFactory.createSingleColor(neutral.getColor("600")),
 	},
 };
 

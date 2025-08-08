@@ -8,21 +8,15 @@
 
 export type User = {
 	id: number;
+	countryCode: number;
 	email: string;
 	phoneNumber: string;
 	fullName: string;
+	role: string;
+	permissions: string[];
 };
 
 export type ResponseAuthentication = {
 	access_token: string;
 	user: User;
-};
-
-export type UserGetAccount = {
-	user: {
-		id: number;
-		email: string;
-		phoneNumber: string;
-		fullName: string;
-	};
 };

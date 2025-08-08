@@ -8,8 +8,8 @@
 
 type ProductType = {
 	id: string;
-	image: string;
 	name: string;
+	image: string;
 	avgRating: number;
 	price: number;
 	discountInfo?: DiscountInfo;

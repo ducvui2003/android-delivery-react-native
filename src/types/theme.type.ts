@@ -74,6 +74,7 @@ export type ThemeType = {
 	};
 	promotion: {
 		background: SingleColor;
+		heading: SingleColor;
 	};
 	paymentMethod: {
 		backgroundButtonAdd: SingleColor;
@@ -87,5 +88,8 @@ export type ThemeType = {
 	};
 	order: {
 		orderStatusCancel: SingleColor;
+	};
+	orderDetail: {
+		backgroundItem: SingleColor;
 	};
 };

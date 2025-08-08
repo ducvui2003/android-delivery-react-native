@@ -39,7 +39,7 @@ export function Header({
 
 	return (
 		<Row style={[styles.defaultStyleContainer, style]} flex={0}>
-			{showIconBack && (
+			{showIconBack ? (
 				<View style={[styles.defaultStyleIconBack, styleIconBack]}>
 					<TouchableOpacity
 						onPress={onPressBack}
@@ -60,6 +60,8 @@ export function Header({
 						/>
 					</TouchableOpacity>
 				</View>
+			) : (
+				<View style={[{ opacity: 0, width: sizeIcon, height: sizeIcon }]} />
 			)}
 			{typeof title === "string" ? (
 				<GradientText textStyle={titleStyle} text={title} gradientColors={colorTitleArr} />
@@ -68,7 +70,15 @@ export function Header({
 			)}
 			{iconRight ? (
 				<View style={[styles.defaultStyleIconBack, styleIconRight]}>
-					<TouchableOpacity onPress={onPressIconRight}>{iconRight}</TouchableOpacity>
+					<TouchableOpacity
+						onPress={onPressIconRight}
+						onLayout={event => {
+							const layout = event.nativeEvent.layout;
+							setsizeIcon(Math.max(layout.width, layout.height));
+						}}
+					>
+						{iconRight}
+					</TouchableOpacity>
 				</View>
 			) : (
 				<View style={[{ opacity: 0, width: sizeIcon, height: sizeIcon }]} />

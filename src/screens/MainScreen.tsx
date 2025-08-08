@@ -42,7 +42,6 @@ function MainScreen() {
 	return (
 		<SafeAreaView style={[styles.container, { backgroundColor: theme.background.getColor() }]}>
 			<BottomNavigation
-				initialItem={0}
 				position={"static"}
 				bottom={15}
 				sizeIcon={60}
@@ -58,73 +57,7 @@ function MainScreen() {
 					shadowRadius: 10,
 					elevation: 10,
 				}}
-				items={[
-					{
-						icon: (
-							<SolarHomeSmileLinear
-								strokeWidth={1.5}
-								color={neutral.getColor("100")}
-								height={30}
-								width={30}
-							/>
-						),
-						iconActive: <SolarHomeSmileBold color={white.getColor()} height={30} width={30} />,
-						title: "Home",
-						onPress: () => {
-							navigation.replace("HomeScreen");
-						},
-					},
-					{
-						icon: (
-							<SolarClipboardListLinear
-								strokeWidth={1.5}
-								color={neutral.getColor("100")}
-								height={30}
-								width={30}
-							/>
-						),
-						iconActive: <SolarClipboardListBold color={white.getColor()} height={30} width={30} />,
-						title: "Orders",
-						onPress: () => {
-							navigation.replace("OrderScreen");
-						},
-					},
-					{
-						icon: (
-							<SolarHeartLinear strokeWidth={2} color={neutral.getColor("100")} height={30} width={30} />
-						),
-						iconActive: <SolarHeartBold color={white.getColor()} height={30} width={30} />,
-						title: "Liked",
-						onPress: () => {
-							navigation.replace("LikedScreen");
-						},
-					},
-					{
-						icon: (
-							<SolarBellLinear strokeWidth={1.5} color={neutral.getColor("100")} height={30} width={30} />
-						),
-						iconActive: <SolarBellBold color={white.getColor()} height={30} width={30} />,
-						title: "Notification",
-						onPress: () => {
-							navigation.replace("NotificationScreen");
-						},
-					},
-					{
-						icon: (
-							<SolarUserCircleLinear
-								strokeWidth={1.5}
-								color={neutral.getColor("100")}
-								height={30}
-								width={30}
-							/>
-						),
-						iconActive: <SolarUserCircleBold color={white.getColor()} height={30} width={30} />,
-						title: "Profile",
-						onPress: () => {
-							navigation.replace("ProfileScreen");
-						},
-					},
-				]}
+				items={menus(navigation)}
 			>
 				<MainScreenStack.Navigator
 					screenOptions={{
@@ -157,5 +90,48 @@ const styles = StyleSheet.create({
 		...textStyle["30_bold_5%"],
 	},
 });
+
+const menus = (navigation: NativeStackNavigationProp<MainScreenStackParamList>) => [
+	{
+		icon: <SolarHomeSmileLinear strokeWidth={1.5} color={neutral.getColor("100")} height={30} width={30} />,
+		iconActive: <SolarHomeSmileBold color={white.getColor()} height={30} width={30} />,
+		title: "Home",
+		onPress: () => {
+			navigation.replace("HomeScreen");
+		},
+	},
+	{
+		icon: <SolarClipboardListLinear strokeWidth={1.5} color={neutral.getColor("100")} height={30} width={30} />,
+		iconActive: <SolarClipboardListBold color={white.getColor()} height={30} width={30} />,
+		title: "Orders",
+		onPress: () => {
+			navigation.replace("OrderScreen");
+		},
+	},
+	{
+		icon: <SolarHeartLinear strokeWidth={2} color={neutral.getColor("100")} height={30} width={30} />,
+		iconActive: <SolarHeartBold color={white.getColor()} height={30} width={30} />,
+		title: "Liked",
+		onPress: () => {
+			navigation.replace("LikedScreen");
+		},
+	},
+	{
+		icon: <SolarBellLinear strokeWidth={1.5} color={neutral.getColor("100")} height={30} width={30} />,
+		iconActive: <SolarBellBold color={white.getColor()} height={30} width={30} />,
+		title: "Notification",
+		onPress: () => {
+			navigation.replace("NotificationScreen");
+		},
+	},
+	{
+		icon: <SolarUserCircleLinear strokeWidth={1.5} color={neutral.getColor("100")} height={30} width={30} />,
+		iconActive: <SolarUserCircleBold color={white.getColor()} height={30} width={30} />,
+		title: "Profile",
+		onPress: () => {
+			navigation.replace("ProfileScreen");
+		},
+	},
+];
 
 export default MainScreen;

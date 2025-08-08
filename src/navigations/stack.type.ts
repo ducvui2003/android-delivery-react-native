@@ -8,7 +8,11 @@ export type RootStackParamList = {
 	WelcomeScreen: undefined;
 	IntroduceScreen: undefined;
 	SignUpScreen: undefined;
-	LoginScreen: undefined;
+	LoginScreen:
+		| {
+				back: boolean;
+		  }
+		| undefined;
 	VerificationScreen: {
 		dialCode: string;
 		form: RegisterFormType;
@@ -28,9 +32,7 @@ export type RootStackParamList = {
 		id: string;
 		name: string;
 	};
-	BasketScreen: {
-		id: string;
-	};
+	BasketScreen: undefined;
 	OrderRatingScreen: { idOrder: string; idDriver: string };
 	DriverRatingScreen: { uri?: string };
 	GiveThanksScreen: undefined;
@@ -47,6 +49,11 @@ export type RootStackParamList = {
 	};
 	CancelOrderScreen: undefined;
 	ChatScreen: undefined;
+	ManagementOrderScreen: undefined;
+	ManagementOrderDetailScreen: {
+		id: string;
+	};
+	ChartScreen: undefined;
 };
 
 export type MainScreenStackParamList = {

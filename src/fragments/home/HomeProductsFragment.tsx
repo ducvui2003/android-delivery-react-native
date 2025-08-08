@@ -8,26 +8,28 @@
 
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { useSelector } from "react-redux";
-import SolarAltArrowRightOutline from "../../../assets/images/icons/SolarArrowRightOutline";
 import ProductHomeCard from "../../components/card/product/ProductHomeCard";
 import Col from "../../components/custom/Col";
 import Grid from "../../components/custom/Grid";
 import Row from "../../components/custom/Row";
-import GradientText from "../../components/gradientText/GradientText";
-import { gradient, primary } from "../../configs/colors/color-template.config";
 import { RootState } from "../../configs/redux/store.config";
 import textStyle from "../../configs/styles/textStyle.config";
 import { RootStackParamList } from "../../navigations/stack.type";
+import { getProducts } from "../../services/product.service";
+import CategoryType from "../../types/category.type";
 import ProductType from "../../types/product.type";
 import { ThemeType } from "../../types/theme.type";
-import CategoryType from "../../types/category.type";
-import axiosInstance, { ApiResponse } from "../../configs/axios/axios.config";
-import ApiPagingType from "../../types/apiPaging.type";
 
-const HomeProductsFragment = ({ refresh, onRefresh }: { refresh?: number; onRefresh?: (result: boolean) => void }) => {
+const HomeProductsFragment = ({
+	refresh,
+	onRefreshed,
+}: {
+	refresh?: number;
+	onRefreshed?: (result: boolean) => void;
+}) => {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
 	const styles = styled(theme);
@@ -45,28 +47,20 @@ const HomeProductsFragment = ({ refresh, onRefresh }: { refresh?: number; onRefr
 	};
 
 	useEffect(() => {
-		axiosInstance
-			.get<ApiResponse<ApiPagingType<ProductType>>>("/product")
+		getProducts()
 			.then(res => {
-				setProducts(res.data.data.content);
-				onRefresh?.(false);
+				setProducts(res.content);
+				onRefreshed?.(false);
 			})
 			.catch(() => {
-				onRefresh?.(false);
+				onRefreshed?.(false);
 			});
-	}, [refresh, onRefresh]);
+	}, [refresh, onRefreshed]);
 
 	return (
 		<Col style={styles.productList}>
 			<Row style={styles.productGridContainerHeading}>
 				<Text style={styles.productGridContainerHeadingText}>Special Offers</Text>
-				{/*<TouchableOpacity*/}
-				{/*	style={{ flexDirection: "row", alignItems: "center", gap: 10 }}*/}
-				{/*	onPress={() => onClickViewAll()}*/}
-				{/*>*/}
-				{/*	<GradientText text={"View All"} textStyle={styles.more} gradientColors={gradient.getColor()} />*/}
-				{/*	<SolarAltArrowRightOutline width={25} height={25} color={primary.getColor("500")} />*/}
-				{/*</TouchableOpacity>*/}
 			</Row>
 			<View style={styles.productGridContainer}>
 				<Grid<ProductType>

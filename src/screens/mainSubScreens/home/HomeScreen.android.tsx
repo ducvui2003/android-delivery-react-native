@@ -6,26 +6,26 @@
  * User: ducvui2003
  **/
 
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { Image, RefreshControl, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Image, RefreshControl, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { useSelector } from "react-redux";
 import { banners } from "../../../../assets/data/home/home";
 import Carousel from "../../../components/carousel/Carousel";
 import CategoryItem from "../../../components/category/CategoryItem";
-import InputSearch from "../../../components/input/InputSearch";
 import Grid from "../../../components/custom/Grid";
+import Space from "../../../components/custom/Space";
+import InputSearch from "../../../components/input/InputSearch";
 import { neutral } from "../../../configs/colors/color-template.config";
 import { RootState, useAppDispatch } from "../../../configs/redux/store.config";
+import NumberValue from "../../../configs/value/number.value";
 import HomeHeaderFragment from "../../../fragments/home/HomeHeaderFragment";
+import HomeProductsFragment from "../../../fragments/home/HomeProductsFragment";
+import { loadCategories } from "../../../hooks/redux/category.slice";
+import { RootStackParamList } from "../../../navigations/stack.type";
 import CategoryType from "../../../types/category.type";
 import { ThemeType } from "../../../types/theme.type";
-import HomeProductsFragment from "../../../fragments/home/HomeProductsFragment";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../../navigations/stack.type";
-import NumberValue from "../../../configs/value/number.value";
-import Space from "../../../components/custom/Space";
-import { loadCategories } from "../../../hooks/redux/category.slice";
 
 function HomeScreen() {
 	const theme: ThemeType = useSelector((state: RootState) => state.themeState.theme);
@@ -119,7 +119,7 @@ function HomeScreen() {
 				/>
 			</View>
 
-			<HomeProductsFragment refresh={refresh} onRefresh={setRefreshing} />
+			<HomeProductsFragment refresh={refresh} onRefreshed={setRefreshing} />
 
 			<Space height={80} />
 		</ScrollView>

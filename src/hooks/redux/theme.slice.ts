@@ -6,7 +6,7 @@
  * User: lam-nguyen
  **/
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { NameTheme, ThemeType } from "../../types/theme.type";
 import themes from "../../configs/themes/theme.config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -21,17 +21,21 @@ const initialState: ThemeState = {
 	textTheme: "light",
 };
 
+export const setTheme = createAsyncThunk("theme", async (data: string): Promise<NameTheme> => {
+	await AsyncStorage.setItem("theme", data);
+	return data as NameTheme;
+});
+
 const themeSlice = createSlice({
 	name: "theme",
 	initialState: initialState,
-	reducers: {
-		setTheme: (state, action: PayloadAction<NameTheme>) => {
+	reducers: {},
+	extraReducers: builder => {
+		builder.addCase(setTheme.fulfilled, (state, action) => {
 			state.theme = themes[action.payload];
 			state.textTheme = action.payload;
-			AsyncStorage.setItem("theme", action.payload).then();
-		},
+		});
 	},
 });
 
-export const { setTheme } = themeSlice.actions;
 export default themeSlice.reducer;

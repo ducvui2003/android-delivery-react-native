@@ -1,11 +1,18 @@
 import OrderType from "./order.type";
-import ProductDetailType from "./productDetail.type";
-import {MyLocation} from "../../assets/data/location/location";
+import ProductDetailType, { OptionType } from "./productDetail.type";
+import { MyLocation } from "../../assets/data/location/location";
 import PaymentMethodType from "./paymentMethod.type";
 import PromotionType from "./promotion.type";
 
+type OrderDetailItemType = Omit<ProductDetailType, "nutritional" | "options"> & {
+	options?: OptionType[];
+};
+
 type OrderDetailType = Omit<OrderType, "images"> & {
-	products: Omit<ProductDetailType, "nutritional" | "quantity">[];
+	email: string;
+	phone: string;
+	fullName: string;
+	items: OrderDetailItemType[];
 	address: MyLocation;
 	paymentMethod: Pick<PaymentMethodType, "type">;
 	promotions: Pick<PromotionType, "name">[];
@@ -14,5 +21,5 @@ type OrderDetailType = Omit<OrderType, "images"> & {
 	discount: number;
 	description?: string;
 	reasonForCancellation?: string;
-}
+};
 export default OrderDetailType;

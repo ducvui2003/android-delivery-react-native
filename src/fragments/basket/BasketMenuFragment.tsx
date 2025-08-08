@@ -6,42 +6,55 @@
  *  User: lam-nguyen
  **/
 
-import React from "react";
-import MenuBasketItem from "../../components/basket/MenuBasketItem";
-import SolarMapPointBold from "../../../assets/images/icons/SolarMapPointBold";
-import { Text } from "react-native";
-import textStyle from "../../configs/styles/textStyle.config";
-import { neutral, secondary } from "../../configs/colors/color-template.config";
-import SolarWalletBold from "../../../assets/images/icons/SolarWalletBold";
-import SolarTicketSaleBold from "../../../assets/images/icons/SolarTicketSaleBold";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../navigations/stack.type";
+import React from "react";
+import { Text } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
+import SolarMapPointBold from "../../../assets/images/icons/SolarMapPointBold";
+import SolarTicketSaleBold from "../../../assets/images/icons/SolarTicketSaleBold";
+import SolarWalletBold from "../../../assets/images/icons/SolarWalletBold";
+import MenuBasketItem from "../../components/basket/MenuBasketItem";
+import { neutral, secondary } from "../../configs/colors/color-template.config";
 import { RootState } from "../../configs/redux/store.config";
+import textStyle from "../../configs/styles/textStyle.config";
+import { RootStackParamList } from "../../navigations/stack.type";
 import PromotionType from "../../types/promotion.type";
 
 function BasketMenuFragment() {
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "BasketScreen">>();
 	const { shipping, order } = useSelector((state: RootState) => state.promotionOffer);
+
+	const navigateToPaymentScreen = () => {
+		navigation.navigate("PaymentMethodScreen");
+	};
+
+	const navigateToLocationScreen = () => {
+		navigation.navigate("MyLocationScreen");
+	};
 	return (
 		<>
 			<MenuBasketItem
 				icon={<SolarMapPointBold />}
 				title={"Deliver to"}
 				footer={
-					<Text style={[{ ...textStyle["16_semibold"], color: neutral.getColor("400") }]}>
-						Select Your Location
-					</Text>
+					<TouchableOpacity onPress={navigateToLocationScreen}>
+						<Text style={[{ ...textStyle["16_semibold"], color: neutral.getColor("400") }]}>
+							Select Your Location
+						</Text>
+					</TouchableOpacity>
 				}
 			/>
 			<MenuBasketItem
 				icon={<SolarWalletBold />}
 				title={"Payment method"}
 				footer={
-					<Text style={[{ ...textStyle["16_semibold"], color: neutral.getColor("400") }]}>
-						Select Payment Method
-					</Text>
+					<TouchableOpacity onPress={navigateToPaymentScreen}>
+						<Text style={[{ ...textStyle["16_semibold"], color: neutral.getColor("400") }]}>
+							Select Payment Method
+						</Text>
+					</TouchableOpacity>
 				}
 			/>
 			<MenuBasketItem

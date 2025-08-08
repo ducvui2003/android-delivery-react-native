@@ -106,6 +106,7 @@ const lightTheme: ThemeType = {
 	},
 	promotion: {
 		background: ColorFactory.createSingleColor(white.getColor()),
+		heading: ColorFactory.createSingleColor(neutral.getColor("900")),
 	},
 	paymentMethod: {
 		backgroundButtonAdd: ColorFactory.createSingleColor(primary.getColor("50")),
@@ -119,6 +120,9 @@ const lightTheme: ThemeType = {
 	},
 	order: {
 		orderStatusCancel: ColorFactory.createSingleColor(neutral.getColor("400")),
+	},
+	orderDetail: {
+		backgroundItem: ColorFactory.createSingleColor(white.getColor()),
 	},
 };
 

@@ -1,42 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
-import {ActivityIndicator, AppState, Text, View} from "react-native";
-import {useNavigation} from "@react-navigation/native";
-import {RootState} from "../../configs/redux/store.config";
+import { useSelector } from "react-redux";
+import { RootState } from "../../configs/redux/store.config";
+import ProtectedRouteProps from "./type/protectedRoute.prop";
+import { User } from "../../types/user.type";
 
-const ProtectedRoute = ({children}: { children: React.ReactNode }) => {
-	const isAuthenticated = useSelector((state: RootState) => state.authState.accessToken);
-	const status = useSelector((state: RootState) => state.authState.loading);  // Loading state from auth
+const ProtectedRoute = ({ allowRoles, allowPermissions, children }: ProtectedRouteProps) => {
+	const userSelector: User | undefined = useSelector((state: RootState) => state.authState.user);
 
-	const [visible, setVisible] = useState(false);  // State for dialog visibility
-	const navigation = useNavigation();
+	const role = userSelector?.role;
+	const permissions = userSelector?.permissions;
 
-	// Show dialog if user is not authenticated
-	useEffect(() => {
-		if (!isAuthenticated && status == true) {
-			setVisible(true);  // Show dialog if not authenticated
-		}
-	}, [isAuthenticated, status]);
-
-	// Close dialog and redirect to sign-in screen
-	const handleDialogClose = () => {
-		setVisible(false);
-		navigation.navigate('SignIn');  // Redirect to SignIn screen
-	};
-
-	if (status == true) {
-		return (
-			<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-				<ActivityIndicator size="large" color="#0000ff"/>
-			</View>
-		);
+	if (allowRoles && allowRoles.find(allowRole => allowRole === role) === undefined) {
+		return null;
 	}
 
-	if (!isAuthenticated) {
-		return (
-			<Text>You are not authenticated. Please sign in to continue."</Text>
-		);
+	if (allowPermissions && !allowPermissions.every(permission => permissions?.includes(permission))) {
+		return null;
 	}
 
 	return children;
 };
+export default ProtectedRoute;

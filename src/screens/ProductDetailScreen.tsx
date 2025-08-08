@@ -7,31 +7,34 @@
  **/
 
 // @flow
+import { RouteProp } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../navigations/stack.type";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Row from "../components/custom/Row";
-import textStyle from "../configs/styles/textStyle.config";
-import Col from "../components/custom/Col";
-import { gradient, neutral, secondary } from "../configs/colors/color-template.config";
 import { useSelector } from "react-redux";
-import { RootState } from "../configs/redux/store.config";
+import { RootState, useAppDispatch } from "../configs/redux/store.config";
 import { Header } from "../components/header/Header";
 import SolarHeartBold from "../../assets/images/icons/SolarHeartBold";
-import GradientIconSvg from "../components/grandientIconSvg/GradientIconSvg";
-import Space from "../components/custom/Space";
-import SolarStarBold from "../../assets/images/icons/SolarStarBold";
-import Grid from "../components/custom/Grid";
-import ProductDetailFooter from "../fragments/productDetail/ProductDetailFooter";
-import { ProductDetailAdditionalOption } from "../fragments/productDetail/ProductDetailAdditionalOption";
-import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from "../types/productDetail.type";
 import SolarHeartLinear from "../../assets/images/icons/SolarHeartLinear";
+import SolarStarBold from "../../assets/images/icons/SolarStarBold";
+import Col from "../components/custom/Col";
+import Grid from "../components/custom/Grid";
+import Row from "../components/custom/Row";
+import Space from "../components/custom/Space";
+import GradientIconSvg from "../components/grandientIconSvg/GradientIconSvg";
 import axiosInstance, { ApiResponse } from "../configs/axios/axios.config";
-import { firebaseStorage } from "../configs/firebase/firebase.config";
+import { gradient, neutral, secondary } from "../configs/colors/color-template.config";
+import textStyle from "../configs/styles/textStyle.config";
 import NumberValue from "../configs/value/number.value";
+import { likeProduct, unlikeProduct } from "../services/product.service";
+import axios, { AxiosError } from "axios";
+import { showModalNotify } from "../hooks/redux/modal.slice";
+import { ProductDetailAdditionalOption } from "../fragments/productDetail/ProductDetailAdditionalOption";
+import ProductDetailFooter from "../fragments/productDetail/ProductDetailFooter";
+import { RootStackParamList } from "../navigations/stack.type";
+import ProductDetailType, { GroupOptionType, NutritionalType, OptionType } from "../types/productDetail.type";
+import { addCart, CartType } from "../hooks/redux/cart.slice";
 
 type ProductDetailScreenProps = {
 	route: RouteProp<RootStackParamList, "ProductDetailScreen">;
@@ -49,9 +52,11 @@ export default function ProductDetailScreen({
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [seeMore, setSeeMore] = useState<boolean>(false);
 	const [product, setProduct] = useState<ProductDetailType>();
-	const [amount, setAmount] = useState<number>(1);
 	const [additionalOption, setAdditionalOption] = useState<(OptionType | GroupOptionSelected)[]>([]);
-	const [url, setUrl] = useState<string>("");
+	const dispatch = useAppDispatch();
+	const [like, setLike] = useState<boolean>(product?.isLiked ?? false);
+	const isLogin = useSelector((state: RootState) => state.authState.user) != null;
+	const appDispatch = useAppDispatch();
 
 	const onSeeMore = () => {
 		setSeeMore(true);
@@ -67,13 +72,95 @@ export default function ProductDetailScreen({
 		});
 	}, []);
 
-	useEffect(() => {
-		if (!product) return;
-		firebaseStorage
-			.ref(product.image)
-			.getDownloadURL()
-			.then(setUrl)
-	}, [product]);
+	const onHeartPress = () => {
+		if (!like)
+			likeProduct(id)
+				.then(() => {
+					setLike(true);
+				})
+				.catch(error => {
+					if (axios.isAxiosError(error)) {
+						const response = error as AxiosError<ApiResponse<void>>;
+						dispatch(
+							showModalNotify({
+								onConfirm: () => {
+									return true;
+								},
+								body: "hello",
+								title: "hello",
+							})
+						);
+					}
+				});
+		else {
+			unlikeProduct(id)
+				.then(() => {
+					setLike(false);
+				})
+				.catch();
+		}
+	};
+
+	const getOptionIds = (option: (OptionType | GroupOptionSelected)[]): string[] => {
+		return option.map((item: OptionType | GroupOptionSelected) => {
+			if ("option" in item) return item.option.id;
+			return item.id;
+		});
+	};
+	const onNavigate = () => {
+		navigation.navigate("LoginScreen");
+		return true;
+	};
+
+	const handleSubmit = (quantity: number) => {
+		const optionIds = getOptionIds(additionalOption);
+		// console.log("ProductDetailScreen", {
+		// 	productId: product?.id ?? "",
+		// 	quantity: quantity,
+		// 	optionIds: optionIds,
+		// });
+
+		if (isLogin)
+			appDispatch(
+				addCart({
+					productId: product?.id ?? "",
+					quantity: quantity,
+					optionIds: optionIds,
+				})
+			).then(action => {
+				if (action.type === CartType.ADD_FULFILLED) {
+					console.log("run");
+					dispatch(
+						showModalNotify({
+							title: "Success",
+							body: "Please check your order",
+							width: "70%",
+							showCancelButton: true,
+						})
+					);
+				} else {
+					appDispatch(
+						showModalNotify({
+							title: "Error",
+							body: "Add cart failed",
+							width: "70%",
+							showCancelButton: true,
+						})
+					);
+				}
+			});
+		else
+			dispatch(
+				showModalNotify({
+					title: "Please login to can buy",
+					body: "Please login to can buy",
+					width: "70%",
+					onConfirm: onNavigate,
+					showCancelButton: true,
+					showConfirmButton: true,
+				})
+			);
+	};
 
 	const renderButtonSeeMore = () => {
 		if (seeMore)
@@ -103,13 +190,20 @@ export default function ProductDetailScreen({
 					style={{ position: "absolute", zIndex: 2 }}
 				/>
 				<View style={[styles.containerImage]}>
-					{url && (
-						<Image style={{ height: "100%", width: "100%" }} resizeMode={"cover"} source={{ uri: url }} />
+					{product?.image && (
+						<Image
+							style={{ height: "100%", width: "100%" }}
+							resizeMode={"cover"}
+							source={{ uri: product?.image }}
+						/>
 					)}
-					<TouchableOpacity style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}>
+					<TouchableOpacity
+						style={[styles.buttonHeart, { backgroundColor: theme.background.getColor() }]}
+						onPress={onHeartPress}
+					>
 						<GradientIconSvg
 							icon={
-								product?.isLiked ? (
+								like ? (
 									<SolarHeartBold width={26} height={26} />
 								) : (
 									<SolarHeartLinear width={26} height={26} />
@@ -166,7 +260,7 @@ export default function ProductDetailScreen({
 					<Space height={125} />
 				</Col>
 			</ScrollView>
-			<ProductDetailFooter totalAmount={product?.quantity ?? 0} onAmount={setAmount} />
+			<ProductDetailFooter totalAmount={product?.quantity ?? 999} onSubmit={handleSubmit} />
 		</SafeAreaView>
 	);
 }

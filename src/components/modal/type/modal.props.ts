@@ -21,6 +21,7 @@ type ModalProps = {
 		opacity?: number;
 	};
 	onEndHide?: () => void;
+	displayCancelButton?: boolean;
 };
 
 export default ModalProps;

@@ -6,10 +6,30 @@
  * User: ducvui2003
  **/
 import axios, { AxiosError, AxiosInstance, AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig } from "axios";
+import {
+	getAccessToken,
+	getRefreshToken,
+	removeAllToken,
+	setAccessToken,
+	setRefreshToken,
+} from "../../services/auth.service";
+import { ResponseAuthentication } from "../../types/user.type";
 import { isRequestWhitelisted } from "./whitelist";
-import { getAccessToken, setRefreshToken } from "../../services/auth.service";
+import store from "../redux/store.config";
+import { setLoading } from "../../hooks/redux/modal.slice";
+
+let isRefreshing = false;
+let failedQueue: any[] = [];
 
 const axiosInstance: AxiosInstance = axios.create({
+	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END,
+	headers: {
+		"Access-Control-Allow-Origin": "*",
+	},
+	withCredentials: true,
+});
+
+const axiosInstanceInternal: AxiosInstance = axios.create({
 	baseURL: process.env.EXPO_PUBLIC_BASE_URL_BACK_END,
 	headers: {
 		"Access-Control-Allow-Origin": "*",
@@ -31,16 +51,21 @@ interface ApiResponseError {
 }
 
 axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
+	store.dispatch(setLoading(true));
 	try {
 		// Log the URL before the request is sent
-		console.log("Request URL:", (config.baseURL ?? "") + config.url);
-
+		console.log("Request Full URL:", (config.baseURL ?? "") + config.url);
 		// You can log other details here if needed
 		console.log("Request Method:", config.method);
+		console.log("Request Endpoint:", config.url);
+		const isWhitelist = isRequestWhitelisted(config.url ?? "");
+		console.log("Whitelist", isWhitelist);
 
-		if (!isRequestWhitelisted(config.url ?? "")) {
+		if (!isWhitelist) {
 			const token = await getAccessToken();
 			if (token != null) config.headers.Authorization = `Bearer ${token}`;
+		} else {
+			delete config.headers.Authorization;
 		}
 	} catch (error) {
 		console.error("API request error:", error);
@@ -49,35 +74,46 @@ axiosInstance.interceptors.request.use(async (config: InternalAxiosRequestConfig
 });
 
 axiosInstance.interceptors.response.use(
-	(response: AxiosResponse) => {
-		switch (response.status) {
-			case HttpStatusCode.Ok:
-				const cookies = response.headers["set-cookie"];
-				cookies?.forEach((cookies: string) => {
-					if (cookies.startsWith("refresh_token")) {
-						const refreshToken = cookies.substring("refresh_token".length + 1);
-						setRefreshToken(refreshToken);
-					}
-				});
-				break;
-			case HttpStatusCode.BadRequest:
-				console.error("Bad request", response);
-				break;
-			default:
-				console.log("Response status:", response.status);
-				console.log(response);
-				break;
-		}
+	async (response: AxiosResponse) => {
+		store.dispatch(setLoading(false));
+		const refreshToken: string | null = getCookie("refresh_token", response);
+		if (refreshToken) await setRefreshToken(refreshToken);
 		return response;
 	},
-	(error: AxiosError<ApiResponseError>) => {
-		if (axios.isAxiosError(error)) {
+	async (error: AxiosError<ApiResponseError>) => {
+		store.dispatch(setLoading(false));
+		const originalRequest = error.config;
+		if (originalRequest != null && axios.isAxiosError(error)) {
+			const response = error as AxiosError<ApiResponseError>;
+			if (response.response) printError(response.response.data);
+			else console.error(error);
+
 			switch (error.response?.status) {
 				case HttpStatusCode.Unauthorized:
-					// console.error("Unauthorized");
+					if (!isRefreshing) {
+						isRefreshing = true;
+						return new Promise((resolve, reject) => {
+							exchangeAccessTokenInternal()
+								.then(newAccessToken => {
+									console.info(`Set new access token success, retry ${originalRequest.url}`);
+									setAccessToken(newAccessToken);
+									resolve(axiosInstance(originalRequest));
+								})
+								.catch(err => {
+									if (err.statusCode === HttpStatusCode.Unauthorized) {
+										removeAllToken();
+									}
+									console.error(`Set new access token failed`);
+									reject(err);
+								})
+								.finally(() => {
+									processQueue(null);
+									isRefreshing = false;
+								});
+						});
+					}
 					break;
 				case HttpStatusCode.Forbidden:
-					console.error("Forbidden");
 					break;
 			}
 		} else console.log("Unexpected error:", error);
@@ -85,5 +121,91 @@ axiosInstance.interceptors.response.use(
 	}
 );
 
+const getCookie = (name: string, response: AxiosResponse): string | null => {
+	const cookies = response.headers["set-cookie"];
+	if (cookies) {
+		for (const cookie of cookies) {
+			if (cookie.startsWith(name)) {
+				return cookie.substring("refresh_token".length + 1);
+			}
+		}
+	}
+	return null;
+};
+
+const setCookie = (name: string, value: string | null, instance: AxiosInstance): void => {
+	if (value === null) return;
+	const cookie = `${name}=${value}`;
+	instance.interceptors.request.use(config => {
+		if (config.headers["Cookie"]) {
+			config.headers["Cookie"] += `; ${cookie}`;
+		} else {
+			config.headers["Cookie"] = cookie;
+		}
+		return config;
+	});
+};
+
+const exchangeAccessTokenInternal = async (): Promise<string> => {
+	try {
+		const cookie: string | null = await getRefreshToken();
+		if (cookie) setCookie("refresh_token", cookie, axiosInstanceInternal);
+		const result = await axiosInstanceInternal.post<ApiResponse<ResponseAuthentication>>("/refresh-token");
+
+		const token = result.data.data.access_token;
+		if (!token) {
+			throw new Error("Access token is missing in the response");
+		}
+		return token;
+	} catch (error: unknown) {
+		if (axios.isAxiosError(error)) {
+			switch (error.response?.status) {
+				case HttpStatusCode.Unauthorized:
+					console.error("Unauthorized: The refresh token is invalid");
+					break;
+				default:
+					console.error("Axios error", error.message);
+			}
+		} else {
+			console.error("Unexpected error occurred while refreshing token");
+		}
+		throw error;
+	}
+};
+
+const processQueue = (error: any) => {
+	failedQueue.forEach(request => {
+		if (!error) {
+			request.resolve(axiosInstance(request.originalRequest));
+		} else {
+			request.reject(error);
+		}
+	});
+
+	failedQueue = [];
+};
+
+const printError = (response: ApiResponseError) => {
+	let status = `|| Server status: ${response.statusCode}`;
+	let error = `|| Server error: ${response.error}`;
+	let message = `|| Server message: ${response.message}`;
+	let line = "||";
+	const maxLength = Math.max(status.length, error.length, message.length);
+	for (let i = 0; i < maxLength; i++) {
+		line += "=";
+		if (i > status.length - 3) status += " ";
+		if (i > error.length - 3) error += " ";
+		if (i > message.length - 3) message += " ";
+	}
+	status += "||";
+	error += "||";
+	message += "||";
+	line += "||";
+	console.error(line);
+	console.error(status);
+	console.error(error);
+	console.error(message);
+	console.error(line);
+};
 export default axiosInstance;
-export { ApiResponse };
+export { ApiResponse, setCookie };

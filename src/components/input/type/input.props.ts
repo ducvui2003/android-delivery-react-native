@@ -33,6 +33,7 @@ type InputProps = {
 	autoFocus?: boolean;
 	multiline?: boolean;
 	numberOfLines?: number;
+	editable?: boolean;
 };
 
 export default InputProps;

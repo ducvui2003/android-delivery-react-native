@@ -1,18 +1,19 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../configs/redux/store.config";
-import { OrderProps } from "./type/order.props";
+import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Col from "../custom/Col";
-import { ThemeType } from "../../types/theme.type";
-import Row from "../custom/Row";
-import OverlappingImages from "./OverlappingImages";
-import textStyle from "../../configs/styles/textStyle.config";
-import IconRating from "../rating/IconRating";
-import StatusLabel from "./StatusLabel";
+import { useSelector } from "react-redux";
 import { neutral, primary } from "../../configs/colors/color-template.config";
+import { RootState } from "../../configs/redux/store.config";
+import textStyle from "../../configs/styles/textStyle.config";
+import { ThemeType } from "../../types/theme.type";
 import formater from "../../utils/formater";
+import Col from "../custom/Col";
+import Row from "../custom/Row";
+import IconRating from "../rating/IconRating";
+import OverlappingImages from "./OverlappingImages";
+import StatusLabel from "./StatusLabel";
+import { OrderProps } from "./type/order.props";
 
-function Order({ id, price, images, starReview, status, onPress }: OrderProps) {
+function Order({ id, price, images, starReview, status, onPress, role }: OrderProps) {
 	const theme = useSelector((root: RootState) => root.themeState.theme);
 	const styles = makeStyled(theme);
 
@@ -34,7 +35,7 @@ function Order({ id, price, images, starReview, status, onPress }: OrderProps) {
 						<Text style={styles.priceText}>{formater.formatCurrency(price)}</Text>
 						<IconRating total={5} rating={starReview} />
 					</Col>
-					<Col style={{ justifyContent: "center" }}>
+					<Col style={{ justifyContent: "center", alignItems: "center", gap: 5 }}>
 						<StatusLabel status={status} />
 					</Col>
 				</Row>
@@ -68,6 +69,14 @@ const makeStyled = (theme: ThemeType) =>
 		priceText: {
 			...textStyle["16_semibold"],
 			color: primary.getColor("500"),
+		},
+		buttonEdit: {
+			width: 42,
+			backgroundColor: primary.getColor("500"),
+			height: 42,
+			borderRadius: 21,
+			justifyContent: "center",
+			alignItems: "center",
 		},
 	});
 

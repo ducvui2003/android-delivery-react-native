@@ -37,6 +37,7 @@ function InputIcon({
 	autoFocus,
 	multiline,
 	numberOfLines,
+	editable = true,
 }: InputIconProps) {
 	const theme = useSelector((state: RootState) => state.themeState.theme);
 	const [isFocus, setIsFocus] = React.useState<boolean>(false);
@@ -85,6 +86,7 @@ function InputIcon({
 				autoFocus={autoFocus}
 				multiline={multiline}
 				numberOfLines={numberOfLines}
+				editable={editable}
 			/>
 			{iconRight && <TouchableOpacity onPress={onPressIconRight}>{iconRight}</TouchableOpacity>}
 		</Row>
